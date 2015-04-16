@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+	<display-name>WarCifrasControl</display-name>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/i18n.xml
+			/WEB-INF/DispatcherPrincipal-servlet.xml
+			/WEB-INF/DispatcherPublico-servlet.xml
+			/WEB-INF/DispatcherErrores-servlet.xml
+			/WEB-INF/DispatcherPrueba-servlet.xml
+		</param-value>
+	</context-param>
+	
+	<!-- Parametro y listener para dar del alta el componente cmpConfiguracion -->
+	<context-param>
+		<param-name>IdConfigApp</param-name>
+		<param-value>IdConfigAppCifrasControlWEB</param-value>
+	</context-param>
+	
+	<listener>
+		<listener-class>mx.isban.agave.configuracion.ListenerConfig</listener-class>
+	</listener>
+	
+	<!-- Dispatcher Principal -->
+	<servlet>
+		<servlet-name>DispatcherPrincipal</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DispatcherPrincipal</servlet-name>
+		<url-pattern>/principal/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Dispatcher Publico -->
+	<servlet>
+		<servlet-name>DispatcherPublico</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DispatcherPublico</servlet-name>
+		<url-pattern>/publico/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Dispatcher Errores -->
+	<servlet>
+		<servlet-name>DispatcherErrores</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DispatcherErrores</servlet-name>
+		<url-pattern>/errores/*</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Dispatcher Prueba -->
+	<servlet>
+		<servlet-name>DispatcherPrueba</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DispatcherPrueba</servlet-name>
+		<url-pattern>/prueba/*</url-pattern>
+	</servlet-mapping>
+	
+	
+</web-app>
