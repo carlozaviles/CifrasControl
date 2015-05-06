@@ -40,47 +40,20 @@
 	<spring:message code="menu.menuItemAdmonCmpSMSEmail" 			var="cmpSMSEmail"/>
 	<spring:message code="menu.ItemConsultaAplicacion" 	 			var="consultaAplicacion"/>
 	
-	<spring:message code="monitoreo.menu.menuMonitoreo"  				var="menuMonitoreo"/>
-	<spring:message code="monitoreo.menu.subMenuConsultaFiltros" 		var="subMenuConsultaFiltros"/>
-	<spring:message code="monitoreo.menu.subMenuConsultaNotificaciones" var="subMenuConsultaNotificacion"/>
-	<spring:message code="monitoreo.menu.subMenuConsultaSlaNCumplidos" 	var="subMenuConsultaSlaNCumplidos"/>
-	<spring:message code="monitoreo.menu.subMenuTopTPromedios" 			var="subMenuTopTPromedios"/>
-	<spring:message code="monitoreo.menu.subMenuConsultaSLAS" 			var="subMenuConsultaSLAS"/>
-	<spring:message code="monitoreo.menu.subMenuTableroControl" 		var="subMenuTableroControl"/>
-	<spring:message code="monitoreo.menu.subMenuDisponibilidad" 		var="subMenuDisponibilidad"/>
-	<spring:message code="monitoreo.menu.subMenuConsultaAlarma" 		var="subMenuConsultaAlarma"/>
-	<spring:message code="monitoreo.menu.subMenuConsTrackingOpers" 		var="subMenuConsTrackingOpers"/>
-	<spring:message code="monitoreo.menu.submenuEstadisticasFlujo" 		var="submenuEstadisticasFlujo"/>
-	<spring:message code="monitoreo.menu.submenuTiempoPromFlujo" 		var="submenuTiempoPromFlujo"/>
-	<spring:message code="monitoreo.menu.submenuGestionFlujos" 			var="submenuGestionFlujos"/>
-	<spring:message code="monitoreo.menu.submenuConsEjecProceso" 		var="submenuConsEjecProceso"/>
-	<spring:message code="monitoreo.menu.submenuConsolidadoOper" 		var="submenuConsolidadoOper"/>
-	<spring:message code="monitoreo.menu.submenuTopEstadisticas" 		var="submenuTopEstadisticas"/>
-	<spring:message code="monitoreo.menu.submenuGestionAlias" 			var="submenuGestionAlias"/>
-	<spring:message code="monitoreo.menu.submenuConsRendimiento" 		var="submenuConsRendimiento"/>
-	<spring:message code="monitoreo.menu.submenuConfigEntorno" 			var="submenuConfigEntorno"/>
-	<spring:message code="monitoreo.menu.submenuEntorno" 				var="submenuEntorno"/>
-
-	<spring:message code="menu.menuPrincipalCargas" 					var="menuPrincipalCargas"/>
-	<spring:message code="menu.submenuCargaInputs" 						var="submenuCargaInputs"/>
-	<spring:message code="menu.submenuMonitorCargas" 					var="submenuMonitorCargas"/>
-	<spring:message code="menu.menuPrincipalLogs" 						var="menuPrincipalLogs"/>
-	<spring:message code="menu.submenuLogs" 							var="submenuLogs"/>
-	<spring:message code="menu.submenuValidaciones" 					var="submenuValidaciones"/>
-	<spring:message code="menu.menuPrincipalParametros" 				var="menuPrincipalParametros"/>
-	<spring:message code="menu.submenuConsultaTablas" 					var="submenuConsultaTablas"/>
-	<spring:message code="menu.submenuAltaTablas" 						var="submenuAltaTablas"/>
-	<spring:message code="menu.menuPrincipalInterfacesFinales" 			var="menuPrincipalInterfacesFinales"/>
-	<spring:message code="menu.submenuEdInterfacesFinales" 				var="submenuEdInterfacesFinales"/>
-	<spring:message code="menu.submenuLanzadorMotor" 					var="submenuLanzadorMotor"/>
-	<spring:message code="menu.menuPrincipalAprovisionamiento" 			var="menuPrincipalAprovisionamiento"/>
-	<spring:message code="menu.submenuLanzadorAprovisionamiento" 		var="submenuLanzadorAprovisionamiento"/>
-	<spring:message code="menu.menuPrincipalReproceso" 					var="menuPrincipalReproceso"/>
-	<spring:message code="menu.submenuLanzadorReproceso" 				var="submenuLanzadorReproceso"/>
-	<spring:message code="menu.menuPrincipalConsultas" 					var="menuPrincipalConsultas"/>
-	<spring:message code="menu.submenuConsultaPorContrato" 				var="submenuConsultaPorContrato"/>
-	<spring:message code="menu.submenuValidacionesMinimas" 				var="submenuValidacionesMinimas"/>
+	<spring:message code="menu.menuPrincipal" 						var="menuPrincipal"/>
+	<spring:message code="menu.menuPrincipalReprocesos" 					var="menuPrincipalReprocesos"/>
+	<spring:message code="menu.submenuReprocesosSolicitud" 					var="submenuReprocesosSolicitud"/>
+	<spring:message code="menu.submenuReprocesosConsulta" 					var="submenuReprocesosConsulta"/>
+	<spring:message code="menu.menuPrincipalCifras" 					var="menuPrincipalCifras"/>
+	<spring:message code="menu.submenuCifrasConsultaCifras" 				var="submenuCifrasConsultaCifras"/>
+	<spring:message code="menu.submenuCifrasConsultaFacturas" 				var="submenuCifrasConsultaFacturas"/>
 	
+	<spring:message code="menu.menuPrincipalAdministracion" 				var="menuPrincipalAdministracion"/>
+	<spring:message code="menu.submenuGrupo" 						var="submenuGrupo"/>
+	<spring:message code="menu.submenuUsuarios" 						var="submenuUsuarios"/>
+	<spring:message code="menu.submenuPantallas" 						var="submenuPantallas"/>
+
+
 	<!-- <body onload="initialize('${param.menuItem}', '${param.menuSubitem}'); addMenuItem('eight','Mi opcion dinamica','','', 'true', 'true'); disabledMenuItem('three'); disabledMenuItem('fiveDotTwo');"> -->
 <body onload="initialize('${param.menuItem}', '${param.menuSubitem}'); enabledMenuItems('${LyFBean.idsMenuPerfil}', '${LyFBean.tipoMenu}', '${LyFBean.tipoIdsMenu}'); estableceAyuda('${param.helpPage}')">
 	<div id="top04">
@@ -88,46 +61,26 @@
 			<div class="frameMenuContainer">
 				<ul id="mainMenu">
 					<!-- Menu Principal Cifras Control -->
-					<li id="cargasManuales" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('cargasManuales')"><span>${menuPrincipalCargas}</span></a>
+					<li id="principal" class="startMenuGroup"> <a href="javascript:selectMenuItem('principal')"><span>${menuPrincipal}</span></a></li>
+					<li id="reprocesos" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('reprocesos')"><span>${menuPrincipalReprocesos}</span></a>
 						<ul>
-							<li id="cargaInsumos">      		<a href="">    &gt;<span class="subMenuText">${submenuCargaInputs}</span></a></li>
-							<li id="monitorCargas">      		<a href="">    &gt;<span class="subMenuText">${submenuMonitorCargas}</span></a></li>
+							<li id="solicitudReprocesos">      <a href="../reprocesos/solicitarReproceso.do">    &gt;<span class="subMenuText">${submenuReprocesosSolicitud}</span></a></li>
+							<li id="consultaReprocesos">      	<a href="">    &gt;<span class="subMenuText">${submenuReprocesosConsulta}</span></a></li>
 						</ul>
 					</li> 
-					<li id="descargaLogs" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('descargaLogs')"><span>${menuPrincipalLogs}</span></a>
+					<li id="cifras" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('cifras')"><span>${menuPrincipalCifras}</span></a>
 						<ul>
-							<li id="logs">      		<a href="">    &gt;<span class="subMenuText">${submenuLogs}</span></a></li>
-							<li id="validaciones">      <a href="">    &gt;<span class="subMenuText">${submenuValidaciones}</span></a></li>
+							<li id="consultaCifras">      		<a href="">    &gt;<span class="subMenuText">${submenuCifrasConsultaCifras}</span></a></li>
+							<li id="consultaFacturas">      	<a href="">    &gt;<span class="subMenuText">${submenuCifrasConsultaFacturas}</span></a></li>
 						</ul>
 					</li>
-					<li id="tablasParametros" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('tablasParametros')"><span>${menuPrincipalParametros}</span></a>
+					<li id="administracion" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('administracion')"><span>${menuPrincipalAdministracion}</span></a>
 						<ul>
-							<li id="consultaTablas">    <a href="">    &gt;<span class="subMenuText">${submenuConsultaTablas}</span></a></li>
-							<li id="altaTablas">        <a href="">    &gt;<span class="subMenuText">${submenuAltaTablas}</span></a></li>
+							<li id="perfiles">      	<a href="../administracion/consultarGrupos.do">    &gt;<span class="subMenuText">${submenuGrupo}</span></a></li>
+							<li id="usuarios">      	<a href="../administracion/consultarUsuarios.do">    &gt;<span class="subMenuText">${submenuUsuarios}</span></a></li>
+							<li id="pantallas">      	<a href="../administracion/consultarPantallas.do">    &gt;<span class="subMenuText">${submenuPantallas}</span></a></li>
 						</ul>
-					</li>
-					<li id="interfacesFinales" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('interfacesFinales')"><span>${menuPrincipalInterfacesFinales}</span></a>
-						<ul>
-							<li id="edicionInterfacesFinales">    <a href="">    &gt;<span class="subMenuText">${submenuEdInterfacesFinales}</span></a></li>
-							<li id="lanzadorMotor">               <a href="">    &gt;<span class="subMenuText">${submenuLanzadorMotor}</span></a></li>
-						</ul>
-					</li>
-					<li id="aprovisionamientoHistorico" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('aprovisionamientoHistorico')"><span>${menuPrincipalAprovisionamiento}</span></a>
-						<ul>
-							<li id="lanzadorAprovisionamiento">    <a href="">    &gt;<span class="subMenuText">${submenuLanzadorAprovisionamiento}</span></a></li>
-						</ul>
-					</li>
-					<li id="reprocesoInputs" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('reprocesoInputs')"><span>${menuPrincipalReproceso}</span></a>
-						<ul>
-							<li id="lanzadorReproceso">    <a href="">    &gt;<span class="subMenuText">${submenuLanzadorReproceso}</span></a></li>
-						</ul>
-					</li>
-					<li id="consultas" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('consultas')"><span>${menuPrincipalConsultas}</span></a>
-						<ul>
-							<li id="consultaPorContrato">    <a href="">    &gt;<span class="subMenuText">${submenuConsultaPorContrato}</span></a></li>
-							<li id="validacionesMinimas">    <a href="">    &gt;<span class="subMenuText">${submenuValidacionesMinimas}</span></a></li>
-						</ul>
-					</li>
+					</li> 
 					<!-- 
 					<li id="isbandataaccess" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('isbandataaccess')"><span>${isbandataaccess}</span></a>
 						<ul>

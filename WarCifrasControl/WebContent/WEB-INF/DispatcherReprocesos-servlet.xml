@@ -9,7 +9,7 @@
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/jsp/private/prueba/"/>
+		<property name="prefix" value="/jsp/private/reprocesos/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	
@@ -17,6 +17,6 @@
 		<!--<property name="maxUploadSize" value="100000"/>-->
 	</bean>
 	
-	<bean id="controllerPrueba" name="controllerPrueba" class="mx.isban.cifrascontrol.controller.prueba.ControllerPrueba">
+	<bean id="controllerReprocesoSolicitud" name="controllerReprocesoSolicitud" class="mx.isban.cifrascontrol.controller.reprocesos.ControllerReprocesoSolicitud">
 	</bean>
 </beans>

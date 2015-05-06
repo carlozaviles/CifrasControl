@@ -1,4 +1,4 @@
-package mx.isban.cifrascontrol.controller.prueba;
+package mx.isban.cifrascontrol.controller.reprocesos;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,14 +10,14 @@ import org.springframework.web.servlet.ModelAndView;
 import mx.isban.agave.commons.architech.Architech;
 
 @Controller
-public class ControllerPrueba extends Architech{
+public class ControllerReprocesoSolicitud extends Architech{
 
 	private static final long serialVersionUID = 1L;
 
-	@RequestMapping("prueba.do")
-	public ModelAndView consultaMonitorCargas(HttpServletRequest request, HttpServletResponse response){
+	@RequestMapping("solicitarReproceso.do")
+	public ModelAndView consultarDatosPersonas(HttpServletRequest request, HttpServletResponse response){
 		this.debug("Iniciando el menu de prueba");
-		return new ModelAndView("prueba");
+		return new ModelAndView("solicitarReproceso");
 	}
 	
 	

@@ -3,9 +3,9 @@
 	<name>EarEjbCifrasControl</name>
 	<comment></comment>
 	<projects>
-		<project>EjbCifrasControlClient</project>
 		<project>WarCifrasControl_Ejb</project>
 		<project>EjbCifrasControl</project>
+		<project>EjbCifrasControlClient</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

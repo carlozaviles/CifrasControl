@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/jsp/private/administracion/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!--<property name="maxUploadSize" value="100000"/>-->
+	</bean>
+	
+	
+	<bean id="boGrupos" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="ejb/EarEjbCifrasControl/EjbCifrasControl.jar/BOGrupoImpl#mx.isban.cifrascontrol.servicio.administracion.grupo.BOGrupo"/>
+    	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.administracion.grupo.BOGrupo"/>
+	</bean>
+	
+	<bean id="boPantallas" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="ejb/EarEjbCifrasControl/EjbCifrasControl.jar/BOPantallaImpl#mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla"/>
+    	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla"/>
+	</bean>
+	
+	<bean id="controllerPerfiles" name="controllerPerfiles" class="mx.isban.cifrascontrol.controller.administracion.ControllerPerfiles">
+		<property name="boGrupo" ref="boGrupos"/>
+		<property name="boPantalla" ref="boPantallas"/>
+	</bean>
+	
+	<bean id="controllerUsuarios" name="controllerUsuarios" class="mx.isban.cifrascontrol.controller.administracion.ControllerUsuarios">
+	</bean>
+	
+	<bean id="controllerPantallas" name="controllerPantallas" class="mx.isban.cifrascontrol.controller.administracion.ControllerPantallas">
+		<property name="boPantalla" ref="boPantallas"/>
+	</bean>
+</beans>

@@ -14,7 +14,8 @@
 			/WEB-INF/DispatcherPrincipal-servlet.xml
 			/WEB-INF/DispatcherPublico-servlet.xml
 			/WEB-INF/DispatcherErrores-servlet.xml
-			/WEB-INF/DispatcherPrueba-servlet.xml
+			/WEB-INF/DispatcherReprocesos-servlet.xml
+			/WEB-INF/DispatcherAdministracion-servlet.xml
 		</param-value>
 	</context-param>
 	
@@ -64,17 +65,28 @@
 		<url-pattern>/errores/*</url-pattern>
 	</servlet-mapping>
 	
-	<!-- Dispatcher Prueba -->
+	<!-- Dispatcher Reprocesos -->
 	<servlet>
-		<servlet-name>DispatcherPrueba</servlet-name>
+		<servlet-name>DispatcherReprocesos</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>DispatcherPrueba</servlet-name>
-		<url-pattern>/prueba/*</url-pattern>
+		<servlet-name>DispatcherReprocesos</servlet-name>
+		<url-pattern>/reprocesos/*</url-pattern>
 	</servlet-mapping>
 	
+	<!-- Dispatcher Administracion -->
+	<servlet>
+		<servlet-name>DispatcherAdministracion</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DispatcherAdministracion</servlet-name>
+		<url-pattern>/administracion/*</url-pattern>
+	</servlet-mapping>
 	
 </web-app>

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="EarEjbCifrasControl">
         <wb-resource deploy-path="/" source-path="/" tag="defaultRootSource"/>
-        <dependent-module archiveName="EjbCifrasControlClient.jar" deploy-path="/" handle="module:/resource/EjbCifrasControlClient/EjbCifrasControlClient">
-            <dependent-object>Module_1429122851962</dependent-object>
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="WarCifrasControl_Ejb.war" deploy-path="/" handle="module:/resource/WarCifrasControl_Ejb/WarCifrasControl_Ejb">
             <dependent-object>Module_1429122851963</dependent-object>
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="EjbCifrasControl.jar" deploy-path="/" handle="module:/resource/EjbCifrasControl/EjbCifrasControl">
-            <dependent-object>Module_1429122851964</dependent-object>
+            <dependent-object>Module_1429664300989</dependent-object>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="EjbCifrasControlClient.jar" deploy-path="/" handle="module:/resource/EjbCifrasControlClient/EjbCifrasControlClient">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>
