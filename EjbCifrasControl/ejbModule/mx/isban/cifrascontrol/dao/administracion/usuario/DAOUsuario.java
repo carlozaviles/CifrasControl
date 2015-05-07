@@ -13,6 +13,5 @@ public interface DAOUsuario {
 	public BeanUsuarioRespuesta obtenerUsuarioPorID(ArchitechSessionBean sessionBean,String idUsuario);
 	public BeanUsuarioRespuesta modificarUsuario(ArchitechSessionBean sessionBean,BeanUsuario usuario);
 	public BeanUsuarioRespuesta altaUsuario(ArchitechSessionBean sessionBean,BeanUsuario usuario);
-	public BeanUsuarioRespuesta bajaUsuario(ArchitechSessionBean sessionBean,BeanUsuario usuario);
 	
 }

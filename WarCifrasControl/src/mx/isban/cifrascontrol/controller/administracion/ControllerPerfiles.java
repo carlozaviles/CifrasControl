@@ -73,7 +73,7 @@ public class ControllerPerfiles extends Architech {
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista altaPerfil.jsp
 	 */
-	@RequestMapping("altaPerfilInit.do")
+	@RequestMapping("altaGrupoInit.do")
 	public ModelAndView altaPerfilInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de alta de perfiles...");
 		List<BeanPantalla> pantallas = boPantalla.buscarTodasPantallas(getArchitechBean());
@@ -82,12 +82,12 @@ public class ControllerPerfiles extends Architech {
 		return new ModelAndView("altaPerfiles",parametros);
 	}
 	
-	@RequestMapping("altaPerfil.do")
+	@RequestMapping("altaGrupo.do")
 	public ModelAndView altaPerfil(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de alta de perfiles...");
 		BeanGrupo grupo = new BeanGrupo();
-		grupo.setNombrePerfil(request.getParameter("nombreGrupo"));
-		grupo.setDescripcionPerfil(request.getParameter("descripcion"));
+		grupo.setNombreGrupo(request.getParameter("nombreGrupo"));
+		grupo.setDescripcionGrupo(request.getParameter("descripcionGrupo"));
 		String[] pantallasChecadas = request.getParameterValues("pantallaActiva");
 		List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
 		for (int i = 0; i < pantallasChecadas.length; i++) {
@@ -109,7 +109,7 @@ public class ControllerPerfiles extends Architech {
 	@RequestMapping("borrarGrupo.do")
 	public ModelAndView borrarGrupo(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el borrado del grupo...");
-		String idGrupo = request.getParameter("idGrupoBorrar");
+		String idGrupo = request.getParameter("idGrupo");
 		boGrupo.borrarGrupo(idGrupo, getArchitechBean());
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		List<BeanGrupo> listaPerfiles  = boGrupo.buscarTodosGrupos(getArchitechBean());
@@ -126,13 +126,13 @@ public class ControllerPerfiles extends Architech {
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista modificaPerfil.jsp
 	 * @throws BusinessException Excepcion que se presenta si ocurre un error al momento de consultar el grupo
 	 */
-	@RequestMapping("modificarPerfil.do")
+	@RequestMapping("modificarGrupo.do")
 	public ModelAndView modificarPerfil(HttpServletRequest request, HttpServletResponse response) throws BusinessException{
 		this.info("Iniciando el metodo para modificar el perfil");
 		BeanGrupo grupo = new BeanGrupo();
-		grupo.setIdPerfil(request.getParameter("idGrupo"));
-		grupo.setNombrePerfil(request.getParameter("nombreGrupo"));
-		grupo.setDescripcionPerfil(request.getParameter("descripcion"));
+		grupo.setIdGrupo(request.getParameter("idGrupo"));
+		grupo.setNombreGrupo(request.getParameter("nombreGrupo"));
+		grupo.setDescripcionGrupo(request.getParameter("descripcionGrupo"));
 		String[] pantallasChecadas = request.getParameterValues("pantallaActiva");
 		List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
 		for (int i = 0; i < pantallasChecadas.length; i++) {
@@ -151,10 +151,10 @@ public class ControllerPerfiles extends Architech {
 		return new ModelAndView("consultarPerfiles",parametros);
 	}
 	
-	@RequestMapping("modificarPerfilInit.do")
+	@RequestMapping("modificarGrupoInit.do")
 	public ModelAndView modificarPerfilInit(HttpServletRequest request, HttpServletResponse response) throws BusinessException{
 		this.info("Iniciando el formulario de detalle de perfiles...");
-		String idGrupo = request.getParameter("radio");
+		String idGrupo = request.getParameter("idGrupo");
 		this.info("El id a buscar es:"+idGrupo);
 		BeanGrupo grupo = boGrupo.consultarGrupo(idGrupo, getArchitechBean());
 		List<BeanPantalla> pantallas = grupo.getPantallas();

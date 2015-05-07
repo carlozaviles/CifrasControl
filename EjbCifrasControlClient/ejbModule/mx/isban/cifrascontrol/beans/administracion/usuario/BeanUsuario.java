@@ -41,6 +41,36 @@ public class BeanUsuario implements Serializable {
 		this.grupos = grupos;
 	}
 	
+	public String getGruposToString(){
+		if(null == grupos){
+			return "";
+		}else{
+			StringBuilder grupos = new StringBuilder();
+			for (int i = 0; i < this.grupos.size(); i++) {
+				if(i == (this.grupos.size()-1)){
+					grupos.append(this.grupos.get(i).getNombreGrupo());
+				}else{
+					grupos.append(this.grupos.get(i).getNombreGrupo()).append(",");
+				}
+			}
+			return grupos.toString();
+		}
+	}
 	
+	public String getPantallasToString(){
+		if(null == grupos){
+			return "";
+		}else{
+			StringBuilder grupos = new StringBuilder();
+			for (int i = 0; i < this.grupos.size(); i++) {
+				if(i == (this.grupos.size()-1)){
+					grupos.append(this.grupos.get(i).pantallasToString());
+				}else{
+					grupos.append(this.grupos.get(i).pantallasToString()).append(",");
+				}
+			}
+			return grupos.toString();
+		}
+	}
 	
 }

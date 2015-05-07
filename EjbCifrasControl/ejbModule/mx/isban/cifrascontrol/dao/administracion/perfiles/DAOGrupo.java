@@ -15,4 +15,5 @@ public interface DAOGrupo {
 	public BeanGrupoRespuesta modificarGrupo(ArchitechSessionBean sessionBean,BeanGrupo grupo);
 	public BeanGrupoRespuesta altaGrupo(ArchitechSessionBean sessionBean,BeanGrupo grupo);
 	public BeanGrupoRespuesta borrarGrupo(ArchitechSessionBean sessionBean, String idGrupo);
+	public BeanGrupoRespuesta obtenerGrupoPorUsuario(ArchitechSessionBean sessionBean, String idUsuario);
 }

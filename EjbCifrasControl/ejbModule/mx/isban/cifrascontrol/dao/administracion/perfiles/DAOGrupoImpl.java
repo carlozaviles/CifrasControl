@@ -41,6 +41,15 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 			"INSERT INTO GRUPO(ID_GRUPO,NOMBRE,DESCRIPCION) VALUES (SQ_GRUPO.NEXTVAL,?,?)";
 	private static final String QUERY_ELIMINA_GRUPO = 
 			"DELETE FROM GRUPO WHERE ID_GRUPO = ?";
+	private static final String QUERY_OBTENER_GRUPO_POR_USUARIO = 
+			"SELECT G.NOMBRE,G.ID_GRUPO,G.DESCRIPCION "
+			+ " FROM GRUPO G"
+			+ " JOIN REL_USUARIO_GRUPO REL"
+			+ " ON G.ID_GRUPO = REL.FK_ID_GRUPO"
+			+ " JOIN USUARIO U"
+			+ " ON REL.FK_ID_USUARIO = U.ID_USUARIO"
+			+ " WHERE U.ID_USUARIO = ?";
+	
 	
 	/**
      * @see Architech#Arhitech()
@@ -70,9 +79,9 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 				List<BeanGrupo> listaPerfiles = new ArrayList<BeanGrupo>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
 					BeanGrupo perfil = new BeanGrupo();
-					perfil.setIdPerfil(String.valueOf(registro.get("ID_GRUPO")));
-					perfil.setNombrePerfil(String.valueOf(registro.get("NOMBRE")));
-					perfil.setDescripcionPerfil(String.valueOf(registro.get("DESCRIPCION")));
+					perfil.setIdGrupo(String.valueOf(registro.get("ID_GRUPO")));
+					perfil.setNombreGrupo(String.valueOf(registro.get("NOMBRE")));
+					perfil.setDescripcionGrupo(String.valueOf(registro.get("DESCRIPCION")));
 					listaPerfiles.add(perfil);
 				}
 				perfiles.setGrupos(listaPerfiles);
@@ -107,9 +116,9 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 				List<BeanGrupo> listaPerfiles = new ArrayList<BeanGrupo>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
 					BeanGrupo perfil = new BeanGrupo();
-					perfil.setIdPerfil(String.valueOf(registro.get("ID_GRUPO")));
-					perfil.setNombrePerfil(String.valueOf(registro.get("NOMBRE")));
-					perfil.setDescripcionPerfil(String.valueOf(registro.get("DESCRIPCION")));
+					perfil.setIdGrupo(String.valueOf(registro.get("ID_GRUPO")));
+					perfil.setNombreGrupo(String.valueOf(registro.get("NOMBRE")));
+					perfil.setDescripcionGrupo(String.valueOf(registro.get("DESCRIPCION")));
 					listaPerfiles.add(perfil);
 				}
 				perfiles.setGrupos(listaPerfiles);
@@ -144,9 +153,9 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 				List<BeanGrupo> listaPerfiles = new ArrayList<BeanGrupo>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
 					BeanGrupo perfil = new BeanGrupo();
-					perfil.setIdPerfil(String.valueOf(registro.get("ID_GRUPO")));
-					perfil.setNombrePerfil(String.valueOf(registro.get("NOMBRE")));
-					perfil.setDescripcionPerfil(String.valueOf(registro.get("DESCRIPCION")));
+					perfil.setIdGrupo(String.valueOf(registro.get("ID_GRUPO")));
+					perfil.setNombreGrupo(String.valueOf(registro.get("NOMBRE")));
+					perfil.setDescripcionGrupo(String.valueOf(registro.get("DESCRIPCION")));
 					listaPerfiles.add(perfil);
 				}
 				perfiles.setGrupos(listaPerfiles);
@@ -170,9 +179,9 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_UPDATE_PARAMS);
 		requestDTO.setQuery(QUERY_ACTUALIZA_GRUPO);
 		requestDTO.setCodeOperation("COD03 Actualiza-Grupo");
-		requestDTO.addParamToSql(grupo.getNombrePerfil());
-		requestDTO.addParamToSql(grupo.getDescripcionPerfil());
-		requestDTO.addParamToSql(grupo.getIdPerfil());
+		requestDTO.addParamToSql(grupo.getNombreGrupo());
+		requestDTO.addParamToSql(grupo.getDescripcionGrupo());
+		requestDTO.addParamToSql(grupo.getIdGrupo());
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			//El componente IsbanDataAccess no contiene el metodo beginTransaction
@@ -181,14 +190,14 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
 				perfiles.setCodError("2001");
 			}else{
-				BeanGrupoRespuesta eliminacionRelaciones = eliminarRelacionesGrupoPantalla(sessionBean, grupo.getIdPerfil());
+				BeanGrupoRespuesta eliminacionRelaciones = eliminarRelacionesGrupoPantalla(sessionBean, grupo.getIdGrupo());
 				if(!"0".equals(eliminacionRelaciones.getCodError())){
 					perfiles.setCodError(eliminacionRelaciones.getCodError());
 				}else{
 					List<BeanPantalla> pantallas = grupo.getPantallas();
 					this.info("Tamaño de lista seleccionada:"+pantallas.size());
 					for (int i = 0;i < pantallas.size();i++) {	
-						BeanGrupoRespuesta actualizaRelaciones = actualizaRelacionesGrupoPantalla(sessionBean, grupo.getIdPerfil(),pantallas.get(i).getIdPantalla());
+						BeanGrupoRespuesta actualizaRelaciones = actualizaRelacionesGrupoPantalla(sessionBean, grupo.getIdGrupo(),pantallas.get(i).getIdPantalla());
 						if(!"0".equals(actualizaRelaciones.getCodError())){
 							perfiles.setCodError(actualizaRelaciones.getCodError());
 							i = pantallas.size()+1;
@@ -215,8 +224,8 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_INSERT_PARAMS);
 		requestDTO.setQuery(QUERY_ALTA_GRUPO);
 		requestDTO.setCodeOperation("COD08 Alta-Grupo");
-		requestDTO.addParamToSql(grupo.getNombrePerfil());
-		requestDTO.addParamToSql(grupo.getDescripcionPerfil());
+		requestDTO.addParamToSql(grupo.getNombreGrupo());
+		requestDTO.addParamToSql(grupo.getDescripcionGrupo());
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			//El componente IsbanDataAccess no contiene el metodo beginTransaction
@@ -225,17 +234,17 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
 				perfiles.setCodError("2001");
 			}else{
-				BeanGrupoRespuesta consultaGrupo = consultarGrupoPorNombre(sessionBean, grupo.getNombrePerfil());
+				BeanGrupoRespuesta consultaGrupo = consultarGrupoPorNombre(sessionBean, grupo.getNombreGrupo());
 				if(!"0".equals(consultaGrupo.getCodError())){
 					perfiles.setCodError(consultaGrupo.getCodError());
 				}else{
 					if(consultaGrupo.getGrupos().size()>=1){
-						String idPerfilNuevo =consultaGrupo.getGrupos().get(0).getIdPerfil(); 
-						grupo.setIdPerfil(idPerfilNuevo);
+						String idPerfilNuevo =consultaGrupo.getGrupos().get(0).getIdGrupo(); 
+						grupo.setIdGrupo(idPerfilNuevo);
 						List<BeanPantalla> pantallas = grupo.getPantallas();
 						this.info("Tamaño de lista seleccionada:"+pantallas.size());
 						for (int i = 0;i < pantallas.size();i++) {	
-							BeanGrupoRespuesta actualizaRelaciones = actualizaRelacionesGrupoPantalla(sessionBean, grupo.getIdPerfil(),pantallas.get(i).getIdPantalla());
+							BeanGrupoRespuesta actualizaRelaciones = actualizaRelacionesGrupoPantalla(sessionBean, grupo.getIdGrupo(),pantallas.get(i).getIdPantalla());
 							if(!"0".equals(actualizaRelaciones.getCodError())){
 								perfiles.setCodError(actualizaRelaciones.getCodError());
 								i = pantallas.size()+1;
@@ -284,6 +293,42 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 				}
 		}
 		return eliminacionRelaciones;
+	}
+
+	@Override
+	public BeanGrupoRespuesta obtenerGrupoPorUsuario(
+			ArchitechSessionBean sessionBean, String idUsuario) {
+		final BeanGrupoRespuesta perfiles = new BeanGrupoRespuesta();
+		this.info("Se inicia la consulta del perfil con el id de usaurio:"+idUsuario);
+		this.info(idUsuario);
+		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
+		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY_PARAMS);
+		requestDTO.setQuery(QUERY_OBTENER_GRUPO_POR_USUARIO);
+		requestDTO.setCodeOperation("COD16 Consulta-Grupo por id usuario");
+		requestDTO.addParamToSql(idUsuario);
+		try{
+			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
+			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
+			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
+				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
+				perfiles.setCodError("2001");
+			}else{
+				List<BeanGrupo> listaPerfiles = new ArrayList<BeanGrupo>();
+				for(Map<String, Object> registro : responseDTO.getResultQuery()){
+					BeanGrupo perfil = new BeanGrupo();
+					perfil.setIdGrupo(String.valueOf(registro.get("ID_GRUPO")));
+					perfil.setNombreGrupo(String.valueOf(registro.get("NOMBRE")));
+					perfil.setDescripcionGrupo(String.valueOf(registro.get("DESCRIPCION")));
+					listaPerfiles.add(perfil);
+				}
+				perfiles.setGrupos(listaPerfiles);
+				perfiles.setCodError("0");
+			}
+		}catch(ExceptionDataAccess e){
+			this.error("Error al realizar una consulta en el componente DataAcces"+e);
+			perfiles.setCodError("2001");
+		}
+		return perfiles;
 	}
 
 	private BeanGrupoRespuesta actualizaRelacionesGrupoPantalla(

@@ -77,7 +77,7 @@ public class ControllerPantallas extends Architech {
 	@RequestMapping("modificarPantallaInit.do")
 	public ModelAndView modificarPantallaInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de detalle de pantalla...");
-		String idPantalla = request.getParameter("radio");
+		String idPantalla = request.getParameter("idPantalla");
 		this.info("El id a buscar es:"+idPantalla);
 		BeanPantalla pantalla = boPantalla.obtenerPantallaPorId(getArchitechBean(), idPantalla);
 		Map<String, Object> parametros = new HashMap<String, Object>();

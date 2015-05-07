@@ -4,22 +4,22 @@
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
 	<jsp:param name="menuItem"   	 value="administracion" />
-	<jsp:param name="menuSubItem"    value="perfiles" />	
+	<jsp:param name="menuSubItem"    value="grupos" />	
 </jsp:include>
 
-<script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/grupo.js" type="text/javascript"></script>
+<script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/altaGrupo.js" type="text/javascript"></script>
 
 <spring:message code="administracion.modulo"            	var="modulo"/>
 <spring:message code="administracion.formulario"     		var="formulario"/>
-<spring:message code="administracion.altaPerfil"     		var="altaPerfil"/>
+<spring:message code="administracion.altaGrupo"     		var="altaGrupo"/>
 <spring:message code="administracion.camposObligatorios"     	var="camposObligatorios"/>
-<spring:message code="administracion.datosPerfil"     		var="datosPerfil"/>
-<spring:message code="administracion.nombrePerfil"     		var="nombrePerfil"/>
+<spring:message code="administracion.datosGrupo"     		var="datosGrupo"/>
+<spring:message code="administracion.nombreGrupo"     		var="nombreGrupo"/>
 <spring:message code="administracion.descripcion"     		var="descripcion"/>
 <spring:message code="administracion.pantallas"     		var="pantallas"/>
 <spring:message code="administracion.nombrePantalla"   		var="nombrePantalla"/>
 <spring:message code="administracion.pantallaAsignada" 		var="pantallaAsignada"/>
-<spring:message code="administracion.guardarPerfil" 		var="guardarPerfil"/>
+<spring:message code="administracion.guardarGrupo" 		var="guardarGrupo"/>
 <spring:message code="administracion.cancelar" 			var="cancelar"/>
 
 <div class="pageTitleContainer">
@@ -27,28 +27,29 @@
 </div>
 
 
-<form action="altaPerfil.do" id="altaGrupo" name="altaGrupo" method="post">
+<form action="altaGrupo.do" id="altaGrupo" name="altaGrupo" method="post">
 <div class="frameFormularioB">
 	<div class="contentFormularioB">
-		<div class="titleFormularioB">${formulario} - <span class="textosin">${altaPerfil}</span></div>
+		<div class="titleFormularioB">${formulario} - <span class="textosin">${altaGrupo}</span></div>
 			<table>
 				<tbody>
 					<tr>
 						<td colspan="4" class="ind">${camposObligatorios}</td>
 					</tr>
 					<tr>
-						<th colspan="4" class="text_izquierda">${datosPerfil}<span
+						<th colspan="4" class="text_izquierda">${datosGrupo}<span
 							class="textosin">.......................................................................................................</span></th>
 					</tr>
 					<tr>
-						<td width="154" class="odd">${nombrePerfil}:</td>
+						<td width="154" class="odd">${nombreGrupo}:</td>
 						<td colspan="3"><input name="nombreGrupo"
-							type="text" class="Campos_Des" id="nombreGrupo" /></td>
+							type="text" class="Campos_Des" id="nombreGrupo" /></td><div style="color:#FF0000;" id="nombreRequerido">Ingrese un nombre v&aacute;lido</div>
 					</tr>
 					<tr>
 						<td class="odd">${descripcion}:</td>
-						<td colspan="3"><textarea rows="4" cols="50" name="descripcion" id="descripcion"></textarea></td>
+						<td colspan="3"><textarea rows="4" cols="50" name="descripcionGrupo" id="descripcionGrupo"></textarea></td><div style="color:#FF0000;" id="descripcionRequerido">Ingrese una descripcion v&aacute;lida</div>
 					</tr>
+					<tr><td colspan="3">(300 caracteres m&aacute;ximo)</td></tr>
 				</tbody>
 			</table>
 			
@@ -71,7 +72,7 @@
 			
 					<Td colspan="2" class="special"></Td>
 				</tr>
-				<tbody>
+				<tbody><div style="color:#FF0000;" id="pantallaRequerida">Seleccione por lo menos una pantalla</div>
 					<c:forEach var="pantalla" items="${todasPantallas}">
 					<tr class="odd2">
 						<td class="text_izquierda">${pantalla.nombrePantalla}</td>
@@ -84,6 +85,6 @@
 	</div>
 </div>
 
-<div class="PiePag"><button name="btnAltaGrupo" id="btnAltaGrupo" type="submit">${guardarPerfil}</button><button name="regresar" id="regresar" type="submit">${cancelar}</button></div>
+<div class="PiePag"><button name="btnAltaGrupo" id="btnAltaGrupo" type="button">${guardarGrupo}</button><button name="regresar" id="regresar" type="button">${cancelar}</button></div>
 </form>
 <jsp:include page="../myFooter.jsp" flush="true"/>

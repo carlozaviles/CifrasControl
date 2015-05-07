@@ -7,7 +7,7 @@
 	<jsp:param name="menuSubItem"    value="perfiles" />	
 </jsp:include>
 
-<script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/pantalla.js" type="text/javascript"></script>
+<script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/modificaPantalla.js" type="text/javascript"></script>
 
 <spring:message code="administracion.modulo"            	var="modulo"/>
 
@@ -21,6 +21,7 @@
 
 <spring:message code="administracion.guardarPantalla" 		var="guardarPantalla"/>
 <spring:message code="administracion.cancelar"	 		var="cancelar"/>
+<spring:message code="administracion.borrar" 			var="borrar"/>
 
 
 <div class="pageTitleContainer">
@@ -28,7 +29,7 @@
 </div>
 
 
-<form action="modificarPantalla.do" id="modificarPantalla" name="modificarPantalla" method="post">
+<form action="" id="modificarPantalla" name="modificarPantalla" method="post">
 <input type="hidden" name="idPantalla" id="idPantalla" value="<c:out value="${pantalla.idPantalla}"/>"/>
 <div class="frameFormularioB">
 	<div class="contentFormularioB">
@@ -45,11 +46,11 @@
 					<tr>
 						<td width="154" class="odd">${nombrePantalla}:</td>
 						<td colspan="3"><input name="nombrePantalla"
-							type="text" class="Campos_Des" id="nombrePantalla"value="<c:out value="${pantalla.nombrePantalla}"/>"/></td>
+							type="text" class="Campos_Des" id="nombrePantalla"value="<c:out value="${pantalla.nombrePantalla}"/>"/></td><div style="color:#FF0000;" id="nombreRequerido">Ingrese un nombre v&aacute;lido </div>
 					</tr>
 					<tr>
 						<td class="odd">${descripcionPantalla}:</td>
-						<td colspan="3"><textarea rows="4" cols="50" id="descripcionPantalla" name="descripcionPantalla"><c:out value="${pantalla.descripcionPantalla}"/></textarea></td>
+						<td colspan="3"><textarea rows="4" cols="50" id="descripcionPantalla" name="descripcionPantalla"><c:out value="${pantalla.descripcionPantalla}"/></textarea>(300 caracteres m&aacute;ximo)</td><div style="color:#FF0000;" id="descripcionRequerido">Ingrese una descripcion v&aacute;lida</div>
 					</tr>
 				</tbody>
 			</table>
@@ -61,6 +62,6 @@
 </div>
 
 
-<div class="PiePag"><button name="btnGuardaPantalla" id="btnGuardaPantalla" type="submit">${guardarPantalla}</button></form><form action="borrarPantalla.do" id="borrarPantalla" name="borrarPantalla" method="post"> <input type="hidden" name="idPantallas" id="idPantallas" value="<c:out value="${pantalla.idPantalla}"/>"/><button name="btnGuardaPerfil" id="btnGuardaPerfil" onclick="#">${cancelar}</button></div>
+<div class="PiePag"><button name="btnGuardaPantalla" id="btnGuardaPantalla" type="submit">${guardarPantalla}</button><button name="btnBorrarPantalla" id="btnBorrarPantalla" type="button">${borrar}</button><button name="regresar" id="regresar" type="button">${cancelar}</button></div>
 </form>
 <jsp:include page="../myFooter.jsp" flush="true"/>

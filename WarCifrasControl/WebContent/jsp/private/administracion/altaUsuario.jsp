@@ -4,7 +4,7 @@
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
 	<jsp:param name="menuItem"   	 value="administracion" />
-	<jsp:param name="menuSubItem"    value="perfiles" />	
+	<jsp:param name="menuSubItem"    value="usuario" />	
 </jsp:include>
 
 <spring:message code="administracion.modulo"            	var="modulo"/>
@@ -16,17 +16,19 @@
 <spring:message code="administracion.paternoUsuario"     	var="paternoUsuario"/>
 <spring:message code="administracion.maternoUsuario"     	var="maternoUsuario"/>
 <spring:message code="administracion.correo"			var="correo"/>
-<spring:message code="administracion.tituloPerfiles"     	var="tituloPerfiles"/>
-<spring:message code="administracion.perfil"		     	var="perfil"/>
-<spring:message code="administracion.asignarPerfil"	     	var="asignarPerfil"/>
+<spring:message code="administracion.tituloGrupo"     		var="tituloGrupo"/>
+<spring:message code="administracion.grupo"		     	var="grupo"/>
+<spring:message code="administracion.asignarGrupo"	     	var="asignarGrupo"/>
 <spring:message code="administracion.usuarioActivo"		var="usuarioActivo"/>
+<spring:message code="administracion.cancelar" 			var="cancelar"/>
 <spring:message code="administracion.guardarUsuario"		var="guardarUsuario"/>
+<spring:message code="administracion.identificadorUsuario"	var="identificadorUsuario"/>
 
 <div class="pageTitleContainer">
    <span class="pageTitle">${modulo}</span> - ${formularioAltaUsuario}
 </div>
 
-<form action="" method="post">
+<form action="altaUsuario.do" method="post">
 <div class="frameFormularioB">
 	<div class="contentFormularioB">
 		<div class="titleFormularioB">${formularioAltaUsuario} - <span class="textosin">${altaUsuario}</span></div>
@@ -40,24 +42,9 @@
 							class="textosin">.......................................................................................................</span></th>
 					</tr>
 					<tr>
-						<td width="154" class="odd">${nombreUsuario}:</td>
-						<td colspan="3"><input name="nombreUsuario"
-							type="text" class="Campos_Des" id="nombreUsuario" /></td>
-					</tr>
-					<tr>
-						<td width="154" class="odd">${paternoUsuario}:</td>
-						<td colspan="3"><input name="paternoUsuario"
-							type="text" class="Campos_Des" id="paternoUsuario" /></td>
-					</tr>
-					<tr>
-						<td width="154" class="odd">${maternoUsuario}:</td>
-						<td colspan="3"><input name="maternoUsuario"
-							type="text" class="Campos_Des" id="maternoUsuario" /></td>
-					</tr>
-					<tr>
-						<td width="154" class="odd">${correo}:</td>
-						<td colspan="3"><input name="correoUsuario"
-							type="text" class="Campos_Des" id="correoUsuario" /></td>
+						<td width="154" class="odd">${identificadorUsuario}:</td>
+						<td colspan="3"><input name="idUsuario"
+							type="text" class="Campos_Des" id="idUsuario" /></td>
 					</tr>
 					<tr>
 						<td width="154" class="odd">${usuarioActivo}:</td>
@@ -74,12 +61,12 @@
 </div>
 
 <div class="frameTablaVariasColumnas">
-	<div class="titleTablaVariasColumnas">${tituloPerfiles}</div>
+	<div class="titleTablaVariasColumnas">${tituloGrupo}</div>
 		<div class="contentTablaVariasColumnas">
 			<table>
 				<tr>
-					<th width="300" class="text_izquierda">${perfil}</th>
-					<th width="50" class="text_centro" scope="col">${asignarPerfil}</th>
+					<th width="300" class="text_izquierda">${grupo}</th>
+					<th width="50" class="text_centro" scope="col">${asignarGrupo}</th>
 				</tr>
 			
 				<tr>
@@ -87,26 +74,13 @@
 					<Td colspan="2" class="special"></Td>
 				</tr>
 				<tbody>
+					<c:forEach var="grupos" items="${todosGrupos}">
 					<tr class="odd2">
-						<td class="text_izquierda">A1234567</td>
-						<td class="text_izquierda"><input name="radio" type="radio" name="usuarioActivo" value="activo"></td>
+						<td class="text_izquierda">${grupos.nombreGrupo}</td>
+						<td class="text_izquierda"><input type="checkbox" name="idGrupo" value="${grupos.idGrupo}">
+						</td>
 					</tr>
-					<tr class="odd1">
-						<td class="text_izquierda">B7654321</td>
-						<td class="text_izquierda"><input name="radio" type="radio" name="usuarioActivo1" value="activo"></td>
-					</tr>
-					<tr class="odd2">
-						<td class="text_izquierda">A0987654</td>
-						<td class="text_izquierda"><input name="radio" type="radio" name="usuarioActivo2" value="activo"></td>
-					</tr>
-					<tr class="odd1">
-						<td class="text_izquierda">B6789045</td>
-						<td class="text_izquierda"><input name="radio" type="radio" name="usuarioActivo3" value="activo"></td>
-					</tr>
-					<tr class="odd2">
-						<td class="text_izquierda">A4326541</td>
-						<td class="text_izquierda"><input name="radio" type="radio" name="usuarioActivo4" value="activo"></td>
-					</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 	</div>

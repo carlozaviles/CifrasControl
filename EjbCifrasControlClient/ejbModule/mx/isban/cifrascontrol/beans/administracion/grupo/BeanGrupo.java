@@ -9,40 +9,52 @@ public class BeanGrupo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String idPerfil;
-	private String nombrePerfil;
-	private String descripcionPerfil;
+	private String idGrupo;
+	private String nombreGrupo;
+	private String descripcionGrupo;
+	private boolean grupoSeleccionado;
 	private List<BeanPantalla> pantallas;
 
 	public BeanGrupo(){
 		super();
-	}
+	}	
 	
-	public String getIdPerfil() {
-		return idPerfil;
+	public String getIdGrupo() {
+		return idGrupo;
 	}
 
-	public void setIdPerfil(String idPerfil) {
-		this.idPerfil = idPerfil;
+
+
+	public void setIdGrupo(String idGrupo) {
+		this.idGrupo = idGrupo;
 	}
 
-	public String getNombrePerfil() {
-		return nombrePerfil;
+
+
+	public String getNombreGrupo() {
+		return nombreGrupo;
 	}
-	
-	public void setNombrePerfil(String nombrePerfil) {
-		this.nombrePerfil = nombrePerfil;
+
+
+
+	public void setNombreGrupo(String nombreGrupo) {
+		this.nombreGrupo = nombreGrupo;
 	}
-	
-	public String getDescripcionPerfil() {
-		return descripcionPerfil;
+
+
+
+	public String getDescripcionGrupo() {
+		return descripcionGrupo;
 	}
-	
-	public void setDescripcionPerfil(String descripcionPerfil) {
-		this.descripcionPerfil = descripcionPerfil;
+
+
+
+	public void setDescripcionGrupo(String descripcionGrupo) {
+		this.descripcionGrupo = descripcionGrupo;
 	}
-	
-	
+
+
+
 	public List<BeanPantalla> getPantallas() {
 		return pantallas;
 	}
@@ -50,5 +62,30 @@ public class BeanGrupo implements Serializable {
 	public void setPantallas(List<BeanPantalla> pantallas) {
 		this.pantallas = pantallas;
 	} 
+	
+	public String pantallasToString(){
+		if(null == this.pantallas){
+			return "";
+		}else{
+			StringBuilder grupos = new StringBuilder();
+			for (int i = 0; i < this.pantallas.size(); i++) {
+				if(i == (this.pantallas.size()-1)){
+					grupos.append(this.pantallas.get(i).getNombrePantalla());
+				}else{
+					grupos.append(this.pantallas.get(i).getNombrePantalla()).append(",");
+				}
+			}
+			return grupos.toString();
+		}
+	}
+
+	public boolean isGrupoSeleccionado() {
+		return grupoSeleccionado;
+	}
+
+	public void setGrupoSeleccionado(boolean grupoSeleccionado) {
+		this.grupoSeleccionado = grupoSeleccionado;
+	}
+	
 	
 }

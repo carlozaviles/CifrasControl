@@ -7,7 +7,7 @@
 	<jsp:param name="menuSubItem"    value="perfiles" />	
 </jsp:include>
 
-<script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/pantalla.js" type="text/javascript"></script>
+<script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/consultaPantalla.js" type="text/javascript"></script>
 
 <spring:message code="administracion.modulo"            	var="modulo"/>
 <spring:message code="administracion.pantallas"     		var="pantallas"/>
@@ -41,8 +41,8 @@
 				<tbody>
 					<c:forEach var="regs" items="${todasPantallas}">
 					<tr class="odd2">
-						<td width="20"><input name="radio" type="radio" class="Campos"
-						id="radio" value=${regs.idPantalla}></input></td>
+						<td width="20"><input name="idPantalla" type="radio" class="Campos"
+						id="idPantalla" value=${regs.idPantalla}></input></td>
 						<td width="120" class="text_izquierda">${regs.nombrePantalla}</td>
 						<td width="120" class="text_izquierda">${regs.descripcionPantalla}</td>
 					</tr>
@@ -55,7 +55,7 @@
 		<div class="contentPieContenedor">
 			<table>
 				<tr>
-					<td class="izq"><a href="javascript:document.modificar.submit()">${detalle}</td>
+					<td class="izq"><a href="#" id="detallePantalla" name="detallePantalla">${detalle}</td>
 				</tr>
 			</table>
 		</div>

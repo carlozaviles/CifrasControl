@@ -28,12 +28,19 @@
     	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla"/>
 	</bean>
 	
+	<bean id="boUsuarios" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="ejb/EarEjbCifrasControl/EjbCifrasControl.jar/BOUsuarioImpl#mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario"/>
+    	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario"/>
+	</bean>
+	
 	<bean id="controllerPerfiles" name="controllerPerfiles" class="mx.isban.cifrascontrol.controller.administracion.ControllerPerfiles">
 		<property name="boGrupo" ref="boGrupos"/>
 		<property name="boPantalla" ref="boPantallas"/>
 	</bean>
 	
 	<bean id="controllerUsuarios" name="controllerUsuarios" class="mx.isban.cifrascontrol.controller.administracion.ControllerUsuarios">
+		<property name="boUsuario" ref="boUsuarios"/>
+		<property name="boGrupo" ref="boGrupos"/>
 	</bean>
 	
 	<bean id="controllerPantallas" name="controllerPantallas" class="mx.isban.cifrascontrol.controller.administracion.ControllerPantallas">
