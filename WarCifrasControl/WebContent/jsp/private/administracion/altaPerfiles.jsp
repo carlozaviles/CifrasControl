@@ -3,8 +3,8 @@
 
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
-	<jsp:param name="menuItem"   	 value="administracion" />
-	<jsp:param name="menuSubItem"    value="grupos" />	
+	<jsp:param name="menuItem"   	 value="ADMINISTRACION" />
+	<jsp:param name="menuSubItem"    value="Grupos" />	
 </jsp:include>
 
 <script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/altaGrupo.js" type="text/javascript"></script>
@@ -43,7 +43,7 @@
 					<tr>
 						<td width="154" class="odd">${nombreGrupo}:</td>
 						<td colspan="3"><input name="nombreGrupo"
-							type="text" class="Campos_Des" id="nombreGrupo" /></td><div style="color:#FF0000;" id="nombreRequerido">Ingrese un nombre v&aacute;lido</div>
+							type="text" class="Campos_Des" id="nombreGrupo" maxlength="50"/></td><div style="color:#FF0000;" id="nombreRequerido">Ingrese un nombre v&aacute;lido</div>
 					</tr>
 					<tr>
 						<td class="odd">${descripcion}:</td>

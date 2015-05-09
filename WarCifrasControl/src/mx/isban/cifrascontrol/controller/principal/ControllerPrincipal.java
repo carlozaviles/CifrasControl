@@ -2,6 +2,7 @@
 package mx.isban.cifrascontrol.controller.principal;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,8 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.LookAndFeel;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.commons.utils.LogUtil;
+import mx.isban.cifrascontrol.beans.administracion.modulo.BeanModulo;
+import mx.isban.cifrascontrol.servicio.administracion.modulo.BOModulo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,9 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControllerPrincipal extends Architech{
 
 	private static final long serialVersionUID = 1L;
+	
+	private BOModulo boModulo;
 
 	@RequestMapping("auto.do")
-	public ModelAndView auto(HttpServletRequest req, HttpServletResponse res){
+	public ModelAndView auto(HttpServletRequest req, HttpServletResponse res)throws Exception{
 
 		String url = "inicio";
 		
@@ -53,7 +58,10 @@ public class ControllerPrincipal extends Architech{
 		/*} catch (BusinessException e) {
 			showException(e);
 		}*/
-		
+		///Suponiendo que se loguea el usuario:
+		String idUsuario = "AS675423T";
+		List<BeanModulo> modulos = boModulo.obtenerModulosPorUsuarioLogueado(getArchitechBean(), idUsuario);
+		lobjSession.setAttribute("modulosPermitidos", modulos);
 		this.setNameComponent("ControllerPrincipal");
 		this.setLoggingBean(LogUtil.getLoggingBean("message", "cmpName", this.getClass()));
 		
@@ -106,4 +114,14 @@ public class ControllerPrincipal extends Architech{
 	
 		return new ModelAndView("redirect:" + lstrPaginaException, lhsmParametros);
 	}
+
+	public BOModulo getBoModulo() {
+		return boModulo;
+	}
+
+	public void setBoModulo(BOModulo boModulo) {
+		this.boModulo = boModulo;
+	}
+	
+	
 }

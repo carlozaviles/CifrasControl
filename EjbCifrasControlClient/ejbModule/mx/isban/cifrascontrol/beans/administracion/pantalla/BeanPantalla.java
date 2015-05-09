@@ -1,6 +1,9 @@
 package mx.isban.cifrascontrol.beans.administracion.pantalla;
 
 import java.io.Serializable;
+import java.util.List;
+
+import mx.isban.cifrascontrol.beans.administracion.modulo.BeanModulo;
 
 public class BeanPantalla implements Serializable {
 
@@ -9,7 +12,9 @@ public class BeanPantalla implements Serializable {
 	private String idPantalla;
 	private String nombrePantalla;
 	private String descripcionPantalla;
+	private String url;
 	private boolean pantallaSeleccionada;
+	private List<BeanModulo> modulos;
 	
 	public BeanPantalla() {
 		super();
@@ -55,6 +60,30 @@ public class BeanPantalla implements Serializable {
 
 	public void setPantallaSeleccionada(boolean pantallaSeleccionada) {
 		this.pantallaSeleccionada = pantallaSeleccionada;
+	}
+
+
+
+	public String getUrl() {
+		return url;
+	}
+
+
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+
+
+	public List<BeanModulo> getModulos() {
+		return modulos;
+	}
+
+
+
+	public void setModulos(List<BeanModulo> modulos) {
+		this.modulos = modulos;
 	}
 	
 }

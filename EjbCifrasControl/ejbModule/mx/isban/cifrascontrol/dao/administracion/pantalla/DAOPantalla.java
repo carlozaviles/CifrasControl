@@ -15,4 +15,6 @@ public interface DAOPantalla {
 	public BeanPantallaRespuesta modificarPantalla(ArchitechSessionBean sessionBean,BeanPantalla pantalla);
 	public BeanPantallaRespuesta altaPantalla(ArchitechSessionBean sessionBean,BeanPantalla pantalla);
 	public BeanPantallaRespuesta borrarPantalla(ArchitechSessionBean sessionBean,String idPantalla);
+	public BeanPantallaRespuesta obtenerPantallasPorUsuarioModulo(ArchitechSessionBean sessionBean,String idModulo,String idUsuario);
+	
 }

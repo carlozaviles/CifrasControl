@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,7 +56,7 @@ public class ControllerUsuarios extends Architech {
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarUsuarios.jsp
 	 */
 	@RequestMapping("consultarUsuarios.do")
-	public ModelAndView consultarUsuarios(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView consultarUsuarios(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el formulario de consulta de usuarios...");
 		//Peticiones a base de datos para obtener los datos de los perfiles
 		Map<String, Object> parametros = new HashMap<String, Object>();
@@ -72,7 +73,7 @@ public class ControllerUsuarios extends Architech {
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista altaUsuarioInit.jsp
 	 */
 	@RequestMapping("altaUsuarioInit.do")
-	public ModelAndView altaUsuarioInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView altaUsuarioInit(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el formulario de consulta de usuarios...");
 		List<BeanGrupo> listaGrupos = boGrupo.buscarTodosGrupos(getArchitechBean());
 		Map<String, Object> parametros = new HashMap<String, Object>();
@@ -82,7 +83,7 @@ public class ControllerUsuarios extends Architech {
 	}
 	
 	@RequestMapping("altaUsuario.do")
-	public ModelAndView altaUsuario(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView altaUsuario(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el alta de un usuario");
 		BeanUsuario usuario = new BeanUsuario();
 		usuario.setIdUsuario(request.getParameter("idUsuario"));
@@ -112,7 +113,7 @@ public class ControllerUsuarios extends Architech {
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista modificarUsuario.jsp
 	 */
 	@RequestMapping("modificarUsuarioInit.do")
-	public ModelAndView modificarUsuarioInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView modificarUsuarioInit(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el formulario de consulta de usuarios...");
 		String idUsuario = request.getParameter("idUsuario");
 		this.info("El id de usuario es:"+idUsuario);
@@ -125,7 +126,7 @@ public class ControllerUsuarios extends Architech {
 	}
 	
 	@RequestMapping("modificarUsuario.do")
-	public ModelAndView modificarUsuario(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView modificarUsuario(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el formulario de modificacion de usuarios");
 		BeanUsuario usuario = new BeanUsuario();
 		usuario.setIdUsuario(request.getParameter("idUsuario"));
@@ -147,6 +148,25 @@ public class ControllerUsuarios extends Architech {
 		return this.consultarUsuarios(request, response);
 	}
 
+	@ExceptionHandler
+	public ModelAndView manejoErrores(HttpServletRequest req, HttpServletResponse res, Object handler, Exception exception){
+		final String metodo = this.getClass().getName() + ".manejadorErrores";
+		this.info("Inicio de ejecucion de metodo " + metodo);
+		String pagina = null;
+		final Map<String, String> modelo = new HashMap<String, String>();
+		if(handler instanceof BusinessException){
+			modelo.put("codeError", ((BusinessException)handler).getCode());
+			pagina = "../errores/errorAgave.do";
+			this.info("Fue cachada una excepcion BuisinessException " + handler.toString());
+		}else{
+			pagina = "../errores/errorGrl.do";
+			this.info("Fue cachada una excepcion " + handler.toString());
+		}
+		this.info("El modelo enviado al cliente es " + modelo.toString());
+		this.info("La pagina de destino es " + pagina);
+		return new ModelAndView("redirect:" + pagina, modelo);
+	}
+	
 	public BOUsuario getBoUsuario() {
 		return boUsuario;
 	}

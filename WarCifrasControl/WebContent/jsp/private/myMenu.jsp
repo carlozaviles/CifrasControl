@@ -62,25 +62,19 @@
 				<ul id="mainMenu">
 					<!-- Menu Principal Cifras Control -->
 					<li id="principal" class="startMenuGroup"> <a href="javascript:selectMenuItem('principal')"><span>${menuPrincipal}</span></a></li>
-					<li id="reprocesos" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('reprocesos')"><span>${menuPrincipalReprocesos}</span></a>
-						<ul>
-							<li id="solicitudReprocesos">      <a href="../reprocesos/solicitarReproceso.do">    &gt;<span class="subMenuText">${submenuReprocesosSolicitud}</span></a></li>
-							<li id="consultaReprocesos">      	<a href="">    &gt;<span class="subMenuText">${submenuReprocesosConsulta}</span></a></li>
-						</ul>
-					</li> 
-					<li id="cifras" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('cifras')"><span>${menuPrincipalCifras}</span></a>
-						<ul>
-							<li id="consultaCifras">      		<a href="">    &gt;<span class="subMenuText">${submenuCifrasConsultaCifras}</span></a></li>
-							<li id="consultaFacturas">      	<a href="">    &gt;<span class="subMenuText">${submenuCifrasConsultaFacturas}</span></a></li>
-						</ul>
-					</li>
-					<li id="administracion" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('administracion')"><span>${menuPrincipalAdministracion}</span></a>
-						<ul>
-							<li id="usuarios">      	<a href="../administracion/consultarUsuarios.do">    &gt;<span class="subMenuText">${submenuUsuarios}</span></a></li>
-							<li id="grupos">      		<a href="../administracion/consultarGrupos.do">    &gt;<span class="subMenuText">${submenuGrupo}</span></a></li>							
-							<li id="pantallas">      	<a href="../administracion/consultarPantallas.do">    &gt;<span class="subMenuText">${submenuPantallas}</span></a></li>
-						</ul>
-					</li> 
+						
+						<c:forEach var="modulo" items="${sessionScope.modulosPermitidos}">
+							<li id="${modulo.nombreModulo}" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('${modulo.nombreModulo}')"><span>${modulo.nombreModulo}</span></a>
+							<ul>
+								<c:forEach var="pantalla" items="${modulo.pantallas}">
+									<li id="${pantalla.nombrePantalla}"><a href="${pantalla.url}">&gt;<span class="subMenuText">${pantalla.nombrePantalla}</span></a></li>	
+								</c:forEach>
+							</ul>
+							</li> 
+						</c:forEach>
+											
+
+ 
 					<!-- 
 					<li id="isbandataaccess" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('isbandataaccess')"><span>${isbandataaccess}</span></a>
 						<ul>

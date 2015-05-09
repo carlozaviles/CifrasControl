@@ -33,7 +33,7 @@
     	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario"/>
 	</bean>
 	
-	<bean id="controllerPerfiles" name="controllerPerfiles" class="mx.isban.cifrascontrol.controller.administracion.ControllerPerfiles">
+	<bean id="controllerGrupos" name="controllerGrupos" class="mx.isban.cifrascontrol.controller.administracion.ControllerGrupos">
 		<property name="boGrupo" ref="boGrupos"/>
 		<property name="boPantalla" ref="boPantallas"/>
 	</bean>
@@ -45,5 +45,10 @@
 	
 	<bean id="controllerPantallas" name="controllerPantallas" class="mx.isban.cifrascontrol.controller.administracion.ControllerPantallas">
 		<property name="boPantalla" ref="boPantallas"/>
+		<property name="boModulo" ref="boModulos"/>
+	</bean>
+	
+	<bean id="controllerModulos" name="controllerModulos" class="mx.isban.cifrascontrol.controller.administracion.ControllerModulos">
+		<property name="boModulo" ref="boModulos"/>
 	</bean>
 </beans>

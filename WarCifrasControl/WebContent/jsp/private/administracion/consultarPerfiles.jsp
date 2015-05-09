@@ -6,8 +6,8 @@
 
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
-	<jsp:param name="menuItem"   	 value="administracion" />
-	<jsp:param name="menuSubItem"    value="grupos" />	
+	<jsp:param name="menuItem"   	 value="ADMINISTRACION" />
+	<jsp:param name="menuSubItem"    value="Grupos" />	
 </jsp:include>
 
 <script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/consultaGrupo.js" type="text/javascript"></script>

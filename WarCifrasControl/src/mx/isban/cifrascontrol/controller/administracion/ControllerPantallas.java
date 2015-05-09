@@ -1,5 +1,5 @@
 /**************************************************************
-* Queretaro, Qro Abril 2015
+* Queretaro, Qro Mayo 2015
 *
 * La redistribucion y el uso en formas fuente y binario, 
 * son responsabilidad del propietario.
@@ -10,6 +10,7 @@
 ***************************************************************/
 package mx.isban.cifrascontrol.controller.administracion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +19,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
+import mx.isban.cifrascontrol.beans.administracion.modulo.BeanModulo;
 import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantalla;
+import mx.isban.cifrascontrol.servicio.administracion.modulo.BOModulo;
 import mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla;
 
 /**
@@ -39,84 +43,199 @@ import mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla;
 */
 @Controller
 public class ControllerPantallas extends Architech {
-
-	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Numero de version de la clase serializada
+	 */
+	private static final long serialVersionUID = -2315358143734616416L;
+	/**
+	 * Objeto de negocio de tipo BOPantalla
+	 */
 	private BOPantalla boPantalla;
 	
+	/**
+	 * Objeto de negocio  de tipo BOModulo
+	 */
+	private BOModulo boModulo;
+	
+	/**
+	 * Metodo encargado de consultar todas las pantallas disponibles
+	 * y regresar a la vista consultarPantallas el resultado obtenido
+	 * @param request Un objeto de tipo {@link HttpServletRequest}
+	 * @param response Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarPantallas.jsp
+	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 */
 	@RequestMapping("consultarPantallas.do")
-	public ModelAndView consultarPantallas(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView consultarPantallas(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el formulario de detalle de pantallas...");
-		List<BeanPantalla> pantallas = boPantalla.buscarTodasPantallas(getArchitechBean());
-		Map<String, Object> parametros = new HashMap<String, Object>();
+		final List<BeanPantalla> pantallas = boPantalla.buscarTodasPantallas(getArchitechBean());
+		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("todasPantallas", pantallas);
+		this.info("Finaliza la ejecucion del metodo consultarPantallas");
 		return new ModelAndView("consultarPantallas",parametros);
 	}
 	
+	/**
+	 * Metodo encargado de inicializar la pantalla de altas
+	 * 
+	 * @param request Un objeto de tipo {@link HttpServletRequest}
+	 * @param response Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista altaPantalla.jsp
+	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 */
 	@RequestMapping("altaPantallaInit.do")
-	public ModelAndView altaPantallaInit(HttpServletRequest request, HttpServletResponse response){
+	public ModelAndView altaPantallaInit(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el formulario de alta de pantalla...");
-		//Peticiones a base de datos para obtener los datos de los perfiles
-		return new ModelAndView("altaPantalla");
+		List<BeanModulo> modulos = boModulo.obtenerTodosModulos(getArchitechBean());
+		final Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("todosModulos", modulos);
+		return new ModelAndView("altaPantalla",parametros);
 	}
 	
+	/**
+	 * Metodo encargado de dar de alta una nueva pantalla
+	 * y regresar a la vista consultarPantallas
+	 * @param request Un objeto de tipo {@link HttpServletRequest}
+	 * @param response Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarPantallas.jsp
+	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 */
 	@RequestMapping("altaPantalla.do")
-	public ModelAndView altaPantalla(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView altaPantalla(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el formulario de alta de pantalla...");
-		BeanPantalla pantalla = new BeanPantalla();
+		final BeanPantalla pantalla = new BeanPantalla();
 		pantalla.setNombrePantalla(request.getParameter("nombrePantalla"));
 		pantalla.setDescripcionPantalla(request.getParameter("descripcionPantalla"));
-		this.info("Valores:"+pantalla.getNombrePantalla()+pantalla.getDescripcionPantalla());
+		pantalla.setUrl(request.getParameter("urlPantalla"));
+		List<BeanModulo> moduloList = new ArrayList<BeanModulo>();
+		BeanModulo modulo = new BeanModulo();
+		modulo.setIdModulo(request.getParameter("moduloActivo"));
+		moduloList.add(modulo);
+		pantalla.setModulos(moduloList);
 		boPantalla.agregarPantalla(getArchitechBean(),pantalla);
-		List<BeanPantalla> pantallas = boPantalla.buscarTodasPantallas(getArchitechBean());
-		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("todasPantallas", pantallas);
-		return new ModelAndView("consultarPantallas",parametros);
+		return this.consultarPantallas(request, response);
 	}
 	
+	/**
+	 * Metodo encargado de cargar los datos en el formulario de modificacion
+	 * de pantalla
+	 * @param request Un objeto de tipo {@link HttpServletRequest}
+	 * @param response Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista modificarPantallas.jsp
+	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 */
 	@RequestMapping("modificarPantallaInit.do")
-	public ModelAndView modificarPantallaInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView modificarPantallaInit(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el formulario de detalle de pantalla...");
-		String idPantalla = request.getParameter("idPantalla");
+		final String idPantalla = request.getParameter("idPantalla");
 		this.info("El id a buscar es:"+idPantalla);
-		BeanPantalla pantalla = boPantalla.obtenerPantallaPorId(getArchitechBean(), idPantalla);
-		Map<String, Object> parametros = new HashMap<String, Object>();
+		final BeanPantalla pantalla = boPantalla.obtenerPantallaPorId(getArchitechBean(), idPantalla);
+		final List<BeanModulo> modulos = pantalla.getModulos();
+		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("pantalla", pantalla);
+		parametros.put("todosModulos", modulos);
 		return new ModelAndView("modificarPantalla",parametros);
 	}
 	
+	/**
+	 * Metodo encargado de obtener los parametros para modificar
+	 * el registro relacionado a una pantalla
+	 * @param request Un objeto de tipo {@link HttpServletRequest}
+	 * @param response Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarPantallas.jsp
+	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 */
 	@RequestMapping("modificarPantalla.do")
-	public ModelAndView modificarPantalla(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView modificarPantalla(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el metodo para modificar la pantalla");
-		BeanPantalla pantalla = new BeanPantalla();
+		final BeanPantalla pantalla = new BeanPantalla();
 		pantalla.setIdPantalla(request.getParameter("idPantalla"));
 		pantalla.setNombrePantalla(request.getParameter("nombrePantalla"));
 		pantalla.setDescripcionPantalla(request.getParameter("descripcionPantalla"));
+		final String idModulo = request.getParameter("moduloActivo");
+		pantalla.setUrl(request.getParameter("urlPantalla"));
+		final List<BeanModulo> modulos = new ArrayList<BeanModulo>();
+		BeanModulo modulo = new BeanModulo();
+		modulo.setIdModulo(idModulo);
+		modulos.add(modulo);
+		pantalla.setModulos(modulos);
 		boPantalla.modificarPantalla(getArchitechBean(), pantalla);
-		List<BeanPantalla> pantallas = boPantalla.buscarTodasPantallas(getArchitechBean());
-		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("todasPantallas", pantallas);
-		return new ModelAndView("consultarPantallas",parametros);
+		return this.consultarPantallas(request, response);
 	}
 	
+	/**
+	 * Metodo encargado de obtener el id de la pantalla que se eliminara
+	 * @param request Un objeto de tipo {@link HttpServletRequest}
+	 * @param response Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarPantallas.jsp
+	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 */
 	@RequestMapping("borrarPantalla.do")
-	public ModelAndView borrarPantalla(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView borrarPantalla(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		this.info("Iniciando el metodo para eliminar la pantalla");
-		String idPantalla = request.getParameter("idPantallas");
+		final String idPantalla = request.getParameter("idPantalla");
 		boPantalla.borrarPantalla(getArchitechBean(),idPantalla);
-		List<BeanPantalla> pantallas = boPantalla.buscarTodasPantallas(getArchitechBean());
-		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("todasPantallas", pantallas);
-		return new ModelAndView("consultarPantallas",parametros);
+		return this.consultarPantallas(request, response);
+	}
+	
+	/**
+	 * Metodo encargado de procecesar los errores que se pueden presentar en el modulo de Administracion - Grupos
+	 * @param req Un objeto de tipo {@link HttpServletRequest}
+	 * @param res Un objeto de tipo {@link HttpServletResponse}
+	 * @param handler Un objeto con la excepcion a procesar
+	 * @param exception Un objeto de tipo {@link Exception}
+	 * @return Un objeto de tipo {@link ModelAndView} con la pantalla de manejo de errores
+	 */
+	@ExceptionHandler
+	public ModelAndView manejoErrores(HttpServletRequest req, HttpServletResponse res, Object handler, Exception exception){
+		final String metodo = this.getClass().getName() + ".manejadorErrores";
+		this.info("Inicio de ejecucion de metodo " + metodo);
+		String pagina = null;
+		final Map<String, String> modelo = new HashMap<String, String>();
+		if(handler instanceof BusinessException){
+			modelo.put("codeError", ((BusinessException)handler).getCode());
+			pagina = "../errores/errorAgave.do";
+			this.info("Fue cachada una excepcion BuisinessException " + handler.toString());
+		}else{
+			pagina = "../errores/errorGrl.do";
+			this.info("Fue cachada una excepcion " + handler.toString());
+		}
+		this.info("El modelo enviado al cliente es " + modelo.toString());
+		this.info("La pagina de destino es " + pagina);
+		return new ModelAndView("redirect:" + pagina, modelo);
 	}
 
+	/**
+	 * Metodo encargado de obtener un objeto de tipo BOPantalla
+	 * @return un objeto de tipo BOPantalla
+	 */
 	public BOPantalla getBoPantalla() {
 		return boPantalla;
 	}
 
+	/**
+	 * Metodo encargado de establecer un objeto de tipo BOPantalla
+	 * @param boPantalla
+	 */
 	public void setBoPantalla(BOPantalla boPantalla) {
 		this.boPantalla = boPantalla;
 	}
-	
+
+	/**
+	 * Metodo encargado de obtener el objeto de negocio de tipo BOModulo
+	 * @return Un objeto de tipo BOModulo
+	 */
+	public BOModulo getBoModulo() {
+		return boModulo;
+	}
+
+	/**
+	 * Metodo encargado de establecer un objeto de tipo BOModulo
+	 * @param boModulo Objeto de tipo BOModulo a establecer
+	 */
+	public void setBoModulo(BOModulo boModulo) {
+		this.boModulo = boModulo;
+	}
 	
 }

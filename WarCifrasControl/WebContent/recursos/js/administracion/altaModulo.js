@@ -3,15 +3,15 @@ $(document).ready(function(){
 	$('#nombreRequerido').hide();
 	$('#descripcionRequerido').hide();
 	
-    $('#btnGuardaPantalla').click(function(){
+    $('#btnGuardaModulo').click(function(){
     	var error = false;
-    	if ($('#nombrePantalla').val().trim() === '' || $('#nombrePantalla').val().length > 50) {
+    	if ($('#nombreModulo').val().trim() === '' || $('#nombreModulo').val().length > 50) {
     		$('#nombreRequerido').show();
             error = true;
         }else{
         	$('#nombreRequerido').hide();
         }
-    	if ($('#descripcionPantalla').val().length == 0 || $.trim($('#descripcionPantalla').val()) === '' || $('#descripcionPantalla').val().length > 300 ) {
+    	if ($('#descripcionModulo').val().length == 0 || $.trim($('#descripcionModulo').val()) === '' || $('#descripcionModulo').val().length > 300 ) {
     		$('#descripcionRequerido').show();
             error = true;
         }else{
@@ -21,14 +21,10 @@ $(document).ready(function(){
     	if(error == true){
     		jAlert('Los campos marcados son obligatorios. Recuerde que debe completarlos.', 'Faltan campos por completar', 'Alerta', '-Verifique que los campos obligatorios esten completados.');
     	}else{
-    		$('#modificarPantalla').attr('action', 'modificarPantalla.do');
-            $('#modificarPantalla').submit();
+    		$('#modificarModulo').attr('action', 'altaModulo.do');
+            $('#modificarModulo').submit();
     	}
     	
-    });
-    $('#btnBorrarPantalla').click(function(){
-        $('#modificarPantalla').attr('action', 'borrarPantalla.do');
-        $('#modificarPantalla').submit();
     });
     
     $("#regresar").click(function(event) {

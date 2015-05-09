@@ -12,8 +12,11 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.commons.interfaces.BeanResultBO;
+import mx.isban.cifrascontrol.beans.administracion.modulo.BeanModulo;
+import mx.isban.cifrascontrol.beans.administracion.modulo.BeanModuloRespuesta;
 import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantalla;
 import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantallaRespuesta;
+import mx.isban.cifrascontrol.dao.administracion.modulo.DAOModulo;
 import mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla;
 
 /**
@@ -35,6 +38,9 @@ public class BOPantallaImpl extends Architech implements BOPantalla {
 	
 	@EJB
 	private DAOPantalla daoPantalla;
+	
+	@EJB
+	private DAOModulo daoModulo;
 
 	/**
      * @see Architech#Architech()
@@ -53,9 +59,29 @@ public class BOPantallaImpl extends Architech implements BOPantalla {
 		BeanPantalla pantalla = new BeanPantalla();
 		if(null != pantallas && pantallas.size()>0){
 			pantalla = pantallas.get(0);
+			final List<BeanModulo> modulos = establecerModuloSeleccionado(sessionBean, idPantalla);
+			pantalla.setModulos(modulos);
 		}
 		this.info("Finaliza la ejecucion del metodo de busqueda de la pantalla por Id");
 		return pantalla;
+	}
+
+	private List<BeanModulo> establecerModuloSeleccionado(
+			ArchitechSessionBean sessionBean, String idPantalla)throws BusinessException {
+		final BeanModuloRespuesta modulosSeleccionadosRespuesta = daoModulo.obtenerModuloPorPantalla(sessionBean, idPantalla);
+		verificarRespuesta(modulosSeleccionadosRespuesta);
+		final List<BeanModulo> modulosSeleccionados = modulosSeleccionadosRespuesta.getModulos();
+		final BeanModuloRespuesta todosModulos = daoModulo.obtenerTodosModulos(sessionBean);
+		verificarRespuesta(todosModulos);
+		final List<BeanModulo>modulos = todosModulos.getModulos();
+		for (BeanModulo beanModulo : modulos) {
+			for (BeanModulo beanModuloSeleccionado : modulosSeleccionados) {
+				if(beanModulo.getIdModulo().equals(beanModuloSeleccionado.getIdModulo())){
+					beanModulo.setModuloSeleccionado(true);
+				}
+			}
+		}
+		return modulos;
 	}
 
 	@Override

@@ -3,8 +3,8 @@
 
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
-	<jsp:param name="menuItem"   	 value="administracion" />
-	<jsp:param name="menuSubItem"    value="perfiles" />	
+	<jsp:param name="menuItem"   	 value="ADMINISTRACION" />
+	<jsp:param name="menuSubItem"    value="Pantallas" />	
 </jsp:include>
 
 <script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/consultaPantalla.js" type="text/javascript"></script>
@@ -27,7 +27,7 @@
 
 <div class="frameTablaVariasColumnas">
 	<div class="titleTablaVariasColumnas">${pantallas} <span class="textosin">- ${seleccionePantalla}</span></div>
-		<div class="contentTablaVariasColumnas">
+		<div class="contentTablaVariasColumnas" style="height:300px;overflow:auto;">
 			<table>
 				<tr>
 					<th width="100" colspan="2" class="text_izquierda">${nombrePantalla}</th>
