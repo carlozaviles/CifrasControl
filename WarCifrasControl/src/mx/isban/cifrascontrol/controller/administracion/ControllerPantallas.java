@@ -29,6 +29,7 @@ import mx.isban.cifrascontrol.beans.administracion.modulo.BeanModulo;
 import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantalla;
 import mx.isban.cifrascontrol.servicio.administracion.modulo.BOModulo;
 import mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla;
+import mx.isban.cifrascontrol.utileria.administracion.ValidadorAccesoPantallas;
 
 /**
 * Clase ControllerPantallas
@@ -48,6 +49,23 @@ public class ControllerPantallas extends Architech {
 	 * Numero de version de la clase serializada
 	 */
 	private static final long serialVersionUID = -2315358143734616416L;
+	
+	/**
+	 * Modulo al que pertenece el controller 
+	 */
+	private static final String MODULO = "ADMINISTRACION";
+	
+	/**
+	 * Constante que indica la pantalla a la que puede acceder el usuario
+	 */
+	private static final String PANTALLA = "PANTALLAS";
+	
+	/**
+	 * Constante que tiene la cadena para acceder a los parametros de la sesion y obtener 
+	 * los modulos permitidos por el usuario logueado
+	 */
+	private static final String MODULOS_PERMITIDOS = "modulosPermitidos";
+	
 	/**
 	 * Objeto de negocio de tipo BOPantalla
 	 */
@@ -64,11 +82,13 @@ public class ControllerPantallas extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarPantallas.jsp
-	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 * @throws BusinessException En caso de presentarse un error en la consulta de las pantallas disponibles
 	 */
 	@RequestMapping("consultarPantallas.do")
-	public ModelAndView consultarPantallas(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView consultarPantallas(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de detalle de pantallas...");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final List<BeanPantalla> pantallas = boPantalla.buscarTodasPantallas(getArchitechBean());
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("todasPantallas", pantallas);
@@ -82,12 +102,14 @@ public class ControllerPantallas extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista altaPantalla.jsp
-	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 * @throws BusinessException En caso de presentarse un error en la consulta de las pantallas disponibles
 	 */
 	@RequestMapping("altaPantallaInit.do")
-	public ModelAndView altaPantallaInit(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView altaPantallaInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de alta de pantalla...");
-		List<BeanModulo> modulos = boModulo.obtenerTodosModulos(getArchitechBean());
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
+		final List<BeanModulo> modulos = boModulo.obtenerTodosModulos(getArchitechBean());
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("todosModulos", modulos);
 		return new ModelAndView("altaPantalla",parametros);
@@ -99,17 +121,18 @@ public class ControllerPantallas extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarPantallas.jsp
-	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 * @throws BusinessException En caso de presentarse un error en la consulta de las pantallas disponibles
 	 */
 	@RequestMapping("altaPantalla.do")
-	public ModelAndView altaPantalla(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView altaPantalla(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de alta de pantalla...");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final BeanPantalla pantalla = new BeanPantalla();
 		pantalla.setNombrePantalla(request.getParameter("nombrePantalla"));
 		pantalla.setDescripcionPantalla(request.getParameter("descripcionPantalla"));
-		pantalla.setUrl(request.getParameter("urlPantalla"));
-		List<BeanModulo> moduloList = new ArrayList<BeanModulo>();
-		BeanModulo modulo = new BeanModulo();
+		final List<BeanModulo> moduloList = new ArrayList<BeanModulo>();
+		final BeanModulo modulo = new BeanModulo();
 		modulo.setIdModulo(request.getParameter("moduloActivo"));
 		moduloList.add(modulo);
 		pantalla.setModulos(moduloList);
@@ -123,11 +146,13 @@ public class ControllerPantallas extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista modificarPantallas.jsp
-	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 * @throws BusinessException En caso de presentarse un error en la consulta de las pantallas disponibles
 	 */
 	@RequestMapping("modificarPantallaInit.do")
-	public ModelAndView modificarPantallaInit(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView modificarPantallaInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de detalle de pantalla...");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final String idPantalla = request.getParameter("idPantalla");
 		this.info("El id a buscar es:"+idPantalla);
 		final BeanPantalla pantalla = boPantalla.obtenerPantallaPorId(getArchitechBean(), idPantalla);
@@ -144,19 +169,20 @@ public class ControllerPantallas extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarPantallas.jsp
-	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 * @throws BusinessException En caso de presentarse un error en la consulta de las pantallas disponibles
 	 */
 	@RequestMapping("modificarPantalla.do")
-	public ModelAndView modificarPantalla(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView modificarPantalla(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el metodo para modificar la pantalla");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final BeanPantalla pantalla = new BeanPantalla();
 		pantalla.setIdPantalla(request.getParameter("idPantalla"));
 		pantalla.setNombrePantalla(request.getParameter("nombrePantalla"));
 		pantalla.setDescripcionPantalla(request.getParameter("descripcionPantalla"));
 		final String idModulo = request.getParameter("moduloActivo");
-		pantalla.setUrl(request.getParameter("urlPantalla"));
 		final List<BeanModulo> modulos = new ArrayList<BeanModulo>();
-		BeanModulo modulo = new BeanModulo();
+		final BeanModulo modulo = new BeanModulo();
 		modulo.setIdModulo(idModulo);
 		modulos.add(modulo);
 		pantalla.setModulos(modulos);
@@ -169,11 +195,13 @@ public class ControllerPantallas extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarPantallas.jsp
-	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 * @throws BusinessException En caso de presentarse un error en la consulta de las pantallas disponibles
 	 */
 	@RequestMapping("borrarPantalla.do")
-	public ModelAndView borrarPantalla(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView borrarPantalla(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el metodo para eliminar la pantalla");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final String idPantalla = request.getParameter("idPantalla");
 		boPantalla.borrarPantalla(getArchitechBean(),idPantalla);
 		return this.consultarPantallas(request, response);
@@ -216,7 +244,7 @@ public class ControllerPantallas extends Architech {
 
 	/**
 	 * Metodo encargado de establecer un objeto de tipo BOPantalla
-	 * @param boPantalla
+	 * @param boPantalla El objeto de tipo BOPantalla a establecer
 	 */
 	public void setBoPantalla(BOPantalla boPantalla) {
 		this.boPantalla = boPantalla;

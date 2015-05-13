@@ -29,6 +29,7 @@ import mx.isban.cifrascontrol.beans.administracion.grupo.BeanGrupo;
 import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantalla;
 import mx.isban.cifrascontrol.servicio.administracion.grupo.BOGrupo;
 import mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla;
+import mx.isban.cifrascontrol.utileria.administracion.ValidadorAccesoPantallas;
 
 /**
 * Clase ControllerGrupos
@@ -50,6 +51,22 @@ public class ControllerGrupos extends Architech {
 	private static final long serialVersionUID = 7231526297814880039L;
 
 	/**
+	 * Modulo al que pertenece el controller 
+	 */
+	private static final String MODULO = "ADMINISTRACION";
+	
+	/**
+	 * Constante que indica la pantalla a la que puede acceder el usuario
+	 */
+	private static final String PANTALLA = "GRUPOS";
+	
+	/**
+	 * Constante que tiene la cadena para acceder a los parametros de la sesion y obtener 
+	 * los modulos permitidos por el usuario logueado
+	 */
+	private static final String MODULOS_PERMITIDOS = "modulosPermitidos";
+	
+	/**
 	 * Objeto de negocio de tipo BOGrupo
 	 */
 	private BOGrupo boGrupo;
@@ -58,6 +75,7 @@ public class ControllerGrupos extends Architech {
 	 * Objeto de negocio de tipo BoPantalla
 	 */
 	private BOPantalla boPantalla;
+	
 
 	/**
 	 * Metodo encargado de consultar los grupos disponibles y 
@@ -65,16 +83,18 @@ public class ControllerGrupos extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarPerfiles.jsp
-	 * @throws Exception En caso de presentarse un error en la consulta de los grupos disponibles
+	 * @throws BusinessException En caso de presentarse un error en la consulta de los grupos disponibles
 	 */
 	@RequestMapping("consultarGrupos.do")
-	public ModelAndView consultarGrupos(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView consultarGrupos(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el metodo consultarGrupos...");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		final List<BeanGrupo> gruposList  = boGrupo.buscarTodosGrupos(getArchitechBean());
 		parametros.put("registros", gruposList);
 		this.info("Finaliza el metodo consultarGrupos.- Direccionando a la vista: consultaPerfiles");
-		return new ModelAndView("consultarPerfiles",parametros);
+		return new ModelAndView("consultarGrupo",parametros);
 	}
 	
 	/**
@@ -82,15 +102,17 @@ public class ControllerGrupos extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista altaPerfil.jsp
-	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 * @throws BusinessException En caso de presentarse un error en la consulta de las pantallas disponibles
 	 */
 	@RequestMapping("altaGrupoInit.do")
-	public ModelAndView altaGrupoInit(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView altaGrupoInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el metodo altaGrupoInit...");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final List<BeanPantalla> pantallasList = boPantalla.buscarTodasPantallas(getArchitechBean());
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("todasPantallas", pantallasList);
-		return new ModelAndView("altaPerfiles",parametros);
+		return new ModelAndView("altaGrupo",parametros);
 	}
 	
 	/**
@@ -98,11 +120,13 @@ public class ControllerGrupos extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultaPerfiles.jsp
-	 * @throws Exception En caso de presentarse un error en la consulta de las pantallas disponibles
+	 * @throws BusinessException En caso de presentarse un error en la consulta de las pantallas disponibles
 	 */
 	@RequestMapping("altaGrupo.do")
-	public ModelAndView altaGrupo(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView altaGrupo(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el metodo altaGrupo");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final BeanGrupo grupo = new BeanGrupo();
 		grupo.setNombreGrupo(request.getParameter("nombreGrupo"));
 		grupo.setDescripcionGrupo(request.getParameter("descripcionGrupo"));
@@ -124,11 +148,13 @@ public class ControllerGrupos extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultaPerfiles.jsp
-	 * @throws Exception En caso de presentarse un error al momento de eliminar un grupo.
+	 * @throws BusinessException En caso de presentarse un error al momento de eliminar un grupo.
 	 */
 	@RequestMapping("borrarGrupo.do")
-	public ModelAndView borrarGrupo(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView borrarGrupo(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el metodo borrarGrupo...");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final String idGrupo = request.getParameter("idGrupo");
 		boGrupo.borrarGrupo(idGrupo, getArchitechBean());
 		return this.consultarGrupos(request, response);
@@ -139,11 +165,13 @@ public class ControllerGrupos extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultaPerfiles.jsp
-	 * @throws Exception Excepcion que se presenta si ocurre un error al momento de modificar un grupo
+	 * @throws BusinessException Excepcion que se presenta si ocurre un error al momento de modificar un grupo
 	 */
 	@RequestMapping("modificarGrupo.do")
-	public ModelAndView modificarGrupo(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView modificarGrupo(HttpServletRequest request, HttpServletResponse response) throws BusinessException{
 		this.info("Iniciando el metodo modificarGrupo");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final BeanGrupo grupo = new BeanGrupo();
 		grupo.setIdGrupo(request.getParameter("idGrupo"));
 		grupo.setNombreGrupo(request.getParameter("nombreGrupo"));
@@ -166,18 +194,20 @@ public class ControllerGrupos extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultaPerfiles.jsp
-	 * @throws Exception Excepcion que se presenta si ocurre un error al momento de modificar un grupo
+	 * @throws BusinessException Excepcion que se presenta si ocurre un error al momento de modificar un grupo
 	 */
 	@RequestMapping("modificarGrupoInit.do")
-	public ModelAndView modificarGrupoInit(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView modificarGrupoInit(HttpServletRequest request, HttpServletResponse response) throws BusinessException{
 		this.info("Iniciando el metodo modificarGrupoInit");
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final String idGrupo = request.getParameter("idGrupo");
 		final BeanGrupo grupo = boGrupo.consultarGrupo(idGrupo, getArchitechBean());
 		final List<BeanPantalla> pantallasList = grupo.getPantallas();
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("grupo", grupo);
 		parametros.put("todasPantallas", pantallasList);
-		return new ModelAndView("modificarPerfil",parametros);
+		return new ModelAndView("modificarGrupo",parametros);
 	}
 	
 	/**

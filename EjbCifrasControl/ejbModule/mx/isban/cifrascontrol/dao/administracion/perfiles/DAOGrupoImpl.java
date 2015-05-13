@@ -91,7 +91,10 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 			+ " JOIN USUARIO U"
 			+ " ON REL.FK_ID_USUARIO = U.ID_USUARIO"
 			+ " WHERE U.ID_USUARIO = ?";
-	
+	/**
+     *Constante con un mensaje indicando que se obtuvo un codigo de error al ejecutar
+     *una consulta 
+     */
 	private static final String MENSAJE_ERROR = 
 			"Se obtuvo un codigo de error al ejecutar una consulta :";
 	/**

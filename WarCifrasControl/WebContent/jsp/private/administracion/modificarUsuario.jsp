@@ -7,6 +7,8 @@
 	<jsp:param name="menuSubItem"    value="Usuarios" />	
 </jsp:include>
 
+<script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/modificarUsuario.js" type="text/javascript"></script>
+
 <spring:message code="administracion.modulo"            		var="modulo"/>
 <spring:message code="administracion.formularioModificarUsuario"	var="formularioModificarUsuario"/>
 <spring:message code="administracion.modificarUsuario"     		var="modificarUsuario"/>
@@ -24,13 +26,22 @@
 <spring:message code="administracion.guardarUsuario"			var="guardarUsuario"/>
 <spring:message code="administracion.identificadorUsuario"		var="identificadorUsuario"/>
 
+<spring:message code="administracion.divSeleccionarGrupo" 		var="divSeleccionarGrupo"/>
+
+<spring:message code="administracion.gralCamposObligatorios"     	var="gralCamposObligatorios"/>
+<spring:message code="administracion.gralFaltanCampos"     			var="gralFaltanCampos"/>
+<spring:message code="administracion.gralVerifique"     		var="gralVerifique"/>
+
 
 <div class="pageTitleContainer">
    <span class="pageTitle">${modulo}</span> - ${formularioModificarUsuario}
 </div>
 
-<form action="modificarUsuario.do" method="post">
+<form name="modificarUsuario" id="modificarUsuario" method="post">
 <input type="hidden" name="idUsuario" id="idUsuario" value="<c:out value="${usuario.idUsuario}"/>"/>
+<input id="gralCamposObligatorios" type="hidden" value="${gralCamposObligatorios}"/>
+	<input id="gralFaltanCampos" type="hidden" value="${gralFaltanCampos}"/>
+	<input id="gralVerifique" type="hidden" value="${gralVerifique}"/>
 <div class="frameFormularioB">
 	<div class="contentFormularioB">
 		<div class="titleFormularioB">${formularioModificarUsuario} - <span class="textosin">${modificarUsuario}</span></div>
@@ -63,7 +74,7 @@
 
 <div class="frameTablaVariasColumnas">
 	<div class="titleTablaVariasColumnas">${tituloGrupo}</div>
-		<div class="contentTablaVariasColumnas">
+		<div class="contentTablaVariasColumnas" style="height:300px;overflow:auto;">
 			<table>
 				<tr>
 					<th width="300" class="text_izquierda">${grupo}</th>
@@ -74,12 +85,12 @@
 			
 					<Td colspan="2" class="special"></Td>
 				</tr>
-				<tbody>
+				<tbody><div style="color:#FF0000;" id="grupoRequerido">${divSeleccionarGrupo}</div>
 
 					<c:forEach var="grupos" items="${todosGrupos}">
 					<tr class="odd2">
 						<td class="text_izquierda">${grupos.nombreGrupo}</td>
-						<td class="text_izquierda"><input type="checkbox" name="idGrupo" value="${grupos.idGrupo}"
+						<td class="text_izquierda"><input type="checkbox" name="idGrupo" id="idGrupo" value="${grupos.idGrupo}"
 							<c:if test="${grupos.grupoSeleccionado}">checked</c:if>>
 						</td>
 					</tr>
@@ -89,6 +100,6 @@
 	</div>
 </div>
 
-<div class="PiePag"><button name="btnGuardaUsuario" id="btnGuardaUsuario" type="submit">${guardarUsuario}</button><button name="btnCancelar" id="btnCancelar" type="button" onclick="#">${cancelar}</button></div>
+<div class="PiePag"><button name="btnGuardaUsuario" id="btnGuardaUsuario" type="button">${guardarUsuario}</button><button name="btnCancelar" id="btnCancelar" type="button" onclick="#">${cancelar}</button></div>
 </form>
 <jsp:include page="../myFooter.jsp" flush="true"/>

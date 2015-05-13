@@ -1,3 +1,13 @@
+/**************************************************************
+* Queretaro, Qro Mayo 2015
+*
+* La redistribucion y el uso en formas fuente y binario, 
+* son responsabilidad del propietario.
+* 
+* Este software fue elaborado en @Everis
+* 
+* Para mas informacion, consulte <www.everis.com/mexico>
+***************************************************************/
 package mx.isban.cifrascontrol.dao.administracion.usuario;
 
 import java.util.ArrayList;
@@ -20,23 +30,56 @@ import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario;
 import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuarioRespuesta;
 
 /**
- * Session Bean implementation class DAOUsuarioImpl
- */
+* Clase DAOUsuarioImpl
+* 
+* Clase encargada de implementar la interface DAOUsuario.
+* Esta clase se encarga de todas las operaciones relacionadas a la tabla de usuarios
+* 
+* @author Everis
+* @version 1.0
+* @see www.everis.com/mexico
+* 
+*/
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class DAOUsuarioImpl extends Architech implements DAOUsuario {
-       
-	private static final long serialVersionUID = 1L;
+    
+	/**
+	 * Numero de version de la clase serializada
+	 */
+	private static final long serialVersionUID = -6678344268852753892L;
+	/**
+     *Constante con un mensaje indicando que se obtuvo un codigo de error al ejecutar
+     *una consulta 
+     */
+	private static final String MENSAJE_ERROR = 
+			"Se obtuvo un codigo de error al ejecutar una consulta :";
+	/**
+	 * Constante con el valor: ID_CANAL_DATABASE_JDBC
+	 */
 	private static final String ID_CANAL = "ID_CANAL_DATABASE_JDBC";
+	/**
+	 * Constante que contiene una consulta SQL que permite la actualizacion del usuario
+	 */
 	private static final String QUERY_ACTUALIZA_USUARIO = 
 			"UPDATE USUARIO"
 		+ " SET ESTATUS = ?"
 		+ " WHERE ID_USUARIO = ?";
 	
+	/**
+	 * Constante que contiene una consulta SQL que permite la eliminacion de las relaciones 
+	 * Usuario - Grupo
+	 */
 	private static final String QUERY_ELIMINA_RELACIONES_USUARIO_GRUPO = 
 			"DELETE FROM REL_USUARIO_GRUPO WHERE FK_ID_USUARIO = ?";
+	/**
+	 * Constante que contiene una consulta SQL que permite la creacion de las relaciones Usuario - Grupo
+	 */
 	private static final String QUERY_CREA_RELACIONES_USUARIO_GRUPO =
 			"INSERT INTO REL_USUARIO_GRUPO(ID_RELACION,FK_ID_USUARIO,FK_ID_GRUPO) VALUES (SQ_REL_USUARIO_GRUPO.NEXTVAL,?,?)";
+	/**
+	 * Constante que contiene una consulta SQL que permite realizar el alta de un usuario
+	 */
 	private static final String QUERY_ALTA_USUARIO = 
 			"INSERT INTO USUARIO(ID_USUARIO,ESTATUS) VALUES (?,?)";
 	
@@ -47,12 +90,14 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
         super();
     }
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.usuario.DAOUsuario#altaUsuario(mx.isban.agave.commons.beans.ArchitechSessionBean, mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario)
+	 */
 	@Override
 	public BeanUsuarioRespuesta altaUsuario(ArchitechSessionBean sessionBean,
 			BeanUsuario usuario) {
-		final BeanUsuarioRespuesta perfiles = new BeanUsuarioRespuesta();
 		this.info("Se inicia el alta de un nuevo usuario");
-		this.info(QUERY_ALTA_USUARIO);
+		final BeanUsuarioRespuesta respuesta = new BeanUsuarioRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_INSERT_PARAMS);
 		requestDTO.setQuery(QUERY_ALTA_USUARIO);
@@ -65,40 +110,45 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 		requestDTO.addParamToSql(estatus);
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
-			//El componente IsbanDataAccess no contiene el metodo beginTransaction
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				perfiles.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError()+responseDTO.getMessageError());
+				respuesta.setCodError(responseDTO.getCodeError());
+				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanGrupo> grupos = usuario.getGrupos();
-				if(grupos.size()>=1){
+				final List<BeanGrupo> grupos = usuario.getGrupos();
+				if(!grupos.isEmpty()){
 					for (int i = 0;i < grupos.size();i++) {	
-						BeanUsuarioRespuesta actualizaRelaciones = actualizaRelacionesUsuarioGrupo(sessionBean, usuario.getIdUsuario(), grupos.get(i).getIdGrupo());
-						if(!"0".equals(actualizaRelaciones.getCodError())){
-							perfiles.setCodError(actualizaRelaciones.getCodError());
+						final BeanUsuarioRespuesta actualizaRelaciones = actualizaRelacionesUsuarioGrupo(sessionBean, usuario.getIdUsuario(), grupos.get(i).getIdGrupo());
+						if(!CODIGO_SIN_ERRORES.equals(actualizaRelaciones.getCodError())){
+							respuesta.setCodError(actualizaRelaciones.getCodError());
+							respuesta.setMsgError(actualizaRelaciones.getMsgError());
 							i = grupos.size()+1;
 						}else{
-							perfiles.setCodError("0");
+							respuesta.setCodError(CODIGO_SIN_ERRORES);
 						}
 					}
 				}
 			
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			perfiles.setCodError("2001");
+			this.error(ERROR_IDA+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(ERROR_IDA+e.getMessage());
 		}
-		return perfiles;
+		this.info("Finaliza la ejecucion del metodo de alta de usuarios");
+		return respuesta;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.usuario.DAOUsuario#obtenerTodosUsuarios(mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
 	@Override
 	public BeanUsuarioRespuesta obtenerTodosUsuarios(
 			ArchitechSessionBean sessionBean) {
 		final String consulta = "SELECT ID_USUARIO,ESTATUS FROM USUARIO";
 		final BeanUsuarioRespuesta usuariosRespuesta = new BeanUsuarioRespuesta();
 		this.info("Se inicia la consulta de todos los usuarios...");
-		this.info(consulta);
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY);
 		requestDTO.setQuery(consulta);
@@ -107,36 +157,41 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				usuariosRespuesta.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError()+responseDTO.getMessageError());
+				usuariosRespuesta.setCodError(responseDTO.getCodeError());
+				usuariosRespuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanUsuario> listaUsuarios = new ArrayList<BeanUsuario>();
+				final List<BeanUsuario> listaUsuarios = new ArrayList<BeanUsuario>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					BeanUsuario usuario = new BeanUsuario();
+					final BeanUsuario usuario = new BeanUsuario();
 					usuario.setIdUsuario(String.valueOf(registro.get("ID_USUARIO")));
-					String status = String.valueOf(registro.get("ESTATUS"));
+					final String status = String.valueOf(registro.get("ESTATUS"));
 					if("1".equals(status)){
 						usuario.setEstatus(true);
 					}
 					listaUsuarios.add(usuario);
 				}
 				usuariosRespuesta.setUsuarios(listaUsuarios);
-				usuariosRespuesta.setCodError("0");
+				usuariosRespuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			usuariosRespuesta.setCodError("2001");
+			this.error(ERROR_IDA+e);
+			usuariosRespuesta.setCodError(CODIGO_ERROR_GENERAL);
+			usuariosRespuesta.setMsgError(ERROR_IDA+e.getMessage());
 		}
+		this.info("Finaliza la ejecucion del metodo de obtencion de todos los usuarios");
 		return usuariosRespuesta;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.usuario.DAOUsuario#obtenerUsuarioPorID(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String)
+	 */
 	@Override
 	public BeanUsuarioRespuesta obtenerUsuarioPorID(
 			ArchitechSessionBean sessionBean, String idUsuario) {
 		final String consulta = "SELECT ID_USUARIO,ESTATUS FROM USUARIO WHERE ID_USUARIO = ?";
 		final BeanUsuarioRespuesta usuarios = new BeanUsuarioRespuesta();
 		this.info("Se inicia la consulta del usuario con id:"+idUsuario);
-		this.info(consulta);
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY_PARAMS);
 		requestDTO.setQuery(consulta);
@@ -146,35 +201,39 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				usuarios.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError()+responseDTO.getMessageError());
+				usuarios.setCodError(responseDTO.getCodeError());
+				usuarios.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanUsuario> listaUsuarios = new ArrayList<BeanUsuario>();
+				final List<BeanUsuario> listaUsuarios = new ArrayList<BeanUsuario>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					BeanUsuario usuario = new BeanUsuario();
+					final BeanUsuario usuario = new BeanUsuario();
 					usuario.setIdUsuario(String.valueOf(registro.get("ID_USUARIO")));
-					String status = String.valueOf(registro.get("ESTATUS"));
+					final String status = String.valueOf(registro.get("ESTATUS"));
 					if("1".equals(status)){
 						usuario.setEstatus(true);
 					}
 					listaUsuarios.add(usuario);
 				}
 				usuarios.setUsuarios(listaUsuarios);
-				usuarios.setCodError("0");
+				usuarios.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			usuarios.setCodError("2001");
+			this.error(ERROR_IDA+e);
+			usuarios.setCodError(CODIGO_ERROR_GENERAL);
+			usuarios.setMsgError(ERROR_IDA+e.getMessage());
 		}
 		return usuarios;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.usuario.DAOUsuario#modificarUsuario(mx.isban.agave.commons.beans.ArchitechSessionBean, mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario)
+	 */
 	@Override
 	public BeanUsuarioRespuesta modificarUsuario(
 			ArchitechSessionBean sessionBean, BeanUsuario usuario) {
-		final BeanUsuarioRespuesta perfiles = new BeanUsuarioRespuesta();
+		final BeanUsuarioRespuesta respuesta = new BeanUsuarioRespuesta();
 		this.info("Se inicia la actualizacion del usuario");
-		this.info(QUERY_ACTUALIZA_USUARIO);
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_UPDATE_PARAMS);
 		requestDTO.setQuery(QUERY_ACTUALIZA_USUARIO);
@@ -187,41 +246,52 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 		requestDTO.addParamToSql(usuario.getIdUsuario());
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
-			//El componente IsbanDataAccess no contiene el metodo beginTransaction
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				perfiles.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError()+responseDTO.getMessageError());
+				respuesta.setCodError(responseDTO.getCodeError());
+				respuesta.setMsgError(responseDTO.getCodeError());
 			}else{
 				BeanUsuarioRespuesta eliminacionRelaciones = eliminarRelacionesUsuarioGrupo(sessionBean, usuario.getIdUsuario());
-				if(!"0".equals(eliminacionRelaciones.getCodError())){
-					perfiles.setCodError(eliminacionRelaciones.getCodError());
+				if(!CODIGO_SIN_ERRORES.equals(eliminacionRelaciones.getCodError())){
+					this.error(MENSAJE_ERROR+eliminacionRelaciones.getCodError()+eliminacionRelaciones.getMsgError());
+					respuesta.setCodError(eliminacionRelaciones.getCodError());
+					respuesta.setMsgError(eliminacionRelaciones.getMsgError());
 				}else{
 					List<BeanGrupo> grupos = usuario.getGrupos();
 					this.info("Tamaño de lista seleccionada:"+grupos.size());
 					for (int i = 0;i < grupos.size();i++) {	
 						BeanUsuarioRespuesta actualizaRelaciones = actualizaRelacionesUsuarioGrupo(sessionBean, usuario.getIdUsuario(),grupos.get(i).getIdGrupo());
-						if(!"0".equals(actualizaRelaciones.getCodError())){
-							perfiles.setCodError(actualizaRelaciones.getCodError());
+						if(!CODIGO_SIN_ERRORES.equals(actualizaRelaciones.getCodError())){
+							this.error(MENSAJE_ERROR+actualizaRelaciones.getCodError()+actualizaRelaciones.getMsgError());
+							respuesta.setCodError(actualizaRelaciones.getCodError());
+							respuesta.setMsgError(actualizaRelaciones.getMsgError());
 							i = grupos.size()+1;
 						}else{
-							perfiles.setCodError("0");
+							respuesta.setCodError(CODIGO_SIN_ERRORES);
 						}
 					}
 				}
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			perfiles.setCodError("2001");
+			this.error(ERROR_IDA+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(ERROR_IDA+e.getMessage());
 		}
-		return perfiles;
+		return respuesta;
 	}
 
+	/**
+	 * Metodo encargado de actualizar las relaciones usuario - grupo
+	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
+	 * @param idUsuario El id del usuario a crear las relaciones
+	 * @param idGrupo El id del grupo a crear las relaciones
+	 * @return Un objeto de tipo BeanUsuarioRespuesta
+	 */
 	private BeanUsuarioRespuesta actualizaRelacionesUsuarioGrupo(
 			ArchitechSessionBean sessionBean, String idUsuario, String idGrupo) {
-		final BeanUsuarioRespuesta perfiles = new BeanUsuarioRespuesta();
+		final BeanUsuarioRespuesta respuesta = new BeanUsuarioRespuesta();
 		this.info("Se inicia la creacion de las relaciones Usuario - Grupo");
-		this.info(QUERY_CREA_RELACIONES_USUARIO_GRUPO);
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_INSERT_PARAMS);
 		requestDTO.setQuery(QUERY_CREA_RELACIONES_USUARIO_GRUPO);
@@ -232,23 +302,31 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				perfiles.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError()+responseDTO.getMessageError());
+				respuesta.setCodError(responseDTO.getCodeError());
+				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				perfiles.setCodError("0");
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			perfiles.setCodError("2001");
+			this.error(ERROR_IDA+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(ERROR_IDA+e.getMessage());
 		}
-		return perfiles;
+		this.info("Finaliza el metodo de actualizacion de relaciones");
+		return respuesta;
 	}
 
+	/**
+	 * Metodo encargado de eliminar las relaciones UsuarioGrupo
+	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
+	 * @param idUsuario El id del usuario a eliminar las relaciones Usuario - Grupo
+	 * @return Un objeto de tipo BeanUsuarioRespuesta con el resultado de la consulta en la bd
+	 */
 	private BeanUsuarioRespuesta eliminarRelacionesUsuarioGrupo(
 			ArchitechSessionBean sessionBean, String idUsuario) {
 		final BeanUsuarioRespuesta usuarios = new BeanUsuarioRespuesta();
 		this.info("Se inicia la eliminacion de las relaciones Usuario - Grupo");
-		this.info(QUERY_ELIMINA_RELACIONES_USUARIO_GRUPO);
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_DELETE_PARAMS);
 		requestDTO.setQuery(QUERY_ELIMINA_RELACIONES_USUARIO_GRUPO);
@@ -258,14 +336,16 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				usuarios.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError()+responseDTO.getMessageError());
+				usuarios.setCodError(responseDTO.getCodeError());
+				usuarios.setMsgError(responseDTO.getMessageError());
 			}else{
-				usuarios.setCodError("0");
+				usuarios.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			usuarios.setCodError("2001");
+			this.error(ERROR_IDA+e);
+			usuarios.setCodError(CODIGO_ERROR_GENERAL);
+			usuarios.setMsgError(ERROR_IDA+e.getMessage());
 		}
 		return usuarios;
 	}

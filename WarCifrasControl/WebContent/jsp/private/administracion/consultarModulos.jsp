@@ -3,8 +3,8 @@
 
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
-	<jsp:param name="menuItem"   	 value="ADMINISTRACION" />
-	<jsp:param name="menuSubItem"    value="Módulos" />	
+	<jsp:param name="menuItem"   	 value="administracion" />
+	<jsp:param name="menuSubItem"    value="modulos" />	
 </jsp:include>
 
 <script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/consultarModulos.js" type="text/javascript"></script>
@@ -18,12 +18,19 @@
 <spring:message code="administracion.seleccioneModulo"		var="seleccioneModulo"/>
 <spring:message code="administracion.descripcionModulo"     	var="descripcionModulos"/>
 
+<spring:message code="administracion.faltaSeleccionarModulo"     	var="faltaSeleccionarModulo"/>
+<spring:message javaScriptEscape="true" code="administracion.faltaModulo"     			var="faltaModulo"/>
+<spring:message code="administracion.seleccioneModulo"     		var="seleccioneModulo"/>
+
 <div class="pageTitleContainer">
    <span class="pageTitle">${modulo}</span> - ${modulos}
 </div>
 
 
 <form action="modificarModuloInit.do" name="modificar" id="modificar" method="post">
+<input id="faltaSeleccionarModulo" type="hidden" value="${faltaSeleccionarModulo}"/>
+	<input id="faltaModulo" type="hidden" value="${faltaModulo}"/>
+	<input id="seleccioneModulo" type="hidden" value="${seleccioneModulo}"/>
 
 <div class="frameTablaVariasColumnas">
 	<div class="titleTablaVariasColumnas">${modulos} <span class="textosin">- ${seleccioneModulo}</span></div>

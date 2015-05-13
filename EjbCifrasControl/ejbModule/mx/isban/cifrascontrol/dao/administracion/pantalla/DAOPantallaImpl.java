@@ -1,3 +1,13 @@
+/**************************************************************
+* Queretaro, Qro Mayo 2015
+*
+* La redistribucion y el uso en formas fuente y binario, 
+* son responsabilidad del propietario.
+* 
+* Este software fue elaborado en @Everis
+* 
+* Para mas informacion, consulte <www.everis.com/mexico>
+***************************************************************/
 package mx.isban.cifrascontrol.dao.administracion.pantalla;
 
 import java.util.ArrayList;
@@ -19,14 +29,36 @@ import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantalla;
 import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantallaRespuesta;
 
 /**
- * Session Bean implementation class DAOPantallaImpl
+* Clase DAOPantallaImpl
+* 
+ * Clase encargada de implementar la interface DAOPantalla.
+ * Esta clase se encarga de todas las operaciones relacionadas a la tabla Pantalla
+* 
+* @author Everis
+* @version 1.0
+* @see www.everis.com/mexico
+* 
+*/
+/**
+ * @author everis
+ *
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class DAOPantallaImpl extends Architech implements DAOPantalla {
-       
-    private static final long serialVersionUID = 1L;
-    private static final String ID_CANAL = "ID_CANAL_DATABASE_JDBC";
+    
+	/**
+	 * Numero de version de la clase serializada
+	 */
+	private static final long serialVersionUID = 4644648627781758809L;
+	/**
+	 * Constante con el valor: ID_CANAL_DATABASE_JDBC
+	 */
+	private static final String ID_CANAL = "ID_CANAL_DATABASE_JDBC";
+    /**
+     * Constante con el valore de la consulta SQL que permite obtener las pantallas
+     * en relacion a un grupo
+     */
     private static final String CONSULTA_PANTALLAS_POR_GRUPO = 
     		"SELECT P.ID_PANTALLA, P.NOMBRE, P.DESCRIPCION "
     		+ " FROM PANTALLA P"
@@ -36,25 +68,43 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
     		+ " ON G.ID_GRUPO = REL.FK_ID_GRUPO"
     		+ " WHERE G.ID_GRUPO = ?";
 
+    /**
+     * Constante con el valor de la consulta SQL que permite obtener la pantalla por id 
+     */
     private static final String QUERY_CONSULTA_PANTALLA_POR_ID = 
-    		"SELECT ID_PANTALLA,NOMBRE,DESCRIPCION,URL FROM PANTALLA WHERE ID_PANTALLA = ?";
+    		"SELECT ID_PANTALLA,NOMBRE,DESCRIPCION FROM PANTALLA WHERE ID_PANTALLA = ?";
     
+    /**
+     * Constante que contiene el valor de la consulta SQL que permite actualizar la tabla de pantalla
+     */
     private static final String QUERY_UPDATE_PANTALLA = 
     		"UPDATE PANTALLA"
-    	  + " SET NOMBRE = ?,DESCRIPCION = ?,FK_MODULO = ?,URL = ?"
+    	  + " SET NOMBRE = ?,DESCRIPCION = ?,FK_MODULO = ?"
     	  + " WHERE ID_PANTALLA = ?";
     
+    /**
+     * Constante que contiene el valor de la consulta SQL que permite actualizar la tabla de pantalla
+     */
     private static final String QUERY_ALTA_PANTALLA = 
-    		"INSERT INTO PANTALLA(ID_PANTALLA,NOMBRE,DESCRIPCION,FK_MODULO,URL) VALUES (SQ_PANTALLA.NEXTVAL,?,?,?,?)";
+    		"INSERT INTO PANTALLA(ID_PANTALLA,NOMBRE,DESCRIPCION,FK_MODULO) VALUES (SQ_PANTALLA.NEXTVAL,?,?,?)";
     
+    /**
+     * Constante que contiene una consulta SQL que permite eliminar un registro de la tabla pantalla
+     */
     private static final String QUERY_ELIMINA_PANTALLA = 
 			"DELETE FROM PANTALLA WHERE ID_PANTALLA = ?";
     
+    /**
+     * Constante que contiene una consulta SQL que permite eliminar las relaciones presentadas entre las tablas Pantalla - Grupo
+     */
     private static final String QUERY_ELIMINA_RELACIONES_PANTALLA_GRUPO = 
 			"DELETE FROM REL_GRUPO_PANTALLA WHERE FK_ID_PANTALLA = ?";
     
+    /**
+     * Constante que contiene una consulta SQL que permite obtener las pantallas que puede acceder un usuario
+     */
     private static final String QUERY_OBTIENE_PANTALLA_USUARIO_MODULO = 
-    		"SELECT P.ID_PANTALLA,P.NOMBRE,P.URL "
+    		"SELECT P.ID_PANTALLA,P.NOMBRE "
     		+ " FROM MODULO M"
     		+ " JOIN PANTALLA P"
     		+ " ON M.ID_MODULO = P.FK_MODULO"
@@ -69,17 +119,30 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
     		+ " WHERE U.ID_USUARIO = ?"
     		+ " AND M.ID_MODULO = ?";
     
+    
+    /**
+     *Constante con un mensaje indicando que se obtuvo un codigo de error al ejecutar
+     *una consulta 
+     */
+    private static final String MENSAJE_ERROR = 
+			"Se obtuvo un codigo de error al ejecutar una consulta :";
+    
+	/**
+	 * Constructor de la clase DAOPantallaImpl
+	 */
 	public DAOPantallaImpl() {
         super();
     }
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla#obtenerTodasPantallas(mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
 	@Override
 	public BeanPantallaRespuesta obtenerTodasPantallas(
 			ArchitechSessionBean sessionBean) {
+		this.info("Iniciando la consulta de todas las pantallas");
 		final String consulta = "SELECT ID_PANTALLA,NOMBRE,DESCRIPCION FROM PANTALLA";
-		final BeanPantallaRespuesta perfiles = new BeanPantallaRespuesta();
-		this.info("Se inicia la consulta de todas las pantallas...");
-		this.info(consulta);
+		final BeanPantallaRespuesta respuesta = new BeanPantallaRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY);
 		requestDTO.setQuery(consulta);
@@ -88,36 +151,39 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				perfiles.setCodError("2001");
-				perfiles.setMsgError(responseDTO.getMessageError());
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				respuesta.setCodError(responseDTO.getCodeError());
+				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
+				final List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					BeanPantalla pantalla = new BeanPantalla();
+					final BeanPantalla pantalla = new BeanPantalla();
 					pantalla.setIdPantalla(String.valueOf(registro.get("ID_PANTALLA")));
 					pantalla.setNombrePantalla(String.valueOf(registro.get("NOMBRE")));
 					pantalla.setDescripcionPantalla(String.valueOf(registro.get("DESCRIPCION")));
 					listaPantallas.add(pantalla);
 				}
-				perfiles.setPantallas(listaPantallas);
-				perfiles.setCodError("0");
+				respuesta.setPantallas(listaPantallas);
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			perfiles.setCodError("2001");
-			perfiles.setMsgError(e.getMessage());
+			this.error(ERROR_IDA+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(ERROR_IDA+e.getMessage());
 		}
-		return perfiles;
+		this.info("Finaliza la ejecucion del metodo de consulta de todas las pantallas");
+		return respuesta;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla#obtenerPantallasPorGrupo(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String)
+	 */
 	@Override
 	public BeanPantallaRespuesta obtenerPantallasPorGrupo(
 			ArchitechSessionBean sessionBean, String idGrupo)
 			{
-		final BeanPantallaRespuesta perfiles = new BeanPantallaRespuesta();
 		this.info("Se inicia la consulta de las pantallas en relacion a un grupo con id:"+idGrupo);
-		this.info(CONSULTA_PANTALLAS_POR_GRUPO);
+		final BeanPantallaRespuesta respuesta = new BeanPantallaRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY_PARAMS);
 		requestDTO.setQuery(CONSULTA_PANTALLAS_POR_GRUPO);
@@ -127,36 +193,39 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				perfiles.setCodError("2001");
-				perfiles.setMsgError(responseDTO.getMessageError());
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				respuesta.setCodError(responseDTO.getCodeError());
+				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
+				final List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					BeanPantalla pantalla = new BeanPantalla();
+					final BeanPantalla pantalla = new BeanPantalla();
 					pantalla.setIdPantalla(String.valueOf(registro.get("ID_PANTALLA")));
 					pantalla.setNombrePantalla(String.valueOf(registro.get("NOMBRE")));
 					pantalla.setDescripcionPantalla(String.valueOf(registro.get("DESCRIPCION")));
 					listaPantallas.add(pantalla);
 				}
-				perfiles.setPantallas(listaPantallas);
-				perfiles.setCodError("0");
+				respuesta.setPantallas(listaPantallas);
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			perfiles.setCodError("2001");
-			perfiles.setMsgError(e.getMessage());
+			this.error(ERROR_IDA+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(e.getMessage());
 		}
-		return perfiles;
+		this.info("Finaliza la ejecucion del metodo de consulta de pantallas por grupo");
+		return respuesta;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla#obtenerPantallaPorId(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String)
+	 */
 	@Override
 	public BeanPantallaRespuesta obtenerPantallaPorId(
 			ArchitechSessionBean sessionBean, String idPantalla)
 			{
-		final BeanPantallaRespuesta perfiles = new BeanPantallaRespuesta();
 		this.info("Se inicia la consulta de las pantallas con id:"+idPantalla);
-		this.info(QUERY_CONSULTA_PANTALLA_POR_ID);
+		final BeanPantallaRespuesta respuesta = new BeanPantallaRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY_PARAMS);
 		requestDTO.setQuery(QUERY_CONSULTA_PANTALLA_POR_ID);
@@ -166,35 +235,37 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				perfiles.setCodError("2001");
-				perfiles.setMsgError(responseDTO.getMessageError());
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				respuesta.setCodError(responseDTO.getCodeError());
+				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
+				final List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					BeanPantalla pantalla = new BeanPantalla();
+					final BeanPantalla pantalla = new BeanPantalla();
 					pantalla.setIdPantalla(String.valueOf(registro.get("ID_PANTALLA")));
 					pantalla.setNombrePantalla(String.valueOf(registro.get("NOMBRE")));
 					pantalla.setDescripcionPantalla(String.valueOf(registro.get("DESCRIPCION")));
-					pantalla.setUrl(String.valueOf(registro.get("URL")));
 					listaPantallas.add(pantalla);
 				}
-				perfiles.setPantallas(listaPantallas);
-				perfiles.setCodError("0");
+				respuesta.setPantallas(listaPantallas);
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			perfiles.setCodError("2001");
-			perfiles.setMsgError(e.getMessage());
+			this.error(MENSAJE_ERROR+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(MENSAJE_ERROR+e.getMessage());
 		}
-		return perfiles;
+		return respuesta;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla#modificarPantalla(mx.isban.agave.commons.beans.ArchitechSessionBean, mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantalla)
+	 */
 	@Override
 	public BeanPantallaRespuesta modificarPantalla(
 			ArchitechSessionBean sessionBean, BeanPantalla pantalla) {
-		final BeanPantallaRespuesta respuesta = new BeanPantallaRespuesta();
 		this.info("Se inicia la actualizacion de la pantalla");
+		final BeanPantallaRespuesta respuesta = new BeanPantallaRespuesta();
 		final String idModulo = pantalla.getModulos().get(0).getIdModulo();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_UPDATE_PARAMS);
@@ -203,35 +274,35 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 		requestDTO.addParamToSql(pantalla.getNombrePantalla());
 		requestDTO.addParamToSql(pantalla.getDescripcionPantalla());
 		requestDTO.addParamToSql(idModulo);
-		requestDTO.addParamToSql(pantalla.getUrl());
 		requestDTO.addParamToSql(pantalla.getIdPantalla());
-		
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
-			//El componente IsbanDataAccess no contiene el metodo beginTransaction
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				respuesta.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				respuesta.setCodError(responseDTO.getCodeError());
 				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				respuesta.setCodError("0");
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			respuesta.setCodError("2001");
-			respuesta.setMsgError(e.getMessage());
+			this.error(MENSAJE_ERROR+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(MENSAJE_ERROR+e.getMessage());
 		}
+		this.info("Finaliza el metodo de actualizacion de pantalla");
 		return respuesta;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla#altaPantalla(mx.isban.agave.commons.beans.ArchitechSessionBean, mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantalla)
+	 */
 	@Override
 	public BeanPantallaRespuesta altaPantalla(ArchitechSessionBean sessionBean,
 			BeanPantalla pantalla) {
+		this.info("Se inicia el alta de una pantalla");
 		final BeanPantallaRespuesta respuesta = new BeanPantallaRespuesta();
 		final String idModulo = pantalla.getModulos().get(0).getIdModulo();
-		this.info("Se inicia el alta de una pantalla");
-		this.info(QUERY_ALTA_PANTALLA);
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_INSERT_PARAMS);
 		requestDTO.setQuery(QUERY_ALTA_PANTALLA);
@@ -239,35 +310,36 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 		requestDTO.addParamToSql(pantalla.getNombrePantalla());
 		requestDTO.addParamToSql(pantalla.getDescripcionPantalla());
 		requestDTO.addParamToSql(idModulo);
-		requestDTO.addParamToSql(pantalla.getUrl());
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
-			//El componente IsbanDataAccess no contiene el metodo beginTransaction
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				respuesta.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				respuesta.setCodError(responseDTO.getCodeError());
 				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				respuesta.setCodError("0");
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			respuesta.setCodError("2001");
-			respuesta.setMsgError(e.getMessage());
+			this.error(MENSAJE_ERROR+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(MENSAJE_ERROR+e.getMessage());
 		}
+		this.info("Finaliza la ejecucion del metodo de alta de pantalla");
 		return respuesta;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla#borrarPantalla(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String)
+	 */
 	@Override
 	public BeanPantallaRespuesta borrarPantalla(
 			ArchitechSessionBean sessionBean, String idPantalla) {
-		BeanPantallaRespuesta eliminacionRelaciones = eliminarRelacionesPantalla(sessionBean, idPantalla);
-		if(!"0".equals(eliminacionRelaciones.getCodError())){
-			eliminacionRelaciones.setCodError("2001");
+		this.info("Se inicia la eliminacion de la pantalla con el id:"+idPantalla);
+		final BeanPantallaRespuesta eliminacionRelaciones = eliminarRelacionesPantalla(sessionBean, idPantalla);
+		if(!CODIGO_SIN_ERRORES.equals(eliminacionRelaciones.getCodError())){
+			this.error(MENSAJE_ERROR+eliminacionRelaciones.getCodError());
 		}else{
-			this.info("Se inicia la eliminacion de la pantalla");
-			this.info(QUERY_ELIMINA_PANTALLA);
 			final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 			requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_DELETE_PARAMS);
 			requestDTO.setQuery(QUERY_ELIMINA_PANTALLA);
@@ -275,28 +347,33 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 			requestDTO.addParamToSql(idPantalla);
 			try{
 				final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
-				//El componente IsbanDataAccess no contiene el metodo beginTransaction
 				final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 				if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-					eliminacionRelaciones.setCodError("2001");
+					this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+					eliminacionRelaciones.setCodError(responseDTO.getCodeError());
 					eliminacionRelaciones.setMsgError(responseDTO.getMessageError());
 				}else{
-					eliminacionRelaciones.setCodError("0");
+					eliminacionRelaciones.setCodError(CODIGO_SIN_ERRORES);
 				}
 			}catch(ExceptionDataAccess e){
-				this.error("Error al realizar una consulta en el componente DataAcces"+e);
-				eliminacionRelaciones.setCodError("2001");
+				this.error(MENSAJE_ERROR+e);
+				eliminacionRelaciones.setCodError(CODIGO_ERROR_GENERAL);
+				eliminacionRelaciones.setMsgError(MENSAJE_ERROR+e.getMessage());
 			}
 		}
 	return eliminacionRelaciones;
 	}
 
+	/**
+	 * Metodo que elimina las relaciones Pantalla - Grupo
+	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
+	 * @param idPantalla El id de la pantalla a eliminar las relaciones
+	 * @return Un objeto de tipo BeanPantallaRespuesta
+	 */
 	private BeanPantallaRespuesta eliminarRelacionesPantalla(
 			ArchitechSessionBean sessionBean, String idPantalla) {
-		final BeanPantallaRespuesta perfiles = new BeanPantallaRespuesta();
+		final BeanPantallaRespuesta respuesta = new BeanPantallaRespuesta();
 		this.info("Se inicia la eliminacion de las relaciones Pantalla - Grupo");
-		this.info(QUERY_ELIMINA_RELACIONES_PANTALLA_GRUPO);
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_DELETE_PARAMS);
 		requestDTO.setQuery(QUERY_ELIMINA_RELACIONES_PANTALLA_GRUPO);
@@ -306,26 +383,29 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				perfiles.setCodError("2001");
-				perfiles.setMsgError(responseDTO.getMessageError());
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				respuesta.setCodError(responseDTO.getCodeError());
+				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				perfiles.setCodError("0");
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			perfiles.setCodError("2001");
-			perfiles.setMsgError(e.getMessage());
+			this.error(MENSAJE_ERROR+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(MENSAJE_ERROR+e.getMessage());
 		}
-		return perfiles;
+		this.info("Finaliza la ejecucion del metodo de eliminacion de relaciones Pantalla-Grupo");
+		return respuesta;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla#obtenerPantallasPorUsuarioModulo(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public BeanPantallaRespuesta obtenerPantallasPorUsuarioModulo(
 			ArchitechSessionBean sessionBean, String idModulo, String idUsuario) {
-		final BeanPantallaRespuesta perfiles = new BeanPantallaRespuesta();
 		this.info("Se inicia la consulta de las pantallas para el modulo con id:"+idModulo+" y el usuario:"+idUsuario);
-		this.info(QUERY_OBTIENE_PANTALLA_USUARIO_MODULO);
+		final BeanPantallaRespuesta respuesta = new BeanPantallaRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY_PARAMS);
 		requestDTO.setQuery(QUERY_OBTIENE_PANTALLA_USUARIO_MODULO);
@@ -336,26 +416,28 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				perfiles.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				respuesta.setCodError(responseDTO.getCodeError());
+				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
+				final List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					BeanPantalla pantalla = new BeanPantalla();
+					final BeanPantalla pantalla = new BeanPantalla();
 					pantalla.setIdPantalla(String.valueOf(registro.get("ID_PANTALLA")));
 					pantalla.setNombrePantalla(String.valueOf(registro.get("NOMBRE")));
 					pantalla.setDescripcionPantalla(String.valueOf(registro.get("DESCRIPCION")));
-					pantalla.setUrl(String.valueOf(registro.get("URL")));
 					listaPantallas.add(pantalla);
 				}
-				perfiles.setPantallas(listaPantallas);
-				perfiles.setCodError("0");
+				respuesta.setPantallas(listaPantallas);
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			perfiles.setCodError("2001");
+			this.error(MENSAJE_ERROR+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(MENSAJE_ERROR+e.getMessage());
 		}
-		return perfiles;
+		this.info("Se termina la ejecuion del metodo de consulta pantallas por modulo y usuario");
+		return respuesta;
 	}
 
 }

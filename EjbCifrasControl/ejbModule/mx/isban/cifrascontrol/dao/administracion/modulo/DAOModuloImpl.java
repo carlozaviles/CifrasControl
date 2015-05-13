@@ -1,3 +1,13 @@
+/**************************************************************
+* Queretaro, Qro Mayo 2015
+*
+* La redistribucion y el uso en formas fuente y binario, 
+* son responsabilidad del propietario.
+* 
+* Este software fue elaborado en @Everis
+* 
+* Para mas informacion, consulte <www.everis.com/mexico>
+***************************************************************/
 package mx.isban.cifrascontrol.dao.administracion.modulo;
 
 import java.util.ArrayList;
@@ -19,17 +29,37 @@ import mx.isban.cifrascontrol.beans.administracion.modulo.BeanModulo;
 import mx.isban.cifrascontrol.beans.administracion.modulo.BeanModuloRespuesta;
 
 /**
- * Session Bean implementation class DAOModulo
- */
+* Clase DAOModuloImpl
+* 
+* Clase encargada de implementar la interface DAOModulo.
+* Esta clase se encarga de todas las operaciones relacionadas a la tabla Modulo
+* 
+* @author Everis
+* @version 1.0
+* @see www.everis.com/mexico
+* 
+*/
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class DAOModuloImpl extends Architech implements DAOModulo {
 
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * Numero de version de la clase serializada
+	 */
+	private static final long serialVersionUID = -8765543418865372499L;
+	/**
+     *Constante con un mensaje indicando que se obtuvo un codigo de error al ejecutar
+     *una consulta 
+     */
 	private static final String MENSAJE_ERROR = 
 			"Se obtuvo un codigo de error al ejecutar una consulta :";
+	/**
+	 * Constante con el valor: ID_CANAL_DATABASE_JDBC
+	 */
 	private static final String ID_CANAL = "ID_CANAL_DATABASE_JDBC";
+	/**
+	 * Constante con la consulta SQL que indica los modulos encontrados por usuario
+	 */
 	private static final String QUERY_MODULOS_POR_USUARIO = 
 			"SELECT DISTINCT M.ID_MODULO,M.NOMBRE"
 			+ " FROM MODULO M"
@@ -43,8 +73,13 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 			+ " ON REL_USU.FK_ID_GRUPO = G.ID_GRUPO"
 			+ " JOIN USUARIO U"
 			+ " ON U.ID_USUARIO = REL_USU.FK_ID_USUARIO"
-			+ " WHERE U.ID_USUARIO = ?";
+			+ " WHERE U.ESTATUS = 1"
+			+ " AND U.ID_USUARIO = ?";
 
+	/**
+	 * Constante que contiene la consulta SQL para obtener un modulo en relacion a un
+	 * id de pantalla
+	 */
 	private static final String QUERY_OBTENER_MODULO_POR_PANTALLA = 
 			"SELECT M.ID_MODULO,M.NOMBRE,M.DESCRIPCION"
 			+ " FROM MODULO M"
@@ -52,18 +87,34 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 			+ " ON M.ID_MODULO = P.FK_MODULO"
 			+ " WHERE P.ID_PANTALLA = ?";
 	
+	/**
+	 * Constante que contiene una consulta SQL para obtener un modulo por id
+	 */
 	private static final String QUERY_CONSULTA_MODULO_POR_ID = 
 			"SELECT ID_MODULO,NOMBRE,DESCRIPCION FROM MODULO WHERE ID_MODULO = ?";
 	
+	/**
+	 * Constante que contiene una consulta SQL para actualizar un modulo
+	 */
 	private static final String QUERY_UPDATE_MODULO = 
 			"UPDATE MODULO SET NOMBRE = ?, DESCRIPCION = ? WHERE ID_MODULO = ?";
 	
+	/**
+	 * Constante que contiene una consulta SQL para eliminar un modulo en relacion a su id
+	 */
 	private static final String QUERY_ELIMINA_MODULO =
 			"DELETE FROM MODULO WHERE ID_MODULO = ?";
 	
+	/**
+	 * Constante que contiene una consulta SQL para eliminar las relaciones Pantalla - Modulo
+	 */
 	private static final String QUERY_ELIMINA_RELACIONES_PANTALLA_MODULO =
-			"DELETE FROM PANTALLA WHERE FK_MODULO = ?";
+			"UPDATE PANTALLA SET FK_MODULO = ? WHERE FK_MODULO = ?";
 	
+	
+	/**
+	 * Constante que contiene una consulta para dar de alta un modulo 
+	 */
 	private static final String QUERY_ALTA_MODULO = 
 			"INSERT INTO MODULO (ID_MODULO,NOMBRE,DESCRIPCION) VALUES (SQ_MODULO.NEXTVAL,?,?)";
 	
@@ -74,12 +125,14 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
        super();
     }
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.modulo.DAOModulo#obtenerModulosPorUsuario(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String)
+	 */
 	@Override
 	public BeanModuloRespuesta obtenerModulosPorUsuario(
 			ArchitechSessionBean sessionBean, String idUsuario) {
-		final BeanModuloRespuesta modulos = new BeanModuloRespuesta();
 		this.info("Se inicia la consulta del perfil con el id de usaurio:"+idUsuario);
-		this.info(idUsuario);
+		final BeanModuloRespuesta modulos = new BeanModuloRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY_PARAMS);
 		requestDTO.setQuery(QUERY_MODULOS_POR_USUARIO);
@@ -89,27 +142,31 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				modulos.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				modulos.setCodError(responseDTO.getCodeError());
 				modulos.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanModulo> listaModulos = new ArrayList<BeanModulo>();
+				final List<BeanModulo> listaModulos = new ArrayList<BeanModulo>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					BeanModulo modulo = new BeanModulo();
+					final BeanModulo modulo = new BeanModulo();
 					modulo.setIdModulo(String.valueOf(registro.get("ID_MODULO")));
 					modulo.setNombreModulo(String.valueOf(registro.get("NOMBRE")));
 					listaModulos.add(modulo);
 				}
 				modulos.setModulos(listaModulos);
-				modulos.setCodError("0");
+				modulos.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			modulos.setCodError("2001");
+			this.error(ERROR_IDA+e);
+			modulos.setCodError(CODIGO_ERROR_GENERAL);
+			modulos.setMsgError(ERROR_IDA+e.getMessage());
 		}
 		return modulos;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.modulo.DAOModulo#obtenerTodosModulos(mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
 	@Override
 	public BeanModuloRespuesta obtenerTodosModulos(
 			ArchitechSessionBean sessionBean) {
@@ -140,13 +197,16 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 				modulos.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error(ERROR_DATAACCESS+e);
+			this.error(ERROR_IDA+e);
 			modulos.setCodError(CODIGO_ERROR_GENERAL);
-			modulos.setMsgError(e.getMessage());
+			modulos.setMsgError(ERROR_IDA+e.getMessage());
 		}
 		return modulos;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.modulo.DAOModulo#obtenerModuloPorPantalla(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String)
+	 */
 	@Override
 	public BeanModuloRespuesta obtenerModuloPorPantalla(
 			ArchitechSessionBean sessionBean, String idPantalla) {
@@ -177,13 +237,16 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 				modulos.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error(ERROR_DATAACCESS+e);
+			this.error(ERROR_IDA+e);
 			modulos.setCodError(CODIGO_ERROR_GENERAL);
 			modulos.setMsgError(e.getMessage());
 		}
 		return modulos;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.modulo.DAOModulo#obtenerModuloPorId(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String)
+	 */
 	@Override
 	public BeanModuloRespuesta obtenerModuloPorId(
 			ArchitechSessionBean sessionBean, String idModulo) {
@@ -198,29 +261,32 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				modulos.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				modulos.setCodError(responseDTO.getCodeError());
 				modulos.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanModulo> listaModulos = new ArrayList<BeanModulo>();
+				final List<BeanModulo> listaModulos = new ArrayList<BeanModulo>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					BeanModulo modulo = new BeanModulo();
+					final BeanModulo modulo = new BeanModulo();
 					modulo.setIdModulo(String.valueOf(registro.get("ID_MODULO")));
 					modulo.setNombreModulo(String.valueOf(registro.get("NOMBRE")));
 					modulo.setDescripcionModulo(String.valueOf(registro.get("DESCRIPCION")));
 					listaModulos.add(modulo);
 				}
 				modulos.setModulos(listaModulos);
-				modulos.setCodError("0");
+				modulos.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			modulos.setCodError("2001");
-			modulos.setMsgError(e.getMessage());
+			this.error(ERROR_IDA+e);
+			modulos.setCodError(CODIGO_ERROR_GENERAL);
+			modulos.setMsgError(ERROR_IDA+e.getMessage());
 		}
 		return modulos;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.modulo.DAOModulo#modificarModulo(mx.isban.agave.commons.beans.ArchitechSessionBean, mx.isban.cifrascontrol.beans.administracion.modulo.BeanModulo)
+	 */
 	@Override
 	public BeanModuloRespuesta modificarModulo(
 			ArchitechSessionBean sessionBean, BeanModulo modulo) {
@@ -235,29 +301,30 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 		requestDTO.addParamToSql(modulo.getIdModulo());
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
-			//El componente IsbanDataAccess no contiene el metodo beginTransaction
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				respuesta.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				respuesta.setCodError(responseDTO.getCodeError());
 				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				respuesta.setCodError("0");
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			respuesta.setCodError("2001");
-			respuesta.setMsgError(e.getMessage());
+			this.error(ERROR_IDA+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(ERROR_IDA+e.getMessage());
 		}
 		return respuesta;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.modulo.DAOModulo#guardarModulo(mx.isban.agave.commons.beans.ArchitechSessionBean, mx.isban.cifrascontrol.beans.administracion.modulo.BeanModulo)
+	 */
 	@Override
 	public BeanModuloRespuesta guardarModulo(ArchitechSessionBean sessionBean,
 			BeanModulo modulo) {
 		final BeanModuloRespuesta respuesta = new BeanModuloRespuesta();
 		this.info("Se inicia el alta de un modulo");
-		this.info(QUERY_ALTA_MODULO);
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_INSERT_PARAMS);
 		requestDTO.setQuery(QUERY_ALTA_MODULO);
@@ -266,23 +333,25 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 		requestDTO.addParamToSql(modulo.getDescripcionModulo());
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
-			//El componente IsbanDataAccess no contiene el metodo beginTransaction
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
 			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
-				this.error("Se obtuvo un codigo de error al ejecutar la consulta :"+responseDTO.getCodeError());
-				respuesta.setCodError("2001");
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError());
+				respuesta.setCodError(responseDTO.getCodeError());
 				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				respuesta.setCodError("0");
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error("Error al realizar una consulta en el componente DataAcces"+e);
-			respuesta.setCodError("2001");
-			respuesta.setMsgError(e.getMessage());
+			this.error(ERROR_IDA+e);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(ERROR_IDA+e.getMessage());
 		}
 		return respuesta;
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.administracion.modulo.DAOModulo#borrarModulo(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String)
+	 */
 	@Override
 	public BeanModuloRespuesta borrarModulo(ArchitechSessionBean sessionBean,
 			String idModulo) {
@@ -307,7 +376,7 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 					eliminacionRelaciones.setCodError(CODIGO_SIN_ERRORES);
 				}
 			}catch(ExceptionDataAccess e){
-				this.error(ERROR_DATAACCESS+e);
+				this.error(ERROR_IDA+e);
 				eliminacionRelaciones.setCodError(CODIGO_ERROR_GENERAL);
 				eliminacionRelaciones.setMsgError(e.getMessage());
 			}
@@ -315,15 +384,21 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 	return eliminacionRelaciones;
 	}
 
+	/**
+	 * Metodo que elimina las relaciones Pantalla - Modulo
+	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
+	 * @param idModulo El id del modulo para eliminar las relaciones con la pantalla
+	 * @return Un objeto de tipo BeanModuloRespuesta, con el resultado de la consulta en base de datos
+	 */
 	private BeanModuloRespuesta eliminarRelacionesPantallaModulo(
 			ArchitechSessionBean sessionBean, String idModulo){
 		final BeanModuloRespuesta modulos = new BeanModuloRespuesta();
 		this.info("Se inicia la eliminacion de las relaciones Pantalla - Grupo");
-		this.info(QUERY_ELIMINA_RELACIONES_PANTALLA_MODULO);
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
-		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_DELETE_PARAMS);
+		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_UPDATE_PARAMS);
 		requestDTO.setQuery(QUERY_ELIMINA_RELACIONES_PANTALLA_MODULO);
 		requestDTO.setCodeOperation("COD04 Elimina Relaciones Modulo - Pantalla");
+		requestDTO.addParamToSql("0");
 		requestDTO.addParamToSql(idModulo);
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
@@ -336,7 +411,7 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 				modulos.setCodError(CODIGO_SIN_ERRORES);
 			}
 		}catch(ExceptionDataAccess e){
-			this.error(ERROR_DATAACCESS+e);
+			this.error(ERROR_IDA+e);
 			modulos.setCodError(CODIGO_ERROR_GENERAL);
 			modulos.setMsgError(e.getMessage());
 		}

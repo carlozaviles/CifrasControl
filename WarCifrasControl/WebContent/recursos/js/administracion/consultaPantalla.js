@@ -10,7 +10,7 @@ $(document).ready(function(){
     	if($('input[name="idPantalla"]').is(':checked')){
     		$('#modificar').submit();
         }else{
-        	jError('Debe seleccionar una pantalla para mostrar el detalle', 'Falta seleccionar una pantalla', 'Error', '-Seleccione una pantalla');
+        	jError($('#faltaSeleccionarPantalla').val(), $('#faltaPantalla').val(), 'Error', $('#seleccionePantalla').val());
         }    	
     });
     

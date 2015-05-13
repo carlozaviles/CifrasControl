@@ -52,6 +52,9 @@
 	<spring:message code="menu.submenuGrupo" 						var="submenuGrupo"/>
 	<spring:message code="menu.submenuUsuarios" 						var="submenuUsuarios"/>
 	<spring:message code="menu.submenuPantallas" 						var="submenuPantallas"/>
+	<spring:message code="menu.submenuModulo" 						var="submenuModulo"/>
+
+
 
 
 	<!-- <body onload="initialize('${param.menuItem}', '${param.menuSubitem}'); addMenuItem('eight','Mi opcion dinamica','','', 'true', 'true'); disabledMenuItem('three'); disabledMenuItem('fiveDotTwo');"> -->
@@ -62,19 +65,60 @@
 				<ul id="mainMenu">
 					<!-- Menu Principal Cifras Control -->
 					<li id="principal" class="startMenuGroup"> <a href="javascript:selectMenuItem('principal')"><span>${menuPrincipal}</span></a></li>
-						
-						<c:forEach var="modulo" items="${sessionScope.modulosPermitidos}">
-							<li id="${modulo.nombreModulo}" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('${modulo.nombreModulo}')"><span>${modulo.nombreModulo}</span></a>
-							<ul>
-								<c:forEach var="pantalla" items="${modulo.pantallas}">
-									<li id="${pantalla.nombrePantalla}"><a href="${pantalla.url}">&gt;<span class="subMenuText">${pantalla.nombrePantalla}</span></a></li>	
-								</c:forEach>
-							</ul>
-							</li> 
-						</c:forEach>
-											
 
- 
+					<c:forEach var="modulo" items="${sessionScope.modulosPermitidos}">
+						<c:if test = "${modulo.nombreModulo == 'REPROCESOS'}">
+					<li id="reprocesos" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('reprocesos')"><span>${menuPrincipalReprocesos}</span></a>
+						<ul>
+							<c:forEach var="pantalla" items="${modulo.pantallas}">
+								<c:if test = "${pantalla.nombrePantalla == 'SOLICITAR REPROCESO'}">
+							<li id="solicitudReprocesos">      <a href="../reprocesos/solicitarReproceso.do">    &gt;<span class="subMenuText">${submenuReprocesosSolicitud}</span></a></li>
+								</c:if>
+								<c:if test = "${pantalla.nombrePantalla == 'CONSULTA DE REPROCESOS'}">							
+							<li id="consultaReprocesos">      	<a href="">    &gt;<span class="subMenuText">${submenuReprocesosConsulta}</span></a></li>
+								</c:if>							
+							</c:forEach>						
+						</ul>
+					</li>	
+						</c:if>
+
+					<c:if test = "${modulo.nombreModulo == 'CIFRAS CONTROL'}">
+					<li id="cifras" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('cifras')"><span>${menuPrincipalCifras}</span></a>
+						<ul>
+							<c:forEach var="pantalla" items="${modulo.pantallas}">
+								<c:if test = "${pantalla.nombrePantalla == 'CONSULTAR CIFRAS DE CONTROL'}">
+							<li id="consultaCifras">      		<a href="">    &gt;<span class="subMenuText">${submenuCifrasConsultaCifras}</span></a></li>
+								</c:if>
+								<c:if test = "${pantalla.nombrePantalla == 'CONSULTAR FACTURAS'}">							
+							<li id="consultaFacturas">      	<a href="">    &gt;<span class="subMenuText">${submenuCifrasConsultaFacturas}</span></a></li>
+								</c:if>							
+							</c:forEach>						
+						</ul>
+					</li>	
+					</c:if>
+					
+					<c:if test = "${modulo.nombreModulo == 'ADMINISTRACION'}">
+					<li id="administracion" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('administracion')"><span>${menuPrincipalAdministracion}</span></a>
+						<ul>
+							<c:forEach var="pantalla" items="${modulo.pantallas}">
+								<c:if test = "${pantalla.nombrePantalla == 'USUARIOS'}">
+							<li id="usuarios">      	<a href="../administracion/consultarUsuarios.do">    &gt;<span class="subMenuText">${submenuUsuarios}</span></a></li>
+								</c:if>	
+								<c:if test = "${pantalla.nombrePantalla == 'GRUPOS'}">
+							<li id="grupos">      		<a href="../administracion/consultarGrupos.do">    &gt;<span class="subMenuText">${submenuGrupo}</span></a></li>
+								</c:if>	
+								<c:if test = "${pantalla.nombrePantalla == 'PANTALLAS'}">							
+							<li id="pantallas">      	<a href="../administracion/consultarPantallas.do">    &gt;<span class="subMenuText">${submenuPantallas}</span></a></li>
+								</c:if>	
+								<c:if test = "${pantalla.nombrePantalla == 'MODULOS'}">							
+							<li id="modulos" name="modulos">      	<a href="../administracion/consultarModulos.do">    &gt;<span class="subMenuText">${submenuModulo}</span></a></li>
+								</c:if>							
+							</c:forEach>
+						</ul>
+
+					</li> 											
+					</c:if>
+ 				</c:forEach>
 					<!-- 
 					<li id="isbandataaccess" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('isbandataaccess')"><span>${isbandataaccess}</span></a>
 						<ul>

@@ -3,8 +3,8 @@
 
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
-	<jsp:param name="menuItem"   	 value="ADMINISTRACION" />
-	<jsp:param name="menuSubItem"    value="Pantallas" />	
+	<jsp:param name="menuItem"   	 value="administracion" />
+	<jsp:param name="menuSubItem"    value="pantallas" />	
 </jsp:include>
 
 <script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/consultaPantalla.js" type="text/javascript"></script>
@@ -18,12 +18,20 @@
 <spring:message code="administracion.seleccionePantalla"	var="seleccionePantalla"/>
 <spring:message code="administracion.descripcionPantalla"     	var="descripcionPantalla"/>
 
+<spring:message code="administracion.faltaSeleccionarPantalla"     	var="faltaSeleccionarPantalla"/>
+<spring:message javaScriptEscape="true" code="administracion.faltaPantalla"     			var="faltaPantalla"/>
+<spring:message code="administracion.seleccionePantalla"     		var="seleccionePantalla"/>
+
 <div class="pageTitleContainer">
    <span class="pageTitle">${modulo}</span> - ${pantallas}
 </div>
 
 
 <form action="modificarPantallaInit.do" name="modificar" id="modificar" method="post">
+
+	<input id="faltaSeleccionarPantalla" type="hidden" value="${faltaSeleccionarPantalla}"/>
+	<input id="faltaPantalla" type="hidden" value="${faltaPantalla}"/>
+	<input id="seleccionePantalla" type="hidden" value="${seleccionePantalla}"/>
 
 <div class="frameTablaVariasColumnas">
 	<div class="titleTablaVariasColumnas">${pantallas} <span class="textosin">- ${seleccionePantalla}</span></div>

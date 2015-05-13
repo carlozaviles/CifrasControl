@@ -29,6 +29,7 @@ import mx.isban.cifrascontrol.beans.administracion.grupo.BeanGrupo;
 import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario;
 import mx.isban.cifrascontrol.servicio.administracion.grupo.BOGrupo;
 import mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario;
+import mx.isban.cifrascontrol.utileria.administracion.ValidadorAccesoPantallas;
 
 /**
 * Clase ControllerUsuarios
@@ -44,9 +45,34 @@ import mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario;
 @Controller
 public class ControllerUsuarios extends Architech {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * Numero de version de la clase serializada
+	 */
+	private static final long serialVersionUID = -5242442071622217987L;
 	
+	/**
+	 * Modulo al que pertenece el controller 
+	 */
+	private static final String MODULO = "ADMINISTRACION";
+	
+	/**
+	 * Constante que indica la pantalla a la que puede acceder el usuario
+	 */
+	private static final String PANTALLA = "USUARIOS";
+	
+	/**
+	 * Constante que tiene la cadena para acceder a los parametros de la sesion y obtener 
+	 * los modulos permitidos por el usuario logueado
+	 */
+	private static final String MODULOS_PERMITIDOS = "modulosPermitidos";
+	
+	/**
+	 * Objeto de negocio de tipo BOUsuario
+	 */
 	private BOUsuario boUsuario;
+	/**
+	 * Objeto de negocio de tipo BOGrupo
+	 */
 	private BOGrupo boGrupo;
 	
 	/**
@@ -54,13 +80,15 @@ public class ControllerUsuarios extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarUsuarios.jsp
+	 * @throws BusinessException En caso de presentarse un error al momento de obtener los usuarios
 	 */
 	@RequestMapping("consultarUsuarios.do")
-	public ModelAndView consultarUsuarios(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView consultarUsuarios(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de consulta de usuarios...");
-		//Peticiones a base de datos para obtener los datos de los perfiles
-		Map<String, Object> parametros = new HashMap<String, Object>();
-		List<BeanUsuario> listaUsuarios  = boUsuario.obtenerTodosUsuarios(getArchitechBean());
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
+		final Map<String, Object> parametros = new HashMap<String, Object>();
+		final List<BeanUsuario> listaUsuarios  = boUsuario.obtenerTodosUsuarios(getArchitechBean());
 		parametros.put("registros", listaUsuarios);
 		this.info("Direccionando a la vista: consultaUsuarios");
 		return new ModelAndView("consultarUsuarios",parametros);
@@ -70,31 +98,43 @@ public class ControllerUsuarios extends Architech {
 	 * Metodo encargado de inicializar el formulario de alta de usuarios
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
-	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista altaUsuarioInit.jsp
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista altaUsuario.jsp
+	 * @throws BusinessException En caso de presentarse un error al momento de obtener los usuarios
 	 */
 	@RequestMapping("altaUsuarioInit.do")
-	public ModelAndView altaUsuarioInit(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView altaUsuarioInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de consulta de usuarios...");
-		List<BeanGrupo> listaGrupos = boGrupo.buscarTodosGrupos(getArchitechBean());
-		Map<String, Object> parametros = new HashMap<String, Object>();
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
+		final List<BeanGrupo> listaGrupos = boGrupo.buscarTodosGrupos(getArchitechBean());
+		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("todosGrupos", listaGrupos);
 		this.info("Direccionando a la vista: altaUsuario");
 		return new ModelAndView("altaUsuario",parametros);
 	}
 	
+	/**
+	 * Metodo encargado de invocar al objeto de negocio encargado de realizar el alta de un usuario
+	 * @param request Un objeto de tipo {@link HttpServletRequest}
+	 * @param response Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarUsuarios.jsp
+	 * @throws BusinessException En caso de presentarse un error al momento de realizar al alta de un usuario
+	 */
 	@RequestMapping("altaUsuario.do")
-	public ModelAndView altaUsuario(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView altaUsuario(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el alta de un usuario");
-		BeanUsuario usuario = new BeanUsuario();
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
+		final BeanUsuario usuario = new BeanUsuario();
 		usuario.setIdUsuario(request.getParameter("idUsuario"));
-		String usuarioActivo = request.getParameter("usuarioActivo");
+		final String usuarioActivo = request.getParameter("usuarioActivo");
 		if(null != usuarioActivo && "activo".equals(usuarioActivo)){
 			usuario.setEstatus(true);
 		}
-		String[] gruposSeleccionados = request.getParameterValues("idGrupo");
-		List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
+		final String[] gruposSeleccionados = request.getParameterValues("idGrupo");
+		final List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
 		for (int i = 0; i < gruposSeleccionados.length; i++) {
-			BeanGrupo grupo = new BeanGrupo();
+			final BeanGrupo grupo = new BeanGrupo();
 			grupo.setIdGrupo(gruposSeleccionados[i]);
 			listaGrupos.add(grupo);
 			this.info("idGrupo:"+gruposSeleccionados[i]);
@@ -111,33 +151,44 @@ public class ControllerUsuarios extends Architech {
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista modificarUsuario.jsp
+	 * @throws BusinessException En caso de presentarse un error al momento de obtener los usuarios
 	 */
 	@RequestMapping("modificarUsuarioInit.do")
-	public ModelAndView modificarUsuarioInit(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView modificarUsuarioInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de consulta de usuarios...");
-		String idUsuario = request.getParameter("idUsuario");
-		this.info("El id de usuario es:"+idUsuario);
-		BeanUsuario usuario = boUsuario.obtenerUsuarioPorID(getArchitechBean(), idUsuario);
-		List<BeanGrupo> grupos = usuario.getGrupos();
-		Map<String, Object> parametros = new HashMap<String, Object>();
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
+		final String idUsuario = request.getParameter("idUsuario");
+		final BeanUsuario usuario = boUsuario.obtenerUsuarioPorID(getArchitechBean(), idUsuario);
+		final List<BeanGrupo> grupos = usuario.getGrupos();
+		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("usuario", usuario);
 		parametros.put("todosGrupos", grupos);
 		return new ModelAndView("modificarUsuario",parametros);
 	}
 	
+	/**
+	 * Metodo encargado invocar al objeto de negocio para realizar la modificacion de un usuario
+	 * @param request Un objeto de tipo {@link HttpServletRequest}
+	 * @param response Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista modificarUsuario.jsp
+	 * @throws BusinessException En caso de presentarse un error al momento de obtener los usuarios
+	 */
 	@RequestMapping("modificarUsuario.do")
-	public ModelAndView modificarUsuario(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView modificarUsuario(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de modificacion de usuarios");
-		BeanUsuario usuario = new BeanUsuario();
+		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
+		final BeanUsuario usuario = new BeanUsuario();
 		usuario.setIdUsuario(request.getParameter("idUsuario"));
-		String usuarioActivo = request.getParameter("usuarioActivo");
+		final String usuarioActivo = request.getParameter("usuarioActivo");
 		if(null != usuarioActivo && "activo".equals(usuarioActivo)){
 			usuario.setEstatus(true);
 		}
-		String[] gruposSeleccionados = request.getParameterValues("idGrupo");
-		List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
+		final String[] gruposSeleccionados = request.getParameterValues("idGrupo");
+		final List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
 		for (int i = 0; i < gruposSeleccionados.length; i++) {
-			BeanGrupo grupo = new BeanGrupo();
+			final BeanGrupo grupo = new BeanGrupo();
 			grupo.setIdGrupo(gruposSeleccionados[i]);
 			listaGrupos.add(grupo);
 			this.info("idGrupo:"+gruposSeleccionados[i]);
@@ -148,6 +199,14 @@ public class ControllerUsuarios extends Architech {
 		return this.consultarUsuarios(request, response);
 	}
 
+	/**
+	 * Metodo encargado de procecesar los errores que se pueden presentar en el modulo de Administracion - Usuarios
+	 * @param req Un objeto de tipo {@link HttpServletRequest}
+	 * @param res Un objeto de tipo {@link HttpServletResponse}
+	 * @param handler Un objeto con la excepcion a procesar
+	 * @param exception Un objeto de tipo {@link Exception}
+	 * @return Un objeto de tipo {@link ModelAndView} con la pantalla de manejo de errores
+	 */
 	@ExceptionHandler
 	public ModelAndView manejoErrores(HttpServletRequest req, HttpServletResponse res, Object handler, Exception exception){
 		final String metodo = this.getClass().getName() + ".manejadorErrores";
@@ -167,21 +226,36 @@ public class ControllerUsuarios extends Architech {
 		return new ModelAndView("redirect:" + pagina, modelo);
 	}
 	
+	/**
+	 * Metodo encargado de obtener un objeto de tipo BOUsuario
+	 * @return Un objeto de tipo BOUsuario
+	 */
 	public BOUsuario getBoUsuario() {
 		return boUsuario;
 	}
 
+	/**
+	 * Modulo encargado de establecer un objeto de tipo BOUsuario
+	 * @param boUsuario Un objeto de tipo BOUsuario a establecer
+	 */
 	public void setBoUsuario(BOUsuario boUsuario) {
 		this.boUsuario = boUsuario;
 	}
 
+	/**
+	 * Metodo encargado de obtener un objeto de tipo BOGrupo
+	 * @return Un objeto de tipo BOgrupo
+	 */
 	public BOGrupo getBoGrupo() {
 		return boGrupo;
 	}
 
+	/**
+	 * Metodo encargado de establecer un objeto de tipo BOGrupo
+	 * @param boGrupo Un objeto de tipo BOGrupo
+	 */
 	public void setBoGrupo(BOGrupo boGrupo) {
 		this.boGrupo = boGrupo;
 	}
-	
 	
 }

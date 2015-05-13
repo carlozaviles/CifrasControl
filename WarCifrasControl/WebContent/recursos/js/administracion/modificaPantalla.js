@@ -2,6 +2,7 @@ $(document).ready(function(){
 	
 	$('#nombreRequerido').hide();
 	$('#descripcionRequerido').hide();
+	$('#moduloRequerido').hide();
 	
     $('#btnGuardaPantalla').click(function(){
     	var error = false;
@@ -18,8 +19,15 @@ $(document).ready(function(){
         	$('#descripcionRequerido').hide();
         }
     	
+    	if($('input[name="moduloActivo"]').is(':checked')){
+    		$('#moduloRequerido').hide();
+        }else{
+        	$('#moduloRequerido').show();
+            error = true;
+        }
+    	
     	if(error == true){
-    		jAlert('Los campos marcados son obligatorios. Recuerde que debe completarlos.', 'Faltan campos por completar', 'Alerta', '-Verifique que los campos obligatorios esten completados.');
+    		jAlert($('#gralCamposObligatorios').val(), $('#gralFaltanCampos').val(), 'Alerta', $('#gralVerifique').val());
     	}else{
     		$('#modificarPantalla').attr('action', 'modificarPantalla.do');
             $('#modificarPantalla').submit();
@@ -32,7 +40,7 @@ $(document).ready(function(){
     });
     
     $("#regresar").click(function(event) {
-    	$('#modificarGrupo').attr('action', 'consultarGrupos.do');
-        $('#modificarGrupo').submit();
+    	$('#modificarPantalla').attr('action', 'consultarPantallas.do');
+        $('#modificarPantalla').submit();
 	});
 });

@@ -26,7 +26,7 @@ $(document).ready(function(){
         }
     	
     	if(error == true){
-    		jAlert('Los campos marcados son obligatorios. Recuerde que debe completarlos.', 'Faltan campos por completar', 'Alerta', '-Verifique que los campos obligatorios esten completados.');
+    		jAlert($('#gralCamposObligatorios').val(), $('#gralFaltanCampos').val(), 'Alerta', $('#gralVerifique').val());
     	}else{
     		$('#modificarGrupo').attr('action', 'modificarGrupo.do');
             $('#modificarGrupo').submit();

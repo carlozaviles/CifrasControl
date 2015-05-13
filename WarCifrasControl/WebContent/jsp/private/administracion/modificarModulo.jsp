@@ -3,8 +3,8 @@
 
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
-	<jsp:param name="menuItem"   	 value="ADMINISTRACION" />
-	<jsp:param name="menuSubItem"    value="Módulos" />	
+	<jsp:param name="menuItem"   	 value="administracion" />
+	<jsp:param name="menuSubItem"    value="modulos" />	
 </jsp:include>
 
 <script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/modificarModulo.js" type="text/javascript"></script>
@@ -17,7 +17,7 @@
 <spring:message code="administracion.nombrePantalla"     	var="nombrePantalla"/>
 
 <spring:message code="administracion.camposObligatorios"     	var="camposObligatorios"/>
-<spring:message code="administracion.descripcionPantalla"     	var="descripcionPantalla"/>
+<spring:message code="administracion.descripcionModulo"     	var="descripcionModulo"/>
 
 <spring:message code="administracion.guardarModulo" 		var="guardarModulo"/>
 <spring:message code="administracion.cancelar"	 		var="cancelar"/>
@@ -29,6 +29,13 @@
 <spring:message code="administracion.seleccioneModulo" 		var="seleccioneModulo"/>
 <spring:message code="administracion.urlPantalla" 		var="urlPantalla"/>
 
+<spring:message code="administracion.divIngresarNombre" 			var="divIngresarNombre"/>
+<spring:message code="administracion.divIngresarDescripcion" 			var="divIngresarDescripcion"/>
+
+<spring:message code="administracion.gralCamposObligatorios"     	var="gralCamposObligatorios"/>
+<spring:message code="administracion.gralFaltanCampos"     			var="gralFaltanCampos"/>
+<spring:message code="administracion.gralVerifique"     		var="gralVerifique"/>
+
 
 <div class="pageTitleContainer">
    <span class="pageTitle">${tipoModulo}</span> - ${modulos}
@@ -37,6 +44,9 @@
 
 <form action="" id="modificarModulo" name="modificarModulo" method="post">
 <input type="hidden" name="idModulo" id="idModulo" value="<c:out value="${modulo.idModulo}"/>"/>
+<input id="gralCamposObligatorios" type="hidden" value="${gralCamposObligatorios}"/>
+	<input id="gralFaltanCampos" type="hidden" value="${gralFaltanCampos}"/>
+	<input id="gralVerifique" type="hidden" value="${gralVerifique}"/>
 <div class="frameFormularioB">
 	<div class="contentFormularioB">
 		<div class="titleFormularioB">${modulos} - <span class="textosin">${modificarModulo}</span></div>
@@ -52,11 +62,11 @@
 					<tr>
 						<td width="154" class="odd">${nombreDelModulo}:</td>
 						<td colspan="3"><input name="nombreModulo"
-							type="text" class="Campos_Des" maxlength="50" id="nombreModulo" value="<c:out value="${modulo.nombreModulo}"/>"/></td><div style="color:#FF0000;" id="nombreRequerido">Ingrese un nombre v&aacute;lido </div>
+							type="text" class="Campos_Des" maxlength="50" id="nombreModulo" value="<c:out value="${modulo.nombreModulo}"/>"/></td><div style="color:#FF0000;" id="nombreRequerido">${divIngresarNombre}</div>
 					</tr>
 					<tr>
 						<td class="odd">${descripcionModulo}:</td>
-						<td colspan="3"><textarea rows="4" cols="50" id="descripcionModulo" name="descripcionModulo"><c:out value="${modulo.descripcionModulo}"/></textarea>(300 caracteres m&aacute;ximo)</td><div style="color:#FF0000;" id="descripcionRequerido">Ingrese una descripcion v&aacute;lida</div>
+						<td colspan="3"><textarea rows="4" cols="50" id="descripcionModulo" name="descripcionModulo"><c:out value="${modulo.descripcionModulo}"/></textarea>(300 caracteres m&aacute;ximo)</td><div style="color:#FF0000;" id="descripcionRequerido">${divIngresarDescripcion}</div>
 					</tr>
 				</tbody>
 			</table>

@@ -7,10 +7,10 @@ $(document).ready(function(){
 	}
 	
 	$('#detalleModulo').click(function(){  
-    	if($('input[name="idPantalla"]').is(':checked')){
+    	if($('input[name="idModulo"]').is(':checked')){
     		$('#modificar').submit();
         }else{
-        	jError('Debe seleccionar un m&oacute;dulo para mostrar el detalle', 'Falta seleccionar un m&oacute;dulo', 'Error', '-Seleccione un m&oacute;');
+        	jError($('#faltaSeleccionarModulo').val(), $('#faltaModulo').val(), 'Error', $('#seleccioneModulo').val());
         }    	
     });
     

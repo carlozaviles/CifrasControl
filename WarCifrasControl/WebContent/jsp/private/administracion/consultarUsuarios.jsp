@@ -5,10 +5,11 @@
 
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
-	<jsp:param name="menuItem"   	 value="ADMINISTRACION" />
-	<jsp:param name="menuSubItem"    value="Usuarios" />	
+	<jsp:param name="menuItem"   	 value="administracion" />
+	<jsp:param name="menuSubItem"    value="usuarios" />	
 </jsp:include>
 
+<script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/consultaUsuario.js" type="text/javascript"></script>
 
 <spring:message code="administracion.modulo"            var="modulo"/>
 <spring:message code="administracion.usuarios"   	var="usuarios"/>
@@ -21,16 +22,25 @@
 <spring:message code="administracion.detalle"		var="detalle"/>
 <spring:message code="administracion.nuevoUsuario"	var="nuevoUsuario"/>
 <spring:message code="administracion.pantallas"		var="pantallas"/>
+
+<spring:message code="administracion.faltaSeleccionarUsuario"     	var="faltaSeleccionarUsuario"/>
+<spring:message javaScriptEscape="true" code="administracion.faltaUsuario"     			var="faltaUsuario"/>
+<spring:message code="administracion.seleccioneUsuario"     		var="seleccioneUsuario"/>
+
+
 <form action="modificarUsuarioInit.do" name="modificar" id="modificar" method="post">
+	<input id="faltaSeleccionarUsuario" type="hidden" value="${faltaSeleccionarUsuario}"/>
+	<input id="faltaUsuario" type="hidden" value="${faltaUsuario}"/>
+	<input id="seleccioneUsuario" type="hidden" value="${seleccioneUsuario}"/>
 <div class="pageTitleContainer">
    <span class="pageTitle">${modulo}</span> - ${usuarios}
 </div>
 
-<div class="frameTablaEstandar">
-	<div class="titleTablaEstandar">
+<div class="frameTablaVariasColumnas">
+	<div class="titleTablaVariasColumnas">
 		${usuarios} <span class="textosin">- ${seleccioneUsuario}</span>
 	</div>
-<div class="contentTablaEstandar">
+	<div class="contentTablaVariasColumnas" style="height:300px;overflow:auto;">
 		<table>
 			<thead>
 				<tr>
@@ -62,7 +72,7 @@
 		<div class="contentPieContenedor">
 			<table>
 				<tr>
-					<td class="izq"><a href="javascript:document.modificar.submit()">${detalle}</td>
+					<td class="izq"><a href="#" id="detalleUsuario">${detalle}</td>
 				</tr>
 			</table>
 		</div>
@@ -70,6 +80,6 @@
 </div>
 </form>
 <form action="altaUsuarioInit.do" method="post" name="altaUsuario" id="altaUsuario">
-<div class="PiePag"><button name="btnAltaUsuario" id="btnAltaUsuario" onclick="">${nuevoUsuario}</button></div>
+<div class="PiePag"><button name="btnAltaUsuario" id="btnAltaUsuario" type="submit">${nuevoUsuario}</button></div>
 </form>
 <jsp:include page="../myFooter.jsp" flush="true"/>

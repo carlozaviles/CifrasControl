@@ -10,7 +10,7 @@ $(document).ready(function(){
     	if($('input[name="idGrupo"]').is(':checked')){
     		$('#modificar').submit();
         }else{
-        	jError('Debe seleccionar un grupo para mostrar el detalle', 'Falta seleccionar un grupo', 'Error', '-Seleccione un grupo');
+        	jError($('#faltaSeleccionarGrupo').val(), $('#faltaGrupo').val(), 'Error', $('#seleccioneGrupo').val());
         }    	
     });
     
