@@ -61,7 +61,7 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 	 * Constante con la consulta SQL que indica los modulos encontrados por usuario
 	 */
 	private static final String QUERY_MODULOS_POR_USUARIO = 
-			"SELECT DISTINCT M.ID_MODULO,M.NOMBRE"
+			"SELECT DISTINCT M.ID_MODULO,M.NOMBRE,M.DESCRIPCION"
 			+ " FROM MODULO M"
 			+ " JOIN PANTALLA P"
 			+ " ON M.ID_MODULO = P.FK_MODULO"
@@ -146,13 +146,7 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 				modulos.setCodError(responseDTO.getCodeError());
 				modulos.setMsgError(responseDTO.getMessageError());
 			}else{
-				final List<BeanModulo> listaModulos = new ArrayList<BeanModulo>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanModulo modulo = new BeanModulo();
-					modulo.setIdModulo(String.valueOf(registro.get("ID_MODULO")));
-					modulo.setNombreModulo(String.valueOf(registro.get("NOMBRE")));
-					listaModulos.add(modulo);
-				}
+				final List<BeanModulo> listaModulos = obtenerListadoModulos(responseDTO);
 				modulos.setModulos(listaModulos);
 				modulos.setCodError(CODIGO_SIN_ERRORES);
 			}
@@ -162,6 +156,25 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 			modulos.setMsgError(ERROR_IDA+e.getMessage());
 		}
 		return modulos;
+	}
+
+	/**
+	 * Metodo que itera en el resultado de la consulta y obtiene un listado 
+	 * de objetos tipo BeanModulo
+	 * @param responseDTO La respuesta de la consulta en la base de datos
+	 * @return Listado de objetos de tipo BeanModulo
+	 */
+	private List<BeanModulo> obtenerListadoModulos(
+			ResponseMessageDataBaseDTO responseDTO) {
+		final List<BeanModulo> listaModulos = new ArrayList<BeanModulo>();
+		for(Map<String, Object> registro : responseDTO.getResultQuery()){
+			final BeanModulo modulo = new BeanModulo();
+			modulo.setIdModulo(String.valueOf(registro.get("ID_MODULO")));
+			modulo.setNombreModulo(String.valueOf(registro.get("NOMBRE")));
+			modulo.setDescripcionModulo(String.valueOf(registro.get("DESCRIPCION")));
+			listaModulos.add(modulo);
+		}
+		return listaModulos;
 	}
 
 	/* (non-Javadoc)
@@ -185,14 +198,7 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 				modulos.setCodError(responseDTO.getCodeError());
 				modulos.setMsgError(responseDTO.getMessageError());
 			}else{
-				final List<BeanModulo> listaModulos = new ArrayList<BeanModulo>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanModulo modulo = new BeanModulo();
-					modulo.setIdModulo(String.valueOf(registro.get("ID_MODULO")));
-					modulo.setNombreModulo(String.valueOf(registro.get("NOMBRE")));
-					modulo.setDescripcionModulo(String.valueOf(registro.get("DESCRIPCION")));
-					listaModulos.add(modulo);
-				}
+				final List<BeanModulo> listaModulos = obtenerListadoModulos(responseDTO);
 				modulos.setModulos(listaModulos);
 				modulos.setCodError(CODIGO_SIN_ERRORES);
 			}
@@ -225,14 +231,7 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 				modulos.setCodError(responseDTO.getCodeError());
 				modulos.setMsgError(responseDTO.getMessageError());
 			}else{
-				final List<BeanModulo> listaModulos = new ArrayList<BeanModulo>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanModulo modulo = new BeanModulo();
-					modulo.setIdModulo(String.valueOf(registro.get("ID_MODULO")));
-					modulo.setNombreModulo(String.valueOf(registro.get("NOMBRE")));
-					modulo.setDescripcionModulo(String.valueOf(registro.get("DESCRIPCION")));
-					listaModulos.add(modulo);
-				}
+				final List<BeanModulo> listaModulos = obtenerListadoModulos(responseDTO);
 				modulos.setModulos(listaModulos);
 				modulos.setCodError(CODIGO_SIN_ERRORES);
 			}
@@ -265,14 +264,7 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 				modulos.setCodError(responseDTO.getCodeError());
 				modulos.setMsgError(responseDTO.getMessageError());
 			}else{
-				final List<BeanModulo> listaModulos = new ArrayList<BeanModulo>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanModulo modulo = new BeanModulo();
-					modulo.setIdModulo(String.valueOf(registro.get("ID_MODULO")));
-					modulo.setNombreModulo(String.valueOf(registro.get("NOMBRE")));
-					modulo.setDescripcionModulo(String.valueOf(registro.get("DESCRIPCION")));
-					listaModulos.add(modulo);
-				}
+				final List<BeanModulo> listaModulos = obtenerListadoModulos(responseDTO);
 				modulos.setModulos(listaModulos);
 				modulos.setCodError(CODIGO_SIN_ERRORES);
 			}

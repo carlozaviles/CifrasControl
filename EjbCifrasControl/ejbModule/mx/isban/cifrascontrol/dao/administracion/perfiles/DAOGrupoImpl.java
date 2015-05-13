@@ -125,14 +125,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 				grupos.setCodError(responseDTO.getCodeError());
 				grupos.setMsgError(responseDTO.getMessageError());
 			}else{
-				final List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanGrupo grupo = new BeanGrupo();
-					grupo.setIdGrupo(String.valueOf(registro.get("ID_GRUPO")));
-					grupo.setNombreGrupo(String.valueOf(registro.get("NOMBRE")));
-					grupo.setDescripcionGrupo(String.valueOf(registro.get("DESCRIPCION")));
-					listaGrupos.add(grupo);
-				}
+				final List<BeanGrupo> listaGrupos = obtenerListadoGrupo(responseDTO);
 				grupos.setGrupos(listaGrupos);
 				grupos.setCodError(CODIGO_SIN_ERRORES);
 			}
@@ -142,6 +135,25 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 			grupos.setMsgError(e.getMessage());
 		}
 		return grupos;
+	}
+
+	/**
+	 * Metodo que itera en el resultado de la consulta y obtiene un listado 
+	 * de objetos tipo BeanGrupo
+	 * @param responseDTO La respuesta de la consulta en la base de datos
+	 * @return Listado de objetos de tipo BeanGrupo
+	 */
+	private List<BeanGrupo> obtenerListadoGrupo(
+			ResponseMessageDataBaseDTO responseDTO) {
+		final List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
+		for(Map<String, Object> registro : responseDTO.getResultQuery()){
+			final BeanGrupo grupo = new BeanGrupo();
+			grupo.setIdGrupo(String.valueOf(registro.get("ID_GRUPO")));
+			grupo.setNombreGrupo(String.valueOf(registro.get("NOMBRE")));
+			grupo.setDescripcionGrupo(String.valueOf(registro.get("DESCRIPCION")));
+			listaGrupos.add(grupo);
+		}
+		return listaGrupos;
 	}
 
 	/* (non-Javadoc)
@@ -166,14 +178,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 				grupos.setCodError(responseDTO.getCodeError());
 				grupos.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanGrupo grupo = new BeanGrupo();
-					grupo.setIdGrupo(String.valueOf(registro.get("ID_GRUPO")));
-					grupo.setNombreGrupo(String.valueOf(registro.get("NOMBRE")));
-					grupo.setDescripcionGrupo(String.valueOf(registro.get("DESCRIPCION")));
-					listaGrupos.add(grupo);
-				}
+				List<BeanGrupo> listaGrupos = obtenerListadoGrupo(responseDTO);
 				grupos.setGrupos(listaGrupos);
 				grupos.setCodError(CODIGO_SIN_ERRORES);
 			}
@@ -207,14 +212,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 				grupos.setCodError(responseDTO.getCodeError());
 				grupos.setMsgError(responseDTO.getMessageError());
 			}else{
-				List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					BeanGrupo grupo = new BeanGrupo();
-					grupo.setIdGrupo(String.valueOf(registro.get("ID_GRUPO")));
-					grupo.setNombreGrupo(String.valueOf(registro.get("NOMBRE")));
-					grupo.setDescripcionGrupo(String.valueOf(registro.get("DESCRIPCION")));
-					listaGrupos.add(grupo);
-				}
+				List<BeanGrupo> listaGrupos = obtenerListadoGrupo(responseDTO);
 				grupos.setGrupos(listaGrupos);
 				grupos.setCodError(CODIGO_SIN_ERRORES);
 			}
@@ -320,7 +318,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 								grupos.setMsgError(actualizaRelaciones.getMsgError());
 								i = pantallas.size()+1;
 							}else{
-								grupos.setCodError("0");
+								grupos.setCodError(CODIGO_SIN_ERRORES);
 							}
 						}
 					}
@@ -390,14 +388,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 				grupos.setCodError(responseDTO.getCodeError());
 				grupos.setMsgError(responseDTO.getMessageError());
 			}else{
-				final List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanGrupo grupo = new BeanGrupo();
-					grupo.setIdGrupo(String.valueOf(registro.get("ID_GRUPO")));
-					grupo.setNombreGrupo(String.valueOf(registro.get("NOMBRE")));
-					grupo.setDescripcionGrupo(String.valueOf(registro.get("DESCRIPCION")));
-					listaGrupos.add(grupo);
-				}
+				final List<BeanGrupo> listaGrupos = obtenerListadoGrupo(responseDTO);
 				grupos.setGrupos(listaGrupos);
 				grupos.setCodError(CODIGO_SIN_ERRORES);
 			}

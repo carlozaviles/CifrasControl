@@ -155,14 +155,7 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 				respuesta.setCodError(responseDTO.getCodeError());
 				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				final List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanPantalla pantalla = new BeanPantalla();
-					pantalla.setIdPantalla(String.valueOf(registro.get("ID_PANTALLA")));
-					pantalla.setNombrePantalla(String.valueOf(registro.get("NOMBRE")));
-					pantalla.setDescripcionPantalla(String.valueOf(registro.get("DESCRIPCION")));
-					listaPantallas.add(pantalla);
-				}
+				final List<BeanPantalla> listaPantallas = obtenerListadoPantallas(responseDTO);
 				respuesta.setPantallas(listaPantallas);
 				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
@@ -173,6 +166,25 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 		}
 		this.info("Finaliza la ejecucion del metodo de consulta de todas las pantallas");
 		return respuesta;
+	}
+
+	/**
+	 * Metodo que itera en el resultado de la consulta y obtiene un listado 
+	 * de objetos tipo BeanPantalla
+	 * @param responseDTO La respuesta de la consulta en la base de datos
+	 * @return Listado de objetos de tipo BeanPantalla
+	 */
+	private List<BeanPantalla> obtenerListadoPantallas(
+			ResponseMessageDataBaseDTO responseDTO) {
+		final List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
+		for(Map<String, Object> registro : responseDTO.getResultQuery()){
+			final BeanPantalla pantalla = new BeanPantalla();
+			pantalla.setIdPantalla(String.valueOf(registro.get("ID_PANTALLA")));
+			pantalla.setNombrePantalla(String.valueOf(registro.get("NOMBRE")));
+			pantalla.setDescripcionPantalla(String.valueOf(registro.get("DESCRIPCION")));
+			listaPantallas.add(pantalla);
+		}
+		return listaPantallas;
 	}
 
 	/* (non-Javadoc)
@@ -197,14 +209,7 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 				respuesta.setCodError(responseDTO.getCodeError());
 				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				final List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanPantalla pantalla = new BeanPantalla();
-					pantalla.setIdPantalla(String.valueOf(registro.get("ID_PANTALLA")));
-					pantalla.setNombrePantalla(String.valueOf(registro.get("NOMBRE")));
-					pantalla.setDescripcionPantalla(String.valueOf(registro.get("DESCRIPCION")));
-					listaPantallas.add(pantalla);
-				}
+				final List<BeanPantalla> listaPantallas = obtenerListadoPantallas(responseDTO);
 				respuesta.setPantallas(listaPantallas);
 				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
@@ -239,14 +244,7 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 				respuesta.setCodError(responseDTO.getCodeError());
 				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				final List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanPantalla pantalla = new BeanPantalla();
-					pantalla.setIdPantalla(String.valueOf(registro.get("ID_PANTALLA")));
-					pantalla.setNombrePantalla(String.valueOf(registro.get("NOMBRE")));
-					pantalla.setDescripcionPantalla(String.valueOf(registro.get("DESCRIPCION")));
-					listaPantallas.add(pantalla);
-				}
+				final List<BeanPantalla> listaPantallas = obtenerListadoPantallas(responseDTO);
 				respuesta.setPantallas(listaPantallas);
 				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
@@ -420,14 +418,7 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 				respuesta.setCodError(responseDTO.getCodeError());
 				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
-				final List<BeanPantalla> listaPantallas = new ArrayList<BeanPantalla>();
-				for(Map<String, Object> registro : responseDTO.getResultQuery()){
-					final BeanPantalla pantalla = new BeanPantalla();
-					pantalla.setIdPantalla(String.valueOf(registro.get("ID_PANTALLA")));
-					pantalla.setNombrePantalla(String.valueOf(registro.get("NOMBRE")));
-					pantalla.setDescripcionPantalla(String.valueOf(registro.get("DESCRIPCION")));
-					listaPantallas.add(pantalla);
-				}
+				final List<BeanPantalla> listaPantallas = obtenerListadoPantallas(responseDTO);
 				respuesta.setPantallas(listaPantallas);
 				respuesta.setCodError(CODIGO_SIN_ERRORES);
 			}
