@@ -44,9 +44,16 @@
 	<spring:message code="menu.menuPrincipalReprocesos" 					var="menuPrincipalReprocesos"/>
 	<spring:message code="menu.submenuReprocesosSolicitud" 					var="submenuReprocesosSolicitud"/>
 	<spring:message code="menu.submenuReprocesosConsulta" 					var="submenuReprocesosConsulta"/>
+
 	<spring:message code="menu.menuPrincipalCifras" 					var="menuPrincipalCifras"/>
 	<spring:message code="menu.submenuCifrasConsultaCifras" 				var="submenuCifrasConsultaCifras"/>
-	<spring:message code="menu.submenuCifrasConsultaFacturas" 				var="submenuCifrasConsultaFacturas"/>
+
+	<spring:message code="menu.menuPrincipalFacturas" 					var="menuPrincipalFacturas"/>
+	<spring:message code="menu.submenuFacturas" 						var="submenuFacturas"/>
+	<spring:message code="menu.submenuNotasCredito" 					var="submenuNotasCredito"/>
+	<spring:message code="menu.submenuDivisas" 						var="submenuDivisas"/>
+	<spring:message code="menu.submenuRecibosDeducibles" 					var="submenuRecibosDeducibles"/>
+	
 	
 	<spring:message code="menu.menuPrincipalAdministracion" 				var="menuPrincipalAdministracion"/>
 	<spring:message code="menu.submenuGrupo" 						var="submenuGrupo"/>
@@ -89,8 +96,26 @@
 								<c:if test = "${pantalla.nombrePantalla == 'CONSULTAR CIFRAS DE CONTROL'}">
 							<li id="consultaCifras">      		<a href="">    &gt;<span class="subMenuText">${submenuCifrasConsultaCifras}</span></a></li>
 								</c:if>
-								<c:if test = "${pantalla.nombrePantalla == 'CONSULTAR FACTURAS'}">							
-							<li id="consultaFacturas">      	<a href="">    &gt;<span class="subMenuText">${submenuCifrasConsultaFacturas}</span></a></li>
+							</c:forEach>						
+						</ul>
+					</li>	
+					</c:if>
+
+					<c:if test = "${modulo.nombreModulo == 'FACTURAS'}">
+					<li id="facturas" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('facturas')"><span>${menuPrincipalFacturas}</span></a>
+						<ul>
+							<c:forEach var="pantalla" items="${modulo.pantallas}">
+								<c:if test = "${pantalla.nombrePantalla == 'FACTURAS'}">
+							<li id="factura">      		<a href="">    &gt;<span class="subMenuText">${submenuFacturas}</span></a></li>
+								</c:if>
+								<c:if test = "${pantalla.nombrePantalla == 'NOTAS DE CREDITO'}">							
+							<li id="notasCredito">      	<a href="">    &gt;<span class="subMenuText">${submenuNotasCredito}</span></a></li>
+								</c:if>	
+								<c:if test = "${pantalla.nombrePantalla == 'DIVISAS'}">							
+							<li id="divisas">      	<a href="">    &gt;<span class="subMenuText">${submenuDivisas}</span></a></li>
+								</c:if>	
+								<c:if test = "${pantalla.nombrePantalla == 'RECIBOS DEDUCIBLES'}">							
+							<li id="recibosDeducibles">      	<a href="">    &gt;<span class="subMenuText">${submenuRecibosDeducibles}</span></a></li>
 								</c:if>							
 							</c:forEach>						
 						</ul>

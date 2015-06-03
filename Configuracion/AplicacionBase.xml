@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<componentes> 
+	
+	<!-- En la configuracion del componente cmpConfiguracion nunca se debe de poner su atributo init en true, ya que el listener lo inicializa -->
+	<cmpConfiguracion id="1" activo="true">
+		<!-- Parametros de configuracion especiales para la Aplicacion Cliente [Front y EJB] y AplicacionBase -->
+		
+		<!-- MODO           = Es la forma en como se van a obtener los valores de las configuraciones. [local|distribuido] -->
+	    <!-- SERVIDOR           = Es el ID del servidor donde se esta ejecutando la App. Este es usado para operaciones con la BD -->
+	    <!-- ID_CONFIG_APP      = Es el ID de la App, el cual es usado para identificar el conjunto de configuraciones que estan asociadas a esta App, Solo es usada para cosas referentes a las configuraciones en memoria. -->
+	    <!-- REF_ID_APP         = Es el ID de la App, el cual es usado para hacer referencia a la App en toda operacion que tenga que ver con 2ABE y con la BD. -->
+	    <!-- NOMBRE_APLICACION  = Es el nombre de la Aplicacion. -->
+	    <!-- MAXIMO_REGISTROS   = Es el maximo numero de registros que seran recuperados. -->
+	    <!-- REGISTROS_PAGINA   = Es el maximo numero de registros por pagina que seran mostrados. -->
+	    <!-- MAXIMO_PAGINAS     = Es el maximo numero de paginas que seran mostradas. -->
+	    <!-- RUTA_BASE_DIR_ARQ  = Es la ruta base en la cual debera estar el primer directorio de la arquitectura -->
+		
+	    <MODO 		replicable='false'>local</MODO>
+	    <SERVIDOR 		replicable='false'>ServerLocal</SERVIDOR>
+	    <ID_CONFIG_APP 	replicable='false'>AplicacionBase</ID_CONFIG_APP>
+	    <REF_ID_APP 		replicable='false'>AplicacionBase</REF_ID_APP>
+	    <NOMBRE_APLICACION 	replicable='false'>Aplicacion Base</NOMBRE_APLICACION>
+	    <MAXIMO_REGISTROS 	replicable='false'>1000</MAXIMO_REGISTROS>
+	    <REGISTROS_PAGINA 	replicable='false'>50</REGISTROS_PAGINA>
+	    <MAXIMO_PAGINAS 	replicable='false'>20</MAXIMO_PAGINAS>
+	    <RUTA_BASE_DIR_ARQ 	replicable='false'>/arquitecturaAgave/DistV1</RUTA_BASE_DIR_ARQ>
+	</cmpConfiguracion>
+
+	<cmpLogging id="2" activo="true" init="true" class="mx.isban.agave.logging.Logging">
+		<!-- Parametros de configuracion especiales para la Aplicacion Cliente [Front y EJB] y AplicacionBase -->
+		
+		<!-- MODE_LOG          = Modalidad de Loggeo [CONSOLE|FILE] -->
+		<!-- PATH_LOG          = Ruta del archivo que contendra los logs [/arquitecturaAgave/DistV1/temp/logs/aplicacion.log] -->
+		<!-- LEVEL_LOG         = Nivel de los logs que se enviaran a los appenders [TRACE|DEBUG|INFO|WARN|ERROR|FATAL]. -->
+		<!-- SHOW_WORK_THREAD  = Muestra en la trama del log el thread con el que se esta ejecutando las acciones. -->
+		<!-- DB_LOGGING        = Determina si los log seran enviados a la BD [TRUE|FALSE]. -->
+		<!-- CAMPO_FILTRO      = Criterio por el cual se filtraran los logs enviados a BD [IP|ID_SESION|USUARIO|CONTRATO|CLASE]. --> 
+		<!-- FILTRO            = Valor del criterio que debera tener el filtro para que los logs sean enviados a BD. -->
+		<!-- ID_CANAL          = Identificador del canal usado para enviar los logs a BD. -->
+		
+		<MODE_LOG     		replicable='true'>CONSOLE</MODE_LOG>
+		<PATH_LOG     		replicable='true'>/arquitecturaAgave/temp/cmpLogging/log/aplicacionBase.log</PATH_LOG>
+		<LEVEL_LOG   		replicable='true'>INFO</LEVEL_LOG>
+		<SHOW_WORK_THREAD	replicable='true'>FALSE</SHOW_WORK_THREAD>
+		<DB_LOGGING   		replicable='true'>FALSE</DB_LOGGING>
+		<CAMPO_FILTRO 		replicable='true'></CAMPO_FILTRO>
+		<FILTRO       		replicable='true'></FILTRO>
+		<ID_CANAL     		replicable='true'></ID_CANAL>
+	</cmpLogging>
+</componentes>
+

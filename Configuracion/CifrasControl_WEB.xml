@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<componentes>
+  <!--  En la configuracion del componente cmpConfiguracion nunca se debe de poner su atributo init en true, ya que el listener lo inicializa --> 
+  <cmpConfiguracion id="1" activo="true">
+	  <MODO replicable="false">local</MODO> 
+	  <!--  Es la forma en como se van a obtener los valores de las configuraciones. [local|distribuido] --> 
+	  <SERVIDOR replicable="false">server2</SERVIDOR> 
+	  <!--  Es el ID del servidor donde se esta ejecutando la App. Este es usado para operaciones con la BD --> 
+	  <ID_CONFIG_APP replicable="false">IdConfigAppCifrasControlWEB</ID_CONFIG_APP> 
+	  <!--  Es el ID de la App, el cual es usado para identificar el conjunto de configuraciones que estan asociadas a esta App, Solo es usada para cosas referentes a las configuraciones en memoria. --> 
+	  <REF_ID_APP replicable="false">IdRefAppCifrasControlWEB</REF_ID_APP> 
+	  <!--  Es el ID de la App, el cual es usado para hacer referencia a la App en toda operación que tenga que ver con 2ABE y con la BD. --> 
+	  <NOMBRE_APLICACION replicable="false">CifrasControl WEB</NOMBRE_APLICACION> 
+	  <!--  Es el nombre de la Aplicacion. --> 
+	  <MAXIMO_REGISTROS replicable="false">1000</MAXIMO_REGISTROS> 
+	  <!--  Es el máximo número de registros que serán recuperados. --> 
+	  <REGISTROS_PAGINA replicable="false">50</REGISTROS_PAGINA> 
+	  <!--  Es el máximo número de registros por pagina que serán mostrados.--> 
+	  <MAXIMO_PAGINAS replicable="false">20</MAXIMO_PAGINAS> 
+	  <!--  Es el máximo número de paginas que serán mostradas. --> 
+	  <RUTA_BASE_DIR_ARQ replicable="false">/arquitecturaAgave/DistV1</RUTA_BASE_DIR_ARQ> 
+	  <!--  Es la ruta base en la cual debera estar el primer directorio de la arquitectura --> 
+  </cmpConfiguracion>
+  <cmpLogging id="2" activo="true" init="true" class="mx.isban.agave.logging.Logging">
+	  <MODE_LOG replicable="true">FILE</MODE_LOG> 
+	  <!--  Modalidad de Loggeo [CONSOLE|FILE]   --> 
+	  <PATH_LOG replicable="true">/arquitecturaAgave/temp/cmpLogging/log/CifrasControlWeb.log</PATH_LOG> 
+	  <!--  Ruta del archivo que contendra los logs [c://logs...|/logs....]   --> 
+	  <LEVEL_LOG replicable="true">TRACE</LEVEL_LOG> 
+	  <!--  Nivel de los logs que se enviaran a los appenders [TRACE|DEBUG|INFO|WARN|ERROR|FATAL].   --> 
+	  <DB_LOGGING replicable="true">FALSE</DB_LOGGING> 
+	  <!--  Determina si los log seran enviados a la BD [TRUE|FALSE].   --> 
+	  <CAMPO_FILTRO replicable="true" /> 
+	  <!--  Criterio por el cual se filtraran los logs enviados a BD [IP|ID_SESION|USUARIO|CONTRATO|CLASE].   --> 
+	  <FILTRO replicable="true" /> 
+	  <!--  Valor del criterio que deberá tener el filtro para que los logs sean enviados a BD.   --> 
+	  <ID_CANAL replicable="true" /> 
+	  <!--  Identificador del canal usado para enviar los logs a BD.   --> 
+	  <SHOW_WORK_THREAD replicable="true">FALSE</SHOW_WORK_THREAD> 
+	  <!--  Muestra en la trama del log el thread con el que se esta ejecutando las acciones.   --> 
+  </cmpLogging>
+  <cmpLookAndFeel id="9" activo="true">
+	<LookAndFeel replicable="false">default</LookAndFeel> 
+	<!--  Define el nombre del paquete de LookAndFeel a utilizar (Paquete de archivos JS, CSS, etc..).   --> 
+	<ValidaSesiones replicable="false">1</ValidaSesiones> 
+	<!--  Define si estara activa o no la regla que impide el uso de multiples sesiones para un mismo usuario. [0=Inhabilitado | 1=Habilitado]   --> 
+	<UsaSAM replicable="false">0</UsaSAM> 
+	<!--  Define si la verificacion de las credenciales de acceso lo realice a travez de las cabeceras de SAM o mediante parametros usuario y languaje. [0=Inhabilitado | 1=Habilitado]   --> 
+	<UsaMenu replicable="false">1</UsaMenu> 
+	<!--  Define si se va a mostrar o no el menu configurado. [0=Inhabilitado | 1=Habilitado]   --> 
+	<UsaMensajes replicable="false">0</UsaMensajes> 
+	<!--  Define si se va a mostrar la imagen de mensajes en el Header de la aplicacion. [0=Inhabilitado | 1=Habilitado]   --> 
+	<TipoMenu replicable="false">0</TipoMenu> 
+	<!--  Define el tipo de menu a utilizar [0=Estatico : Muestra el menu tal y como esta, ademas de que se activaran los menus y sub-menus segun lo definido en el bean de LookAndFeel. | 1=Dinamico : Especifica que se agregaran los menus de forma dinamica o programatica desde el JSP myMenu.]   --> 
+	<TipoIdsMmenu replicable="false">1</TipoIdsMmenu> 
+	<!--  Define que menus y sub-menus se activaran [0=Excluyentes : Active automáticamente aquellos menús y/o sub-menús que estén agregados en el bean de LookAndFeel e inactiva el resto, solo si esta la configuración "TipoMenu=Estatico". | 1=Incluyentes : Inactiva automáticamente aquellos menús y/o sub-menús que estén agregados en el bean de LookAndFeel y activa el resto, solo si esta la configuración "TipoMenu=Estatico".]   --> 
+	<GrupoSAM replicable="false" /> 
+	<!--  Define un conjunto de grupos de SAM validos, los cuales permitiran el acceso al usuario si pertenece a alguno de estos. [Estos deberan de estar separado spor comas: grp_abe_sweb,grp_abe_seguridad,grp_abe_monitoreo,...]   --> 
+	<Idioma replicable="false">es_MX</Idioma> 
+	<!--  Define el idioma por defecto a utilizar para todo el LookAndFeel y la aplicacion.   --> 
+	<LogoCorporativo replicable="false">logoCorporativo.jpg</LogoCorporativo> 
+	<!--  Define el nombre de la imagen que sera mostrada para el logo corporativo. [Esta imagen debera estar localizada en la ruta: 'lf/default/img/menu']   --> 
+	<LogoAplicacion replicable="false" /> 
+	<!--  Define el nombre de la imagen que sera mostrada para el logo de la aplicacion. [Esta imagen debera estar localizada en la ruta: 'lf/default/img/menu']   --> 
+	<LogoNombreApp replicable="false" /> 
+	<!--  Define el nombre de la imagen que sera mostrada para el nombre de la aplicacion. [Esta imagen debera estar localizada en la ruta: 'lf/default/img/menu']   --> 
+	<LogoAvisos replicable="false">logoAvisos.gif</LogoAvisos> 
+	<!--  Define el nombre de la imagen que sera mostrada para la opcion de Avisos. [Esta imagen debera estar localizada en la ruta: 'lf/default/img/menu']   --> 
+	<LinkHeader1 replicable="false" /> 
+	<!--  Define la URI utilizada cuando el usuario selecciona el primer Header mostrado en la pagiina [Al configurarse esta propiedad, en automatico se mostrara solo este Header y el nombre mostrado estara definido en los archivos de i18n]   --> 
+	<LinkHeader2 replicable="false" /> 
+	<!--  Define la URI utilizada cuando el usuario selecciona el segundo Header mostrado en la pagiina [Al configurarse esta propiedad, en automatico se mostrara solo este Header y el nombre mostrado estara definido en los archivos de i18n]   --> 
+	<LinkHeader3 replicable="false" /> 
+	<!--  Define la URI utilizada cuando el usuario selecciona el tercero Header mostrado en la pagiina [Al configurarse esta propiedad, en automatico se mostrara solo este Header y el nombre mostrado estara definido en los archivos de i18n] --> 
+	<LinkHeader4 replicable="false" /> 
+	<!--  Define la URI utilizada cuando el usuario selecciona el cuarto Header mostrado en la pagiina [Al configurarse esta propiedad, en automatico se mostrara solo este Header y el nombre mostrado estara definido en los archivos de i18n]  --> 
+	<LinkHeader5 replicable="false" /> 
+	<!--  Define la URI utilizada cuando el usuario selecciona el quinto Header mostrado en la pagiina [Al configurarse esta propiedad, en automatico se mostrara solo este Header y el nombre mostrado estara definido en los archivos de i18n]  --> 
+	<LinkAyuda replicable="false" /> 
+	<!--  Define la URI utilizada cuando el usuario selecciona la imagen de Ayuda   --> 
+	<LinkLogoCorporativo replicable="false">http://www.santander.com.mx</LinkLogoCorporativo> 
+	<!--  Define la URI utilizada cuando el usuario selecciona el Logo Corporativo  --> 
+	<LinkLogoAplicacion replicable="false" /> 
+	<!--  Define la URI utilizada cuando el usuario selecciona el Logo de la App  --> 
+	<LinkLogoNombreApp replicable="false" /> 
+	<!--  Define la URI utilizada cuando el usuario selecciona el Logo del Nombre de la App  --> 
+	<LinkSalirSAM replicable="false" /> 
+	<!--  Define la URI que sera usada cuando el usuario seleccione la opcion de cerrar sesion. [Siempre y cuando este aciva la propiedad UsaSAM=1]  --> 
+	<LinkAvisos replicable="false">../avisos/mostrarAvisos.do</LinkAvisos> 
+	<!--  Define la URI que sera usada cuando el usuario seleccione la imagen de mensajes. [Esta se usara siempre y cuando este activa la propiedad UsaMensajes=1 ]  --> 
+	<LinkSesionExistente replicable="false">vistas/principal/sesionExistente.go</LinkSesionExistente> 
+	<!--  Define la URI de una pagina de error que sera usada cuando el usuario intente accesar a la aplicacion desde 2 sesiones diferentes. --> 
+	<LinkSalirApp replicable="false">../principal/salir.do</LinkSalirApp> 
+	<!--  Define la URI que sera usada cuando el usuario seleccione la opcion de cerrar sesion. [Siempre y cuando este inaciva la propiedad UsaSAM=0] --> 
+	<LinkPagInicio replicable="false">../login/Login.go</LinkPagInicio> 
+	<!--  Define la URI de la pagina login a la cual se enviara al usuario en caso de que no cuente con una sesion valida. --> 
+	<PaginaExceptionArq replicable="false">../errores/errorAgave.do</PaginaExceptionArq> 
+	<!--  Define la URI de una Pagina de error personalizada de la aplicacion a la acual se enviara en caso de que exista un error no manejado dentro de las acciones del Controller --> 
+	<PaginaExceptionGral replicable="false">../errores/errorGrl.do</PaginaExceptionGral> 
+	<!--  Define la URI de una Pagina de error general de la Arquitectura a la acual se enviara en caso de que exista un error no manejado dentro de las acciones del Controller --> 
+   </cmpLookAndFeel>
+</componentes>
