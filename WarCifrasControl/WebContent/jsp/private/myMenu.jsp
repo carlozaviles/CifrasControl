@@ -106,7 +106,7 @@
 						<ul>
 							<c:forEach var="pantalla" items="${modulo.pantallas}">
 								<c:if test = "${pantalla.nombrePantalla == 'FACTURAS'}">
-							<li id="factura">      		<a href="">    &gt;<span class="subMenuText">${submenuFacturas}</span></a></li>
+							<li id="factura">      		<a href="../facturas/facturasInit.do">    &gt;<span class="subMenuText">${submenuFacturas}</span></a></li>
 								</c:if>
 								<c:if test = "${pantalla.nombrePantalla == 'NOTAS DE CREDITO'}">							
 							<li id="notasCredito">      	<a href="">    &gt;<span class="subMenuText">${submenuNotasCredito}</span></a></li>

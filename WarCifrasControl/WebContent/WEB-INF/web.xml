@@ -16,6 +16,7 @@
 			/WEB-INF/DispatcherErrores-servlet.xml
 			/WEB-INF/DispatcherReprocesos-servlet.xml
 			/WEB-INF/DispatcherAdministracion-servlet.xml
+			/WEB-INF/DispatcherFacturas-servlet.xml
 		</param-value>
 	</context-param>
 	
@@ -89,4 +90,15 @@
 		<url-pattern>/administracion/*</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>DispatcherFacturas</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DispatcherFacturas</servlet-name>
+		<url-pattern>/facturas/*</url-pattern>
+	</servlet-mapping>
+		
 </web-app>
