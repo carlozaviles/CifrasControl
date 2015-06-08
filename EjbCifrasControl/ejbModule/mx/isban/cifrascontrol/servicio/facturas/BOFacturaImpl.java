@@ -1,13 +1,3 @@
-package mx.isban.cifrascontrol.servicio.facturas;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-
-
 /**************************************************************
 * Queretaro, Qro Mayo 2015
 *
@@ -18,11 +8,26 @@ import javax.ejb.TransactionManagementType;
 * 
 * Para mas informacion, consulte <www.everis.com/mexico>
 ***************************************************************/
+package mx.isban.cifrascontrol.servicio.facturas;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
 import mx.isban.cifrascontrol.beans.general.BeanProducto;
+import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControl;
+import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlException_Exception;
+import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlService;
+import mx.isban.cifrascontrol.webservice.cifrascontrol.FacturaDTO;
+import mx.isban.cifrascontrol.webservice.cifrascontrol.SolicitudFacturaDTO;
 
 /**
 * Clase BOfacturaImpl
@@ -164,7 +169,7 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		casaBolsa.setDescripcion("Casa de Bolsa Santander, S.A DE C.V");
 		productosList.add(casaBolsa);
 		BeanProducto santander = new BeanProducto();
-		santander.setIdProducto("santander");
+		santander.setIdProducto("SANTANDER");
 		santander.setDescripcion("Grupo Financiero Santander, S.A.B. de C.V.");
 		productosList.add(santander);
 		BeanProducto fideicomiso = new BeanProducto();
@@ -178,14 +183,80 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		return productosList;
 	}
 
-	/* (non-Javadoc)
-	 * @see mx.isban.cifrascontrol.servicio.facturas.BOFactura#consultarFacturas(java.lang.String, java.lang.String, java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
-	 */
 	@Override
-	public List<BeanFactura> consultarFacturas(String aplicativo,
-			String periodo, String tipoFactura, ArchitechSessionBean sessionBean) {
+	public List<BeanFactura> consultarFacturasCorrectas(String aplicativo,
+			String periodo, String tipoFactura, ArchitechSessionBean sessionBean)
+			throws BusinessException {
+		List<BeanFactura> facturasTotales = this.consultarFacturas(aplicativo, periodo, tipoFactura, sessionBean);
+		
+		return null;
+	}
+
+	@Override
+	public List<BeanFactura> consultarFacturasIncorrectas(String aplicativo,
+			String periodo, String tipoFactura, ArchitechSessionBean sessionBean)
+			throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private List<BeanFactura> consultarFacturas(String aplicativo,
+			String periodo, String tipoFactura, ArchitechSessionBean sessionBean)throws BusinessException {
+		this.info("Iniciando la consulta de las facturas para el tipo:"+tipoFactura);
+		this.info("Los parametros para realizar la busqueda son:"+aplicativo+","+periodo);
+		this.info("Creando los objetos que consumiran el web service...");
+		CifrasControlService service = new CifrasControlService();
+		CifrasControl cifrasControl = service.getCifrasControlImplPort();
+		SolicitudFacturaDTO solicitudFactura = new SolicitudFacturaDTO();
+		solicitudFactura.setAplicativo(aplicativo);
+		solicitudFactura.setPeriodo(periodo);
+		solicitudFactura.setTipoFactura(tipoFactura);
+		List<FacturaDTO> facturaList = new ArrayList<FacturaDTO>();
+		List<BeanFactura> beanFacturaList = new ArrayList<BeanFactura>();
+		try {
+			facturaList = cifrasControl.consultarFacturasCifrasControl(solicitudFactura);
+			if(!facturaList.isEmpty()){
+				beanFacturaList = establecerRegistros(facturaList, FacturaDTO.class);
+			}
+			this.info("Consulta del servicio web, realizada correctamente");
+		} catch (CifrasControlException_Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		
+		return beanFacturaList;
+	}
+	
+	private <T> List<BeanFactura> establecerRegistros(List<T> listaResultado, Class<T> clase){
+		List<BeanFactura> lista = new ArrayList<BeanFactura>();
+		try {
+			
+			for (T objeto : listaResultado) {
+				final BeanFactura factura = new BeanFactura();
+				final Method[] metodosBean = factura.getClass().getDeclaredMethods();
+				final Method[] metodosDTO = clase.getDeclaredMethods();
+				for (int i = 0; i < metodosBean.length; i++) {
+					if(metodosBean[i].getName().startsWith("set")){
+						String nombreMetodoBean = metodosBean[i].getName().substring(3);
+						for (int j = 0; j < metodosDTO.length; j++) {
+							if(metodosDTO[j].getName().startsWith("get")){
+								String nombreMetodoDTO = metodosDTO[j].getName().substring(3);
+								if(nombreMetodoBean.equalsIgnoreCase(nombreMetodoDTO)){
+									metodosBean[i].invoke(factura, metodosDTO[j].invoke(objeto));
+								}
+							}
+						}
+					}
+				}
+				lista.add(factura);
+			}
+		} catch (IllegalAccessException e) {
+			this.error("Error de tipo IllegalAccessException"+e.getMessage());
+		} catch (IllegalArgumentException e) {
+			this.error("Error de tipo IllegalArgumentException"+e.getMessage());
+		} catch (InvocationTargetException e) {
+			this.error("Error de tipo InvocationTargetException"+e.getMessage());
+		}
+		return lista;
 	}
 
 }
