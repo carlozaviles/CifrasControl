@@ -52,8 +52,9 @@ public interface BOFactura {
 	public List<BeanProducto> obtenerProductos(ArchitechSessionBean sessionBean)throws BusinessException;
 	
 	/**
-	 * <p>Metodo encargado de realizar la consulta a la tabla de facturas, para 
-	 * obtener las cifras de control para los siguientes tipos de factura: 
+	 * <p>Metodo encargado de realizar la consulta de las facturas,
+	 * mediante la invocacion del servicio web Consulta cifras control para 
+	 * obtener las facturas totales para alguno de los siguientes tipos de factura: 
 	 * <ul>
 	 * <li>Facturas</li>
 	 * <li>Notas de credito</li>
@@ -66,6 +67,31 @@ public interface BOFactura {
 	 * @param tipoFactura Objeto de tipo {@link String} con el codigo que indica el tipo de factura
 	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
 	 * @return Una lista de tipo {@link BeanFactura} con el resultado de la consulta
+	 * @throws BusinessException En caso de presentarse un error al momento de realizar la consulta de facturas.
 	 */
-	public List<BeanFactura> consultarFacturas(String aplicativo, String periodo, String tipoFactura, ArchitechSessionBean sessionBean);
+	public List<BeanFactura> consultarFacturas(String aplicativo, String periodo, String tipoFactura, ArchitechSessionBean sessionBean)throws BusinessException;
+	
+	/**
+	 * <p>Metodo encargado de diferenciar y obtener los totales de las facturas 
+	 * correctas, por lo cual es necesario el listado de las facturas obtenidas
+	 * de consultar el servicio web cifras de control.
+	 *  
+	 * @param totalFacturas Listado con el total de las facturas
+	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
+	 * @return Listado de las facturas correctas
+	 */
+	public List<BeanFactura> obtenerFacturasCorrectas(List<BeanFactura> totalFacturas, ArchitechSessionBean sessionBean);
+
+	
+	/**
+	 * <p>Metodo encargado de diferenciar y obtener los totales de las facturas 
+	 * correctas, por lo cual es necesario el listado de las facturas obtenidas
+	 * de consultar el servicio web cifras de control.
+	 *  
+	 * @param totalFacturas Listado con el total de las facturas
+	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
+	 * @return Listado de las facturas correctas
+	 */
+	public List<BeanFactura> obtenerFacturasIncorrectas(List<BeanFactura> totalFacturas, ArchitechSessionBean sessionBean);
+
 }

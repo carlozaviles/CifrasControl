@@ -14,6 +14,9 @@
 <spring:message code="facturas.formularioFacturas"              var="formularioFacturas"/>
 <spring:message code="facturas.linkAceptar"             	var="linkAceptar"/>
 <spring:message code="facturas.camposObligatorios"             	var="camposObligatorios"/>
+<spring:message code="facturas.gralSinDatos"              	var="gralSinDatos"/>
+<spring:message code="facturas.gralSinDatosRespuesta"           var="gralSinDatosRespuesta"/>
+<spring:message code="facturas.gralModificarFiltros"            var="gralModificarFiltros"/>
 
 <div class="pageTitleContainer">
    <span class="pageTitle">${modulo}</span>
@@ -21,6 +24,11 @@
 
 <div id="camposObligatorios" style="font-size:12px;color:#FF0000">${camposObligatorios}</div>
 <form action="consultaFacturas.do" name="formularioFacturas" id="formularioFacturas" method="post" > 
+	
+	<input type="hidden" name="sinDatos" id ="sinDatos" value="${sinDatos}">
+	<input id="gralSinDatos" type="hidden" value="${gralSinDatos}"/>
+	<input id="gralSinDatosRespuesta" type="hidden" value="${gralSinDatosRespuesta}"/>
+	<input id="gralModificarFiltros" type="hidden" value="${gralModificarFiltros}"/>
 
 <div class="frameFormularioB">
 	<div class="contentFormularioB">
