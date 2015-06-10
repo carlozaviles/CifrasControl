@@ -109,13 +109,13 @@
 							<li id="factura">      		<a href="../facturas/facturasInit.do">    &gt;<span class="subMenuText">${submenuFacturas}</span></a></li>
 								</c:if>
 								<c:if test = "${pantalla.nombrePantalla == 'NOTAS DE CREDITO'}">							
-							<li id="notasCredito">      	<a href="">    &gt;<span class="subMenuText">${submenuNotasCredito}</span></a></li>
+							<li id="notasCredito">      	<a href="../facturas/notasCreditoInit.do">    &gt;<span class="subMenuText">${submenuNotasCredito}</span></a></li>
 								</c:if>	
 								<c:if test = "${pantalla.nombrePantalla == 'DIVISAS'}">							
-							<li id="divisas">      	<a href="">    &gt;<span class="subMenuText">${submenuDivisas}</span></a></li>
+							<li id="divisas">      	<a href="../facturas/divisasInit.do">    &gt;<span class="subMenuText">${submenuDivisas}</span></a></li>
 								</c:if>	
 								<c:if test = "${pantalla.nombrePantalla == 'RECIBOS DEDUCIBLES'}">							
-							<li id="recibosDeducibles">      	<a href="">    &gt;<span class="subMenuText">${submenuRecibosDeducibles}</span></a></li>
+							<li id="recibosDeducibles">      	<a href="../facturas/recibosInit.do">    &gt;<span class="subMenuText">${submenuRecibosDeducibles}</span></a></li>
 								</c:if>							
 							</c:forEach>						
 						</ul>

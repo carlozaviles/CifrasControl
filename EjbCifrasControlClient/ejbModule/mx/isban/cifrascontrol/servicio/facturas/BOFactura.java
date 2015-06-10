@@ -41,7 +41,7 @@ import mx.isban.cifrascontrol.beans.general.BeanProducto;
 public interface BOFactura {
 
 	/**
-	 * Metodo encargado de obtener todos los productos para el los diferentes
+	 * Metodo encargado de obtener todos los productos para los diferentes
 	 * formularios del modulo de facturas, el metodo regresa una lista de 
 	 * objetos de tipo {@link BeanProducto}
 	 * 
@@ -93,5 +93,28 @@ public interface BOFactura {
 	 * @return Listado de las facturas correctas
 	 */
 	public List<BeanFactura> obtenerFacturasIncorrectas(List<BeanFactura> totalFacturas, ArchitechSessionBean sessionBean);
+	
+	/**
+	 * <p>Metodo encargado de diferenciar y obtener los los recibos generados, 
+	 * por lo cual es necesario el listado de las facturas para recibos obtenidas
+	 * de consultar el servicio web cifras de control.
+	 *  
+	 * @param totalRecibos Listado con el total de los registros
+	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
+	 * @return Listado de las facturas con las cifras de los recibos generados
+	 */
+	public List<BeanFactura> obtenerFacturasRecibosGenerados(List<BeanFactura> totalRecibos, ArchitechSessionBean sessionBean);
+
+	
+	/**
+	 * <p>Metodo encargado de diferenciar y obtener los los recibos cancelados, 
+	 * por lo cual es necesario el listado de las facturas para recibos obtenidas
+	 * de consultar el servicio web cifras de control.
+	 *  
+	 * @param totalRecibos Listado con el total de los registros
+	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
+	 * @return Listado de las facturas con las cifras de los recibos generados
+	 */
+	public List<BeanFactura> obtenerFacturasRecibosCancelados(List<BeanFactura> totalRecibos, ArchitechSessionBean sessionBean);
 
 }

@@ -7,13 +7,13 @@
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
 	<jsp:param name="menuItem"   	 value="facturas" />
-	<jsp:param name="menuSubItem"    value="factura" />	
+	<jsp:param name="menuSubItem"    value="divisas" />	
 </jsp:include>
 
 <script src="${pageContext.servletContext.contextPath}/recursos/js/facturas/validaFormularioFacturas.js" type="text/javascript"></script>
 
-<spring:message code="facturas.modulo"         		var="modulo"/>
-<spring:message code="facturas.factura"             	var="factura"/>
+<spring:message code="facturas.moduloDivisas"         	var="modulo"/>
+<spring:message code="facturas.divisa"             	var="divisa"/>
 <spring:message code="facturas.producto"             	var="productoLabel"/>
 <spring:message code="facturas.totalFacturas"           var="totalFacturas"/>
 <spring:message code="facturas.subtotal"             	var="subtotal"/>
@@ -58,7 +58,7 @@
 		<div class="titleTablaVariasColumnas">${facturasConfirming}</div>
 	</c:if>
 	<c:if test="${empty factoraje}">
-		<div class="titleTablaVariasColumnas">${factura}</div>
+		<div class="titleTablaVariasColumnas">${divisa}</div>
 	</c:if>
 		<div class="contentTablaVariasColumnas">
 			<table>
@@ -138,7 +138,7 @@
 </div>
 
 <display:table name="facturaList" sort="list" pagesize="10" id="tableExport"
-				requestURI="../facturas/consultaFacturas.do" export="true">
+				requestURI="../facturas/consultaDivisas.do" export="true">
 				<display:column property="cantidadFacturas" title="${totalFacturas}" group="1" sortable="false"
 					headerClass="text_centro" />
 				<display:column property="subTotal" title="${subtotal}" sortable="false"
@@ -155,12 +155,12 @@
 				<display:setProperty name="export.rtf" value="false" />
 				<display:setProperty name="export.csv" value="true" />
 				<display:setProperty name="export.csv.filename"
-					value="ConsultaFacturas.csv" />
+					value="ConsultaDivisas.csv" />
 			</display:table>
 
 <div class="PiePag">
 
-<a href="../facturas/facturasInit.do">${regresar}</a> 
+<a href="../facturas/divisasInit.do">${regresar}</a> 
 
 
 </div>

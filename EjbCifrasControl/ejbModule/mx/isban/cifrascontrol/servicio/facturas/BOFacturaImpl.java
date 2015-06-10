@@ -251,6 +251,48 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		return obtenerSumatoriaTotales(facturasIncorrectas);
 	}
 	
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.servicio.facturas.BOFactura#obtenerFacturasRecibosGenerados(java.util.List, mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
+	@Override
+	public List<BeanFactura> obtenerFacturasRecibosGenerados(
+			List<BeanFactura> totalRecibos, ArchitechSessionBean sessionBean) {
+		List<BeanFactura> recibosGenerados = new ArrayList<BeanFactura>();
+		for (BeanFactura beanFactura : totalRecibos) {
+			if("0".equals(beanFactura.getFacturaIncidente().trim())){
+				recibosGenerados.add(beanFactura);
+			}
+		}
+		if(recibosGenerados.isEmpty()){
+			BeanFactura factura = new BeanFactura();
+			factura.setCantidadRecibos("0");
+			factura.setImporte("0.00");
+			recibosGenerados.add(factura);
+		}
+		return recibosGenerados;
+	}
+	
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.servicio.facturas.BOFactura#obtenerFacturasRecibosCancelados(java.util.List, mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
+	@Override
+	public List<BeanFactura> obtenerFacturasRecibosCancelados(
+			List<BeanFactura> totalRecibos, ArchitechSessionBean sessionBean) {
+		List<BeanFactura> recibosCancelados = new ArrayList<BeanFactura>();
+		for (BeanFactura beanFactura : totalRecibos) {
+			if("1".equals(beanFactura.getFacturaIncidente().trim())){
+				recibosCancelados.add(beanFactura);
+			}
+		}
+		if(recibosCancelados.isEmpty()){
+			BeanFactura factura = new BeanFactura();
+			factura.setCantidadRecibos("0");
+			factura.setImporte("0.00");
+			recibosCancelados.add(factura);
+		}
+		return recibosCancelados;
+	}
+	
 	/**
 	 * Metodo encargado de establecer el resultado de la consulta del web service 
 	 * cifras de control.- Consulta de facturas,  en las propiedades definidas
@@ -355,5 +397,9 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		factura.setCantidadFacturas(Integer.toString(cantidadTotalFacturas));
 		return factura;
 	}
+
+	
+
+	
 	
 }
