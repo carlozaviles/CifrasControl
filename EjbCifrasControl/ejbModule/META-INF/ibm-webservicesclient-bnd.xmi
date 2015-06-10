@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.ibm.etools.webservice.wscbnd:ClientBinding xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.ibm.etools.webservice.wscbnd="http://www.ibm.com/websphere/appserver/schemas/5.0.2/wscbnd.xmi" xmi:id="ClientBinding_1433786646698">
+  <componentScopedRefs xmi:id="ComponentScopedRefs_1433786646738" componentNameLink="DAOModuloImpl">
+    <serviceRefs xmi:id="ServiceRef_1433786646754" serviceRefLink="service/ReprocesoService">
+      <portQnameBindings xmi:id="PortQnameBinding_1433786646754" portQnameNamespaceLink="http://sib.reproceso.modulointegrador.isban.mx/" portQnameLocalNameLink="ReprocesoImplPort" overriddenEndpointURI="http://192.168.241.144:9080/Reproceso/ReprocesoService"/>
+    </serviceRefs>
+  </componentScopedRefs>
+</com.ibm.etools.webservice.wscbnd:ClientBinding>

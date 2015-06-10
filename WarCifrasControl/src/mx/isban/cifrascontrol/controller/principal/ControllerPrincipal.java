@@ -43,22 +43,8 @@ public class ControllerPrincipal extends Architech{
 		this.setNameComponent("ControllerPrincipal");
 		this.setLoggingBean(LogUtil.getLoggingBean("message", "cmpName", this.getClass()));
 
-		/*try {
-            Long tIni01 = this.info("Iniciando el proceso para mostrar el menú", 0L);
-			String opcMenu = "";
-			for (BeanOpcion opcion : this.boMenu.getOpcionesMenu(this.getArchitechBean())) {
-				opcMenu += opcion.getId() + ",";
-				this.info(String.format("Datos de la opc: id[%s] - nombre[%s] - tipo[%s] - activo[%b] - url[%s] ",
-				opcion.getId(), opcion.getNombre(), opcion.getTipo().name(), opcion.isActivo(), opcion.getUrl()));
-            }
-			this.info("Terminando el proceso para mostrar el menú", tIni01);*/
-	
-			//lobjLyFBean.setIdsMenuPerfil(opcMenu);
 		lobjSession.setAttribute("LyFBean", lobjLyFBean);
-		/*} catch (BusinessException e) {
-			showException(e);
-		}*/
-		///Suponiendo que se loguea el usuario:
+	
 		String idUsuario = "AS675423T";
 		List<BeanModulo> modulos = boModulo.obtenerModulosPorUsuarioLogueado(getArchitechBean(), idUsuario);
 		lobjSession.setAttribute("modulosPermitidos", modulos);

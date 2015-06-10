@@ -13,10 +13,22 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!--<property name="maxUploadSize" value="100000"/>-->
+	<bean class ="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="location">
+        	<value>file:/arquitecturaAgave/DistV1/Configuracion/CifrasControl_AmbienteEJB.properties</value>
+       	</property>
+     </bean>
+	
+	<bean id="boReprocesos" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${EJBCLUSTER}mx.isban.cifrascontrol.servicio.reprocesos.BOReprocesos"/>
+		<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.reprocesos.BOReprocesos"/>
 	</bean>
 	
 	<bean id="controllerReprocesoSolicitud" name="controllerReprocesoSolicitud" class="mx.isban.cifrascontrol.controller.reprocesos.ControllerReprocesoSolicitud">
+		<property name="reprocesos" ref="boReprocesos"/>
+	</bean>
+	
+	<bean id="controllerConsultaReprocesos" name="controllerConsultaReprocesos" class="mx.isban.cifrascontrol.controller.reprocesos.ControllerConsultaReprocesos">
+		<property name="reprocesos" ref="boReprocesos"/>
 	</bean>
 </beans>
