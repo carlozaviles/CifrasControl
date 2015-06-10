@@ -66,7 +66,7 @@ public class ControllerCifrasControl extends Architech {
 		this.info("Iniciando el formulario de Cifras de control");
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		this.info("Se inicia la consulta de productos....");
-		final List<BeanProducto> productos = boFactura.obtenerProductos(getArchitechBean());
+		final List<BeanProducto> productos = null;// = boFactura.obtenerProductos(getArchitechBean());
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
 		parametros.put("mesesList", meses);

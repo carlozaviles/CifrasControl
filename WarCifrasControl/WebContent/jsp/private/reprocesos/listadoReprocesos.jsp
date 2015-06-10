@@ -1,12 +1,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
+
+
 
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
 	<jsp:param name="menuItem"   	 value="reprocesos" />
 	<jsp:param name="menuSubItem"    value="consultaReprocesos" />	
 </jsp:include>
+
+<script src="${pageContext.servletContext.contextPath}/recursos/js/reprocesos/reporteReprocesos.js" type="text/javascript"></script>
 
 <spring:message code="reprocesos.consulta.tituloPaginaReporte" var="tituloReporteReprocesos"/>
 <spring:message code="reprocesos.consulta.tituloTablaEstatus" var="tituloTablaEstatus"/>
@@ -53,9 +58,10 @@
 	</div>
 </div>
 <c:if test="${not empty listaReprocesos}">
+	<br>
 	<div class="frameTablaEstandar">
-		<div class="contentTablaEstandar">
-			<table>
+		<div id="contenedorTablaReprocesos" class="contentTablaEstandar">
+			<table id="tablaReprocesos">
 				<thead>
 					<tr>
 						<th class="text_centro">${etiquetaUsuario}</th>
@@ -100,6 +106,21 @@
 		<a href="${pageContext.servletContext.contextPath}/reprocesos/consultaReprocesos.do">${linkRegresar}</a>
 		<a href="#" id="exportarInformeReprocesos">${linkExportar}</a>
 	</div>
+	<display:table name="listaReprocesos" sort="list" pagesize="10" id="exportaReprocesos" 
+			requestURI="../reprocesos/realizaConsultaReproceso.do " export="true">
+		<display:column property="usuarioOperativo" title="${etiquetaUsuario}" group="1" sortable="false" headerClass="text_centro"/>
+		<display:column property="fechaSolicitud" title="${etiquetaFecha}" sortable="false" headerClass="text_centro"/>
+		<display:column property="periodo" title="${etiquetaPeriodo}" sortable="false" headerClass="text_centro"/>
+		<display:column property="numeroCuenta" title="${etiquetaNumeroCuenta}" sortable="false" headerClass="text_centro"/>
+		<display:column property="producto" title="${etiquetaProducto}" sortable="false" headerClass="text_centro"/>
+		<display:column property="movimiento" title="${etiquetaMovimiento}" sortable="false" headerClass="text_centro"/>
+		<display:column property="nombre" title="${etiquetaNombreCliente}" sortable="false" headerClass="text_centro"/>
+		<display:column property="rfc" title="${etiquetaRfc}" sortable="false" headerClass="text_centro"/>
+		<display:column property="folioInicial" title="${etiquetaSelloInicial}" sortable="false" headerClass="text_centro"/>
+		<display:column property="folioCancelacion" title="${etiquetaSelloCancelacion}" sortable="false" headerClass="text_centro"/>
+		<display:column property="folioNuevo" title="etiquetaSelloFiscal" sortable="false" headerClass="text_centro"/>
+		<display:column property="estatus" title="etiquetaEstatus" sortable="false" headerClass="text_centro"/>
+	</display:table>
 </c:if>
 <c:if test="${noHayDatos}">
 	<spring:message code="reprocesos.mensaje.NoDatosConsultaReprocesos" var="mensajeNoDatos"/>
