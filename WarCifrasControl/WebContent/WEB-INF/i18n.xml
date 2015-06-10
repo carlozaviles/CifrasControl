@@ -17,6 +17,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 				<value>/WEB-INF/i18n/reprocesos</value>
 				<value>/WEB-INF/i18n/administracion</value>
 				<value>/WEB-INF/i18n/facturas</value>
+				<value>/WEB-INF/i18n/cifrascontrol</value>
 			</list>
 		</property>
 	</bean>

@@ -30,8 +30,8 @@
 			<td>
 				<select name="mes" id="mes" class="Campos_Des">
 					<option value="" selected="selected">--Seleccione--</option>
-					<c:forEach var="meses" items="${mesesList}" varStatus="loopMes">					
-					<option value="${loopMes.index}">${meses}</option>
+					<c:forEach var="meses" items="${mesesList}">					
+					<option value="${meses.key}">${meses.value}</option>
 					</c:forEach>
 				</select>
 			</td>

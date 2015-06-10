@@ -17,6 +17,7 @@
 			/WEB-INF/DispatcherReprocesos-servlet.xml
 			/WEB-INF/DispatcherAdministracion-servlet.xml
 			/WEB-INF/DispatcherFacturas-servlet.xml
+			/WEB-INF/DispatcherCifrasControl-servlet.xml
 		</param-value>
 	</context-param>
 	
@@ -29,6 +30,21 @@
 	<listener>
 		<listener-class>mx.isban.agave.configuracion.ListenerConfig</listener-class>
 	</listener>
+	
+	<!-- Filtro de exportacion -->
+	<filter>
+    	<filter-name>ResponseOverrideFilter</filter-name>
+    	<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+  	</filter>
+  	
+  	<filter-mapping>
+    	<filter-name>ResponseOverrideFilter</filter-name>
+    	<url-pattern>*.do</url-pattern>
+  	</filter-mapping>
+  	<filter-mapping>
+    	<filter-name>ResponseOverrideFilter</filter-name>
+    	<url-pattern>*.jsp</url-pattern>
+  	</filter-mapping>
 	
 	<!-- Dispatcher Principal -->
 	<servlet>
@@ -100,5 +116,17 @@
 		<servlet-name>DispatcherFacturas</servlet-name>
 		<url-pattern>/facturas/*</url-pattern>
 	</servlet-mapping>
-		
+
+	<!-- Dispatcher Cifras control -->
+	<servlet>
+		<servlet-name>DispatcherCifrasControl</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>DispatcherCifrasControl</servlet-name>
+		<url-pattern>/cifrascontrol/*</url-pattern>
+	</servlet-mapping>
+			
 </web-app>
