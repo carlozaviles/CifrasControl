@@ -16,7 +16,14 @@
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!--<property name="maxUploadSize" value="100000"/>-->
 	</bean>
+	
+	<bean id="boCifrasControl" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="ejb/EarEjbCifrasControl/EjbCifrasControl.jar/BOCifrasControlImpl#mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl"/>
+    	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl"/>
+	</bean>
+	
 		
 	<bean id="controllerCifrasControl" name="controllerCifrasControl" class="mx.isban.cifrascontrol.controller.cifrascontrol.ControllerCifrasControl">
+		<property name="boCifrasControl" ref="boCifrasControl"/>
 	</bean>
 </beans>

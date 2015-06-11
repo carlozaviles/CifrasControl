@@ -60,62 +60,62 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
      * en relacion a un grupo
      */
     private static final String CONSULTA_PANTALLAS_POR_GRUPO = 
-    		"SELECT P.ID_PANTALLA, P.NOMBRE, P.DESCRIPCION "
-    		+ " FROM PANTALLA P"
-    		+ " JOIN REL_GRUPO_PANTALLA REL"
-    		+ " ON REL.FK_ID_PANTALLA = P.ID_PANTALLA"
-    		+ " JOIN GRUPO G"
-    		+ " ON G.ID_GRUPO = REL.FK_ID_GRUPO"
+    		"SELECT P.ID_PANTALLA, P.TXT_NOMBRE, P.TXT_DESCRIPCION "
+    		+ " FROM MOI_MX_MAE_ADMIN_PANTALLA P"
+    		+ " JOIN MOI_MX_REL_GPO_PANT REL"
+    		+ " ON REL.ID_PANTALLA_FK = P.ID_PANTALLA"
+    		+ " JOIN MOI_MX_MAE_ADMIN_GRUPO G"
+    		+ " ON G.ID_GRUPO = REL.ID_GRUPO_FK"
     		+ " WHERE G.ID_GRUPO = ?";
 
     /**
      * Constante con el valor de la consulta SQL que permite obtener la pantalla por id 
      */
     private static final String QUERY_CONSULTA_PANTALLA_POR_ID = 
-    		"SELECT ID_PANTALLA,NOMBRE,DESCRIPCION FROM PANTALLA WHERE ID_PANTALLA = ?";
+    		"SELECT ID_PANTALLA,TXT_NOMBRE,TXT_DESCRIPCION FROM MOI_MX_MAE_ADMIN_PANTALLA WHERE ID_PANTALLA = ?";
     
     /**
      * Constante que contiene el valor de la consulta SQL que permite actualizar la tabla de pantalla
      */
     private static final String QUERY_UPDATE_PANTALLA = 
-    		"UPDATE PANTALLA"
-    	  + " SET NOMBRE = ?,DESCRIPCION = ?,FK_MODULO = ?"
+    		"UPDATE MOI_MX_MAE_ADMIN_PANTALLA"
+    	  + " SET TXT_NOMBRE = ?,TXT_DESCRIPCION = ?,NUM_MODULO_FK = ?"
     	  + " WHERE ID_PANTALLA = ?";
     
     /**
      * Constante que contiene el valor de la consulta SQL que permite actualizar la tabla de pantalla
      */
     private static final String QUERY_ALTA_PANTALLA = 
-    		"INSERT INTO PANTALLA(ID_PANTALLA,NOMBRE,DESCRIPCION,FK_MODULO) VALUES (SQ_PANTALLA.NEXTVAL,?,?,?)";
+    		"INSERT INTO MOI_MX_MAE_ADMIN_PANTALLA(ID_PANTALLA,TXT_NOMBRE,TXT_DESCRIPCION,NUM_MODULO_FK) VALUES (MOI_MX_SEQ_PANT.NEXTVAL,?,?,?)";
     
     /**
      * Constante que contiene una consulta SQL que permite eliminar un registro de la tabla pantalla
      */
     private static final String QUERY_ELIMINA_PANTALLA = 
-			"DELETE FROM PANTALLA WHERE ID_PANTALLA = ?";
+			"DELETE FROM MOI_MX_MAE_ADMIN_PANTALLA WHERE ID_PANTALLA = ?";
     
     /**
      * Constante que contiene una consulta SQL que permite eliminar las relaciones presentadas entre las tablas Pantalla - Grupo
      */
     private static final String QUERY_ELIMINA_RELACIONES_PANTALLA_GRUPO = 
-			"DELETE FROM REL_GRUPO_PANTALLA WHERE FK_ID_PANTALLA = ?";
+			"DELETE FROM MOI_MX_REL_GPO_PANT WHERE ID_PANTALLA_FK = ?";
     
     /**
      * Constante que contiene una consulta SQL que permite obtener las pantallas que puede acceder un usuario
      */
     private static final String QUERY_OBTIENE_PANTALLA_USUARIO_MODULO = 
-    		"SELECT P.ID_PANTALLA,P.NOMBRE "
-    		+ " FROM MODULO M"
-    		+ " JOIN PANTALLA P"
-    		+ " ON M.ID_MODULO = P.FK_MODULO"
-    		+ " JOIN REL_GRUPO_PANTALLA REL_PAN"
-    		+ " ON P.ID_PANTALLA = REL_PAN.FK_ID_PANTALLA"
-    		+ " JOIN GRUPO G"
-    		+ " ON G.ID_GRUPO = REL_PAN.FK_ID_GRUPO"
-    		+ " JOIN REL_USUARIO_GRUPO REL_USU"
-    		+ " ON REL_USU.FK_ID_GRUPO = G.ID_GRUPO"
-    		+ " JOIN USUARIO U"
-    		+ " ON U.ID_USUARIO = REL_USU.FK_ID_USUARIO"
+    		"SELECT P.ID_PANTALLA,P.TXT_NOMBRE "
+    		+ " FROM MOI_MX_MAE_ADMIN_MODULO M"
+    		+ " JOIN MOI_MX_MAE_ADMIN_PANTALLA P"
+    		+ " ON M.ID_MODULO = P.NUM_MODULO_FK"
+    		+ " JOIN MOI_MX_REL_GPO_PANT REL_PAN"
+    		+ " ON P.ID_PANTALLA = REL_PAN.ID_PANTALLA_FK"
+    		+ " JOIN MOI_MX_MAE_ADMIN_GRUPO G"
+    		+ " ON G.ID_GRUPO = REL_PAN.ID_GRUPO_FK"
+    		+ " JOIN MOI_MX_REL_USR_GPO REL_USU"
+    		+ " ON REL_USU.ID_GRUPO_FK = G.ID_GRUPO"
+    		+ " JOIN MOI_MX_MAE_ADMIN_USUARIO U"
+    		+ " ON U.ID_USUARIO = REL_USU.ID_USUARIO_FK"
     		+ " WHERE U.ID_USUARIO = ?"
     		+ " AND M.ID_MODULO = ?";
     
@@ -141,7 +141,7 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 	public BeanPantallaRespuesta obtenerTodasPantallas(
 			ArchitechSessionBean sessionBean) {
 		this.info("Iniciando la consulta de todas las pantallas");
-		final String consulta = "SELECT ID_PANTALLA,NOMBRE,DESCRIPCION FROM PANTALLA";
+		final String consulta = "SELECT ID_PANTALLA,TXT_NOMBRE,TXT_DESCRIPCION FROM MOI_MX_MAE_ADMIN_PANTALLA";
 		final BeanPantallaRespuesta respuesta = new BeanPantallaRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY);
@@ -180,8 +180,8 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
 		for(Map<String, Object> registro : responseDTO.getResultQuery()){
 			final BeanPantalla pantalla = new BeanPantalla();
 			pantalla.setIdPantalla(String.valueOf(registro.get("ID_PANTALLA")));
-			pantalla.setNombrePantalla(String.valueOf(registro.get("NOMBRE")));
-			pantalla.setDescripcionPantalla(String.valueOf(registro.get("DESCRIPCION")));
+			pantalla.setNombrePantalla(String.valueOf(registro.get("TXT_NOMBRE")));
+			pantalla.setDescripcionPantalla(String.valueOf(registro.get("TXT_DESCRIPCION")));
 			listaPantallas.add(pantalla);
 		}
 		return listaPantallas;

@@ -57,10 +57,10 @@
 			
 				<tr>
 			
-					<Td colspan="8" class="special"></Td>
+					<Td colspan="4" class="special"></Td>
 				</tr>
 				<tbody>
-					<c:forEach var="i" begin="0" end="1">
+					<c:forEach var="i" begin="0" end="0">
 						<tr>
 							<td class="text_centro">${recibosGenerados[i].cantidadRecibos}</td>
 							<td class="text_centro">${recibosGenerados[i].importe}</td>

@@ -3,8 +3,8 @@
 
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
-	<jsp:param name="menuItem"   	 value="ADMINISTRACION" />
-	<jsp:param name="menuSubItem"    value="Usuarios" />	
+	<jsp:param name="menuItem"   	 value="administracion" />
+	<jsp:param name="menuSubItem"    value="usuarios" />	
 </jsp:include>
 
 <script src="${pageContext.servletContext.contextPath}/recursos/js/administracion/modificarUsuario.js" type="text/javascript"></script>

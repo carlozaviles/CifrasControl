@@ -52,7 +52,6 @@
 	</div>
 </div>
 
-   
 <div class="frameTablaVariasColumnas">
 	<c:if test="${not empty factoraje}">
 		<div class="titleTablaVariasColumnas">${facturasConfirming}</div>

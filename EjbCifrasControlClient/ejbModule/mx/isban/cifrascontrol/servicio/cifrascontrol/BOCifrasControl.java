@@ -74,57 +74,25 @@ public interface BOCifrasControl {
 	
 	/**
 	 * Metodo encargado de obtener la lista de las cifras de control para los 
-	 * aplicativos origen, antes de ejecutar este metodo es necesario haber ejecutado
+	 * aplicativos (Origen, CFD, EDC, SAT), antes de ejecutar este metodo es necesario haber ejecutado
 	 * el metodo consultarCifrasControl
+	 * @param aplicativo La clave del aplicativo del cual se desea obtener el listado
 	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
 	 * @return Una lista de tipo {@link BeanCifrasControl} con las cifras de control para los aplicativos origen
-	 * @throws BusinessException En caso de presentarse un error al momento de obtener las cifras de control
-	 * de los aplicativos origen
 	 */
-	public List<BeanCifrasControl> obtenerCifrasAplicativoOrigen(ArchitechSessionBean sessionBean)throws BusinessException;
+	public List<BeanCifrasControl> obtenerCifrasPorAplicativo(String aplicativo,ArchitechSessionBean sessionBean);
 	
-	/**
-	 * Metodo encargado de obtener las diferentes cifras de control para el 
-	 * comnprobante fiscal digital por internet (Interfase), antes de ejecutar este metodo
-	 * es necesario haber ejecutado el metodo "consultarCifrasControl"
-	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
-	 * @return Una lista de objetos de tipo {@link BeanCifrasControl} con el listado de cifras de Interfase
-	 * @throws BusinessException En caso de presentarse un error al momento de obtener las cifras
-	 * para interfase
-	 */
-	public List<BeanCifrasControl> obtenerCifrasInterfase(ArchitechSessionBean sessionBean)throws BusinessException;
-	
-	/**
-	 * Metodo encargado de obtener las cifras de control para el sistema de administracion
-	 * tributaria (SAT), antes de ejecutar este metodo, es necesario haber ejecutado el metodo
-	 * "consultarCifrasControl" 
-	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
-	 * @return Una lista de objetos de tipo {@link BeanCifrasControl}
-	 * @throws BusinessException En caso de presentarse un error al momento de obtener las cifras de control
-	 * para el SAT
-	 */
-	public List<BeanCifrasControl> obtenerCifrasSat(ArchitechSessionBean sessionBean)throws BusinessException;
-	
-	/**
-	 * Metodo encargado de obtener las cifras de cotrol para las cuentas con
-	 * generacion de estados de cuenta, para que este metodo funcione correctamente, 
-	 * es necesario haber ejecutado el metodo "consultarCifrasControl"
-	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
-	 * @return Una lista de objetos de tipo {@link BeanCifrasControl}
-	 * @throws BusinessException En caso de presentarse un error al momento de consultar las cifras de control
-	 * para las cuentas con generacion de EDC
-	 */
-	public List<BeanCifrasControl> obtenerCifrasCuentasEDC(ArchitechSessionBean sessionBean)throws BusinessException;
 	
 	/**
 	 * Metodo encargado de realizar la consulta del detalle de las cifras de control
 	 * en relacion a un periodo.
+	 * @param aplicativo El aplicativo a realizar la busqueda
 	 * @param periodo El periodo con el formato anio-mes p.e 2010-09
 	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
 	 * @return Una lista de tipo {@link BeanDetalleCifrasControl} 
  	 * @throws BusinessException En caso de presentarse un error al momento de consultar
  	 * el detalle de las cifras de control
 	 */
-	public List<BeanDetalleCifrasControl> obtenerDetalleCifrasControl(String periodo, ArchitechSessionBean sessionBean)throws BusinessException;
+	public List<BeanDetalleCifrasControl> obtenerDetalleCifrasControl(String aplicativo, String periodo, ArchitechSessionBean sessionBean)throws BusinessException;
 	
 }

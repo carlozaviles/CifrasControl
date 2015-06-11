@@ -94,7 +94,7 @@
 						<ul>
 							<c:forEach var="pantalla" items="${modulo.pantallas}">
 								<c:if test = "${pantalla.nombrePantalla == 'CONSULTAR CIFRAS DE CONTROL'}">
-							<li id="consultaCifras">      		<a href="">    &gt;<span class="subMenuText">${submenuCifrasConsultaCifras}</span></a></li>
+							<li id="consultaCifras">      		<a href="../cifrascontrol/cifrasInit.do">    &gt;<span class="subMenuText">${submenuCifrasConsultaCifras}</span></a></li>
 								</c:if>
 							</c:forEach>						
 						</ul>
