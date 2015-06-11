@@ -40,7 +40,7 @@
 		<table>
 			<tr>
 				<td colspan="2" align="center">
-					<img border="0" src="${pageContext.servletContext.contextPath}/lf/${LyFBean.lookAndFeel}/img/cifrascontrol/santander-kredit.png" width="140" height="100" align="middle" alt="logo_santander">
+					<img border="0" src="${pageContext.servletContext.contextPath}/lf/${LyFBean.lookAndFeel}/img/cifrascontrol/santander-kredit.png" width="60%" align="middle" alt="logo_santander">
 				</td>
 			</tr>
 			<tr>

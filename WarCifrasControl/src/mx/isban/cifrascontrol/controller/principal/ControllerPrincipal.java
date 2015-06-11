@@ -57,7 +57,7 @@ public class ControllerPrincipal extends Architech{
 	@RequestMapping("salir.do")
 	public ModelAndView salir(final HttpServletRequest request, final HttpServletResponse respones) throws Exception {
 		this.debug("saliendo de la aplicacion");
-		LookAndFeel lyFBean = (LookAndFeel)request.getSession().getAttribute("lyFBean");
+		LookAndFeel lyFBean = (LookAndFeel)request.getSession().getAttribute("LyFBean");
 		//ArchitechSessionBean objArchitectBean = (ArchitechSessionBean)request.getSession().getAttribute("ArchitectSession");
 		String salirUrl = lyFBean.getLinkSalirSAM();
 		request.getSession().invalidate();

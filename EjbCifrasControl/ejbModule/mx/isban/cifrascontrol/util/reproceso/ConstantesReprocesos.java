@@ -35,6 +35,10 @@ public final class ConstantesReprocesos {
 	 */
 	public static final String CODIGO_ERROR_PROCESA_RESULTADO_CONSULTA_REP = "2005";
 	/**
+	 * Codigo de error al ejecutar la consulta de Personas.
+	 */
+	public static final String CODIGO_ERROR_EJECUCION_CONSULTA_PERSONAS = "2006";
+	/**
 	 * Formato de fecha para solicitud de reproceso.
 	 */
 	public static final String FORMATO_FECHA_SOLICITUD_REPROCESO = "yyyy/MM/dd HH:mm:ss";

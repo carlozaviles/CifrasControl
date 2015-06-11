@@ -95,8 +95,7 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 			solicitudDTO.setPeriodo(periodo.toString());
 			final SimpleDateFormat sdf = new SimpleDateFormat(ConstantesReprocesos.FORMATO_FECHA_SOLICITUD_REPROCESO);
 			solicitudDTO.setFechaSolicitud(sdf.format(new Date()));
-			//solicitudDTO.setUsuarioOperativo(sessionBean.getUsuario());
-			solicitudDTO.setUsuarioOperativo("Z0144");
+			solicitudDTO.setUsuarioOperativo(sessionBean.getUsuario());
 			reprocesoProxy.solicitarReproceso(solicitudDTO);
 		}catch(ReprocesoException_Exception e){
 			showException(e, Level.ERROR);

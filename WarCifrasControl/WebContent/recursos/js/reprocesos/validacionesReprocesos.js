@@ -1,8 +1,6 @@
 $(document).ready(function (){
-  $('#numero-cuenta').keypress(function (){
-	if($('#numero-cuenta').val().trim().length == 12){
-		this.value = this.value.trim().substr(0, 11);
-	}
+  $('#numero-cuenta').keyup(function (){
+	this.value = this.value.trim().substr(0, 11);
 	this.value = (this.value + '').replace(/[^0-9]/g, '');
   });
   
