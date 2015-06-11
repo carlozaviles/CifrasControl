@@ -79,10 +79,10 @@
 						<ul>
 							<c:forEach var="pantalla" items="${modulo.pantallas}">
 								<c:if test = "${pantalla.nombrePantalla == 'SOLICITAR REPROCESO'}">
-							<li id="solicitudReprocesos">      <a href="../reprocesos/solicitarReproceso.do">    &gt;<span class="subMenuText">${submenuReprocesosSolicitud}</span></a></li>
+							<li id="solicitudReprocesos">      <a href="../reprocesos/consultaPersonas.do">    &gt;<span class="subMenuText">${submenuReprocesosSolicitud}</span></a></li>
 								</c:if>
 								<c:if test = "${pantalla.nombrePantalla == 'CONSULTA DE REPROCESOS'}">							
-							<li id="consultaReprocesos">      	<a href="">    &gt;<span class="subMenuText">${submenuReprocesosConsulta}</span></a></li>
+							<li id="consultaReprocesos">      	<a href="../reprocesos/consultaReprocesos.do">    &gt;<span class="subMenuText">${submenuReprocesosConsulta}</span></a></li>
 								</c:if>							
 							</c:forEach>						
 						</ul>

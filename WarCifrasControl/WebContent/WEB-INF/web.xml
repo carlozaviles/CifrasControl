@@ -4,6 +4,23 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<!-- Filtro del componente cmpSesiones -->
+	<filter>
+		<display-name>FilterLogin</display-name>
+		<filter-name>FilterLogin</filter-name>
+		<filter-class>mx.isban.agave.commons.filters.FilterLogin</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>FilterLogin</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	
+	<listener>
+		<listener-class>mx.isban.agave.commons.listeners.StateSessionListener</listener-class>
+	</listener>
+	
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>

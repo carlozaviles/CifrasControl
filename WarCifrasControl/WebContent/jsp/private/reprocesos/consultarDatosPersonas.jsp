@@ -1,6 +1,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <spring:message code="reprocesos.modulo"             		var="modulo"/>
 <spring:message code="reprocesos.tituloTablaDatosPersonas"      var="tituloTablaDatosPersonas"/>
@@ -14,10 +15,10 @@
    <span class="pageTitle">${modulo}</span> - ${tituloTablaDatosPersonas}
 </div>
 
-<form action="" name="consultaDatosPersonales" id="consultaDatosPersonales" method="post" > 
+<form action="datosFiscales.do" name="consultaDatosPersonales" method="post" > 
 <div class="frameFormularioB">
 	<div class="contentFormularioB">
-		<div class="titleFormularioB">${tituloTablaDatosPersonas}</span></div>
+		<div class="titleFormularioB"><span>${tituloTablaDatosPersonas}</span></div>
 			<table>
 				<tbody>
 					<tr>
@@ -32,8 +33,7 @@
 			</table>
 		</div>
 	</div>
-</div>
 
-<div class="PiePag"><a href="#">${linkCancelar}</a> <a href="#" id="aceptarFormularioDatos">${linkAceptar}</a></div>
+<div class="PiePag"> <a href="#" id="aceptarFormularioDatos">${linkAceptar}</a></div>
 </form>
 

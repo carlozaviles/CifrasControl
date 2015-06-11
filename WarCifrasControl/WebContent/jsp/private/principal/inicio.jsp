@@ -5,6 +5,3 @@
 <jsp:include page="../myMenu.jsp" flush="true"/>	
 
 <jsp:include page="../myFooter.jsp" flush="true"/>
-
-
-

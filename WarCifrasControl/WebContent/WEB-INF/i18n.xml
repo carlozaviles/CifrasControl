@@ -22,6 +22,8 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 		</property>
 	</bean>
 	
+	<bean id="controllerAuditInterceptor" class="mx.isban.agave.commons.interceptors.ControllerAuditInterceptor"/>
+	
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
 	
 	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
@@ -32,6 +34,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 		<property name="interceptors">
 			<list>
 				<ref bean="localeChangeInterceptor"/>
+				<ref bean="controllerAuditInterceptor"/>
 			</list>		
 		</property>
 	</bean>	
@@ -41,6 +44,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 		<property name="interceptors">
 			<list>
 				<ref bean="localeChangeInterceptor"/>
+				<ref bean="controllerAuditInterceptor"/>
 			</list>
 		</property>		
 	</bean>
