@@ -17,19 +17,24 @@
 		<!--<property name="maxUploadSize" value="100000"/>-->
 	</bean>
 	
+	<bean class ="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="location">
+        	<value>file:/arquitecturaAgave/DistV1/Configuracion/CifrasControl_AmbienteEJB.properties</value>
+       	</property>
+     </bean>
 	
 	<bean id="boGrupos" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
-		<property name="jndiName" value="ejb/EarEjbCifrasControl/EjbCifrasControl.jar/BOGrupoImpl#mx.isban.cifrascontrol.servicio.administracion.grupo.BOGrupo"/>
+		<property name="jndiName" value="${EJBCLUSTER}mx.isban.cifrascontrol.servicio.administracion.grupo.BOGrupo"/>
     	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.administracion.grupo.BOGrupo"/>
 	</bean>
 	
 	<bean id="boPantallas" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
-		<property name="jndiName" value="ejb/EarEjbCifrasControl/EjbCifrasControl.jar/BOPantallaImpl#mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla"/>
+		<property name="jndiName" value="${EJBCLUSTER}mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla"/>
     	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla"/>
 	</bean>
 	
 	<bean id="boUsuarios" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
-		<property name="jndiName" value="ejb/EarEjbCifrasControl/EjbCifrasControl.jar/BOUsuarioImpl#mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario"/>
+		<property name="jndiName" value="${EJBCLUSTER}mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario"/>
     	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario"/>
 	</bean>
 	

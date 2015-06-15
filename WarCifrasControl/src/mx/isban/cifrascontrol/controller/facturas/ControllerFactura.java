@@ -11,9 +11,7 @@
 package mx.isban.cifrascontrol.controller.facturas;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +28,7 @@ import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
 import mx.isban.cifrascontrol.beans.general.BeanProducto;
 import mx.isban.cifrascontrol.servicio.facturas.BOFactura;
+import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
 /**
 * Clase ControllerFactura
@@ -84,35 +83,10 @@ public class ControllerFactura extends Architech {
 	private static final String RECI = "RECI";
 	
 	/**
-	 * Arreglo de años (Falta saber el rango de años)
-	 */
-	private static final String[] ANIOS = {"2010","2015","2016","2017","2018","2019","2020","2021"};
-	
-	/**
-	 * Propiedad que contiene los meses (Para seleccionar el periodo)
-	 */
-	private Map<String, String> meses;
-	
-	/**
 	 * Propiedad que contiene un objeto de negocio de tipo {@link BOFactura}
 	 */
 	private BOFactura boFactura;
 	
-	public ControllerFactura() {
-		meses = new LinkedHashMap<String, String>();
-		meses.put("01","Enero");
-		meses.put("02","Febrero");
-		meses.put("03","Marzo");
-		meses.put("04","Abril");
-		meses.put("05","Mayo");
-		meses.put("06","Junio");
-		meses.put("07","Julio");
-		meses.put("08","Agosto");
-		meses.put("09","Septiembre");
-		meses.put("10","Octubre");
-		meses.put("11","Noviembre");
-		meses.put("12","Diciembre");
-	}
 	
 	/**
 	 * Metodo encargado de inicializar el formulario de consulta de facturas
@@ -131,9 +105,8 @@ public class ControllerFactura extends Architech {
 		final List<BeanProducto> productos = boFactura.obtenerProductos(getArchitechBean());
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
-		parametros.put("mesesList", meses);
-		final List<String> aniosList = Arrays.asList(ANIOS);
-		parametros.put("anioList", aniosList);
+		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
+		parametros.put("anioList", GeneradorCatalogos.obtenerListaAnios(5, 0));
 		this.info("Metodo de inicializacion del formulario de facturas inicializado con exito, direccionando a formularioFacturas.jsp");
 		return new ModelAndView("formularioFacturas",parametros);
 	}
@@ -155,9 +128,8 @@ public class ControllerFactura extends Architech {
 		final List<BeanProducto> productos = boFactura.obtenerProductos(getArchitechBean());
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
-		parametros.put("mesesList", meses);
-		final List<String> aniosList = Arrays.asList(ANIOS);
-		parametros.put("anioList", aniosList);
+		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
+		parametros.put("anioList", GeneradorCatalogos.obtenerListaAnios(5, 0));
 		this.info("Metodo de inicializacion del formulario de facturas inicializado con exito, direccionando a formularioNotasCredito.jsp");
 		return new ModelAndView("formularioNotasCredito",parametros);
 	}
@@ -179,9 +151,8 @@ public class ControllerFactura extends Architech {
 		final List<BeanProducto> productos = boFactura.obtenerProductos(getArchitechBean());
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
-		parametros.put("mesesList", meses);
-		final List<String> aniosList = Arrays.asList(ANIOS);
-		parametros.put("anioList", aniosList);
+		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
+		parametros.put("anioList", GeneradorCatalogos.obtenerListaAnios(5, 0));
 		this.info("Metodo de inicializacion del formulario de divisas inicializado con exito, direccionando a formularioDivisas.jsp");
 		return new ModelAndView("formularioDivisas",parametros);
 	}
@@ -203,9 +174,8 @@ public class ControllerFactura extends Architech {
 		final List<BeanProducto> productos = boFactura.obtenerProductos(getArchitechBean());
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
-		parametros.put("mesesList", meses);
-		final List<String> aniosList = Arrays.asList(ANIOS);
-		parametros.put("anioList", aniosList);
+		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
+		parametros.put("anioList", GeneradorCatalogos.obtenerListaAnios(5, 0));
 		this.info("Metodo de inicializacion del formulario de recibos inicializado con exito, direccionando a formularioRecibos.jsp");
 		return new ModelAndView("formularioRecibos",parametros);
 	}
@@ -245,7 +215,7 @@ public class ControllerFactura extends Architech {
 			parametros.put("facturasCorrectas", facturasCorrectas);
 			parametros.put("facturasIncorrectas", facturasIncorrectas);
 			String aplicativoBuscado = facturaList.get(0).getAplicativo();
-			periodo = new StringBuilder(meses.get(request.getParameter("mes")));
+			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses().get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
 			parametros.put("periodo",periodo.toString());
 			if(!totalFactoraje.isEmpty()){
@@ -307,7 +277,7 @@ public class ControllerFactura extends Architech {
 			parametros.put("facturasCorrectas", facturasCorrectas);
 			parametros.put("facturasIncorrectas", facturasIncorrectas);
 			String aplicativoBuscado = facturaList.get(0).getAplicativo();
-			periodo = new StringBuilder(meses.get(request.getParameter("mes")));
+			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses().get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
 			parametros.put("periodo",periodo.toString());
 			if(!totalFactoraje.isEmpty()){
@@ -369,7 +339,7 @@ public class ControllerFactura extends Architech {
 			parametros.put("facturasCorrectas", facturasCorrectas);
 			parametros.put("facturasIncorrectas", facturasIncorrectas);
 			String aplicativoBuscado = facturaList.get(0).getAplicativo();
-			periodo = new StringBuilder(meses.get(request.getParameter("mes")));
+			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses().get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
 			parametros.put("periodo",periodo.toString());
 			if(!totalFactoraje.isEmpty()){
@@ -423,7 +393,7 @@ public class ControllerFactura extends Architech {
 			parametros.put("recibosGenerados", recibosGenerados);
 			parametros.put("recibosCancelados", recibosCancelados);
 			String aplicativoBuscado = recibosConsultados.get(0).getAplicativo();
-			periodo = new StringBuilder(meses.get(request.getParameter("mes")));
+			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses().get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
 			parametros.put("periodo",periodo.toString());
 			parametros.put("aplicativo", aplicativoBuscado);
@@ -478,24 +448,5 @@ public class ControllerFactura extends Architech {
 	public void setBoFactura(BOFactura boFactura) {
 		this.boFactura = boFactura;
 	}
-
-	/**
-	 * Metodo encargado de obtener los meses
-	 * @return los meses
-	 */
-	public Map<String, String> getMeses() {
-		return meses;
-	}
-
-	/**
-	 * Metodo encargado de establecer los meses
-	 * @param meses Meses a establecer
-	 */
-	public void setMeses(Map<String, String> meses) {
-		this.meses = meses;
-	}
-	
-	
-	
 	
 }

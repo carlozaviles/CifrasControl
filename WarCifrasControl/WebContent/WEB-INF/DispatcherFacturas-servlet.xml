@@ -17,8 +17,15 @@
 		<!--<property name="maxUploadSize" value="100000"/>-->
 	</bean>
 	
+	<bean class ="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="location">
+        	<value>file:/arquitecturaAgave/DistV1/Configuracion/CifrasControl_AmbienteEJB.properties</value>
+       	</property>
+     </bean>
+	
+	
 	<bean id="boFactura" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
-		<property name="jndiName" value="ejb/EarEjbCifrasControl/EjbCifrasControl.jar/BOFacturaImpl#mx.isban.cifrascontrol.servicio.facturas.BOFactura"/>
+		<property name="jndiName" value="${EJBCLUSTER}mx.isban.cifrascontrol.servicio.facturas.BOFactura"/>
     	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.facturas.BOFactura"/>
 	</bean>
 	

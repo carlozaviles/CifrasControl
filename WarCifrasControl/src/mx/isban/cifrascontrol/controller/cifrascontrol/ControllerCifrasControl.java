@@ -1,9 +1,7 @@
 package mx.isban.cifrascontrol.controller.cifrascontrol;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +19,7 @@ import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanDetalleCifrasControl;
 import mx.isban.cifrascontrol.beans.general.BeanProducto;
 import mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl;
+import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
 @Controller
 public class ControllerCifrasControl extends Architech {
@@ -51,16 +50,6 @@ public class ControllerCifrasControl extends Architech {
 	private static final String SAT = "SAT";
 	
 	/**
-	 * Arreglo de años (Falta saber el rango de años)
-	 */
-	private static final String[] ANIOS = {"2010","2015","2016","2017","2018","2019","2020","2021"};
-	
-	/**
-	 * Propiedad que contiene los meses (Para seleccionar el periodo)
-	 */
-	private Map<String, String> meses;
-	
-	/**
 	 * Objeto de negocio de tipo {@link BOCifrasControl}
 	 */
 	private BOCifrasControl boCifrasControl;
@@ -71,19 +60,6 @@ public class ControllerCifrasControl extends Architech {
 	private List<BeanDetalleCifrasControl> detalleCifrasControl;
 
 	public ControllerCifrasControl() {
-		meses = new LinkedHashMap<String, String>();
-		meses.put("01","Enero");
-		meses.put("02","Febrero");
-		meses.put("03","Marzo");
-		meses.put("04","Abril");
-		meses.put("05","Mayo");
-		meses.put("06","Junio");
-		meses.put("07","Julio");
-		meses.put("08","Agosto");
-		meses.put("09","Septiembre");
-		meses.put("10","Octubre");
-		meses.put("11","Noviembre");
-		meses.put("12","Diciembre");
 		setDetalleCifrasControl(new ArrayList<BeanDetalleCifrasControl>());
 	}
 	
@@ -105,9 +81,8 @@ public class ControllerCifrasControl extends Architech {
 		final List<BeanProducto> productos = boCifrasControl.obtenerProductos(getArchitechBean());
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
-		parametros.put("mesesList", meses);
-		final List<String> aniosList = Arrays.asList(ANIOS);
-		parametros.put("anioList", aniosList);
+		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
+		parametros.put("anioList", GeneradorCatalogos.obtenerListaAnios(5,	0));
 		this.info("Metodo de inicializacion del formulario de facturas inicializado con exito, direccionando a formularioCifras.jsp");
 		return new ModelAndView("formularioCifrasControl",parametros);
 	}
@@ -226,15 +201,7 @@ public class ControllerCifrasControl extends Architech {
 		this.boCifrasControl = boCifrasControl;
 	}
 	
-	public Map<String, String> getMeses() {
-		return meses;
-	}
-
-
-	public void setMeses(Map<String, String> meses) {
-		this.meses = meses;
-	}
-
+	
 
 	/**
 	 * @return the detalleCifrasControl

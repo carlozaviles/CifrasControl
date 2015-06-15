@@ -66,7 +66,7 @@
 				<select name="anio" id="anio" class="Campos_Des">
 					<option value="" selected="selected">--Seleccione--</option>
 					<c:forEach var="anios" items="${anioList}">					
-					<option value="${anios}">${anios}</option>
+					<option value="${anios.key}">${anios.value}</option>
 					</c:forEach>
 				</select>
 			</td>
