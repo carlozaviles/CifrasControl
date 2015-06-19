@@ -4,6 +4,10 @@
       <xsd:import namespace="http://sei.cifrascontrol.modulointegrador.isban.mx/" schemaLocation="CifrasControl_schema1.xsd"/>
     </xsd:schema>
   </types>
+  <message name="consultarCifrasControl">
+    <part element="tns:consultarCifrasControl" name="parameters">
+    </part>
+  </message>
   <message name="consultarFacturasCifrasControl">
     <part element="tns:consultarFacturasCifrasControl" name="parameters">
     </part>
@@ -12,8 +16,8 @@
     <part element="tns:consultarCifrasControlResponse" name="parameters">
     </part>
   </message>
-  <message name="CifrasControlException">
-    <part element="tns:CifrasControlException" name="fault">
+  <message name="consultarDetalleCifrasControlResponse">
+    <part element="tns:consultarDetalleCifrasControlResponse" name="parameters">
     </part>
   </message>
   <message name="consultarDetalleCifrasControl">
@@ -24,12 +28,8 @@
     <part element="tns:consultarFacturasCifrasControlResponse" name="parameters">
     </part>
   </message>
-  <message name="consultarCifrasControl">
-    <part element="tns:consultarCifrasControl" name="parameters">
-    </part>
-  </message>
-  <message name="consultarDetalleCifrasControlResponse">
-    <part element="tns:consultarDetalleCifrasControlResponse" name="parameters">
+  <message name="CifrasControlException">
+    <part element="tns:CifrasControlException" name="fault">
     </part>
   </message>
   <portType name="CifrasControl">

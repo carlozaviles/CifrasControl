@@ -42,7 +42,7 @@ public class ReprocesoException_Exception
     /**
      * 
      * @return
-     *     returns fault bean: mx.isban.cifrascontrol.webservice.solicitudreproceso.ReprocesoException
+     *     returns fault bean: mx.isban.cifrascontrol.webservice.reproceso.ReprocesoException
      */
     public ReprocesoException getFaultInfo() {
         return faultInfo;

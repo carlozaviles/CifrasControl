@@ -14,7 +14,7 @@ import javax.xml.namespace.QName;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the mx.isban.cifrascontrol.webservice.solicitudreproceso package. 
+ * generated in the mx.isban.cifrascontrol.webservice.reproceso package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -28,14 +28,14 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _SolicitarReprocesoResponse_QNAME = new QName("http://sei.reproceso.modulointegrador.isban.mx/", "solicitarReprocesoResponse");
     private final static QName _ReprocesoException_QNAME = new QName("http://sei.reproceso.modulointegrador.isban.mx/", "ReprocesoException");
-    private final static QName _SolicitarReproceso_QNAME = new QName("http://sei.reproceso.modulointegrador.isban.mx/", "solicitarReproceso");
     private final static QName _ConsultarReprocesos_QNAME = new QName("http://sei.reproceso.modulointegrador.isban.mx/", "consultarReprocesos");
+    private final static QName _SolicitarReproceso_QNAME = new QName("http://sei.reproceso.modulointegrador.isban.mx/", "solicitarReproceso");
     private final static QName _ConsultarReprocesosResponse_QNAME = new QName("http://sei.reproceso.modulointegrador.isban.mx/", "consultarReprocesosResponse");
+    private final static QName _SolicitarReprocesoResponse_QNAME = new QName("http://sei.reproceso.modulointegrador.isban.mx/", "solicitarReprocesoResponse");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mx.isban.cifrascontrol.webservice.solicitudreproceso
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: mx.isban.cifrascontrol.webservice.reproceso
      * 
      */
     public ObjectFactory() {
@@ -98,30 +98,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SolicitarReprocesoResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://sei.reproceso.modulointegrador.isban.mx/", name = "solicitarReprocesoResponse")
-    public JAXBElement<SolicitarReprocesoResponse> createSolicitarReprocesoResponse(SolicitarReprocesoResponse value) {
-        return new JAXBElement<SolicitarReprocesoResponse>(_SolicitarReprocesoResponse_QNAME, SolicitarReprocesoResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ReprocesoException }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://sei.reproceso.modulointegrador.isban.mx/", name = "ReprocesoException")
     public JAXBElement<ReprocesoException> createReprocesoException(ReprocesoException value) {
         return new JAXBElement<ReprocesoException>(_ReprocesoException_QNAME, ReprocesoException.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SolicitarReproceso }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://sei.reproceso.modulointegrador.isban.mx/", name = "solicitarReproceso")
-    public JAXBElement<SolicitarReproceso> createSolicitarReproceso(SolicitarReproceso value) {
-        return new JAXBElement<SolicitarReproceso>(_SolicitarReproceso_QNAME, SolicitarReproceso.class, null, value);
     }
 
     /**
@@ -134,12 +116,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SolicitarReproceso }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://sei.reproceso.modulointegrador.isban.mx/", name = "solicitarReproceso")
+    public JAXBElement<SolicitarReproceso> createSolicitarReproceso(SolicitarReproceso value) {
+        return new JAXBElement<SolicitarReproceso>(_SolicitarReproceso_QNAME, SolicitarReproceso.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ConsultarReprocesosResponse }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://sei.reproceso.modulointegrador.isban.mx/", name = "consultarReprocesosResponse")
     public JAXBElement<ConsultarReprocesosResponse> createConsultarReprocesosResponse(ConsultarReprocesosResponse value) {
         return new JAXBElement<ConsultarReprocesosResponse>(_ConsultarReprocesosResponse_QNAME, ConsultarReprocesosResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SolicitarReprocesoResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://sei.reproceso.modulointegrador.isban.mx/", name = "solicitarReprocesoResponse")
+    public JAXBElement<SolicitarReprocesoResponse> createSolicitarReprocesoResponse(SolicitarReprocesoResponse value) {
+        return new JAXBElement<SolicitarReprocesoResponse>(_SolicitarReprocesoResponse_QNAME, SolicitarReprocesoResponse.class, null, value);
     }
 
 }

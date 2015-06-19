@@ -4,24 +4,24 @@
       <xsd:import namespace="http://sei.reproceso.modulointegrador.isban.mx/" schemaLocation="Reproceso_schema1.xsd"/>
     </xsd:schema>
   </types>
-  <message name="ReprocesoException">
-    <part element="tns:ReprocesoException" name="fault">
-    </part>
-  </message>
-  <message name="consultarReprocesosResponse">
-    <part element="tns:consultarReprocesosResponse" name="parameters">
-    </part>
-  </message>
-  <message name="consultarReprocesos">
-    <part element="tns:consultarReprocesos" name="parameters">
+  <message name="solicitarReproceso">
+    <part element="tns:solicitarReproceso" name="parameters">
     </part>
   </message>
   <message name="solicitarReprocesoResponse">
     <part element="tns:solicitarReprocesoResponse" name="parameters">
     </part>
   </message>
-  <message name="solicitarReproceso">
-    <part element="tns:solicitarReproceso" name="parameters">
+  <message name="consultarReprocesosResponse">
+    <part element="tns:consultarReprocesosResponse" name="parameters">
+    </part>
+  </message>
+  <message name="ReprocesoException">
+    <part element="tns:ReprocesoException" name="fault">
+    </part>
+  </message>
+  <message name="consultarReprocesos">
+    <part element="tns:consultarReprocesos" name="parameters">
     </part>
   </message>
   <portType name="Reproceso">

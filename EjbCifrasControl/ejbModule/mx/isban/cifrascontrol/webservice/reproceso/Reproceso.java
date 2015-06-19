@@ -32,8 +32,8 @@ public interface Reproceso {
      */
     @WebMethod
     @WebResult(name = "filasAfectadas", targetNamespace = "")
-    @RequestWrapper(localName = "solicitarReproceso", targetNamespace = "http://sei.reproceso.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.solicitudreproceso.SolicitarReproceso")
-    @ResponseWrapper(localName = "solicitarReprocesoResponse", targetNamespace = "http://sei.reproceso.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.solicitudreproceso.SolicitarReprocesoResponse")
+    @RequestWrapper(localName = "solicitarReproceso", targetNamespace = "http://sei.reproceso.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.reproceso.SolicitarReproceso")
+    @ResponseWrapper(localName = "solicitarReprocesoResponse", targetNamespace = "http://sei.reproceso.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.reproceso.SolicitarReprocesoResponse")
     @Action(input = "http://sei.reproceso.modulointegrador.isban.mx/Reproceso/solicitarReprocesoRequest", output = "http://sei.reproceso.modulointegrador.isban.mx/Reproceso/solicitarReprocesoResponse", fault = {
         @FaultAction(className = ReprocesoException_Exception.class, value = "http://sei.reproceso.modulointegrador.isban.mx/Reproceso/solicitarReproceso/Fault/ReprocesoException")
     })
@@ -47,13 +47,13 @@ public interface Reproceso {
      * 
      * @param periodo
      * @return
-     *     returns java.util.List<mx.isban.cifrascontrol.webservice.solicitudreproceso.ReprocesoDTO>
+     *     returns java.util.List<mx.isban.cifrascontrol.webservice.reproceso.ReprocesoDTO>
      * @throws ReprocesoException_Exception
      */
     @WebMethod
     @WebResult(name = "detalleReprocesos", targetNamespace = "")
-    @RequestWrapper(localName = "consultarReprocesos", targetNamespace = "http://sei.reproceso.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.solicitudreproceso.ConsultarReprocesos")
-    @ResponseWrapper(localName = "consultarReprocesosResponse", targetNamespace = "http://sei.reproceso.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.solicitudreproceso.ConsultarReprocesosResponse")
+    @RequestWrapper(localName = "consultarReprocesos", targetNamespace = "http://sei.reproceso.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.reproceso.ConsultarReprocesos")
+    @ResponseWrapper(localName = "consultarReprocesosResponse", targetNamespace = "http://sei.reproceso.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.reproceso.ConsultarReprocesosResponse")
     @Action(input = "http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultarReprocesosRequest", output = "http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultarReprocesosResponse", fault = {
         @FaultAction(className = ReprocesoException_Exception.class, value = "http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultarReprocesos/Fault/ReprocesoException")
     })

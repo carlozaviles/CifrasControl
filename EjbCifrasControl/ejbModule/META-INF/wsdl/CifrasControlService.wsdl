@@ -42,7 +42,7 @@
   </binding>
   <service name="CifrasControlService">
     <port binding="tns:CifrasControlImplPortBinding" name="CifrasControlImplPort">
-      <soap:address location="http://192.168.16.143:9080/CifrasControl/CifrasControlService"/>
+      <soap:address location="http://192.168.16.143:9080/ConsultaDeCifrasControl/CifrasControlService"/>
     </port>
   </service>
 </definitions>
