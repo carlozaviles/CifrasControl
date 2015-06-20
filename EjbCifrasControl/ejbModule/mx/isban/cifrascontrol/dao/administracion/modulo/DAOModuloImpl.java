@@ -61,62 +61,62 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 	 * Constante con la consulta SQL que indica los modulos encontrados por usuario
 	 */
 	private static final String QUERY_MODULOS_POR_USUARIO = 
-			"SELECT DISTINCT M.ID_MODULO,M.TXT_NOMBRE,M.TXT_DESCRIPCION"
-			+ " FROM MOI_MX_MAE_ADMIN_MODULO M"
-			+ " JOIN MOI_MX_MAE_ADMIN_PANTALLA P"
-			+ " ON M.ID_MODULO = P.NUM_MODULO_FK"
+			"SELECT DISTINCT M.ID_MODU ,M.TXT_NOM,M.DSC_DESC"
+			+ " FROM MOI_MX_MAE_ADMIN_MODU M"
+			+ " JOIN MOI_MX_MAE_ADMIN_PANT P"
+			+ " ON M.ID_MODU = P.NUM_MOD_FK"
 			+ " JOIN MOI_MX_REL_GPO_PANT REL_PAN"
-			+ " ON P.ID_PANTALLA = REL_PAN.ID_PANTALLA_FK"
-			+ " JOIN MOI_MX_MAE_ADMIN_GRUPO G"
-			+ " ON G.ID_GRUPO = REL_PAN.ID_GRUPO_FK"
+			+ " ON P.ID_PANT = REL_PAN.ID_PANT_FK"
+			+ " JOIN MOI_MX_MAE_ADMIN_GPO G"
+			+ " ON G.ID_GPO = REL_PAN.ID_GPO_FK"
 			+ " JOIN MOI_MX_REL_USR_GPO REL_USU"
-			+ " ON REL_USU.ID_GRUPO_FK = G.ID_GRUPO"
-			+ " JOIN MOI_MX_MAE_ADMIN_USUARIO U"
-			+ " ON U.ID_USUARIO = REL_USU.ID_USUARIO_FK"
-			+ " WHERE U.FLG_ESTATUS = 1"
-			+ " AND U.ID_USUARIO = ?";
+			+ " ON REL_USU.ID_GPO_FK = G.ID_GPO"
+			+ " JOIN MOI_MX_MAE_ADMIN_USER U"
+			+ " ON U.ID_USER = REL_USU.ID_USER_FK"
+			+ " WHERE U.FLG_STAT = 1"
+			+ " AND U.ID_USER = ?";
 
 	/**
 	 * Constante que contiene la consulta SQL para obtener un modulo en relacion a un
 	 * id de pantalla
 	 */
 	private static final String QUERY_OBTENER_MODULO_POR_PANTALLA = 
-			"SELECT M.ID_MODULO,M.TXT_NOMBRE,M.TXT_DESCRIPCION"
-			+ " FROM MOI_MX_MAE_ADMIN_MODULO M"
-			+ " JOIN MOI_MX_MAE_ADMIN_PANTALLA P"
-			+ " ON M.ID_MODULO = P.NUM_MODULO_FK"
-			+ " WHERE P.ID_PANTALLA = ?";
+			"SELECT M.ID_MODU,M.TXT_NOM,M.DSC_DESC"
+			+ " FROM MOI_MX_MAE_ADMIN_MODU M"
+			+ " JOIN MOI_MX_MAE_ADMIN_PANT P"
+			+ " ON M.ID_MODU = P.NUM_MOD_FK"
+			+ " WHERE P.ID_PANT = ?";
 	
 	/**
 	 * Constante que contiene una consulta SQL para obtener un modulo por id
 	 */
 	private static final String QUERY_CONSULTA_MODULO_POR_ID = 
-			"SELECT ID_MODULO,TXT_NOMBRE,TXT_DESCRIPCION FROM MOI_MX_MAE_ADMIN_MODULO WHERE ID_MODULO = ?";
+			"SELECT ID_MODU,TXT_NOM,DSC_DESC FROM MOI_MX_MAE_ADMIN_MODU WHERE ID_MODU= ?";
 	
 	/**
 	 * Constante que contiene una consulta SQL para actualizar un modulo
 	 */
 	private static final String QUERY_UPDATE_MODULO = 
-			"UPDATE MOI_MX_MAE_ADMIN_MODULO SET TXT_NOMBRE = ?, TXT_DESCRIPCION = ? WHERE ID_MODULO = ?";
+			"UPDATE MOI_MX_MAE_ADMIN_MODU SET TXT_NOM = ?, DSC_DESC = ? WHERE ID_MODU = ?";
 	
 	/**
 	 * Constante que contiene una consulta SQL para eliminar un modulo en relacion a su id
 	 */
 	private static final String QUERY_ELIMINA_MODULO =
-			"DELETE FROM MOI_MX_MAE_ADMIN_MODULO WHERE ID_MODULO = ?";
+			"DELETE FROM MOI_MX_MAE_ADMIN_MODU WHERE ID_MODU = ?";
 	
 	/**
 	 * Constante que contiene una consulta SQL para eliminar las relaciones Pantalla - Modulo
 	 */
 	private static final String QUERY_ELIMINA_RELACIONES_PANTALLA_MODULO =
-			"UPDATE MOI_MX_MAE_ADMIN_PANTALLA SET NUM_MODULO_FK = ? WHERE NUM_MODULO_FK = ?";
+			"UPDATE MOI_MX_MAE_ADMIN_PANT SET NUM_MOD_FK = ? WHERE NUM_MOD_FK = ?";
 	
 	
 	/**
 	 * Constante que contiene una consulta para dar de alta un modulo 
 	 */
 	private static final String QUERY_ALTA_MODULO = 
-			"INSERT INTO MOI_MX_MAE_ADMIN_MODULO (ID_MODULO,TXT_NOMBRE,TXT_DESCRIPCION) VALUES (MOI_MX_SEQ_MOD.NEXTVAL,?,?)";
+			"INSERT INTO MOI_MX_MAE_ADMIN_MODU (ID_MODU,TXT_NOM,DSC_DESC) VALUES (MOI_MX_SEQ_MOD.NEXTVAL,?,?)";
 	
 	/**
      * Default constructor. 
@@ -169,9 +169,9 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 		final List<BeanModulo> listaModulos = new ArrayList<BeanModulo>();
 		for(Map<String, Object> registro : responseDTO.getResultQuery()){
 			final BeanModulo modulo = new BeanModulo();
-			modulo.setIdModulo(String.valueOf(registro.get("ID_MODULO")));
-			modulo.setNombreModulo(String.valueOf(registro.get("TXT_NOMBRE")));
-			modulo.setDescripcionModulo(String.valueOf(registro.get("TXT_DESCRIPCION")));
+			modulo.setIdModulo(String.valueOf(registro.get("ID_MODU")));
+			modulo.setNombreModulo(String.valueOf(registro.get("TXT_NOM")));
+			modulo.setDescripcionModulo(String.valueOf(registro.get("DSC_DESC")));
 			listaModulos.add(modulo);
 		}
 		return listaModulos;
@@ -184,7 +184,7 @@ public class DAOModuloImpl extends Architech implements DAOModulo {
 	public BeanModuloRespuesta obtenerTodosModulos(
 			ArchitechSessionBean sessionBean) {
 		this.info("Se inicia la consulta de todos los modulos...");
-		final String consulta = "SELECT ID_MODULO,TXT_NOMBRE,TXT_DESCRIPCION FROM MOI_MX_MAE_ADMIN_MODULO";
+		final String consulta = "SELECT ID_MODU,TXT_NOM,DSC_DESC FROM MOI_MX_MAE_ADMIN_MODU";
 		final BeanModuloRespuesta modulos = new BeanModuloRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY);

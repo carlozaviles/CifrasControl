@@ -62,26 +62,26 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 	 * Constante que contiene una consulta SQL que permite la actualizacion del usuario
 	 */
 	private static final String QUERY_ACTUALIZA_USUARIO = 
-			"UPDATE MOI_MX_MAE_ADMIN_USUARIO"
-		+ " SET FLG_ESTATUS = ?"
-		+ " WHERE ID_USUARIO = ?";
+			"UPDATE MOI_MX_MAE_ADMIN_USER"
+		+ " SET FLG_STAT = ?"
+		+ " WHERE ID_USER = ?";
 	
 	/**
 	 * Constante que contiene una consulta SQL que permite la eliminacion de las relaciones 
 	 * Usuario - Grupo
 	 */
 	private static final String QUERY_ELIMINA_RELACIONES_USUARIO_GRUPO = 
-			"DELETE FROM MOI_MX_REL_USR_GPO WHERE ID_USUARIO_FK = ?";
+			"DELETE FROM MOI_MX_REL_USR_GPO WHERE ID_USER_FK = ?";
 	/**
 	 * Constante que contiene una consulta SQL que permite la creacion de las relaciones Usuario - Grupo
 	 */
 	private static final String QUERY_CREA_RELACIONES_USUARIO_GRUPO =
-			"INSERT INTO MOI_MX_REL_USR_GPO(ID_RELACION,ID_USUARIO_FK,ID_GRUPO_FK) VALUES (MOI_MX_SEQ_USR_GPO.NEXTVAL,?,?)";
+			"INSERT INTO MOI_MX_REL_USR_GPO(ID_REL,ID_USER_FK,ID_GPO_FK) VALUES (MOI_MX_SEQ_USR_GPO.NEXTVAL,?,?)";
 	/**
 	 * Constante que contiene una consulta SQL que permite realizar el alta de un usuario
 	 */
 	private static final String QUERY_ALTA_USUARIO = 
-			"INSERT INTO MOI_MX_MAE_ADMIN_USUARIO(ID_USUARIO,FLG_ESTATUS) VALUES (?,?)";
+			"INSERT INTO MOI_MX_MAE_ADMIN_USER(ID_USER,FLG_STAT) VALUES (?,?)";
 	
 	/**
      * @see Architech#Architech()
@@ -146,7 +146,7 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 	@Override
 	public BeanUsuarioRespuesta obtenerTodosUsuarios(
 			ArchitechSessionBean sessionBean) {
-		final String consulta = "SELECT ID_USUARIO,FLG_ESTATUS FROM MOI_MX_MAE_ADMIN_USUARIO";
+		final String consulta = "SELECT ID_USER,FLG_STAT FROM MOI_MX_MAE_ADMIN_USER";
 		final BeanUsuarioRespuesta usuariosRespuesta = new BeanUsuarioRespuesta();
 		this.info("Se inicia la consulta de todos los usuarios...");
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
@@ -164,8 +164,8 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 				final List<BeanUsuario> listaUsuarios = new ArrayList<BeanUsuario>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
 					final BeanUsuario usuario = new BeanUsuario();
-					usuario.setIdUsuario(String.valueOf(registro.get("ID_USUARIO")));
-					final String status = String.valueOf(registro.get("FLG_ESTATUS"));
+					usuario.setIdUsuario(String.valueOf(registro.get("ID_USER")));
+					final String status = String.valueOf(registro.get("FLG_STAT"));
 					if("1".equals(status)){
 						usuario.setEstatus(true);
 					}
@@ -189,7 +189,7 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 	@Override
 	public BeanUsuarioRespuesta obtenerUsuarioPorID(
 			ArchitechSessionBean sessionBean, String idUsuario) {
-		final String consulta = "SELECT ID_USUARIO,FLG_ESTATUS FROM MOI_MX_MAE_ADMIN_USUARIO WHERE ID_USUARIO = ?";
+		final String consulta = "SELECT ID_USER,FLG_STAT FROM MOI_MX_MAE_ADMIN_USER WHERE ID_USER = ?";
 		final BeanUsuarioRespuesta usuarios = new BeanUsuarioRespuesta();
 		this.info("Se inicia la consulta del usuario con id:"+idUsuario);
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
@@ -208,8 +208,8 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 				final List<BeanUsuario> listaUsuarios = new ArrayList<BeanUsuario>();
 				for(Map<String, Object> registro : responseDTO.getResultQuery()){
 					final BeanUsuario usuario = new BeanUsuario();
-					usuario.setIdUsuario(String.valueOf(registro.get("ID_USUARIO")));
-					final String status = String.valueOf(registro.get("FLG_ESTATUS"));
+					usuario.setIdUsuario(String.valueOf(registro.get("ID_USER")));
+					final String status = String.valueOf(registro.get("FLG_STAT"));
 					if("1".equals(status)){
 						usuario.setEstatus(true);
 					}

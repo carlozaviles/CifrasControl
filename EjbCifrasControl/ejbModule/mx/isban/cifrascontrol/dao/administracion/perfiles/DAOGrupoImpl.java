@@ -56,41 +56,41 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 	 * Consulta SQL para actualizar un grupo
 	 */
 	private static final String QUERY_ACTUALIZA_GRUPO = 
-			"UPDATE MOI_MX_MAE_ADMIN_GRUPO"
-			+ " SET TXT_NOMBRE = ?,TXT_DESCRIPCION = ?"
-			+ " WHERE ID_GRUPO = ?";
+			"UPDATE MOI_MX_MAE_ADMIN_GPO"
+			+ " SET TXT_NOM = ?,DSC_DESC = ?"
+			+ " WHERE ID_GPO = ?";
 	/**
 	 * Consulta SQL que elimina las relaciones GRUPO - PANTALLA
 	 */
 	private static final String QUERY_ELIMINA_RELACIONES_GRUPO_PANTALLA = 
-			"DELETE FROM MOI_MX_REL_GPO_PANT WHERE ID_GRUPO_FK = ?";
+			"DELETE FROM MOI_MX_REL_GPO_PANT WHERE ID_GPO_FK = ?";
 	
 	/**
 	 * Consulta SQL que crea una relacion GRUPO - PANTALLA
 	 */
 	private static final String QUERY_CREA_RELACION_GRUPO_PANTALLA =
-			"INSERT INTO MOI_MX_REL_GPO_PANT(ID_RELACION,ID_GRUPO_FK,ID_PANTALLA_FK) VALUES (MOI_MX_SEQ_GPO_PANT.NEXTVAL,?,?)";
+			"INSERT INTO MOI_MX_REL_GPO_PANT(ID_REL,ID_GPO_FK,ID_PANT_FK) VALUES (MOI_MX_SEQ_GPO_PANT.NEXTVAL,?,?)";
 	/**
 	 * Consulta SQL que permite dar de alta un nuevo Grupo
 	 */
 	private static final String QUERY_ALTA_GRUPO = 
-			"INSERT INTO MOI_MX_MAE_ADMIN_GRUPO(ID_GRUPO,TXT_NOMBRE,TXT_DESCRIPCION) VALUES (MOI_MX_SEQ_GPO.NEXTVAL,?,?)";
+			"INSERT INTO MOI_MX_MAE_ADMIN_GPO(ID_GPO,TXT_NOM,DSC_DESC) VALUES (MOI_MX_SEQ_GPO.NEXTVAL,?,?)";
 	/**
 	 * Consulta SQL que elimina un Grupo
 	 */
 	private static final String QUERY_ELIMINA_GRUPO = 
-			"DELETE FROM MOI_MX_MAE_ADMIN_GRUPO WHERE ID_GRUPO = ?";
+			"DELETE FROM MOI_MX_MAE_ADMIN_GPO WHERE ID_GPO = ?";
 	/**
 	 * Consulta SQL que permite obtener los grupos relacionados a un usuario
 	 */
 	private static final String QUERY_OBTENER_GRUPO_POR_USUARIO = 
-			"SELECT G.TXT_NOMBRE,G.ID_GRUPO,G.TXT_DESCRIPCION "
-			+ " FROM MOI_MX_MAE_ADMIN_GRUPO G"
+			"SELECT G.TXT_NOM,G.ID_GPO,G.DSC_DESC "
+			+ " FROM MOI_MX_MAE_ADMIN_GPO G"
 			+ " JOIN MOI_MX_REL_USR_GPO REL"
-			+ " ON G.ID_GRUPO = REL.ID_GRUPO_FK"
-			+ " JOIN MOI_MX_MAE_ADMIN_USUARIO U"
-			+ " ON REL.ID_USUARIO_FK = U.ID_USUARIO"
-			+ " WHERE U.ID_USUARIO = ?";
+			+ " ON G.ID_GPO = REL.ID_GPO_FK"
+			+ " JOIN MOI_MX_MAE_ADMIN_USER U"
+			+ " ON REL.ID_USER_FK = U.ID_USER"
+			+ " WHERE U.ID_USER = ?";
 	/**
      *Constante con un mensaje indicando que se obtuvo un codigo de error al ejecutar
      *una consulta 
@@ -111,7 +111,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 	public BeanGrupoRespuesta buscarTodosGrupos(
 			ArchitechSessionBean sessionBean) {
 		this.info("Se inicia la consulta de todos los perfiles...");
-		final String consulta = "SELECT ID_GRUPO,TXT_NOMBRE,TXT_DESCRIPCION FROM MOI_MX_MAE_ADMIN_GRUPO";
+		final String consulta = "SELECT ID_GPO,TXT_NOM,DSC_DESC FROM MOI_MX_MAE_ADMIN_GPO";
 		final BeanGrupoRespuesta grupos = new BeanGrupoRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY);
@@ -148,9 +148,9 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 		final List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
 		for(Map<String, Object> registro : responseDTO.getResultQuery()){
 			final BeanGrupo grupo = new BeanGrupo();
-			grupo.setIdGrupo(String.valueOf(registro.get("ID_GRUPO")));
-			grupo.setNombreGrupo(String.valueOf(registro.get("TXT_NOMBRE")));
-			grupo.setDescripcionGrupo(String.valueOf(registro.get("TXT_DESCRIPCION")));
+			grupo.setIdGrupo(String.valueOf(registro.get("ID_GPO")));
+			grupo.setNombreGrupo(String.valueOf(registro.get("TXT_NOM")));
+			grupo.setDescripcionGrupo(String.valueOf(registro.get("DSC_DESC")));
 			listaGrupos.add(grupo);
 		}
 		return listaGrupos;
@@ -163,7 +163,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 	public BeanGrupoRespuesta consultarGrupoPorId(ArchitechSessionBean sessionBean,
 			String idGrupo) {
 		this.info("Se inicia la consulta del perfil con id:"+idGrupo);
-		final String consulta = "SELECT ID_GRUPO,TXT_NOMBRE,TXT_DESCRIPCION FROM MOI_MX_MAE_ADMIN_GRUPO WHERE ID_GRUPO = ?";
+		final String consulta = "SELECT ID_GPO,TXT_NOM,DSC_DESC FROM MOI_MX_MAE_ADMIN_GPO WHERE ID_GPO = ?";
 		final BeanGrupoRespuesta grupos = new BeanGrupoRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY_PARAMS);
@@ -197,7 +197,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 	public BeanGrupoRespuesta consultarGrupoPorNombre(
 			ArchitechSessionBean sessionBean, String nombreGrupo) {
 		this.info("Se inicia la consulta del perfil con el nombre:"+nombreGrupo);
-		final String consulta = "SELECT ID_GRUPO,TXT_NOMBRE,TXT_DESCRIPCION FROM MOI_MX_MAE_ADMIN_GRUPO WHERE TXT_NOMBRE = ?";
+		final String consulta = "SELECT ID_GPO,TXT_NOM,DSC_DESC FROM MOI_MX_MAE_ADMIN_GPO WHERE TXT_NOM = ?";
 		final BeanGrupoRespuesta grupos = new BeanGrupoRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY_PARAMS);
@@ -309,7 +309,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 						final String idPerfilNuevo =consultaGrupo.getGrupos().get(0).getIdGrupo(); 
 						grupo.setIdGrupo(idPerfilNuevo);
 						final List<BeanPantalla> pantallas = grupo.getPantallas();
-						this.info("Tamaño de lista de pantallas seleccionadas:"+pantallas.size());
+						this.info("Tamanio de lista de pantallas seleccionadas:"+pantallas.size());
 						for (int i = 0;i < pantallas.size();i++) {	
 							final BeanGrupoRespuesta actualizaRelaciones = actualizaRelacionesGrupoPantalla(sessionBean, grupo.getIdGrupo(),pantallas.get(i).getIdPantalla());
 							if(!CODIGO_SIN_ERRORES.equals(actualizaRelaciones.getCodError())){

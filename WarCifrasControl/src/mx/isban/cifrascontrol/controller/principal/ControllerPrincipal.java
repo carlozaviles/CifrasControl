@@ -45,8 +45,11 @@ public class ControllerPrincipal extends Architech{
 
 		lobjSession.setAttribute("LyFBean", lobjLyFBean);
 	
-		String idUsuario = "AS675423T";
-		List<BeanModulo> modulos = boModulo.obtenerModulosPorUsuarioLogueado(getArchitechBean(), idUsuario);
+		String txtUser =req.getHeader("iv-user")==null ? "EXPC" :req.getHeader("iv-user").toString();
+		this.info("Usuario por header:"+txtUser);
+		
+		List<BeanModulo> modulos = boModulo.obtenerModulosPorUsuarioLogueado(getArchitechBean(), txtUser);
+		
 		lobjSession.setAttribute("modulosPermitidos", modulos);
 		this.setNameComponent("ControllerPrincipal");
 		this.setLoggingBean(LogUtil.getLoggingBean("message", "cmpName", this.getClass()));
