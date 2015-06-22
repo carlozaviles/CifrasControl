@@ -14,7 +14,7 @@ import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanDetalleCifrasControl;
 import mx.isban.cifrascontrol.beans.general.BeanProducto;
-import mx.isban.cifrascontrol.util.general.ConstantesCodigoError;
+import mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl;
 import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControl;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlDTO;
@@ -167,7 +167,7 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 			this.info("Consulta de cifras de control realizada con exito");
 		} catch (CifrasControlException_Exception e) {
 			this.error("Ocurrio un error al momento de consultar el web service"+e.getFaultInfo());
-			throw new BusinessException(ConstantesCodigoError.ERROR_CONSULTAR_CIFRAS_CONTROL);
+			throw new BusinessException(ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL);
 		}
 		return this.cifrasControlList.size();
 	}
@@ -206,7 +206,7 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 			beanDetalleCifrasList = UtilGeneralCifras.establecerRegistros(detalleCifrasControl, DetalleCifrasControlDTO.class, BeanDetalleCifrasControl.class);
 		} catch (CifrasControlException_Exception e) {
 			this.error("Error al consultar el web service"+e.getFaultInfo());
-			throw new BusinessException(ConstantesCodigoError.ERROR_CONSULTAR_CIFRAS_CONTROL_DETALLE);
+			throw new BusinessException(ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL_DETALLE);
 		}
 		return beanDetalleCifrasList;
 	}

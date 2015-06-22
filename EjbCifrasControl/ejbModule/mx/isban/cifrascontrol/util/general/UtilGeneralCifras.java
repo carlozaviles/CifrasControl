@@ -17,7 +17,7 @@ import java.util.List;
 
 import mx.isban.agave.commons.exception.BusinessException;
 
-import static mx.isban.cifrascontrol.util.general.ConstantesCodigoError.*;
+import static mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl.*;
 
 /**
 * Clase UtilGeneralCifras

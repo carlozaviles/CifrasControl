@@ -8,24 +8,25 @@
 * 
 * Para mas informacion, consulte <www.everis.com/mexico>
 ***************************************************************/
-package mx.isban.cifrascontrol.util.general;
+package mx.isban.cifrascontrol.util.cifrascontrol;
 
 /**
-* Clase ConstantesCodigoError
+* Clase ConstantesCifrasControl
 * 
-* <P>Clase que contiene los valores constantes de los direfentes codigos de error 
+* <P>Clase que contiene los valores constantes utilizados en 
+* el modulo cifras de control 
 * 
 * @author Everis
 * @version 1.0
 * @see www.everis.com/mexico
 * 
 */
-public final class ConstantesCodigoError {
+public final class ConstantesCifrasControl {
 	
 	/**
 	 * Constructor privado
 	 */
-	private ConstantesCodigoError() {
+	private ConstantesCifrasControl() {
 		super();
 	}
 	
