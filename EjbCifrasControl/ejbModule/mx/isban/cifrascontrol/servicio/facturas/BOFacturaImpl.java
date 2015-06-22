@@ -28,7 +28,7 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
-import mx.isban.cifrascontrol.beans.general.BeanProducto;
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControl;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlException_Exception;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlService;

@@ -98,7 +98,7 @@ public final class ConexionUtil extends Architech{
 			if(archivoPropiedades.isFile()){
 				final InputStream imputStreamPropiedades = new FileInputStream(archivoPropiedades);
 				propiedades.load(imputStreamPropiedades);
-				jndi = propiedades.getProperty("reproceso.db.jndi");
+				jndi = propiedades.getProperty("productos.db.jndi");
 				this.info("Se obtiene la propiedad "+jndi+" de la ruta "+PATH_PROPERTIES);
 			}else{
 				this.error("No se encuentra el archivo de propiedades para la ruta:"+PATH_PROPERTIES);

@@ -17,7 +17,7 @@ import javax.ejb.Remote;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
-import mx.isban.cifrascontrol.beans.general.BeanProducto;
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 
 /**
  * Interface BOFactura

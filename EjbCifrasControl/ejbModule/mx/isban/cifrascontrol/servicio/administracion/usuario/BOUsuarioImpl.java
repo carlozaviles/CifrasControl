@@ -13,7 +13,6 @@ package mx.isban.cifrascontrol.servicio.administracion.usuario;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -46,7 +45,6 @@ import mx.isban.cifrascontrol.dao.administracion.usuario.DAOUsuario;
 */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
-@Remote(BOUsuario.class)
 public class BOUsuarioImpl extends Architech implements BOUsuario {
 
 	/**

@@ -8,7 +8,7 @@
 * 
 * Para mas informacion, consulte <www.everis.com/mexico>
 ***************************************************************/
-package mx.isban.cifrascontrol.beans.general;
+package mx.isban.cifrascontrol.beans.producto;
 
 import java.io.Serializable;
 
@@ -20,6 +20,7 @@ import java.io.Serializable;
  * <ul>
  * <li>idProducto</li>
  * <li>descripcion</li>
+ * <li>tipoProducto</li>
  * </ul>
  * 
  * @author everis
@@ -40,6 +41,11 @@ public class BeanProducto implements Serializable {
 	 * Propiedad que contiene la descripcion del producto
 	 */
 	private String descripcion;
+	
+	/**
+	 * Propiedad que contiene el tipo de producto
+	 */
+	private String tipoProducto;
 	
 	/**
 	 * Constructor vacio
@@ -78,6 +84,22 @@ public class BeanProducto implements Serializable {
 	 */
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	/**
+	 * Metodo encargado de obtener el tipo de producto
+	 * @return El tipo de producto
+	 */
+	public String getTipoProducto() {
+		return tipoProducto;
+	}
+
+	/**
+	 * Metodo encargado de establecer el tipo de producto
+	 * @param tipoProducto El tipo de producto a establecer
+	 */
+	public void setTipoProducto(String tipoProducto) {
+		this.tipoProducto = tipoProducto;
 	}
 	
 }

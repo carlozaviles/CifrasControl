@@ -12,6 +12,8 @@ package mx.isban.cifrascontrol.servicio.administracion.usuario;
 
 import java.util.List;
 
+import javax.ejb.Remote;
+
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario;
@@ -27,6 +29,7 @@ import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario;
  * @see www.everis.com/mexico
  * 
  */
+@Remote
 public interface BOUsuario {
 	
 	/**
