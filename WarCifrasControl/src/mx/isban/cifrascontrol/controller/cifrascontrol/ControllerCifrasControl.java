@@ -17,7 +17,7 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanDetalleCifrasControl;
-import mx.isban.cifrascontrol.beans.general.BeanProducto;
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 

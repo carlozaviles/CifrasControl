@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
-import mx.isban.cifrascontrol.beans.general.BeanProducto;
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.servicio.facturas.BOFactura;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
