@@ -28,8 +28,13 @@
     	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl"/>
 	</bean>
 	
+	<bean id="boCatalogos" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${EJBCLUSTER}mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos"/>
+    	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos"/>
+	</bean>
 		
 	<bean id="controllerCifrasControl" name="controllerCifrasControl" class="mx.isban.cifrascontrol.controller.cifrascontrol.ControllerCifrasControl">
 		<property name="boCifrasControl" ref="boCifrasControl"/>
+		<property name="boCatalogo" ref="boCatalogos"/>
 	</bean>
 </beans>

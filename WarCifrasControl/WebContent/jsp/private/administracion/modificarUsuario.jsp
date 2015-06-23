@@ -74,7 +74,7 @@
 
 <div class="frameTablaVariasColumnas">
 	<div class="titleTablaVariasColumnas">${tituloGrupo}</div>
-		<div class="contentTablaVariasColumnas" style="height:300px;overflow:auto;">
+		<div class="contentTablaVariasColumnas" style="height:100px;overflow:auto;">
 			<table>
 				<tr>
 					<th width="300" class="text_izquierda">${grupo}</th>
@@ -99,6 +99,60 @@
 			</table>
 	</div>
 </div>
+
+<div class="frameTablaVariasColumnas">
+	<div class="titleTablaVariasColumnas">${productosEDC}</div>
+		<div class="contentTablaVariasColumnas" style="height:300px;overflow:auto;">
+			<table>
+				<tr>
+					<th width="300" class="text_izquierda">${producto}</th>
+					<th width="50" class="text_centro" scope="col">${asignarProducto}</th>
+				</tr>
+			
+				<tr>
+			
+					<Td colspan="3" class="special"></Td>
+				</tr>
+				<tbody>
+					<c:forEach var="productoItem" items="${productosEDCList}">
+					<tr class="odd2">
+						<td class="text_izquierda">${productoItem.descripcion}</td>
+						<td class="text_izquierda"><input type="checkbox" name="idProducto" value="${productoItem.idProducto}"
+							<c:if test="${productoItem.productoSeleccionado}">checked</c:if>>
+						</td>
+					</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+	</div>
+</div>
+
+<div class="frameTablaVariasColumnas">
+	<div class="titleTablaVariasColumnas">${productosFACT}</div>
+		<div class="contentTablaVariasColumnas" style="height:300px;overflow:auto;">
+			<table>
+				<tr>
+					<th width="300" class="text_izquierda">${producto}</th>
+					<th width="50" class="text_centro" scope="col">${asignarProducto}</th>
+				</tr>
+			
+				<tr>
+					<Td colspan="3" class="special"></Td>
+				</tr>
+				<tbody>
+					<c:forEach var="productoItemFact" items="${productosFACTList}">
+					<tr class="odd2">
+						<td class="text_izquierda">${productoItemFact.descripcion}</td>
+						<td class="text_izquierda"><input type="checkbox" name="idProductoFact" value="${productoItemFact.idProducto}"
+							<c:if test="${productoItemFact.productoSeleccionado}">checked</c:if>>
+						</td>
+					</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+	</div>
+</div>
+
 
 <div class="PiePag"><button name="btnGuardaUsuario" id="btnGuardaUsuario" type="button">${guardarUsuario}</button><button name="btnCancelar" id="btnCancelar" type="button" onclick="#">${cancelar}</button></div>
 </form>

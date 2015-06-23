@@ -10,6 +10,7 @@
 ***************************************************************/
 package mx.isban.cifrascontrol.servicio.administracion.usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -27,9 +28,11 @@ import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantalla;
 import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantallaRespuesta;
 import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario;
 import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuarioRespuesta;
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla;
 import mx.isban.cifrascontrol.dao.administracion.perfiles.DAOGrupo;
 import mx.isban.cifrascontrol.dao.administracion.usuario.DAOUsuario;
+import mx.isban.cifrascontrol.dao.catalogos.DAOCatalogos;
 
 /**
 * Clase BOUsuarioImpl
@@ -78,6 +81,9 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 	@EJB
 	private DAOPantalla daoPantalla;
 
+	@EJB
+	private DAOCatalogos daoCatalogos;
+	
 	/**
      * Default constructor. 
      */
@@ -192,6 +198,13 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 	public void modificarUsuario(ArchitechSessionBean sessionBean,
 			BeanUsuario usuario) throws BusinessException{
 		this.info("Iniciando la modificacion de un usuario....");
+		List<BeanProducto> productosList = new ArrayList<BeanProducto>();
+		List<BeanProducto> productosIdList = usuario.getProductos();
+		for (BeanProducto beanProducto : productosIdList) {
+			BeanProducto producto = daoCatalogos.obtenerProductoPorId(beanProducto.getIdProducto());
+			productosList.add(producto);
+		}
+		usuario.setProductos(productosList);
 		final BeanUsuarioRespuesta resultadoConsulta = daoUsuario.modificarUsuario(sessionBean, usuario);
 		verificarRespuesta(resultadoConsulta);
 		this.info("Finaliza la ejecucion del metodo de actualizacion de usuario");		
@@ -204,6 +217,13 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 	public void altaUsuario(ArchitechSessionBean sessionBean,
 			BeanUsuario usuario) throws BusinessException{
 		this.info("Iniciando el alta de un usuario....");
+		List<BeanProducto> productosList = new ArrayList<BeanProducto>();
+		List<BeanProducto> productosIdList = usuario.getProductos();
+		for (BeanProducto beanProducto : productosIdList) {
+			BeanProducto producto = daoCatalogos.obtenerProductoPorId(beanProducto.getIdProducto());
+			productosList.add(producto);
+		}
+		usuario.setProductos(productosList);
 		final BeanUsuarioRespuesta resultadoConsulta = daoUsuario.altaUsuario(sessionBean, usuario);
 		verificarRespuesta(resultadoConsulta);
 		this.info("Finaliza la ejecucion del metodo de alta de usuario");	

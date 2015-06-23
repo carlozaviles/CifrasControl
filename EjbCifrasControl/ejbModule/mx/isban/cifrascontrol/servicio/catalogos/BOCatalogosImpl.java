@@ -65,9 +65,9 @@ public class BOCatalogosImpl extends Architech implements BOCatalogos {
 	 * @see mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos#obtenerTodosProductos()
 	 */
 	@Override
-	public List<BeanProducto> obtenerTodosProductos() throws BusinessException {
+	public List<BeanProducto> obtenerTodosProductos(String tipoProducto) throws BusinessException {
 		this.info("Iniciando la busqueda de todos los productos");
-		List<BeanProducto> listaProductos = daoCatalogos.obtenerTodosProductos();
+		List<BeanProducto> listaProductos = daoCatalogos.obtenerTodosProductos(tipoProducto);
 		this.info("El numero de productos encontrados es:"+listaProductos.size());
 		this.info("Metodo de consulta de todos los productos, realizado con exito");
 		return listaProductos;

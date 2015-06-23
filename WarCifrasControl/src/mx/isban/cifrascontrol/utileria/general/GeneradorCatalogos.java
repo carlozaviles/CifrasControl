@@ -6,7 +6,10 @@ package mx.isban.cifrascontrol.utileria.general;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 
 /**
  * @author everis
@@ -67,7 +70,7 @@ public final class GeneradorCatalogos {
 	 */
 	public static Map<String, String> obtenerCatalogoTipoMov(){
 		final Map<String, String> catalogoTipoMovimiento = new LinkedHashMap<String, String>();
-		final String[] tiposDeMovimientos = {"INGRESO", "EGRESO", "AMBOS"};
+		final String[] tiposDeMovimientos = {"INGRESO", "EGRESO", "AMBOS","NINGUNO"};
 		for(String movimiento : tiposDeMovimientos){
 			catalogoTipoMovimiento.put(movimiento, movimiento);
 		}
@@ -79,14 +82,10 @@ public final class GeneradorCatalogos {
 	 * Se retorna un objeto de tipo Map que se utilizara en la capa cliente para llenar un bojeto de tipo select.
 	 * @return Map<String, String>
 	 */
-	public static Map<String, String> obtenerCatalogoProductosReprocesos(){
+	public static Map<String, String> obtenerCatalogoProductosReprocesos(List<BeanProducto> productoList){
 		final Map<String, String> catalogoProductos = new LinkedHashMap<String, String>();
-		final String[] arregloProductos = {"CAPTACION VISTA Y CHEQUES", "CAPTACION PLAZO", "CAPTACION NOMINA",
-				"CAPTACION UDIS", "FONDOS", "TARJETAS PAMPA BANCO", "TARJETAS PAMPA SOFOM", "CARTERA",
-				"FIDUCIARIO", "MEXDER 21", "MEXDER 22", "MEXDER CHICAGO", "OPICS BANCO", "OPICS CASA DE BOLSA",
-				"OPICS GESTORA", "OPICS FACTORAJE", "SAF PPR", "SOFIA SANTANDER", "SOFIA SERFIN", "ACTIVO ALTAIR"};
-		for(String producto : arregloProductos){
-			catalogoProductos.put(producto, producto);
+		for (BeanProducto beanProducto : productoList) {
+			catalogoProductos.put(beanProducto.getDescripcion(), beanProducto.getDescripcion());
 		}
 		return catalogoProductos;
 	}

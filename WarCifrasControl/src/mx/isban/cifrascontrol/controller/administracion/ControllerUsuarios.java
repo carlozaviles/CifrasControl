@@ -11,6 +11,7 @@
 package mx.isban.cifrascontrol.controller.administracion;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +28,10 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.administracion.grupo.BeanGrupo;
 import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario;
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.servicio.administracion.grupo.BOGrupo;
 import mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario;
+import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.utileria.administracion.ValidadorAccesoPantallas;
 
 /**
@@ -67,6 +70,16 @@ public class ControllerUsuarios extends Architech {
 	private static final String MODULOS_PERMITIDOS = "modulosPermitidos";
 	
 	/**
+	 * Constante que tiene el valor para el tipo de producto EDC
+	 */
+	private static final String EDC = "EDC";
+	
+	/**
+	 * Constante que tiene el valor para el tipo de producto FACT
+	 */
+	private static final String FACT = "FACT";
+	
+	/**
 	 * Objeto de negocio de tipo BOUsuario
 	 */
 	private BOUsuario boUsuario;
@@ -74,6 +87,11 @@ public class ControllerUsuarios extends Architech {
 	 * Objeto de negocio de tipo BOGrupo
 	 */
 	private BOGrupo boGrupo;
+	
+	/**
+	 * Propiedad de tipo {@link BOCatalogos}
+	 */
+	private BOCatalogos boCatalogo;
 	
 	/**
 	 * Metodo encargado de consultar los usuarios disponibles y regresar a la vista los datos obtenidos
@@ -107,8 +125,12 @@ public class ControllerUsuarios extends Architech {
 		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
 		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
 		final List<BeanGrupo> listaGrupos = boGrupo.buscarTodosGrupos(getArchitechBean());
+		final List<BeanProducto> listaProductosEDC = boCatalogo.obtenerTodosProductos(EDC);
+		final List<BeanProducto> listaProductosFACT = boCatalogo.obtenerTodosProductos(FACT);
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("todosGrupos", listaGrupos);
+		parametros.put("productosEDCList", listaProductosEDC);
+		parametros.put("productosFACTList", listaProductosFACT);
 		this.info("Direccionando a la vista: altaUsuario");
 		return new ModelAndView("altaUsuario",parametros);
 	}
@@ -139,6 +161,22 @@ public class ControllerUsuarios extends Architech {
 			listaGrupos.add(grupo);
 			this.info("idGrupo:"+gruposSeleccionados[i]);
 		}
+		final String[] productosEDCSeleccionados = request.getParameterValues("idProducto");
+		final String[] productosFACTSeleccionados = request.getParameterValues("idProductoFact");
+		final List<String> productosSeleccionados = new ArrayList<String>();
+		final List<BeanProducto> productos = new ArrayList<BeanProducto>();
+		if(null != productosEDCSeleccionados && productosEDCSeleccionados.length > 0){
+			productosSeleccionados.addAll(Arrays.asList(productosEDCSeleccionados));
+		}
+		if(null != productosFACTSeleccionados && productosFACTSeleccionados.length > 0){
+			productosSeleccionados.addAll(Arrays.asList(productosFACTSeleccionados));
+		}
+		for (String idProducto : productosSeleccionados) {
+			BeanProducto producto = new BeanProducto();
+			producto.setIdProducto(idProducto);
+			productos.add(producto);
+		}
+		usuario.setProductos(productos);
 		usuario.setGrupos(listaGrupos);
 		boUsuario.altaUsuario(getArchitechBean(), usuario);
 		this.info("Termina la ejecucion del metodo de alta de usuario");
@@ -161,9 +199,29 @@ public class ControllerUsuarios extends Architech {
 		final String idUsuario = request.getParameter("idUsuario");
 		final BeanUsuario usuario = boUsuario.obtenerUsuarioPorID(getArchitechBean(), idUsuario);
 		final List<BeanGrupo> grupos = usuario.getGrupos();
+		final List<BeanProducto> listaProductosEDC = boCatalogo.obtenerProductosUsuario(getArchitechBean(), idUsuario, EDC);
+		final List<BeanProducto> listaProductosFACT = boCatalogo.obtenerProductosUsuario(getArchitechBean(), idUsuario, FACT);
+		final List<BeanProducto> listaEDCAll = boCatalogo.obtenerTodosProductos(EDC);
+		final List<BeanProducto> listaFACTAll = boCatalogo.obtenerTodosProductos(FACT);
 		final Map<String, Object> parametros = new HashMap<String, Object>();
+		for (BeanProducto beanProducto : listaProductosEDC) {
+			for (BeanProducto beanProductoAll : listaEDCAll) {
+				if(beanProducto.getDescripcion().trim().equals(beanProductoAll.getDescripcion().trim())){
+					beanProductoAll.setProductoSeleccionado(true);
+				}
+			}
+		}
+		for (BeanProducto beanProducto : listaProductosFACT) {
+			for (BeanProducto beanProductoAll : listaFACTAll) {
+				if(beanProducto.getDescripcion().trim().equals(beanProductoAll.getDescripcion().trim())){
+					beanProductoAll.setProductoSeleccionado(true);
+				}
+			}
+		}
 		parametros.put("usuario", usuario);
 		parametros.put("todosGrupos", grupos);
+		parametros.put("productosEDCList", listaEDCAll);
+		parametros.put("productosFACTList", listaFACTAll);
 		return new ModelAndView("modificarUsuario",parametros);
 	}
 	
@@ -193,6 +251,22 @@ public class ControllerUsuarios extends Architech {
 			listaGrupos.add(grupo);
 			this.info("idGrupo:"+gruposSeleccionados[i]);
 		}
+		final String[] productosEDCSeleccionados = request.getParameterValues("idProducto");
+		final String[] productosFACTSeleccionados = request.getParameterValues("idProductoFact");
+		final List<String> productosSeleccionados = new ArrayList<String>();
+		final List<BeanProducto> productos = new ArrayList<BeanProducto>();
+		if(null != productosEDCSeleccionados && productosEDCSeleccionados.length > 0){
+			productosSeleccionados.addAll(Arrays.asList(productosEDCSeleccionados));
+		}
+		if(null != productosFACTSeleccionados && productosFACTSeleccionados.length > 0){
+			productosSeleccionados.addAll(Arrays.asList(productosFACTSeleccionados));
+		}
+		for (String idProducto : productosSeleccionados) {
+			BeanProducto producto = new BeanProducto();
+			producto.setIdProducto(idProducto);
+			productos.add(producto);
+		}
+		usuario.setProductos(productos);
 		usuario.setGrupos(listaGrupos);
 		boUsuario.modificarUsuario(getArchitechBean(), usuario);
 		this.info("Termina la ejecucion del metodo de actualizacion");
@@ -256,6 +330,22 @@ public class ControllerUsuarios extends Architech {
 	 */
 	public void setBoGrupo(BOGrupo boGrupo) {
 		this.boGrupo = boGrupo;
+	}
+
+	/**
+	 * Metodo que obtiene un objeto de tipo {@link BOCatalogos}
+	 * @return Un objeto de tipo {@link BOCatalogos}
+	 */
+	public BOCatalogos getBoCatalogo() {
+		return boCatalogo;
+	}
+
+	/**
+	 * Metodo que establece un objeto de tipo {@link BOCatalogos}
+	 * @param boCatalogos El objeto de tipo {@link BOCatalogos} a establecer
+	 */
+	public void setBoCatalogo(BOCatalogos boCatalogo) {
+		this.boCatalogo = boCatalogo;
 	}
 	
 }

@@ -27,6 +27,7 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
+import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.servicio.facturas.BOFactura;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
@@ -87,6 +88,7 @@ public class ControllerFactura extends Architech {
 	 */
 	private BOFactura boFactura;
 	
+	private BOCatalogos boCatalogo;
 	
 	/**
 	 * Metodo encargado de inicializar el formulario de consulta de facturas
@@ -102,7 +104,7 @@ public class ControllerFactura extends Architech {
 		this.info("Iniciando el formulario de facturas");
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		this.info("Se inicia la consulta de productos....");
-		final List<BeanProducto> productos = boFactura.obtenerProductos(getArchitechBean());
+		final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
 		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
@@ -125,7 +127,7 @@ public class ControllerFactura extends Architech {
 		this.info("Iniciando el formulario de facturas");
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		this.info("Se inicia la consulta de productos....");
-		final List<BeanProducto> productos = boFactura.obtenerProductos(getArchitechBean());
+		final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
 		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
@@ -148,7 +150,7 @@ public class ControllerFactura extends Architech {
 		this.info("Iniciando el formulario de facturas");
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		this.info("Se inicia la consulta de productos....");
-		final List<BeanProducto> productos = boFactura.obtenerProductos(getArchitechBean());
+		final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
 		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
@@ -171,7 +173,7 @@ public class ControllerFactura extends Architech {
 		this.info("Iniciando el formulario de recibos");
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		this.info("Se inicia la consulta de productos....");
-		final List<BeanProducto> productos = boFactura.obtenerProductos(getArchitechBean());
+		final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
 		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
@@ -198,7 +200,7 @@ public class ControllerFactura extends Architech {
 		List<BeanFactura> totalFacturas;
 		List<BeanFactura> totalFactoraje = new ArrayList<BeanFactura>();
 		//Caso especial: en caso de ser confirming y factura, se realiza la busqueda por separado
-		if("ConfiFact".equals(aplicativo)){
+		if("Confirming y Factoraje".equals(aplicativo)){
 			totalFacturas = boFactura.consultarFacturas(CONFIRMING, periodo.toString(), FACT, getArchitechBean());
 			totalFactoraje = boFactura.consultarFacturas(FACTORAJE, periodo.toString(), FACT, getArchitechBean());
 		}else{
@@ -260,7 +262,7 @@ public class ControllerFactura extends Architech {
 		List<BeanFactura> totalFacturas;
 		List<BeanFactura> totalFactoraje = new ArrayList<BeanFactura>();
 		//Caso especial: en caso de ser confirming y factura, se realiza la busqueda por separado
-		if("ConfiFact".equals(aplicativo)){
+		if("Confirming y Factoraje".equals(aplicativo)){
 			totalFacturas = boFactura.consultarFacturas(CONFIRMING, periodo.toString(), NOTA, getArchitechBean());
 			totalFactoraje = boFactura.consultarFacturas(FACTORAJE, periodo.toString(), NOTA, getArchitechBean());
 		}else{
@@ -322,7 +324,7 @@ public class ControllerFactura extends Architech {
 		List<BeanFactura> totalFacturas;
 		List<BeanFactura> totalFactoraje = new ArrayList<BeanFactura>();
 		//Caso especial: en caso de ser confirming y factura, se realiza la busqueda por separado
-		if("ConfiFact".equals(aplicativo)){
+		if("Confirming y Factoraje".equals(aplicativo)){
 			totalFacturas = boFactura.consultarFacturas(CONFIRMING, periodo.toString(), DIVI, getArchitechBean());
 			totalFactoraje = boFactura.consultarFacturas(FACTORAJE, periodo.toString(), DIVI, getArchitechBean());
 		}else{
@@ -447,6 +449,20 @@ public class ControllerFactura extends Architech {
 	 */
 	public void setBoFactura(BOFactura boFactura) {
 		this.boFactura = boFactura;
+	}
+
+	/**
+	 * @return the boCatalogo
+	 */
+	public BOCatalogos getBoCatalogo() {
+		return boCatalogo;
+	}
+
+	/**
+	 * @param boCatalogo the boCatalogo to set
+	 */
+	public void setBoCatalogo(BOCatalogos boCatalogo) {
+		this.boCatalogo = boCatalogo;
 	}
 	
 }

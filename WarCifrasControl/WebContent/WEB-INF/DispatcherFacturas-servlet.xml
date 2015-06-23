@@ -29,7 +29,13 @@
     	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.facturas.BOFactura"/>
 	</bean>
 	
+	<bean id="boCatalogos" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${EJBCLUSTER}mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos"/>
+    	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos"/>
+	</bean>
+	
 	<bean id="controllerFactura" name="controllerFactura" class="mx.isban.cifrascontrol.controller.facturas.ControllerFactura">
 	<property name="boFactura" ref="boFactura"/>
+	<property name="boCatalogo" ref="boCatalogos"/>
 	</bean>
 </beans>

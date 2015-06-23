@@ -1,6 +1,7 @@
 package mx.isban.cifrascontrol.controller.reprocesos;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanDatosSolicitudReprocesos;
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
+import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.servicio.reprocesos.BOReprocesos;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
@@ -38,6 +41,8 @@ public class ControllerReprocesoSolicitud extends Architech{
 	 */
 	private BOReprocesos reprocesos;
 
+	private BOCatalogos boCatalogo;
+	
 	/**
 	 * Muestra el menu para que el usuario realice la consulta de personas.
 	 * @param request Request
@@ -73,7 +78,8 @@ public class ControllerReprocesoSolicitud extends Architech{
 			modelo.put("catalogoMeses", GeneradorCatalogos.obtenerListaMeses());
 			modelo.put("catalogoAnios", GeneradorCatalogos.obtenerListaAnios(5, 0));
 			modelo.put("catalogoTiposMovimiento", GeneradorCatalogos.obtenerCatalogoTipoMov());
-			modelo.put("catalogoProductos", GeneradorCatalogos.obtenerCatalogoProductosReprocesos());
+			final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
+			modelo.put("catalogoProductos", GeneradorCatalogos.obtenerCatalogoProductosReprocesos(productos));
 			modelo.put("muestraDatosFiscales", true);
 		}else{
 			modelo.put("noHayDatos", true);
@@ -148,6 +154,20 @@ public class ControllerReprocesoSolicitud extends Architech{
 	 */
 	public void setReprocesos(BOReprocesos reprocesos) {
 		this.reprocesos = reprocesos;
+	}
+
+	/**
+	 * @return the boCatalogo
+	 */
+	public BOCatalogos getBoCatalogo() {
+		return boCatalogo;
+	}
+
+	/**
+	 * @param boCatalogo the boCatalogo to set
+	 */
+	public void setBoCatalogo(BOCatalogos boCatalogo) {
+		this.boCatalogo = boCatalogo;
 	}
 	
 	

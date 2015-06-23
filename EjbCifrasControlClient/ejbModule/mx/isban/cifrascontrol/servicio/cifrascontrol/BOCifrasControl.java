@@ -18,7 +18,6 @@ import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanDetalleCifrasControl;
-import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 
 /**
  * Interface BOCifrasControl
@@ -42,16 +41,6 @@ import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 @Remote
 public interface BOCifrasControl {
 
-	/**
-	 * Metodo encargado de obtener todos los productos para el formulario
-	 * de consulta de las cifras de control, el metodo regresa una lista de 
-	 * objetos de tipo {@link BeanProducto}
-	 * 
-	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
-	 * @return Una lista de objetos de tipo {@link BeanProducto}
-	 * @throws BusinessException En caso de presentarse un error al momento de realizar la consulta de productos.
-	 */
-	public List<BeanProducto> obtenerProductos(ArchitechSessionBean sessionBean)throws BusinessException;
 	
 	/**
 	 * Metodo encargado de realizar la consulta de las cifras de control, para establecer

@@ -25,9 +25,11 @@ import mx.isban.agave.dataaccess.DataAccess;
 import mx.isban.agave.dataaccess.channels.database.dto.RequestMessageDataBaseDTO;
 import mx.isban.agave.dataaccess.channels.database.dto.ResponseMessageDataBaseDTO;
 import mx.isban.agave.dataaccess.factories.jdbc.ConfigFactoryJDBC;
+import mx.isban.agave.logging.Level;
 import mx.isban.cifrascontrol.beans.administracion.grupo.BeanGrupo;
 import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario;
 import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuarioRespuesta;
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 
 /**
 * Clase DAOUsuarioImpl
@@ -72,11 +74,22 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 	 */
 	private static final String QUERY_ELIMINA_RELACIONES_USUARIO_GRUPO = 
 			"DELETE FROM MOI_MX_REL_USR_GPO WHERE ID_USER_FK = ?";
+	
+	private static final String QUERY_ELIMINA_RELACIONES_USUARIO_PRODUCTO =
+			"DELETE FROM MOI_MX_REL_USR_PROD WHERE ID_USER_FK = ?";
+	
 	/**
 	 * Constante que contiene una consulta SQL que permite la creacion de las relaciones Usuario - Grupo
 	 */
 	private static final String QUERY_CREA_RELACIONES_USUARIO_GRUPO =
 			"INSERT INTO MOI_MX_REL_USR_GPO(ID_REL,ID_USER_FK,ID_GPO_FK) VALUES (MOI_MX_SEQ_USR_GPO.NEXTVAL,?,?)";
+	
+	/**
+	 * Constante que contiene una consulta SQL que permite la creacion de relaciones Usuario - Producto
+	 */
+	private static final String QUERY_CREA_RELACIONES_USUARIO_PRODUCTO =
+			"INSERT INTO MOI_MX_REL_USR_PROD(ID_REL,ID_PROD,ID_USER_FK,DSC_DESC,COD_TIPO_PROD) VALUES (MOI_MX_SEQ_USR_PROD.NEXTVAL,?,?,?,?)";
+	
 	/**
 	 * Constante que contiene una consulta SQL que permite realizar el alta de un usuario
 	 */
@@ -129,7 +142,20 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 						}
 					}
 				}
-			
+				final List<BeanProducto> productos = usuario.getProductos();
+				if(!productos.isEmpty()){
+					for (int i = 0;i < productos.size();i++) {
+						final BeanUsuarioRespuesta actualizaRelacionesProducto = actualizaRelacionesUsuarioProducto(sessionBean, usuario.getIdUsuario(), productos.get(i));
+						if(!CODIGO_SIN_ERRORES.equals(actualizaRelacionesProducto.getCodError())){
+							respuesta.setCodError(actualizaRelacionesProducto.getCodError());
+							respuesta.setMsgError(actualizaRelacionesProducto.getMsgError());
+							i = productos.size()+1;
+						}else{
+							respuesta.setCodError(CODIGO_SIN_ERRORES);
+						}
+					}
+				}
+				
 			}
 		}catch(ExceptionDataAccess e){
 			this.error(ERROR_IDA+e);
@@ -271,7 +297,28 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 							respuesta.setCodError(CODIGO_SIN_ERRORES);
 						}
 					}
+					BeanUsuarioRespuesta eliminacionRelacionesProducto = eliminarRelacionesUsuarioProducto(sessionBean, usuario.getIdUsuario());
+					if(!CODIGO_SIN_ERRORES.equals(eliminacionRelacionesProducto.getCodError())){
+						this.error(MENSAJE_ERROR+eliminacionRelacionesProducto.getCodError()+eliminacionRelaciones.getMsgError());
+						respuesta.setCodError(eliminacionRelacionesProducto.getCodError());
+						respuesta.setMsgError(eliminacionRelacionesProducto.getMsgError());
+					}else{
+						List<BeanProducto> productos = usuario.getProductos();
+						this.info("Tamaño de lista seleccionada:"+productos.size());
+						for (int i = 0;i < productos.size();i++) {	
+							BeanUsuarioRespuesta actualizaRelacionesProducto = actualizaRelacionesUsuarioProducto(sessionBean, usuario.getIdUsuario(),productos.get(i));
+							if(!CODIGO_SIN_ERRORES.equals(actualizaRelacionesProducto.getCodError())){
+								this.error(MENSAJE_ERROR+actualizaRelacionesProducto.getCodError()+actualizaRelacionesProducto.getMsgError());
+								respuesta.setCodError(actualizaRelacionesProducto.getCodError());
+								respuesta.setMsgError(actualizaRelacionesProducto.getMsgError());
+								i = productos.size()+1;
+							}else{
+								respuesta.setCodError(CODIGO_SIN_ERRORES);
+							}
+						}
+					}
 				}
+				
 			}
 		}catch(ExceptionDataAccess e){
 			this.error(ERROR_IDA+e);
@@ -318,6 +365,45 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 	}
 
 	/**
+	 * Metodo encargado de actualizar las relaciones usuario - producto
+	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
+	 * @param idUsuario El id del usuario a crear las relaciones
+	 * @param producto El producto a relacionar con el usuario
+	 * @return Un objeto de tipo BeanUsuarioRespuesta
+	 */
+	private BeanUsuarioRespuesta actualizaRelacionesUsuarioProducto(
+			ArchitechSessionBean sessionBean, String idUsuario, BeanProducto producto) {
+		final BeanUsuarioRespuesta respuesta = new BeanUsuarioRespuesta();
+		this.info("Se inicia la creacion de las relaciones Usuario - Producto");
+		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
+		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_INSERT_PARAMS);
+		requestDTO.setQuery(QUERY_CREA_RELACIONES_USUARIO_PRODUCTO);
+		requestDTO.setCodeOperation("COD25 Crea Relaciones Usuario - Producto");
+		requestDTO.addParamToSql(producto.getIdProducto());
+		requestDTO.addParamToSql(idUsuario);
+		requestDTO.addParamToSql(producto.getDescripcion());
+		requestDTO.addParamToSql(producto.getTipoProducto().trim());
+		try{
+			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
+			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
+			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError()+responseDTO.getMessageError());
+				respuesta.setCodError(responseDTO.getCodeError());
+				respuesta.setMsgError(responseDTO.getMessageError());
+			}else{
+				respuesta.setCodError(CODIGO_SIN_ERRORES);
+			}
+		}catch(ExceptionDataAccess e){
+			showException(e,Level.ERROR);
+			respuesta.setCodError(CODIGO_ERROR_GENERAL);
+			respuesta.setMsgError(ERROR_IDA+e.getMessage());
+		}
+		this.info("Finaliza el metodo de actualizacion de relaciones Usuario - Producto");
+		return respuesta;
+	}
+
+	
+	/**
 	 * Metodo encargado de eliminar las relaciones UsuarioGrupo
 	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
 	 * @param idUsuario El id del usuario a eliminar las relaciones Usuario - Grupo
@@ -331,6 +417,39 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_DELETE_PARAMS);
 		requestDTO.setQuery(QUERY_ELIMINA_RELACIONES_USUARIO_GRUPO);
 		requestDTO.setCodeOperation("COD20 Elimina Relaciones Usuario -Grupo");
+		requestDTO.addParamToSql(idUsuario);
+		try{
+			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
+			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);
+			if(!ConfigFactoryJDBC.CODE_SUCCESFULLY.equals(responseDTO.getCodeError())){
+				this.error(MENSAJE_ERROR+responseDTO.getCodeError()+responseDTO.getMessageError());
+				usuarios.setCodError(responseDTO.getCodeError());
+				usuarios.setMsgError(responseDTO.getMessageError());
+			}else{
+				usuarios.setCodError(CODIGO_SIN_ERRORES);
+			}
+		}catch(ExceptionDataAccess e){
+			this.error(ERROR_IDA+e);
+			usuarios.setCodError(CODIGO_ERROR_GENERAL);
+			usuarios.setMsgError(ERROR_IDA+e.getMessage());
+		}
+		return usuarios;
+	}
+	
+	/**
+	 * Metodo encargado de eliminar las relaciones Usuario - Producto
+	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
+	 * @param idUsuario El id del usuario a eliminar las relaciones Usuario - Producto
+	 * @return Un objeto de tipo BeanUsuarioRespuesta con el resultado de la consulta en la bd
+	 */
+	private BeanUsuarioRespuesta eliminarRelacionesUsuarioProducto(
+			ArchitechSessionBean sessionBean, String idUsuario) {
+		final BeanUsuarioRespuesta usuarios = new BeanUsuarioRespuesta();
+		this.info("Se inicia la eliminacion de las relaciones Usuario - Grupo");
+		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
+		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_DELETE_PARAMS);
+		requestDTO.setQuery(QUERY_ELIMINA_RELACIONES_USUARIO_PRODUCTO);
+		requestDTO.setCodeOperation("COD27 Elimina Relaciones Usuario - Producto");
 		requestDTO.addParamToSql(idUsuario);
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());

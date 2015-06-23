@@ -1,9 +1,9 @@
 package mx.isban.cifrascontrol.dao.catalogos;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,16 +51,19 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
     }
 
 	@Override
-	public List<BeanProducto> obtenerTodosProductos() throws BusinessException {
-		String consultaSQL = "SELECT ID_CATAL, DSC_PROD, FLG_TIPO_PROD FROM MOI_MX_MAE_ADMIN_CATA_PROD";
+	public List<BeanProducto> obtenerTodosProductos(String tipoProducto) throws BusinessException {
+		String consultaSQL = "SELECT ID_CATAL, DSC_PROD, FLG_TIPO_PROD FROM MOI_MX_MAE_ADMIN_CATA_PROD "
+				+ "WHERE FLG_TIPO_PROD LIKE ?";
 		Connection conexion = null;
-		Statement sentencia = null;
+		PreparedStatement sentencia = null;
 		ResultSet filas = null;
 		List<BeanProducto> productosList = new ArrayList<BeanProducto>();
 		try {
 			conexion = ConexionUtil.getInstance().getConexion();
-			sentencia = conexion.createStatement();
-			filas = sentencia.executeQuery(consultaSQL);
+			sentencia = conexion.prepareStatement(consultaSQL);
+			sentencia.setString(1, tipoProducto+"%");
+			this.info("Ejecutando la consulta:"+consultaSQL);
+			filas = sentencia.executeQuery();
 			while (filas.next()) {
 				final BeanProducto producto = new BeanProducto();
 				producto.setIdProducto(filas.getString("ID_CATAL"));
@@ -74,32 +77,66 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
 			throw new BusinessException(CODIGO_ERROR_CONSULTA_PRODUCTOS);
 		}
 		finally{
-			if(null != filas){
-				try {
-					filas.close();
-				} catch (SQLException e) {
-					showException(e,Level.WARN);
-				}
-			}
-			if(null != sentencia){
-				try {
-					sentencia.close();
-				} catch (SQLException e) {
-					showException(e,Level.WARN);
-				}
-
-			}
-			if(null != conexion){
-				try {
-					conexion.close();
-				} catch (SQLException e) {
-					showException(e,Level.WARN);
-				}
-
-			}
+			cerrarRecursos(filas,sentencia,conexion);
 			ConexionUtil.borrarInstancia();
 		}
 		return productosList;
+	}
+	
+	@Override
+	public BeanProducto obtenerProductoPorId(String idProducto)throws BusinessException {
+		String consultaSQL = "SELECT ID_CATAL, DSC_PROD, FLG_TIPO_PROD FROM MOI_MX_MAE_ADMIN_CATA_PROD WHERE ID_CATAL = ?";
+		Connection conexion = null;
+		PreparedStatement sentencia = null;
+		ResultSet filas = null;
+		final BeanProducto producto = new BeanProducto();
+		try {
+			conexion = ConexionUtil.getInstance().getConexion();
+			sentencia = conexion.prepareStatement(consultaSQL);
+			sentencia.setInt(1, Integer.parseInt(idProducto));
+			filas = sentencia.executeQuery();
+			while (filas.next()) {
+				producto.setIdProducto(filas.getString("ID_CATAL"));
+				producto.setDescripcion(filas.getString("DSC_PROD"));
+				producto.setTipoProducto(filas.getString("FLG_TIPO_PROD"));
+			}
+			this.info("Ejecucion del metodo de consulta por id correcto");
+		} catch (SQLException e) {
+			showException(e,Level.ERROR);
+			throw new BusinessException(CODIGO_ERROR_CONSULTA_PRODUCTOS_POR_ID);
+		}
+		finally{
+			cerrarRecursos(filas,sentencia,conexion);
+			ConexionUtil.borrarInstancia();
+		}
+		return producto;
+	}
+	
+	private void cerrarRecursos(ResultSet filas, PreparedStatement sentencia, Connection conexion){
+		if(null != filas){
+			try {
+				filas.close();
+			} catch (SQLException e) {
+				showException(e,Level.WARN);
+			}
+		}
+		if(null != sentencia){
+			try {
+				sentencia.close();
+			} catch (SQLException e) {
+				showException(e,Level.WARN);
+			}
+
+		}
+		if(null != conexion){
+			try {
+				conexion.close();
+			} catch (SQLException e) {
+				showException(e,Level.WARN);
+			}
+
+		}
+
 	}
 
 	@Override
@@ -153,6 +190,5 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
 		}
 		return listaProductos;
 	}
-
 
 }

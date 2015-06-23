@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import mx.isban.cifrascontrol.beans.administracion.grupo.BeanGrupo;
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 
 /**
  * Clase BeanUsuario
@@ -43,6 +44,11 @@ public class BeanUsuario implements Serializable {
 	 * Propiedad que contiene los grupos relacionados a un usuario
 	 */
 	private List<BeanGrupo> grupos;
+	
+	/**
+	 * Propiedad que contiene los productos relacionados a un usuario
+	 */
+	private List<BeanProducto> productos;
 	
 	/**
 	 * Constructor por defecto
@@ -140,6 +146,22 @@ public class BeanUsuario implements Serializable {
 			}
 			return grupos.toString();
 		}
+	}
+	
+	/**
+	 * Metodo encargado de obtener los productos relacionados a un usuario
+	 * @return the productos Los productos a establecer
+	 */
+	public List<BeanProducto> getProductos() {
+		return productos;
+	}
+
+	/**
+	 * Metodo encargado de establecer los productos relacionados a un usuario
+	 * @param productos Los productos a establecer
+	 */
+	public void setProductos(List<BeanProducto> productos) {
+		this.productos = productos;
 	}
 	
 }

@@ -18,6 +18,7 @@ import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanDetalleCifrasControl;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
+import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
@@ -54,6 +55,8 @@ public class ControllerCifrasControl extends Architech {
 	 */
 	private BOCifrasControl boCifrasControl;
 	
+	private BOCatalogos boCatalogo;
+	
 	/**
 	 * Lista que contiene el detalle de las cifras de control
 	 */
@@ -78,7 +81,7 @@ public class ControllerCifrasControl extends Architech {
 		this.info("Iniciando el formulario de Cifras de control");
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		this.info("Se inicia la consulta de productos....");
-		final List<BeanProducto> productos = boCifrasControl.obtenerProductos(getArchitechBean());
+		final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
 		this.info("El total de productos obtenidos es:"+productos.size());
 		parametros.put("productosList", productos);
 		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
@@ -216,6 +219,22 @@ public class ControllerCifrasControl extends Architech {
 	 */
 	public void setDetalleCifrasControl(List<BeanDetalleCifrasControl> detalleCifrasControl) {
 		this.detalleCifrasControl = detalleCifrasControl;
+	}
+
+
+	/**
+	 * @return the boCatalogo
+	 */
+	public BOCatalogos getBoCatalogo() {
+		return boCatalogo;
+	}
+
+
+	/**
+	 * @param boCatalogo the boCatalogo to set
+	 */
+	public void setBoCatalogo(BOCatalogos boCatalogo) {
+		this.boCatalogo = boCatalogo;
 	}
 
 }

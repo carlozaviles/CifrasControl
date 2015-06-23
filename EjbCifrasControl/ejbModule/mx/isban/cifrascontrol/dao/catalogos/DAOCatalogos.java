@@ -60,6 +60,12 @@ public interface DAOCatalogos {
 	public static final String CODIGO_ERROR_CONSULTA_PRODUCTOS_USUARIO = "CAT 02";
 	
 	/**
+	 * Constante que contiene el codigo de error para la consulta de 
+	 * los productos por id
+	 */
+	public static final String  CODIGO_ERROR_CONSULTA_PRODUCTOS_POR_ID = "CAT 03";
+	
+	/**
 	 * Constante con el valor 0, el cual indica que no se presento un error al 
 	 * momento de realizar acciones relacionadas al Grupo
 	 */
@@ -69,11 +75,21 @@ public interface DAOCatalogos {
 	 * Metodo encargado de consultar todos los productos disponibles
 	 * para EDC y para FACT, para que el usuario pueda dar de alta 
 	 * los productos asignados a algun cliente
+	 * @param tipoProducto El tipo de producto a buscar
 	 * @return Un listado de objetos de tipo {@link BeanProducto}
 	 * @throws BusinessException En caso de presentarse un error al momento de
 	 * realizar la consulta en la base de datos
 	 */
-	public List<BeanProducto> obtenerTodosProductos()throws BusinessException;
+	public List<BeanProducto> obtenerTodosProductos(String tipoProducto)throws BusinessException;
+	
+	/**
+	 * Metodo encargado de obtener un producto por su id
+	 * @param idProducto El id del producto a buscar
+	 * @return Un objeto de tipo 
+	 * @throws BusinessException En caso de presentarse un error al momento
+	 * de realizar la consulta de productos por id
+	 */
+	public BeanProducto obtenerProductoPorId(String idProducto)throws BusinessException;
 	
 	/**
 	 * Metodo encargado de obtener los productos por usuario, en relacion 

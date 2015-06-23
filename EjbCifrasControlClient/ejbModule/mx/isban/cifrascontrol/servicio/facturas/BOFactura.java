@@ -17,7 +17,6 @@ import javax.ejb.Remote;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
-import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 
 /**
  * Interface BOFactura
@@ -40,17 +39,6 @@ import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 @Remote
 public interface BOFactura {
 
-	/**
-	 * Metodo encargado de obtener todos los productos para los diferentes
-	 * formularios del modulo de facturas, el metodo regresa una lista de 
-	 * objetos de tipo {@link BeanProducto}
-	 * 
-	 * @param sessionBean Un objeto de tipo {@link ArchitechSessionBean} necesario por la implementacion de Agave
-	 * @return Una lista de objetos de tipo {@link BeanProducto}
-	 * @throws BusinessException En caso de presentarse un error al momento de realizar la consulta de productos.
-	 */
-	public List<BeanProducto> obtenerProductos(ArchitechSessionBean sessionBean)throws BusinessException;
-	
 	/**
 	 * <p>Metodo encargado de realizar la consulta de las facturas,
 	 * mediante la invocacion del servicio web Consulta cifras control para 

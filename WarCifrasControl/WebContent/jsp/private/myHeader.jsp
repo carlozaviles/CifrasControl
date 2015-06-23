@@ -141,9 +141,6 @@
 				(${ArchitechSession.usuario})<BR>
         		${LyFBean.getFecha(fechaSeparador)} - ${LyFBean.hora}
         		<BR>
-				<a id="helpLink" href="" target="_new" onclick="javascript:goHelp();">
-					<img id="messageHelp" src="${pageContext.servletContext.contextPath}/lf/${LyFBean.lookAndFeel}/img/ayuda.jpg">
-				</a>
 			</div>
 			
 			<c:if test="${LyFBean.usaMensajes=='1'}">

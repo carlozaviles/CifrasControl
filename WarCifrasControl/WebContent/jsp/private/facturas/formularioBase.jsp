@@ -19,7 +19,7 @@
 				<select name="aplicativo" id="aplicativo" class="Campos_Des" style="font-size: 9px;">
 					<option value="" selected="selected">--Seleccione--</option>
 					<c:forEach var="producto" items="${productosList}">					
-					<option value="${producto.idProducto}">${producto.descripcion}</option>
+					<option value="${producto.descripcion}">${producto.descripcion}</option>
 					</c:forEach>
 				</select>
 			</td>

@@ -20,6 +20,7 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaReproceso;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanRegistroReproceso;
+import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.servicio.reprocesos.BOReprocesos;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
@@ -50,6 +51,8 @@ public class ControllerConsultaReprocesos extends Architech {
 	 * Interfaz remota del servicio de reprocesos.
 	 */
 	private BOReprocesos reprocesos;
+	
+	private BOCatalogos boCatalogo;
 	
 	/**
 	 * Muestra el menu por medio del cual el usuario elegira los parametros para la consulta de reprocesos.
@@ -134,5 +137,19 @@ public class ControllerConsultaReprocesos extends Architech {
 	 */
 	public void setReprocesos(BOReprocesos reprocesos) {
 		this.reprocesos = reprocesos;
+	}
+
+	/**
+	 * @return the boCatalogo
+	 */
+	public BOCatalogos getBoCatalogo() {
+		return boCatalogo;
+	}
+
+	/**
+	 * @param boCatalogo the boCatalogo to set
+	 */
+	public void setBoCatalogo(BOCatalogos boCatalogo) {
+		this.boCatalogo = boCatalogo;
 	}
 }

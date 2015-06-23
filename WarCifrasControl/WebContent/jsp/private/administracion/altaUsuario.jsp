@@ -36,6 +36,13 @@
 <spring:message code="administracion.gralFaltanCampos"     			var="gralFaltanCampos"/>
 <spring:message code="administracion.gralVerifique"     		var="gralVerifique"/>
 
+<spring:message code="administracion.productosEDC"     		var="productosEDC"/>
+<spring:message code="administracion.productosFACT"     		var="productosFACT"/>
+<spring:message code="administracion.producto"     		var="producto"/>
+<spring:message code="administracion.tipo"     		var="tipo"/>
+<spring:message code="administracion.asignarProducto"     		var="asignarProducto"/>
+<spring:message code="administracion.divSeleccionarProducto"     		var="divSeleccionarProducto"/>
+
 
 <div class="pageTitleContainer">
    <span class="pageTitle">${modulo}</span> - ${formularioAltaUsuario}
@@ -103,6 +110,58 @@
 			</table>
 	</div>
 </div>
+
+<div class="frameTablaVariasColumnas">
+	<div class="titleTablaVariasColumnas">${productosEDC}</div>
+		<div class="contentTablaVariasColumnas" style="height:300px;overflow:auto;">
+			<table>
+				<tr>
+					<th width="300" class="text_izquierda">${producto}</th>
+					<th width="50" class="text_centro" scope="col">${asignarProducto}</th>
+				</tr>
+			
+				<tr>
+			
+					<Td colspan="3" class="special"></Td>
+				</tr>
+				<tbody>
+					<c:forEach var="productoItem" items="${productosEDCList}">
+					<tr class="odd2">
+						<td class="text_izquierda">${productoItem.descripcion}</td>
+						<td class="text_izquierda"><input type="checkbox" name="idProducto" value="${productoItem.idProducto}">
+						</td>
+					</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+	</div>
+</div>
+
+<div class="frameTablaVariasColumnas">
+	<div class="titleTablaVariasColumnas">${productosFACT}</div>
+		<div class="contentTablaVariasColumnas" style="height:300px;overflow:auto;">
+			<table>
+				<tr>
+					<th width="300" class="text_izquierda">${producto}</th>
+					<th width="50" class="text_centro" scope="col">${asignarProducto}</th>
+				</tr>
+			
+				<tr>
+					<Td colspan="3" class="special"></Td>
+				</tr>
+				<tbody>
+					<c:forEach var="productoItemFact" items="${productosFACTList}">
+					<tr class="odd2">
+						<td class="text_izquierda">${productoItemFact.descripcion}</td>
+						<td class="text_izquierda"><input type="checkbox" name="idProductoFact" value="${productoItemFact.idProducto}">
+						</td>
+					</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+	</div>
+</div>
+
 
 <div class="PiePag"><button name="btnAltaUsuario" id="btnAltaUsuario" onclick="#" type="button">${guardarUsuario}</button><button name="regresar" id="regresar" type="button">${cancelar}</button></div>
 </form>

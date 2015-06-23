@@ -47,6 +47,12 @@ public class BeanProducto implements Serializable {
 	 */
 	private String tipoProducto;
 	
+	
+	/**
+	 * Propiedad que indica si un producto esta seleccionado 
+	 */
+	private boolean productoSeleccionado;
+	
 	/**
 	 * Constructor vacio
 	 */
@@ -101,5 +107,20 @@ public class BeanProducto implements Serializable {
 	public void setTipoProducto(String tipoProducto) {
 		this.tipoProducto = tipoProducto;
 	}
+
+	/**
+	 * @return the productoSeleccionado
+	 */
+	public boolean isProductoSeleccionado() {
+		return productoSeleccionado;
+	}
+
+	/**
+	 * @param productoSeleccionado the productoSeleccionado to set
+	 */
+	public void setProductoSeleccionado(boolean productoSeleccionado) {
+		this.productoSeleccionado = productoSeleccionado;
+	}
+
 	
 }

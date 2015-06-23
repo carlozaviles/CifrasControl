@@ -38,11 +38,12 @@ public interface BOCatalogos {
 	 * todos los productos disponibles, este metodo es utilizado en el modulo
 	 * de perfilamiento, al momento de realizar el alta/modificacion de un 
 	 * usuario
+	 * @param tipoProducto El tipo de producto a consultar (EDC o FACT)
 	 * @return Lista de objetos de tipo {@link BeanProducto}
 	 * @throws BusinessException En caso de presentarse un error al momento de 
 	 * consultar la base de datos
 	 */
-	public List<BeanProducto> obtenerTodosProductos()throws BusinessException;
+	public List<BeanProducto> obtenerTodosProductos(String tipoProducto)throws BusinessException;
 
 	
 	/**

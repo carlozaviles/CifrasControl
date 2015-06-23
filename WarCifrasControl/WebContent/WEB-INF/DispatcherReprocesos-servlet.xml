@@ -24,11 +24,18 @@
 		<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.reprocesos.BOReprocesos"/>
 	</bean>
 	
+	<bean id="boCatalogos" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${EJBCLUSTER}mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos"/>
+    	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos"/>
+	</bean>
+	
 	<bean id="controllerReprocesoSolicitud" name="controllerReprocesoSolicitud" class="mx.isban.cifrascontrol.controller.reprocesos.ControllerReprocesoSolicitud">
 		<property name="reprocesos" ref="boReprocesos"/>
+		<property name="boCatalogo" ref="boCatalogos"/>
 	</bean>
 	
 	<bean id="controllerConsultaReprocesos" name="controllerConsultaReprocesos" class="mx.isban.cifrascontrol.controller.reprocesos.ControllerConsultaReprocesos">
 		<property name="reprocesos" ref="boReprocesos"/>
+		<property name="boCatalogo" ref="boCatalogos"/>
 	</bean>
 </beans>
