@@ -11,7 +11,6 @@
 package mx.isban.cifrascontrol.controller.administracion;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -163,19 +162,24 @@ public class ControllerUsuarios extends Architech {
 		}
 		final String[] productosEDCSeleccionados = request.getParameterValues("idProducto");
 		final String[] productosFACTSeleccionados = request.getParameterValues("idProductoFact");
-		final List<String> productosSeleccionados = new ArrayList<String>();
 		final List<BeanProducto> productos = new ArrayList<BeanProducto>();
 		if(null != productosEDCSeleccionados && productosEDCSeleccionados.length > 0){
-			productosSeleccionados.addAll(Arrays.asList(productosEDCSeleccionados));
+			for (int i = 0; i < productosEDCSeleccionados.length; i++) {
+				BeanProducto producto = new BeanProducto();
+				producto.setIdProducto(productosEDCSeleccionados[i]);
+				producto.setTipoProducto(EDC);
+				productos.add(producto);
+			}
 		}
 		if(null != productosFACTSeleccionados && productosFACTSeleccionados.length > 0){
-			productosSeleccionados.addAll(Arrays.asList(productosFACTSeleccionados));
+			for (int i = 0; i < productosFACTSeleccionados.length; i++) {
+				BeanProducto producto = new BeanProducto();
+				producto.setIdProducto(productosFACTSeleccionados[i]);
+				producto.setTipoProducto(FACT);
+				productos.add(producto);
+			}
 		}
-		for (String idProducto : productosSeleccionados) {
-			BeanProducto producto = new BeanProducto();
-			producto.setIdProducto(idProducto);
-			productos.add(producto);
-		}
+		
 		usuario.setProductos(productos);
 		usuario.setGrupos(listaGrupos);
 		boUsuario.altaUsuario(getArchitechBean(), usuario);
@@ -253,18 +257,22 @@ public class ControllerUsuarios extends Architech {
 		}
 		final String[] productosEDCSeleccionados = request.getParameterValues("idProducto");
 		final String[] productosFACTSeleccionados = request.getParameterValues("idProductoFact");
-		final List<String> productosSeleccionados = new ArrayList<String>();
 		final List<BeanProducto> productos = new ArrayList<BeanProducto>();
 		if(null != productosEDCSeleccionados && productosEDCSeleccionados.length > 0){
-			productosSeleccionados.addAll(Arrays.asList(productosEDCSeleccionados));
+			for (int i = 0; i < productosEDCSeleccionados.length; i++) {
+				BeanProducto producto = new BeanProducto();
+				producto.setIdProducto(productosEDCSeleccionados[i]);
+				producto.setTipoProducto(EDC);
+				productos.add(producto);
+			}
 		}
 		if(null != productosFACTSeleccionados && productosFACTSeleccionados.length > 0){
-			productosSeleccionados.addAll(Arrays.asList(productosFACTSeleccionados));
-		}
-		for (String idProducto : productosSeleccionados) {
-			BeanProducto producto = new BeanProducto();
-			producto.setIdProducto(idProducto);
-			productos.add(producto);
+			for (int i = 0; i < productosFACTSeleccionados.length; i++) {
+				BeanProducto producto = new BeanProducto();
+				producto.setIdProducto(productosFACTSeleccionados[i]);
+				producto.setTipoProducto(FACT);
+				productos.add(producto);
+			}
 		}
 		usuario.setProductos(productos);
 		usuario.setGrupos(listaGrupos);

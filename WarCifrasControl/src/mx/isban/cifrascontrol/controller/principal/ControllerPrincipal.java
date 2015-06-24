@@ -47,7 +47,7 @@ public class ControllerPrincipal extends Architech{
 	
 		String txtUser =req.getHeader("iv-user")==null ? "EXPC" :req.getHeader("iv-user").toString();
 		this.info("Usuario por header:"+txtUser);
-		
+		txtUser = txtUser.startsWith("Y")?txtUser.substring(1):txtUser;
 		List<BeanModulo> modulos = boModulo.obtenerModulosPorUsuarioLogueado(getArchitechBean(), txtUser);
 		
 		lobjSession.setAttribute("modulosPermitidos", modulos);

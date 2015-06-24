@@ -52,8 +52,7 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
 
 	@Override
 	public List<BeanProducto> obtenerTodosProductos(String tipoProducto) throws BusinessException {
-		String consultaSQL = "SELECT ID_CATAL, DSC_PROD, FLG_TIPO_PROD FROM MOI_MX_MAE_ADMIN_CATA_PROD "
-				+ "WHERE FLG_TIPO_PROD LIKE ?";
+		String consultaSQL = "SELECT ID, FISCALNAME FROM Fiscalentity ";
 		Connection conexion = null;
 		PreparedStatement sentencia = null;
 		ResultSet filas = null;
@@ -61,14 +60,13 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
 		try {
 			conexion = ConexionUtil.getInstance().getConexion();
 			sentencia = conexion.prepareStatement(consultaSQL);
-			sentencia.setString(1, tipoProducto+"%");
 			this.info("Ejecutando la consulta:"+consultaSQL);
 			filas = sentencia.executeQuery();
 			while (filas.next()) {
 				final BeanProducto producto = new BeanProducto();
-				producto.setIdProducto(filas.getString("ID_CATAL"));
-				producto.setDescripcion(filas.getString("DSC_PROD"));
-				producto.setTipoProducto(filas.getString("FLG_TIPO_PROD"));
+				producto.setIdProducto(filas.getString("ID"));
+				producto.setDescripcion(filas.getString("FISCALNAME"));
+				producto.setTipoProducto(tipoProducto);
 				productosList.add(producto);
 			}
 			this.info("Tamanio de lista:"+productosList.size());
@@ -85,7 +83,7 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
 	
 	@Override
 	public BeanProducto obtenerProductoPorId(String idProducto)throws BusinessException {
-		String consultaSQL = "SELECT ID_CATAL, DSC_PROD, FLG_TIPO_PROD FROM MOI_MX_MAE_ADMIN_CATA_PROD WHERE ID_CATAL = ?";
+		String consultaSQL = "SELECT ID, FISCALNAME FROM Fiscalentity WHERE ID = ?";
 		Connection conexion = null;
 		PreparedStatement sentencia = null;
 		ResultSet filas = null;
@@ -96,9 +94,9 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
 			sentencia.setInt(1, Integer.parseInt(idProducto));
 			filas = sentencia.executeQuery();
 			while (filas.next()) {
-				producto.setIdProducto(filas.getString("ID_CATAL"));
-				producto.setDescripcion(filas.getString("DSC_PROD"));
-				producto.setTipoProducto(filas.getString("FLG_TIPO_PROD"));
+				producto.setIdProducto(filas.getString("ID"));
+				producto.setDescripcion(filas.getString("FISCALNAME"));
+				producto.setTipoProducto(FACT);
 			}
 			this.info("Ejecucion del metodo de consulta por id correcto");
 		} catch (SQLException e) {

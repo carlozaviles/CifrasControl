@@ -90,7 +90,7 @@
 							<td class="text_centro">${reproceso.numeroCuenta}</td>
 							<td class="text_centro">${reproceso.producto}</td>
 							<td class="text_centro">${reproceso.movimiento}</td>
-							<td class="text_centro">${reproceso.nombre}</td>
+							<td class="text_centro">${reproceso.nombre} ${reproceso.paterno} ${reproceso.materno}</td>
 							<td class="text_centro">${reproceso.rfc}</td>
 							<td class="text_centro">${reproceso.folioInicial}</td>
 							<td class="text_centro">${reproceso.folioCancelacion}</td>

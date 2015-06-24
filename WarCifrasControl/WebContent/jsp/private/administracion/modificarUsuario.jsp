@@ -31,6 +31,12 @@
 <spring:message code="administracion.gralCamposObligatorios"     	var="gralCamposObligatorios"/>
 <spring:message code="administracion.gralFaltanCampos"     			var="gralFaltanCampos"/>
 <spring:message code="administracion.gralVerifique"     		var="gralVerifique"/>
+<spring:message code="administracion.productosEDC"     		var="productosEDC"/>
+<spring:message code="administracion.productosFACT"     		var="productosFACT"/>
+<spring:message code="administracion.producto"     		var="producto"/>
+<spring:message code="administracion.tipo"     		var="tipo"/>
+<spring:message code="administracion.asignarProducto"     		var="asignarProducto"/>
+<spring:message code="administracion.divSeleccionarProducto"     		var="divSeleccionarProducto"/>
 
 
 <div class="pageTitleContainer">

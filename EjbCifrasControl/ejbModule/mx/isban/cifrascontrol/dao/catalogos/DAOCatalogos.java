@@ -84,7 +84,7 @@ public interface DAOCatalogos {
 	
 	/**
 	 * Metodo encargado de obtener un producto por su id
-	 * @param idProducto El id del producto a buscar
+	 * @param tipoProducto El tipo de producto a buscar
 	 * @return Un objeto de tipo 
 	 * @throws BusinessException En caso de presentarse un error al momento
 	 * de realizar la consulta de productos por id

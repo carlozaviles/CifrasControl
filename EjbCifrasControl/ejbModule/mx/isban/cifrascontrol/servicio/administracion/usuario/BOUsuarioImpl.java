@@ -33,6 +33,7 @@ import mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla;
 import mx.isban.cifrascontrol.dao.administracion.perfiles.DAOGrupo;
 import mx.isban.cifrascontrol.dao.administracion.usuario.DAOUsuario;
 import mx.isban.cifrascontrol.dao.catalogos.DAOCatalogos;
+import mx.isban.cifrascontrol.util.reproceso.CatalogoProductosReproceso;
 
 /**
 * Clase BOUsuarioImpl
@@ -201,7 +202,12 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 		List<BeanProducto> productosList = new ArrayList<BeanProducto>();
 		List<BeanProducto> productosIdList = usuario.getProductos();
 		for (BeanProducto beanProducto : productosIdList) {
-			BeanProducto producto = daoCatalogos.obtenerProductoPorId(beanProducto.getIdProducto());
+			BeanProducto producto = new BeanProducto();
+			if("FACT".equalsIgnoreCase(beanProducto.getTipoProducto())){
+				 producto = daoCatalogos.obtenerProductoPorId(beanProducto.getIdProducto());
+			}else{
+				producto = CatalogoProductosReproceso.obtenerCatalogoProductosReprocesos().get((Integer.parseInt(beanProducto.getIdProducto())-1));
+			}
 			productosList.add(producto);
 		}
 		usuario.setProductos(productosList);
@@ -220,7 +226,12 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 		List<BeanProducto> productosList = new ArrayList<BeanProducto>();
 		List<BeanProducto> productosIdList = usuario.getProductos();
 		for (BeanProducto beanProducto : productosIdList) {
-			BeanProducto producto = daoCatalogos.obtenerProductoPorId(beanProducto.getIdProducto());
+			BeanProducto producto = new BeanProducto();
+			if("FACT".equalsIgnoreCase(beanProducto.getTipoProducto())){
+				 producto = daoCatalogos.obtenerProductoPorId(beanProducto.getIdProducto());
+			}else{
+				producto = CatalogoProductosReproceso.obtenerCatalogoProductosReprocesos().get(Integer.parseInt(beanProducto.getIdProducto())-1);
+			}
 			productosList.add(producto);
 		}
 		usuario.setProductos(productosList);

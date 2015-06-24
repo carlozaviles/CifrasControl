@@ -10,6 +10,7 @@
 ***************************************************************/
 package mx.isban.cifrascontrol.servicio.catalogos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -24,6 +25,7 @@ import mx.isban.agave.commons.interfaces.BeanResultBO;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.beans.producto.BeanProductoRespuesta;
 import mx.isban.cifrascontrol.dao.catalogos.DAOCatalogos;
+import mx.isban.cifrascontrol.util.reproceso.CatalogoProductosReproceso;
 
 /**
  * Session Bean implementation class BOCatalogosImpl
@@ -67,7 +69,12 @@ public class BOCatalogosImpl extends Architech implements BOCatalogos {
 	@Override
 	public List<BeanProducto> obtenerTodosProductos(String tipoProducto) throws BusinessException {
 		this.info("Iniciando la busqueda de todos los productos");
-		List<BeanProducto> listaProductos = daoCatalogos.obtenerTodosProductos(tipoProducto);
+		List<BeanProducto> listaProductos = new ArrayList<BeanProducto>();
+		if("EDC".equalsIgnoreCase(tipoProducto)){
+			listaProductos = CatalogoProductosReproceso.obtenerCatalogoProductosReprocesos();
+		}else{
+			listaProductos = daoCatalogos.obtenerTodosProductos(tipoProducto);
+		}
 		this.info("El numero de productos encontrados es:"+listaProductos.size());
 		this.info("Metodo de consulta de todos los productos, realizado con exito");
 		return listaProductos;
