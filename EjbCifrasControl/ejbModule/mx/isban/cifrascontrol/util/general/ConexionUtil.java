@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ConnectException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -54,6 +55,15 @@ public final class ConexionUtil extends Architech{
 	 * Propiedad de tipo {@link Connection}
 	 */
 	private static Connection conexion;
+	
+	/*
+	 * Propiedades temporales, solo para probar la conexion de los catalogos
+	 */
+	private String url;
+	private String usuario;
+	private String password;
+	private String driver;
+	
 	
 	/**
 	 * Constante que contiene la ruta de la ubicacion del archivo properties, del cual se realiza
@@ -99,6 +109,10 @@ public final class ConexionUtil extends Architech{
 				final InputStream imputStreamPropiedades = new FileInputStream(archivoPropiedades);
 				propiedades.load(imputStreamPropiedades);
 				jndi = propiedades.getProperty("productos.db.jndi");
+				url = propiedades.getProperty("productos.db.host");
+				usuario = propiedades.getProperty("productos.db.usuario");
+				password = propiedades.getProperty("productos.db.password");
+				driver = propiedades.getProperty("productos.db.driver");
 				this.info("Se obtiene la propiedad "+jndi+" de la ruta "+PATH_PROPERTIES);
 			}else{
 				this.error("No se encuentra el archivo de propiedades para la ruta:"+PATH_PROPERTIES);
@@ -124,13 +138,17 @@ public final class ConexionUtil extends Architech{
 			context = new InitialContext();
 			final DataSource dataSource = (DataSource) context.lookup(jndi);
 			conexion = dataSource.getConnection();
+			//Class.forName(driver);
+			//conexion = DriverManager.getConnection(url, usuario, password);
 		} catch (NamingException e) {
 			showException(e, Level.ERROR);
 			throw new BusinessException("Se ha presentado un error de tipo NamingException",e.getMessage());
 		} catch (SQLException e) {
 			showException(e, Level.ERROR);
 			throw new BusinessException("Se ha presentado un error de tipo SQLException",e.getMessage());
-		}
+		} //catch (ClassNotFoundException e) {
+			//showException(e, Level.ERROR);
+		//}
 		
 		return conexion;
 	

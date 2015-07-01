@@ -4,8 +4,8 @@
     <serviceRefs xmi:id="ServiceRef_1434739101943" serviceRefLink="service/CifrasControlService">
       <portQnameBindings xmi:id="PortQnameBinding_1434739101943" portQnameNamespaceLink="http://sib.cifrascontrol.modulointegrador.isban.mx/" portQnameLocalNameLink="CifrasControlImplPort" overriddenEndpointURI="http://192.168.16.143:9080/ConsultaDeCifrasControl/CifrasControlService"/>
     </serviceRefs>
-    <serviceRefs xmi:id="ServiceRef_1434739168328" serviceRefLink="service/ReprocesoService">
-      <portQnameBindings xmi:id="PortQnameBinding_1434739168328" portQnameNamespaceLink="http://sib.reproceso.modulointegrador.isban.mx/" portQnameLocalNameLink="ReprocesoImplPort" overriddenEndpointURI="http://192.168.16.143:9080/ConsultaDeReprocesos/ReprocesoService"/>
+    <serviceRefs xmi:id="ServiceRef_1435789472551" serviceRefLink="service/ReprocesoService">
+      <portQnameBindings xmi:id="PortQnameBinding_1435789472551" portQnameNamespaceLink="http://sib.reproceso.modulointegrador.isban.mx/" portQnameLocalNameLink="ReprocesoImplPort" overriddenEndpointURI="http://192.168.16.143:9080/ConsultaDeReprocesos/ReprocesoService"/>
     </serviceRefs>
   </componentScopedRefs>
 </com.ibm.etools.webservice.wscbnd:ClientBinding>

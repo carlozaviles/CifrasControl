@@ -13,6 +13,7 @@
   <xs:complexType name="consultarReprocesos">
     <xs:sequence>
       <xs:element minOccurs="0" name="periodo" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 

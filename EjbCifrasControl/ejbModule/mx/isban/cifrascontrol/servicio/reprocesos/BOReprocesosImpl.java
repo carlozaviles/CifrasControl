@@ -22,6 +22,7 @@ import mx.isban.cifrascontrol.bean.reprocesos.BeanDatosSolicitudReprocesos;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaReproceso;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanRegistroReproceso;
 import mx.isban.cifrascontrol.dao.reprocesos.DAOReprocesos;
+import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
 import mx.isban.cifrascontrol.util.reproceso.ConstantesReprocesos;
 import mx.isban.cifrascontrol.webservice.reproceso.Reproceso;
 import mx.isban.cifrascontrol.webservice.reproceso.ReprocesoDTO;
@@ -123,7 +124,11 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 		periodo.append(parametros.getAnio()).append("-").append(parametros.getMes());
 		List<BeanRegistroReproceso> listaReprocesos = null;
 		try{
-			final List<ReprocesoDTO> resultadoConsulta = reprocesoProxy.consultarReprocesos(periodo.toString());
+			final List<String> productos = UtilGeneralCifras.obtenerNombresProductos(parametros.getProductos());
+			List<ReprocesoDTO> resultadoConsulta = null;
+			if(!productos.isEmpty()){
+				resultadoConsulta = reprocesoProxy.consultarReprocesos(periodo.toString(),productos);
+			}
 			if(resultadoConsulta != null && resultadoConsulta.size() > 0){
 				this.info("Cantidad de reprocesos encontrada: " + resultadoConsulta.size());
 				listaReprocesos = new ArrayList<BeanRegistroReproceso>();

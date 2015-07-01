@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mx.isban.agave.commons.exception.BusinessException;
-
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import static mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl.*;
 
 /**
@@ -88,6 +88,23 @@ public final class UtilGeneralCifras {
 			throw new BusinessException(CLASS_NOT_FOUND_EXCEPTION);
 		}
 		return lista;
+	}
+	
+	/**
+	 * Metodo encargado de obtener los nombres de los productos, con el fin de ejecutar
+	 * la consulta de reprocesos
+	 * @param productos Los productos a obtener el nombre
+	 * @return Listado de productos (nombre)
+	 */
+	public static List<String> obtenerNombresProductos(List<BeanProducto>productosList){
+		final List<String> productos = new ArrayList<String>();
+		if(null != productosList && !productosList.isEmpty()){
+			for (BeanProducto producto : productosList) {
+				final String nombre = producto.getDescripcion();
+				productos.add(nombre);
+			}
+		}
+		return productos;
 	}
 	
 }

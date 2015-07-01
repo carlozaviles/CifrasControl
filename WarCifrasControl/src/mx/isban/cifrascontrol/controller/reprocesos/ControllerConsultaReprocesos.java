@@ -20,6 +20,7 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaReproceso;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanRegistroReproceso;
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.servicio.reprocesos.BOReprocesos;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
@@ -81,6 +82,9 @@ public class ControllerConsultaReprocesos extends Architech {
 	@RequestMapping("realizaConsultaReproceso.do")
 	public ModelAndView ejecutaConsultaReproceso(HttpServletRequest req, HttpServletResponse res, 
 			@ModelAttribute(FORMA_CONSULTA_REPROCESOS) BeanParamsConsultaReproceso parametrosConsulta) throws BusinessException{
+		this.info("Realizando la busqueda de productos que el usuario puede consultar");
+		List<BeanProducto> listaProductos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "EDC");
+		parametrosConsulta.setProductos(listaProductos);
 		this.info("Se realizara la peticion de consulta de reprocesos con los siguientes parametros: " + parametrosConsulta.toString());
 		final List<BeanRegistroReproceso> listaReprocesos = reprocesos.ejecutaConsultaReprocesos(parametrosConsulta, 
 				this.getArchitechBean());

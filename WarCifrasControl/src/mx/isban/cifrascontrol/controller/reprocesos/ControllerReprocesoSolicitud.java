@@ -78,7 +78,7 @@ public class ControllerReprocesoSolicitud extends Architech{
 			modelo.put("catalogoMeses", GeneradorCatalogos.obtenerListaMeses());
 			modelo.put("catalogoAnios", GeneradorCatalogos.obtenerListaAnios(5, 0));
 			modelo.put("catalogoTiposMovimiento", GeneradorCatalogos.obtenerCatalogoTipoMov());
-			final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
+			final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "EDC");
 			modelo.put("catalogoProductos", GeneradorCatalogos.obtenerCatalogoProductosReprocesos(productos));
 			modelo.put("muestraDatosFiscales", true);
 		}else{

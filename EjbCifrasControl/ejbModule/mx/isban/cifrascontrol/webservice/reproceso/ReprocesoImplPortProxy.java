@@ -122,8 +122,8 @@ public class ReprocesoImplPortProxy{
         return _getDescriptor().getProxy().solicitarReproceso(solicitudReproceso);
     }
 
-    public List<ReprocesoDTO> consultarReprocesos(String periodo) throws ReprocesoException_Exception {
-        return _getDescriptor().getProxy().consultarReprocesos(periodo);
+    public List<ReprocesoDTO> consultarReprocesos(String periodo, List<String> arg1) throws ReprocesoException_Exception {
+        return _getDescriptor().getProxy().consultarReprocesos(periodo,arg1);
     }
 
 }

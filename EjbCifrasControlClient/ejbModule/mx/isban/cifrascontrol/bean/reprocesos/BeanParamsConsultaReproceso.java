@@ -4,6 +4,9 @@
 package mx.isban.cifrascontrol.bean.reprocesos;
 
 import java.io.Serializable;
+import java.util.List;
+
+import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 
 /**
  * @author everis
@@ -23,6 +26,11 @@ public class BeanParamsConsultaReproceso implements Serializable {
 	 * Representa el anio para el cual se va a realizar la consutla de reprocesos.
 	 */
 	private String anio;
+	
+	/**
+	 * Productos a los que un usuario puede tener acceso
+	 */
+	private List<BeanProducto> productos;
 	
 	/**
 	 * Retorna el valor del campo mes
@@ -63,5 +71,21 @@ public class BeanParamsConsultaReproceso implements Serializable {
 		final StringBuilder salida = new StringBuilder();
 		salida.append("mes: " + this.mes).append(", anio: " + this.anio);
 		return salida.toString();
+	}
+
+	/**
+	 * Metodo encargado de obtener los productos a los que un usuario tiene acceso
+	 * @return the productos
+	 */
+	public List<BeanProducto> getProductos() {
+		return productos;
+	}
+
+	/**
+	 * Metodo encargado de establecer los productos a los que un usuario puede acceder
+	 * @param productos the productos to set
+	 */
+	public void setProductos(List<BeanProducto> productos) {
+		this.productos = productos;
 	}
 }

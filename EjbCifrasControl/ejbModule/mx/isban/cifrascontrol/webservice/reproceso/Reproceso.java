@@ -45,6 +45,7 @@ public interface Reproceso {
 
     /**
      * 
+     * @param arg1
      * @param periodo
      * @return
      *     returns java.util.List<mx.isban.cifrascontrol.webservice.reproceso.ReprocesoDTO>
@@ -59,7 +60,9 @@ public interface Reproceso {
     })
     public List<ReprocesoDTO> consultarReprocesos(
         @WebParam(name = "periodo", targetNamespace = "")
-        String periodo)
+        String periodo,
+        @WebParam(name = "arg1", targetNamespace = "")
+        List<String> arg1)
         throws ReprocesoException_Exception
     ;
 
