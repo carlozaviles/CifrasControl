@@ -73,7 +73,7 @@
 	  <!--  Especifica el nombre cualificado de la clase que implementa la fabrica encargada de crear las conexiónes que usara el canal --> 
 	  <DATABASE.CANAL_DB_DATASOURCE.TYPE_CONECTION replicable="false">DATASOURCE</DATABASE.CANAL_DB_DATASOURCE.TYPE_CONECTION> 
 	  <!--  Especifica la forma en como obtendra una conexión hacia la Base de datos: [JDBC|DATASOURCE] --> 
-	  <DATABASE.CANAL_DB_DATASOURCE.JNDI_NAME replicable="false">jdbc/administracion</DATABASE.CANAL_DB_DATASOURCE.JNDI_NAME> 
+	  <DATABASE.CANAL_DB_DATASOURCE.JNDI_NAME replicable="false">jdbc/modulo_integrador</DATABASE.CANAL_DB_DATASOURCE.JNDI_NAME> 
 	  <!--  Especifica el nombre JNDI del DATASOURCE --> 
 	  <DATABASE.CANAL_DB_DATASOURCE.JDBC_DRIVER replicable="false" /> 
 	  <!--  Define el nombre cualificado del Driver para poder establecer la conexion a la base de datos. --> 

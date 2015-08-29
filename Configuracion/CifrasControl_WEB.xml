@@ -200,7 +200,7 @@
 	<!--  Define el nombre del paquete de LookAndFeel a utilizar (Paquete de archivos JS, CSS, etc..).   --> 
 	<ValidaSesiones replicable="false">1</ValidaSesiones> 
 	<!--  Define si estara activa o no la regla que impide el uso de multiples sesiones para un mismo usuario. [0=Inhabilitado | 1=Habilitado]   --> 
-	<UsaSAM replicable="false">0</UsaSAM> 
+	<UsaSAM replicable="false">1</UsaSAM> 
 	<!--  Define si la verificacion de las credenciales de acceso lo realice a travez de las cabeceras de SAM o mediante parametros usuario y languaje. [0=Inhabilitado | 1=Habilitado]   --> 
 	<UsaMenu replicable="false">1</UsaMenu> 
 	<!--  Define si se va a mostrar o no el menu configurado. [0=Inhabilitado | 1=Habilitado]   --> 
@@ -210,7 +210,7 @@
 	<!--  Define el tipo de menu a utilizar [0=Estatico : Muestra el menu tal y como esta, ademas de que se activaran los menus y sub-menus segun lo definido en el bean de LookAndFeel. | 1=Dinamico : Especifica que se agregaran los menus de forma dinamica o programatica desde el JSP myMenu.]   --> 
 	<TipoIdsMmenu replicable="false">1</TipoIdsMmenu> 
 	<!--  Define que menus y sub-menus se activaran [0=Excluyentes : Active automáticamente aquellos menús y/o sub-menús que estén agregados en el bean de LookAndFeel e inactiva el resto, solo si esta la configuración "TipoMenu=Estatico". | 1=Incluyentes : Inactiva automáticamente aquellos menús y/o sub-menús que estén agregados en el bean de LookAndFeel y activa el resto, solo si esta la configuración "TipoMenu=Estatico".]   --> 
-	<GrupoSAM replicable="false" /> 
+	<GrupoSAM replicable="false">grp_cifras_control</GrupoSAM> 
 	<!--  Define un conjunto de grupos de SAM validos, los cuales permitiran el acceso al usuario si pertenece a alguno de estos. [Estos deberan de estar separado spor comas: grp_abe_sweb,grp_abe_seguridad,grp_abe_monitoreo,...]   --> 
 	<Idioma replicable="false">es_MX</Idioma> 
 	<!--  Define el idioma por defecto a utilizar para todo el LookAndFeel y la aplicacion.   --> 
@@ -240,15 +240,15 @@
 	<!--  Define la URI utilizada cuando el usuario selecciona el Logo de la App  --> 
 	<LinkLogoNombreApp replicable="false" /> 
 	<!--  Define la URI utilizada cuando el usuario selecciona el Logo del Nombre de la App  --> 
-	<LinkSalirSAM replicable="false" /> 
+	<LinkSalirSAM replicable="false">../publico/login.go</LinkSalirSAM> 
 	<!--  Define la URI que sera usada cuando el usuario seleccione la opcion de cerrar sesion. [Siempre y cuando este aciva la propiedad UsaSAM=1]  --> 
 	<LinkAvisos replicable="false">../avisos/mostrarAvisos.do</LinkAvisos> 
 	<!--  Define la URI que sera usada cuando el usuario seleccione la imagen de mensajes. [Esta se usara siempre y cuando este activa la propiedad UsaMensajes=1 ]  --> 
-	<LinkSesionExistente replicable="false">vistas/principal/sesionExistente.go</LinkSesionExistente> 
+	<LinkSesionExistente replicable="false">../publico/sesionExistente.go</LinkSesionExistente> 
 	<!--  Define la URI de una pagina de error que sera usada cuando el usuario intente accesar a la aplicacion desde 2 sesiones diferentes. --> 
 	<LinkSalirApp replicable="false">../principal/salir.do</LinkSalirApp> 
 	<!--  Define la URI que sera usada cuando el usuario seleccione la opcion de cerrar sesion. [Siempre y cuando este inaciva la propiedad UsaSAM=0] --> 
-	<LinkPagInicio replicable="false">../login/Login.go</LinkPagInicio> 
+	<LinkPagInicio replicable="false">../publico/login.go</LinkPagInicio> 
 	<!--  Define la URI de la pagina login a la cual se enviara al usuario en caso de que no cuente con una sesion valida. --> 
 	<PaginaExceptionArq replicable="false">../errores/errorAgave.do</PaginaExceptionArq> 
 	<!--  Define la URI de una Pagina de error personalizada de la aplicacion a la acual se enviara en caso de que exista un error no manejado dentro de las acciones del Controller --> 
