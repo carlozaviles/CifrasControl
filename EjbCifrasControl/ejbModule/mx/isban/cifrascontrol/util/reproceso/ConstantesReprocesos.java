@@ -42,4 +42,12 @@ public final class ConstantesReprocesos {
 	 * Formato de fecha para solicitud de reproceso.
 	 */
 	public static final String FORMATO_FECHA_SOLICITUD_REPROCESO = "yyyy/MM/dd HH:mm:ss";
+	/**
+	 * Codigo de error al cargar configuracion para consulta de Previos
+	 */
+	public static final String CODIGO_ERROR_CONFIG_PREVIOS = "10003";
+	/**
+	 * Codigo de error que indica falla al procesar los resultados de la consulta de previos.
+	 */
+	public static final String CODIGO_ERROR_PROCESO_PREVIOS = "10004";
 }

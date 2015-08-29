@@ -18,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
+import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaPrevios;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaReproceso;
+import mx.isban.cifrascontrol.bean.reprocesos.BeanPrevioEdc;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanRegistroReproceso;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
@@ -98,6 +100,64 @@ public class ControllerConsultaReprocesos extends Architech {
 		}
 		this.info("El usuario es redireccionado hacia la pagina: " + PAGINA_REPORTE_REPROCESOS);
 		return new ModelAndView(PAGINA_REPORTE_REPROCESOS, modelo);
+	}
+	
+	/**
+	 * Muestra el formulario de consulta de previos.
+	 * @param modelo Modelo Spring MVC
+	 * @return ModelAndView
+	 */
+	@RequestMapping("initConsultaPrevios.do")
+	public ModelAndView muestraFormularioPrevios(Map<String, Object> modelo) throws BusinessException {
+		this.info("Se muestra al usuario el formulario de consulta de Previos.");
+		List<BeanProducto> listaProductos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), 
+				getArchitechBean().getUsuario(), "EDC");
+		modelo.put("productosList", listaProductos);
+		modelo.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
+		modelo.put("aniosList", GeneradorCatalogos.obtenerListaAnios(5, 0));
+		return new ModelAndView("formularioConsultaPrevios", modelo);
+	}
+	
+	/**
+	 * Realiza la peticion para realizar la consulta de previos.
+	 * @param request Request
+	 * @param response Response
+	 * @param modelo Modelo Spring MVC
+	 * @return ModelAndView
+	 * @throws BusinessException Exception
+	 */
+	@RequestMapping("consultaPrevios.do")
+	public ModelAndView llamaConsultaPrevios(HttpServletRequest request, HttpServletResponse response, 
+			Map<String, Object> modelo) throws BusinessException {
+		this.info("Se realiza la peticion para la consulta de Previos.");
+		final BeanParamsConsultaPrevios filtros = new BeanParamsConsultaPrevios();
+		filtros.setNumeroCuenta(request.getParameter("numeroCuenta"));
+		filtros.setProducto(request.getParameter("aplicativo"));
+		filtros.setMes(request.getParameter("mes"));
+		filtros.setAnio(request.getParameter("anio"));
+		this.info("La consulta de previos se realiza con los siguientes filtros: " + filtros.toString());
+		List<BeanPrevioEdc> listaPrevios = reprocesos.ejecutaConsultaPrevios(filtros, this.getArchitechBean());
+		if(listaPrevios.size() > 0){
+			this.info("La consulta de previos arrojo el siguiente numero de coincidencias: " + listaPrevios.size());
+			request.getSession().setAttribute("listaPrevios", listaPrevios);
+			modelo.put("listaPrevios", listaPrevios);
+			return new ModelAndView("consultaPrevios", modelo);
+		}else {
+			this.info("La consulta de previos no arrojo coincidencias.");
+			modelo.put("noCoincidencias", true);
+			return muestraFormularioPrevios(modelo);
+		}
+	}
+	
+	@RequestMapping("descargaPrevio.do")
+	public void descargaPrevio(HttpServletRequest request, HttpServletResponse response) {
+		this.info("Se recibe la peticion para la descarga de previos.");
+		@SuppressWarnings("unchecked")
+		final List<BeanPrevioEdc> listaPrevios = (List<BeanPrevioEdc>)request.getSession().getAttribute("listaPrevios");
+		final int indicePrevio = Integer.parseInt(request.getParameter("indice"));
+		final BeanPrevioEdc previoDescarga = listaPrevios.get(indicePrevio);
+		this.info("El previo a descargar se muestra a continuacion: " + previoDescarga.getRutaPrevio());
+		
 	}
 	
 	/**

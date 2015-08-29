@@ -1,6 +1,8 @@
 package mx.isban.cifrascontrol.servicio.reprocesos;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +21,9 @@ import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.logging.Level;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanDatosClienteDAO;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanDatosSolicitudReprocesos;
+import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaPrevios;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaReproceso;
+import mx.isban.cifrascontrol.bean.reprocesos.BeanPrevioEdc;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanRegistroReproceso;
 import mx.isban.cifrascontrol.dao.reprocesos.DAOReprocesos;
 import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
@@ -151,6 +155,40 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_GENERA_SOLICITUD_REPROCESO);
 		}
 		return listaReprocesos;
+	}
+
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.servicio.reprocesos.BOReprocesos#ejecutaConsultaPrevios(mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaPrevios, mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
+	@Override
+	public List<BeanPrevioEdc> ejecutaConsultaPrevios(BeanParamsConsultaPrevios parametros,
+			ArchitechSessionBean sessionBean) throws BusinessException {
+		this.info("Se ejecuta la consulta de Previos con los siguientes parametros: " + parametros.toString());
+		final String mascaraPrevios = this.getConfigDeCmpAplicacion("MASCARA_PREVIOS");
+		final String rutaPrevios = this.getConfigDeCmpAplicacion("RUTA_PREVIOS");
+		if(mascaraPrevios == null || rutaPrevios == null){
+			this.warn("Error al cargar la configuracion para consulta de Previos");
+			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_CONFIG_PREVIOS);
+		}
+		final String periodo = parametros.getAnio().concat(parametros.getMes());
+		final String mascaraPreviosEditada = mascaraPrevios.replace("PRODUCTO", parametros.getProducto())
+				.replace("NUMEROCUENTA", parametros.getNumeroCuenta().trim()).replace("PERIODO", periodo);
+		this.info("La mascara utilizada para realizar la consulta es " + mascaraPreviosEditada);
+		final List<File> listaCoincidencias = UtilGeneralCifras.filtrarListaArchivos(rutaPrevios, mascaraPreviosEditada);
+		this.info("La consulta de previos arrojo el siguiente numero de coincidencias: " + listaCoincidencias.size());
+		
+		final List<BeanPrevioEdc> listaPrevios = new ArrayList<BeanPrevioEdc>();
+		for(File coincidencia : listaCoincidencias){
+			try{
+				final BeanPrevioEdc previo = UtilGeneralCifras.fabricaBeanPrevioEdc(coincidencia);
+				listaPrevios.add(previo);
+			}catch(ParseException e){
+				showException(e, Level.ERROR);
+				throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_PROCESO_PREVIOS);
+			}
+		}
+		
+		return listaPrevios;
 	}
 	
 }

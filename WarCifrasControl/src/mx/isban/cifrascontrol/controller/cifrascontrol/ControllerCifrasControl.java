@@ -1,8 +1,11 @@
 package mx.isban.cifrascontrol.controller.cifrascontrol;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,15 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanDetalleCifrasControl;
+import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl;
+import mx.isban.cifrascontrol.utileria.general.CifrasControlUtil;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
 @Controller
@@ -161,6 +167,81 @@ public class ControllerCifrasControl extends Architech {
 		return new ModelAndView("detalleCifras",parametros);
 	}
 	
+	/**
+	 * Muestra el formulario de consulta de incidencias.
+	 * @param modelo Modelo Spring MVC
+	 * @return ModelAndView
+	 * @throws BusinessException Exception propia de arquitectura Agave
+	 */
+	@RequestMapping("initConsultaIncidencias.do")
+	public ModelAndView muestraFomularioIncidencias(Map<String, Object> modelo) throws BusinessException {
+		this.info("Se muestra el formulario para realizar la consulta de incidencias de Cifras de Control");
+		final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "EDC");
+		modelo.put("productosList", productos);
+		modelo.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
+		modelo.put("anioList", GeneradorCatalogos.obtenerListaAnios(5,	0));
+		return new ModelAndView("formularioIncidencias", modelo);
+	}
+	
+	/**
+	 * Realiza el llamado de la consulta de Insidencias.
+	 * @param request Request.
+	 * @param app Filtro por aplicativo para realizar la consulta de insidencias.
+	 * @param mes Filtro por mes para realizar la consulta de insidencias.
+	 * @param anio Filtro por anio para realizar la consulta de insidencias.
+	 * @param modelo Modelo Spring MVC
+	 * @return ModenAndView
+	 * @throws BusinessException Excepcion
+	 */
+	@RequestMapping("consultaInsidencias.do")
+	public ModelAndView realizaConsultaIncidencias(HttpServletRequest request, @RequestParam("aplicativo")String app, @RequestParam("mes")String mes, 
+			@RequestParam("anio")String anio,  Map<String, Object> modelo) throws BusinessException {
+		this.info("Se ejecutara la consulta de insidencias de cifras de control.");
+		this.info("***********************************************************************");
+		this.info("Aplicativo -> " + app);
+		this.info("Mes        -> " + mes  );
+		this.info("Anio       -> " + anio);
+		this.info("***********************************************************************");
+		List<BeanInsidenciaCifras> listaInsidencias = boCifrasControl.ejecutaConsultaInsidencias(app, mes, anio, 
+				this.getArchitechBean());
+		this.info("Cantidad de archivos de insidencia encontrados: " + listaInsidencias.size());
+		if(listaInsidencias.size() > 0){
+			final Locale local = request.getLocale();
+			for(BeanInsidenciaCifras bean : listaInsidencias){
+				bean.setCadenaFecha(CifrasControlUtil.generaFormatoFechaTipoUno(bean.getFechaInsidencia(), local));
+			}
+			modelo.put("listaInsidencias", listaInsidencias);
+			request.getSession().setAttribute("listaInsidencias", listaInsidencias);
+		}else {
+			modelo.put("noCoincidencias", true);
+			return muestraFomularioIncidencias(modelo);
+		}
+		this.info("Cantidad de archivos de insidencia encontrados: " + listaInsidencias.size());
+		return new ModelAndView("consultaIncidenciasCifras", modelo);
+	}
+	
+	/**
+	 * Envia al usuario la insidencia elegida para descargar.
+	 * @param request Request
+	 * @param indice Es el identificador del archivo a descargar.
+	 * @return ModelAndView
+	 * @throws BusinessException Exception
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("descargaInsidencia.do")
+	public void realizarDescargaIncidencia(HttpServletRequest request, HttpServletResponse response, 
+			@RequestParam("indice")String indice) throws BusinessException, IOException {
+		this.info("El indice del archivo que sera descargado es: " + indice);
+		List<BeanInsidenciaCifras> listaInsidencias = (List<BeanInsidenciaCifras>)request.getSession().getAttribute("listaInsidencias");
+		final int numIndice = Integer.parseInt(indice);
+		final BeanInsidenciaCifras insidenciaADescargar = listaInsidencias.get(numIndice);
+		String rutaTokens[] = insidenciaADescargar.getRutaIncidencia().split(File.separator); 
+		response.setContentType("application/octet-stream");
+		String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"", rutaTokens[rutaTokens.length - 1]);
+        response.setHeader(headerKey, headerValue);
+		CifrasControlUtil.escribeArchivo(insidenciaADescargar.getRutaIncidencia(), response.getOutputStream());
+	}
 	
 	/**
 	 * Metodo encargado de procecesar los errores que se pueden presentar en el modulo de cifrascontrol

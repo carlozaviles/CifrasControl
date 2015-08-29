@@ -18,6 +18,7 @@ import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanDetalleCifrasControl;
+import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
 
 /**
  * Interface BOCifrasControl
@@ -84,4 +85,15 @@ public interface BOCifrasControl {
 	 */
 	public List<BeanDetalleCifrasControl> obtenerDetalleCifrasControl(String aplicativo, String periodo, ArchitechSessionBean sessionBean)throws BusinessException;
 	
+	/**
+	 * Ejecuta la consulta de Insidencias de Cifras de Control 
+	 * @param aplicativo Filtro de aplicativo para realizar consulta.
+	 * @param mes Filtro de mes para realizar la consulta.
+	 * @param anio Filtro de anio para realizar la consulta.
+	 * @param sessionBean Objeto propio de arquitectura agave.
+	 * @return List<BeanInsidenciaCifras>
+	 * @throws BusinessException Exception
+	 */
+	public List<BeanInsidenciaCifras> ejecutaConsultaInsidencias(String aplicativo, String mes, String anio, ArchitechSessionBean sessionBean) 
+			throws BusinessException;
 }

@@ -47,4 +47,15 @@ public final class ConstantesCifrasControl {
 	
 	public static final String ERROR_CONSULTAR_CIFRAS_CONTROL_DETALLE = "CIFRAS-02";
 	
+	
+	/**
+	 * Codigo de error que se lanza cuando la configuracion para la consulta de 
+	 * insidencias no es cargada de manera correcta.
+	 */
+	public static final String ERROR_CONFIGURACION_CONSULTA_INCIDENCIAS = "10001";
+	/**
+	 * Codigo de error que se lanza cuando existe un error al procesar los nombres de los
+	 * archivos en la consulta de incidencia de cifras de control.
+	 */
+	public static final String ERROR_PROCESA_ARCHIVOS_CONSULTA_INCIDENCIAS = "10002";
 }
