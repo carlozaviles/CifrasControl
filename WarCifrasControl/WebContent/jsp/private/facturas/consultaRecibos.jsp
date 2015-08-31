@@ -52,15 +52,13 @@
 					<th width="130" class="text_centro">${generados}</th>
 					<th width="130" class="text_centro" scope="col">${total}</th>
 					<th width="130" class="text_centro" scope="col">${cancelados}</th>
-					<th width="130" class="text_centro" scope="col">${total}</th>
+					<th width="130" class="text_centro" scope="col">${total}</th>					
 				</tr>
-			
 				<tr>
-			
 					<Td colspan="4" class="special"></Td>
 				</tr>
 				<tbody>
-					<c:forEach var="i" begin="0" end="0">
+					<c:forEach var="i" begin="0" end="${num - 1}">
 						<tr>
 							<td class="text_centro">${recibosGenerados[i].cantidadRecibos}</td>
 							<td class="text_centro">${recibosGenerados[i].importe}</td>
@@ -82,20 +80,18 @@
 				<display:setProperty name="export.banner" value="${exportar}"/>
 				<display:setProperty name="basic.show.header" value="false" />
 				<display:setProperty name="export.pdf" value="false" />
-				<display:setProperty name="export.excel" value="false" />
+				<display:setProperty name="export.excel" value="true" />
 				<display:setProperty name="export.xml" value="false" />
 				<display:setProperty name="export.rtf" value="false" />
-				<display:setProperty name="export.csv" value="true" />
-				<display:setProperty name="export.csv.filename"
-					value="ConsultaRecibos.csv" />
+				<display:setProperty name="export.csv" value="false" />
+				<display:setProperty name="export.excel.filename"
+					value="ConsultaRecibos.xls" />
 			</display:table>
 
 <div class="PiePag">
 
 <a href="../facturas/recibosInit.do">${regresar}</a> 
 
-
 </div>
 			
 <jsp:include page="../myFooter.jsp" flush="true"/>
-

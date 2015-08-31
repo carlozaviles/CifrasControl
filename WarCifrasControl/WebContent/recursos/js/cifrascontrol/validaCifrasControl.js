@@ -23,11 +23,6 @@ $(document).ready(function(){
 			$('#linkDetalle').hide();
 		}
 	}
-	
-	$('#linkDetalle').click(function(){
-		 $('#formularioFacturas').submit();
-	});
-	
 	$('#aceptarFormulario').click(function(){
 		var isError = false;
 		if($('#aplicativo').val().trim() === ''){

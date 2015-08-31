@@ -31,7 +31,6 @@
 <spring:message code="cifrascontrol.retenciones"     		var="retenciones"/>
 
 <spring:message code="cifrascontrol.sat"             		var="sat"/>
-<spring:message code="cifrascontrol.detalle"              	var="detalle"/>
 
 <spring:message code="cifrascontrol.edc"             		var="edc"/>
 <spring:message code="cifrascontrol.conSello"              	var="conSello"/>
@@ -58,7 +57,6 @@
 	</div>
 </div>
 <form action="consultaDetalleCifras.do" name="formularioFacturas" id="formularioFacturas" method="post" > 
-<input type="hidden" name="tamanioDetalle" id ="tamanioDetalle" value="${tamanioDetalle}">   
 <input type="hidden" name="aplicativo" id ="aplicativo" value="${aplicativo}">   
 <input type="hidden" name="periodo" id ="periodo" value="${periodo}">   
 </form>
@@ -129,7 +127,6 @@
 					<th width="150" class="text_centro" scope="col">${comisiones}</th>
 					<th width="150" class="text_centro" scope="col">${ivas}</th>
 					<th width="150" class="text_centro" scope="col">${retenciones}</th>
-					<th width="150" class="text_centro" scope="col">${detalle}</th>
 				</tr>
 			
 				<tr>
@@ -145,12 +142,6 @@
 							<td class="text_centro">${satItem.comisionesIntereses}</td>
 							<td class="text_centro">${satItem.ivas}</td>
 							<td class="text_centro">${satItem.retenciones}</td>
-							<td class="text_centro" id="detalle"><c:if test="${not empty satList}">
-												<c:if test="${myIndex.index == 0}">
-													<a href="#" id="linkDetalle">${detalle}</a>
-												
-</c:if>	
-												</c:if> </td>
 						</tr>           				
 					</c:forEach>
 				</tbody>
@@ -214,12 +205,12 @@
 				<display:setProperty name="export.banner" value="${exportar}"/>
 				<display:setProperty name="basic.show.header" value="false" />
 				<display:setProperty name="export.pdf" value="false" />
-				<display:setProperty name="export.excel" value="false" />
+				<display:setProperty name="export.excel" value="true" />
 				<display:setProperty name="export.xml" value="false" />
 				<display:setProperty name="export.rtf" value="false" />
-				<display:setProperty name="export.csv" value="true" />
-				<display:setProperty name="export.csv.filename"
-					value="ConsultaCifrasEDC.csv" />
+				<display:setProperty name="export.csv" value="false" />
+				<display:setProperty name="export.excel.filename"
+					value="ConsultaCifrasEDC.xls" />
 			</display:table>
 
 
