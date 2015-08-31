@@ -7,7 +7,9 @@ import javax.ejb.Remote;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanDatosSolicitudReprocesos;
+import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaPrevios;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaReproceso;
+import mx.isban.cifrascontrol.bean.reprocesos.BeanPrevioEdc;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanRegistroReproceso;
 
 @Remote
@@ -41,4 +43,15 @@ public interface BOReprocesos {
 	 */
 	public List<BeanRegistroReproceso> ejecutaConsultaReprocesos(BeanParamsConsultaReproceso parametros, 
 			ArchitechSessionBean sessionBean) throws BusinessException;
+	
+	/**
+	 * Realiza la ejecucion de la consulta de Previos EDC, en base a los filtros recibidos como parametros.
+	 * @param parametros Contiene los filtros por los cuales se realiza la consulta de Previos.
+	 * @param sessionBean Objeto propio de la arquitectura Agave
+	 * @return List<BeanPrevioEdc>
+	 * @throws BusinessException Exception
+	 */
+	public List<BeanPrevioEdc> ejecutaConsultaPrevios(BeanParamsConsultaPrevios parametros, 
+			ArchitechSessionBean sessionBean) throws BusinessException;
 }
+

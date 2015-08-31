@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.ibm.etools.webservice.wscbnd:ClientBinding
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:com.ibm.etools.webservice.wscbnd="http://www.ibm.com/websphere/appserver/schemas/5.0.2/wscbnd.xmi"
+    xmi:id="ClientBinding_1434739101942">
+  <componentScopedRefs
+      xmi:id="ComponentScopedRefs_1434739101942"
+      componentNameLink="DAOModuloImpl">
+    <serviceRefs
+        xmi:id="ServiceRef_1434739101943"
+        serviceRefLink="service/CifrasControlService"
+        deployedWSDLFile="">
+      <portQnameBindings
+          xmi:id="PortQnameBinding_1434739101943"
+          portQnameNamespaceLink="http://sib.cifrascontrol.modulointegrador.isban.mx/"
+          portQnameLocalNameLink="CifrasControlImplPort"
+          overriddenEndpointURI="http://localhost:9080/ConsultaDeCifrasControl/CifrasControlService"/>
+    </serviceRefs>
+    <serviceRefs
+        xmi:id="ServiceRef_1435789472551"
+        serviceRefLink="service/ReprocesoService">
+      <portQnameBindings
+          xmi:id="PortQnameBinding_1435789472551"
+          portQnameNamespaceLink="http://sib.reproceso.modulointegrador.isban.mx/"
+          portQnameLocalNameLink="ReprocesoImplPort"
+          syncTimeout=""
+          overriddenEndpointURI="http://localhost:9080/ConsultaDeReprocesos/ReprocesoService"
+          overriddenBindingNamespace=""/>
+    </serviceRefs>
+  </componentScopedRefs>
+</com.ibm.etools.webservice.wscbnd:ClientBinding>

@@ -10,12 +10,20 @@
 ***************************************************************/
 package mx.isban.cifrascontrol.util.general;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import mx.isban.agave.commons.exception.BusinessException;
+import mx.isban.cifrascontrol.bean.reprocesos.BeanPrevioEdc;
+import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import static mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl.*;
 
@@ -33,14 +41,24 @@ import static mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl.
 public final class UtilGeneralCifras {
 
 	/**
+	 * Constante que representa una cadena vacia.
+	 */
+	private static final String CADENA_VACIA = "";
+	/**
+	 * Cadena que representa la fase del SAT.
+	 */
+	private static final String SAT = "SAT";
+	/**
+	 * Cadena que representa la fase ORIGEN
+	 */
+	private static final String ORIGEN = "ORIGEN";
+
+	/**
 	 * Constructor privado
 	 */
 	private UtilGeneralCifras() {
 		super();
 	}
-	
-	
-	
 	
 	/**
 	 * Metodo encargado de establecer el resultado de la consulta del web service 
@@ -107,4 +125,98 @@ public final class UtilGeneralCifras {
 		return productos;
 	}
 	
+	/**
+	 * Busca en un directorio los archivos que coincidan con un filtro dado.
+	 * @param pathDirectorio Directorio en el que se realiza la busqueda de archivos.
+	 * @param filtro Filtro que se utiliza para realizar la busqueda de archivos.
+	 * @return List<File>
+	 */
+	public static List<File> filtrarListaArchivos(String pathDirectorio, String filtro){
+		List<File> archivosCoincidentes = new ArrayList<File>();
+		final File directorio = new File(pathDirectorio);
+		File []totalArchivos = directorio.listFiles();
+		if(totalArchivos == null){
+			return archivosCoincidentes;
+		}
+		for(File archivo : totalArchivos){
+			if(archivo.isFile() && Pattern.matches(filtro, archivo.getName())){
+				archivosCoincidentes.add(archivo);
+			}
+		}
+		
+		return archivosCoincidentes;
+	}
+	
+	/**
+	 * Dado el nombre de un archivo, crea una instancia de BeanIncidenciaCifras 
+	 * @param archivoInsidencia Nombre del archivo a partir del cual se crea una instancia.
+	 * @return BeanIncidenciaCifras
+	 * @throws ParseException Exception
+	 */
+	public static BeanInsidenciaCifras fabricaBeanInsidencia(File archivoInsidencia) throws ParseException{
+		String[] tokens = archivoInsidencia.getName().split("_");
+		final String producto = tokens[0];
+		String fase = null;
+		if("ORI".equals(tokens[1])){
+			fase = ORIGEN;
+		}else {
+			fase = tokens[1];
+		}
+		final String textoFecha = tokens[3].substring(0, 8);
+		final Date fecha = obtenerFecha(textoFecha);
+		final BeanInsidenciaCifras insidencia = new BeanInsidenciaCifras();
+		insidencia.setProducto(producto);
+		insidencia.setFase(fase);
+		insidencia.setFechaInsidencia(fecha);
+		insidencia.setRutaIncidencia(archivoInsidencia.toString());
+		
+		return insidencia;
+	}
+	
+	/**
+	 * Construye una instancia de BeanIncidenciaCifras a partir del nombre de un archivo de incidencias SAT.
+	 * @param archivoInsidencia Nombre del archivo que se utiliza para generar el BeanIncidenciaCifras.
+	 * @return BeanInsidenciaCifras
+	 * @throws ParseException Exception
+	 */
+	public static BeanInsidenciaCifras fabricaBeanIncidenciaSat(File archivoInsidencia) throws ParseException{
+		final String nombreArchivo = archivoInsidencia.getName();
+		Pattern patronFecha = Pattern.compile("[0-9]{8}\\.TXT");
+		Matcher buscador = patronFecha.matcher(nombreArchivo);
+		String fechaIncidencias = null;
+		if(buscador.find()){
+			fechaIncidencias = buscador.group().replace(".TXT", CADENA_VACIA);
+		}else {
+			return null;
+		}
+		final Date fecha = obtenerFecha(fechaIncidencias);
+		final String producto = nombreArchivo.replace("ERR", CADENA_VACIA).replaceFirst("[0-9]{8}\\.TXT", CADENA_VACIA);
+		final BeanInsidenciaCifras incidenciaSat = new BeanInsidenciaCifras();
+		incidenciaSat.setFase(SAT);
+		incidenciaSat.setFechaInsidencia(fecha);
+		incidenciaSat.setProducto(producto);
+		incidenciaSat.setRutaIncidencia(archivoInsidencia.toString());
+		return incidenciaSat;
+	}
+	
+	/**
+	 * Genera una instancia de tipo BeanPrevioEdc a partir de el nombre de un archivo.
+	 * @param previo Objeto de tipo archivo a partir del cual se extrae la informacion del previo.
+	 * @return BeanPrevioEdc
+	 * @throws ParseException Exception
+	 */
+	public static BeanPrevioEdc fabricaBeanPrevioEdc(File previo) throws ParseException {
+		return null;
+	}
+	
+	/**
+	 * Crea un objeto de tipo fecha a partir de una cadena.
+	 * @param cadenaFecha Cadena en formato de cadena.
+	 * @return Date
+	 * @throws ParseException Exception
+	 */
+	private static Date obtenerFecha(String cadenaFecha) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		return sdf.parse(cadenaFecha);
+	}
 }

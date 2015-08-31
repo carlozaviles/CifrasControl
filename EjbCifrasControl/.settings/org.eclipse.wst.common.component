@@ -2,6 +2,7 @@
     <wb-module deploy-name="EjbCifrasControl">
         <wb-resource deploy-path="/" source-path="/ejbModule" tag="defaultRootSource"/>
         <wb-resource deploy-path="/" source-path="/.apt_generated"/>
+        <wb-resource deploy-path="/" source-path="/test"/>
         <property name="java-output-path" value="/EjbCifrasControl/build/classes"/>
         <property name="ClientProject" value="EjbCifrasControlClient"/>
         <property name="ClientJARURI" value="EjbCifrasControlClient.jar"/>
