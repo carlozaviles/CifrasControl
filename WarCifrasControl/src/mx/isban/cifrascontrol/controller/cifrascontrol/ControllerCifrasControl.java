@@ -11,15 +11,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-<<<<<<< HEAD
-=======
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
->>>>>>> b5ad09cc84a277bde175eb283b02b8bce150d22e
+
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
@@ -198,9 +197,7 @@ public class ControllerCifrasControl extends Architech {
 		this.info("Metodo de consulta de detalle de cifras inicializado con exito, direccionando a la vista consultaDetalle");
 		return new ModelAndView("detalleCifras", parametros);
 	}
-<<<<<<< HEAD
 
-=======
 	
 	/**
 	 * Muestra el formulario de consulta de incidencias.
@@ -278,7 +275,7 @@ public class ControllerCifrasControl extends Architech {
 		CifrasControlUtil.escribeArchivo(insidenciaADescargar.getRutaIncidencia(), response.getOutputStream());
 	}
 	
->>>>>>> b5ad09cc84a277bde175eb283b02b8bce150d22e
+
 	/**
 	 * Metodo encargado de procecesar los errores que se pueden presentar en el
 	 * modulo de cifrascontrol

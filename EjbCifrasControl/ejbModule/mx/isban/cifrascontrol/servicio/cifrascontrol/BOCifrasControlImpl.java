@@ -18,11 +18,9 @@ import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.logging.Level;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
-<<<<<<< HEAD
-=======
-import mx.isban.cifrascontrol.beans.cifrascontrol.BeanDetalleCifrasControl;
+
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
->>>>>>> b5ad09cc84a277bde175eb283b02b8bce150d22e
+
 import mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl;
 import mx.isban.cifrascontrol.util.general.OrdenadorInsidenciaCifras;
 import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
@@ -124,30 +122,6 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 				+ aplicativo + " es:" + cifrasControlAplicativo.size());
 		return cifrasControlAplicativo;
 	}
-
-<<<<<<< HEAD
-=======
-	/* (non-Javadoc)
-	 * @see mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl#obtenerDetalleCifrasControl(java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
-	 */
-	@Override
-	public List<BeanDetalleCifrasControl> obtenerDetalleCifrasControl(
-			String aplicativo, String periodo, ArchitechSessionBean sessionBean)
-			throws BusinessException {
-		final SolicitudCifrasControlDTO solicitud = new SolicitudCifrasControlDTO();
-		solicitud.setAplicativo(aplicativo);
-		solicitud.setPeriodo(periodo);
-		final List<DetalleCifrasControlDTO> detalleCifrasControl;
-		List<BeanDetalleCifrasControl> beanDetalleCifrasList = new ArrayList<BeanDetalleCifrasControl>();
-		try {
-			detalleCifrasControl = cifrasControl.consultarDetalleCifrasControl(solicitud);
-			beanDetalleCifrasList = UtilGeneralCifras.establecerRegistros(detalleCifrasControl, DetalleCifrasControlDTO.class, BeanDetalleCifrasControl.class);
-		} catch (CifrasControlException_Exception e) {
-			this.error("Error al consultar el web service"+e.getFaultInfo());
-			throw new BusinessException(ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL_DETALLE);
-		}
-		return beanDetalleCifrasList;
-	}
 	
 	/* (non-Javadoc)
 	 * @see mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl#ejecutaConsultaInsidencias(java.lang.String, java.lang.String, java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
@@ -232,7 +206,7 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 		return listaFinalIncidencias;
 	}
 
->>>>>>> b5ad09cc84a277bde175eb283b02b8bce150d22e
+
 	/**
 	 * Metodo que obtiene un objeto de tipo {@link CifrasControl}
 	 *
@@ -270,8 +244,5 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 			final List<BeanCifrasControl> cifrasControlList) {
 		this.cifrasControlList = cifrasControlList;
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> b5ad09cc84a277bde175eb283b02b8bce150d22e
 }

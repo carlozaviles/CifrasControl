@@ -17,11 +17,7 @@ import javax.ejb.Remote;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
-<<<<<<< HEAD
-=======
-import mx.isban.cifrascontrol.beans.cifrascontrol.BeanDetalleCifrasControl;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
->>>>>>> b5ad09cc84a277bde175eb283b02b8bce150d22e
 
 /**
  * Interface BOCifrasControl
@@ -85,11 +81,8 @@ public interface BOCifrasControl {
 	 * @return Una lista de tipo {@link BeanCifrasControl} con las cifras de
 	 *         control para los aplicativos origen
 	 */
-<<<<<<< HEAD
 	public List<BeanCifrasControl> obtenerCifrasPorAplicativo(
 			String aplicativo, ArchitechSessionBean sessionBean);
-=======
-	public List<BeanDetalleCifrasControl> obtenerDetalleCifrasControl(String aplicativo, String periodo, ArchitechSessionBean sessionBean)throws BusinessException;
 	
 	/**
 	 * Ejecuta la consulta de Insidencias de Cifras de Control 
@@ -102,5 +95,4 @@ public interface BOCifrasControl {
 	 */
 	public List<BeanInsidenciaCifras> ejecutaConsultaInsidencias(String aplicativo, String mes, String anio, ArchitechSessionBean sessionBean) 
 			throws BusinessException;
->>>>>>> b5ad09cc84a277bde175eb283b02b8bce150d22e
 }

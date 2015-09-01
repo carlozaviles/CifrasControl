@@ -3,10 +3,15 @@
  */
 package mx.isban.cifrascontrol.controller.reprocesos;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -156,8 +161,13 @@ public class ControllerConsultaReprocesos extends Architech {
 		final List<BeanPrevioEdc> listaPrevios = (List<BeanPrevioEdc>)request.getSession().getAttribute("listaPrevios");
 		final int indicePrevio = Integer.parseInt(request.getParameter("indice"));
 		final BeanPrevioEdc previoDescarga = listaPrevios.get(indicePrevio);
-		this.info("El previo a descargar se muestra a continuacion: " + previoDescarga.getRutaPrevio());
+		this.info("El previo a descargar se muestra a continuacion: " + previoDescarga.getRutaPrevio());	
+	
 		
+
+		
+	
+				
 	}
 	
 	/**
