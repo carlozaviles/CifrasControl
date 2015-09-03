@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://sei.reproceso.modulointegrador.isban.mx/" version="1.0" xmlns:tns="http://sei.reproceso.modulointegrador.isban.mx/">
+
+  <xs:element name="ReprocesoException" type="tns:ReprocesoException"/>
+
+  <xs:element name="consultarReprocesos" type="tns:consultarReprocesos"/>
+
+  <xs:element name="consultarReprocesosResponse" type="tns:consultarReprocesosResponse"/>
+
+  <xs:element name="solicitarReproceso" type="tns:solicitarReproceso"/>
+
+  <xs:element name="solicitarReprocesoResponse" type="tns:solicitarReprocesoResponse"/>
+
+  <xs:complexType name="consultarReprocesos">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="periodo" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="consultarReprocesosResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="detalleReprocesos" type="tns:reprocesoDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="reprocesoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="calle" type="xs:string"/>
+      <xs:element minOccurs="0" name="codigoPostal" type="xs:string"/>
+      <xs:element minOccurs="0" name="colonia" type="xs:string"/>
+      <xs:element minOccurs="0" name="estado" type="xs:string"/>
+      <xs:element minOccurs="0" name="estatus" type="xs:string"/>
+      <xs:element minOccurs="0" name="fechaFin" type="xs:string"/>
+      <xs:element minOccurs="0" name="fechaSolicitud" type="xs:string"/>
+      <xs:element minOccurs="0" name="folioCancelacion" type="xs:string"/>
+      <xs:element minOccurs="0" name="folioInicial" type="xs:string"/>
+      <xs:element minOccurs="0" name="folioNuevo" type="xs:string"/>
+      <xs:element minOccurs="0" name="materno" type="xs:string"/>
+      <xs:element minOccurs="0" name="movimiento" type="xs:string"/>
+      <xs:element minOccurs="0" name="municipio" type="xs:string"/>
+      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroCuenta" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroExterior" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroInterior" type="xs:string"/>
+      <xs:element minOccurs="0" name="paterno" type="xs:string"/>
+      <xs:element minOccurs="0" name="periodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="producto" type="xs:string"/>
+      <xs:element minOccurs="0" name="rfc" type="xs:string"/>
+      <xs:element minOccurs="0" name="usuarioOperativo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ReprocesoException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="faultInfo" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="solicitarReproceso">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SolicitudReproceso" type="tns:solicitudReprocesoDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="solicitudReprocesoDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="calle" type="xs:string"/>
+      <xs:element minOccurs="0" name="codigoPostal" type="xs:string"/>
+      <xs:element minOccurs="0" name="colonia" type="xs:string"/>
+      <xs:element minOccurs="0" name="estado" type="xs:string"/>
+      <xs:element minOccurs="0" name="fechaSolicitud" type="xs:string"/>
+      <xs:element minOccurs="0" name="materno" type="xs:string"/>
+      <xs:element minOccurs="0" name="movimiento" type="xs:string"/>
+      <xs:element minOccurs="0" name="municipio" type="xs:string"/>
+      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroCuenta" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroExterior" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroInterior" type="xs:string"/>
+      <xs:element minOccurs="0" name="paterno" type="xs:string"/>
+      <xs:element minOccurs="0" name="periodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="producto" type="xs:string"/>
+      <xs:element minOccurs="0" name="rfc" type="xs:string"/>
+      <xs:element minOccurs="0" name="usuarioOperativo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="solicitarReprocesoResponse">
+    <xs:sequence>
+      <xs:element name="filasAfectadas" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://sei.cifrascontrol.modulointegrador.isban.mx/" version="1.0" xmlns:tns="http://sei.cifrascontrol.modulointegrador.isban.mx/">
+
+  <xs:element name="CifrasControlException" type="tns:CifrasControlException"/>
+
+  <xs:element name="consultarCifrasControl" type="tns:consultarCifrasControl"/>
+
+  <xs:element name="consultarCifrasControlResponse" type="tns:consultarCifrasControlResponse"/>
+
+  <xs:element name="consultarDetalleCifrasControl" type="tns:consultarDetalleCifrasControl"/>
+
+  <xs:element name="consultarDetalleCifrasControlResponse" type="tns:consultarDetalleCifrasControlResponse"/>
+
+  <xs:element name="consultarFacturasCifrasControl" type="tns:consultarFacturasCifrasControl"/>
+
+  <xs:element name="consultarFacturasCifrasControlResponse" type="tns:consultarFacturasCifrasControlResponse"/>
+
+  <xs:complexType name="consultarDetalleCifrasControl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SolicitudDetalleCifrasControl" type="tns:solicitudCifrasControlDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="solicitudCifrasControlDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aplicativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="periodo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="consultarDetalleCifrasControlResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="detalleCifrasControlList" type="tns:detalleCifrasControlDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="detalleCifrasControlDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aplicativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="comisionesIntereses" type="xs:string"/>
+      <xs:element minOccurs="0" name="descripcionError" type="xs:string"/>
+      <xs:element minOccurs="0" name="emisorRFC" type="xs:string"/>
+      <xs:element minOccurs="0" name="fase" type="xs:string"/>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element minOccurs="0" name="ivas" type="xs:string"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroCliente" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroCuenta" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroTarjeta" type="xs:string"/>
+      <xs:element minOccurs="0" name="periodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="retenciones" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoDocumento" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="CifrasControlException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="faultInfo" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="consultarFacturasCifrasControl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SolicitudFacturaCifrasControl" type="tns:solicitudFacturaDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="solicitudFacturaDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aplicativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="periodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoFactura" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="consultarFacturasCifrasControlResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="facturasCifrasControlList" type="tns:facturaDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="facturaDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aplicativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="cantidadFacturas" type="xs:string"/>
+      <xs:element minOccurs="0" name="cantidadRecibos" type="xs:string"/>
+      <xs:element minOccurs="0" name="facturaIncidente" type="xs:string"/>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element minOccurs="0" name="importe" type="xs:string"/>
+      <xs:element minOccurs="0" name="iva" type="xs:string"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:string"/>
+      <xs:element minOccurs="0" name="periodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="subTotal" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoFactura" type="xs:string"/>
+      <xs:element minOccurs="0" name="totalImpuestos" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="consultarCifrasControl">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SolicitudCifrasControl" type="tns:solicitudCifrasControlDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="consultarCifrasControlResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="cifrasControlList" type="tns:cifrasControlDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cifrasControlDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aplicativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="cantidadCuentas" type="xs:string"/>
+      <xs:element minOccurs="0" name="comisionesIntereses" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuentasConIncidencias" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuentasConSello" type="xs:string"/>
+      <xs:element minOccurs="0" name="cuentasSinSello" type="xs:string"/>
+      <xs:element minOccurs="0" name="fase" type="xs:string"/>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element minOccurs="0" name="ivas" type="xs:string"/>
+      <xs:element minOccurs="0" name="moneda" type="xs:string"/>
+      <xs:element minOccurs="0" name="periodo" type="xs:string"/>
+      <xs:element minOccurs="0" name="retenciones" type="xs:string"/>
+      <xs:element minOccurs="0" name="status" type="xs:string"/>
+      <xs:element minOccurs="0" name="tipoDocumento" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

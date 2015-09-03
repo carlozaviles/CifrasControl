@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://sei.reproceso.modulointegrador.isban.mx/" xmlns:ns1="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://sei.reproceso.modulointegrador.isban.mx/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://sei.reproceso.modulointegrador.isban.mx/" schemaLocation="Reproceso_schema1.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="consultarReprocesosResponse">
+    <part element="tns:consultarReprocesosResponse" name="parameters">
+    </part>
+  </message>
+  <message name="consultarReprocesos">
+    <part element="tns:consultarReprocesos" name="parameters">
+    </part>
+  </message>
+  <message name="ReprocesoException">
+    <part element="tns:ReprocesoException" name="fault">
+    </part>
+  </message>
+  <message name="solicitarReproceso">
+    <part element="tns:solicitarReproceso" name="parameters">
+    </part>
+  </message>
+  <message name="solicitarReprocesoResponse">
+    <part element="tns:solicitarReprocesoResponse" name="parameters">
+    </part>
+  </message>
+  <portType name="Reproceso">
+    <operation name="solicitarReproceso">
+      <input message="tns:solicitarReproceso" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/solicitarReprocesoRequest">
+    </input>
+      <output message="tns:solicitarReprocesoResponse" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/solicitarReprocesoResponse">
+    </output>
+      <fault message="tns:ReprocesoException" name="ReprocesoException" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/solicitarReproceso/Fault/ReprocesoException">
+    </fault>
+    </operation>
+    <operation name="consultarReprocesos">
+      <input message="tns:consultarReprocesos" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultarReprocesosRequest">
+    </input>
+      <output message="tns:consultarReprocesosResponse" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultarReprocesosResponse">
+    </output>
+      <fault message="tns:ReprocesoException" name="ReprocesoException" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultarReprocesos/Fault/ReprocesoException">
+    </fault>
+    </operation>
+  </portType>
+</definitions>

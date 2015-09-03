@@ -18,8 +18,9 @@ import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.logging.Level;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
-import mx.isban.cifrascontrol.beans.cifrascontrol.BeanDetalleCifrasControl;
+
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
+
 import mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl;
 import mx.isban.cifrascontrol.util.general.OrdenadorInsidenciaCifras;
 import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
@@ -27,7 +28,6 @@ import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControl;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlDTO;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlException_Exception;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlService;
-import mx.isban.cifrascontrol.webservice.cifrascontrol.DetalleCifrasControlDTO;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.SolicitudCifrasControlDTO;
 
 /**
@@ -36,8 +36,8 @@ import mx.isban.cifrascontrol.webservice.cifrascontrol.SolicitudCifrasControlDTO
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
-       
-    /**
+
+	/**
 	 * Numero de la clase serializada
 	 */
 	private static final long serialVersionUID = -3603871439981570935L;
@@ -46,85 +46,81 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 	 * Objeto que contiene los metodos a ejecutar por el servicio web
 	 */
 	private CifrasControl cifrasControl;
-	
+
 	/**
 	 * Listado de las cifras de control
 	 */
 	private List<BeanCifrasControl> cifrasControlList;
-	
-	
-	/**
-     * @see Architech#Architech()
-     */
-    public BOCifrasControlImpl() {
-        super();
-        CifrasControlService service = new CifrasControlService();
-        setCifrasControl(service.getCifrasControlImplPort());
-        ((BindingProvider)cifrasControl).getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 10000);
-        ((BindingProvider)cifrasControl).getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 10000);
-        this.cifrasControlList = new ArrayList<BeanCifrasControl>();
-    }
 
-	/* (non-Javadoc)
-	 * @see mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl#consultarCifrasControl(java.lang.String, java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
+	/**
+	 * @see Architech#Architech()
+	 */
+	public BOCifrasControlImpl() {
+		super();
+		CifrasControlService service = new CifrasControlService();
+		setCifrasControl(service.getCifrasControlImplPort());
+		((BindingProvider) cifrasControl).getRequestContext().put(
+				"com.sun.xml.internal.ws.connect.timeout", 10000);
+		((BindingProvider) cifrasControl).getRequestContext().put(
+				"com.sun.xml.internal.ws.request.timeout", 10000);
+		this.cifrasControlList = new ArrayList<BeanCifrasControl>();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl#
+	 * consultarCifrasControl(java.lang.String, java.lang.String,
+	 * mx.isban.agave.commons.beans.ArchitechSessionBean)
 	 */
 	@Override
-	public int consultarCifrasControl(String aplicativo, String periodo,
-			ArchitechSessionBean sessionBean) throws BusinessException {
+	public int consultarCifrasControl(final String aplicativo,
+			final String periodo, final ArchitechSessionBean sessionBean)
+			throws BusinessException {
 		this.info("Creando la solicitud para consultar las cifras de control");
 		final SolicitudCifrasControlDTO solicitud = new SolicitudCifrasControlDTO();
 		solicitud.setAplicativo(aplicativo);
 		solicitud.setPeriodo(periodo);
 		try {
-			this.info("Consultando las cifras de control con el aplicativo:"+aplicativo+" y el periodo:"+periodo);
-			final List<CifrasControlDTO> cifrasControlDTO = cifrasControl.consultarCifrasControl(solicitud);
-			final List<BeanCifrasControl> cifrasControlList = UtilGeneralCifras.establecerRegistros(cifrasControlDTO, CifrasControlDTO.class, BeanCifrasControl.class);
+			this.info("Consultando las cifras de control con el aplicativo:"
+					+ aplicativo + " y el periodo:" + periodo);
+			final List<CifrasControlDTO> cifrasControlDTO = cifrasControl
+					.consultarCifrasControl(solicitud);
+			final List<BeanCifrasControl> cifrasControlList = UtilGeneralCifras
+					.establecerRegistros(cifrasControlDTO,
+							CifrasControlDTO.class, BeanCifrasControl.class);
 			this.cifrasControlList = cifrasControlList;
 			this.info("Consulta de cifras de control realizada con exito");
 		} catch (CifrasControlException_Exception e) {
-			this.error("Ocurrio un error al momento de consultar el web service"+e.getFaultInfo());
-			throw new BusinessException(ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL);
+			this.error("Ocurrio un error al momento de consultar el web service"
+					+ e.getFaultInfo());
+			throw new BusinessException(
+					ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL);
 		}
 		return this.cifrasControlList.size();
 	}
 
-	/* (non-Javadoc)
-	 * @see mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl#obtenerCifrasPorAplicativo(java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl#
+	 * obtenerCifrasPorAplicativo(java.lang.String,
+	 * mx.isban.agave.commons.beans.ArchitechSessionBean)
 	 */
 	@Override
 	public List<BeanCifrasControl> obtenerCifrasPorAplicativo(
-			String aplicativo, ArchitechSessionBean sessionBean) {
+			final String aplicativo, final ArchitechSessionBean sessionBean) {
 		final List<BeanCifrasControl> cifrasControlAplicativo = new ArrayList<BeanCifrasControl>();
-		this.info("Iniciando la obtencion de las cifras para los aplicativos:"+aplicativo);
+		this.info("Iniciando la obtencion de las cifras para los aplicativos:"
+				+ aplicativo);
 		for (BeanCifrasControl beanCifrasControl : cifrasControlList) {
-			if(aplicativo.equals(beanCifrasControl.getFase().trim())){
+			if (aplicativo.equals(beanCifrasControl.getFase().trim())) {
 				cifrasControlAplicativo.add(beanCifrasControl);
 			}
 		}
-		this.info("El tamanio de la lista con las cifras de control para el aplicativo:"+aplicativo+" es:"+cifrasControlAplicativo.size());
+		this.info("El tamanio de la lista con las cifras de control para el aplicativo:"
+				+ aplicativo + " es:" + cifrasControlAplicativo.size());
 		return cifrasControlAplicativo;
-	}
-
-	/* (non-Javadoc)
-	 * @see mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl#obtenerDetalleCifrasControl(java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
-	 */
-	@Override
-	public List<BeanDetalleCifrasControl> obtenerDetalleCifrasControl(
-			String aplicativo, String periodo, ArchitechSessionBean sessionBean)
-			throws BusinessException {
-		final SolicitudCifrasControlDTO solicitud = new SolicitudCifrasControlDTO();
-		solicitud.setAplicativo(aplicativo);
-		solicitud.setPeriodo(periodo);
-		final List<DetalleCifrasControlDTO> detalleCifrasControl;
-		List<BeanDetalleCifrasControl> beanDetalleCifrasList = new ArrayList<BeanDetalleCifrasControl>();
-		try {
-			detalleCifrasControl = cifrasControl.consultarDetalleCifrasControl(solicitud);
-			beanDetalleCifrasList = UtilGeneralCifras.establecerRegistros(detalleCifrasControl, DetalleCifrasControlDTO.class, BeanDetalleCifrasControl.class);
-		} catch (CifrasControlException_Exception e) {
-			this.error("Error al consultar el web service"+e.getFaultInfo());
-			throw new BusinessException(ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL_DETALLE);
-		}
-		return beanDetalleCifrasList;
 	}
 	
 	/* (non-Javadoc)
@@ -225,8 +221,10 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 		return listaFinalIncidencias;
 	}
 
+
 	/**
 	 * Metodo que obtiene un objeto de tipo {@link CifrasControl}
+	 *
 	 * @return Un objeto de tipo {@link CifrasControl}
 	 */
 	public CifrasControl getCifrasControl() {
@@ -235,15 +233,17 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 
 	/**
 	 * Metodo que establece un objeto de tipo {@link CifrasControl}
-	 * @param cifrasControl El objeto de tipo {@link CifrasControl} a establecer
+	 *
+	 * @param cifrasControl
+	 *            El objeto de tipo {@link CifrasControl} a establecer
 	 */
-	public void setCifrasControl(CifrasControl cifrasControl) {
+	public void setCifrasControl(final CifrasControl cifrasControl) {
 		this.cifrasControl = cifrasControl;
 	}
 
-
 	/**
 	 * Metodo que obtiene el listado de las cifras de control
+	 *
 	 * @return Una lista de objetos de tipo {@link BeanCifrasControl}
 	 */
 	public List<BeanCifrasControl> getCifrasControlList() {
@@ -252,9 +252,12 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 
 	/**
 	 * Metodo para establecer el listado de cifras de control consultadas
+	 *
 	 * @param cifrasControlList
 	 */
-	public void setCifrasControlList(List<BeanCifrasControl> cifrasControlList) {
+	public void setCifrasControlList(
+			final List<BeanCifrasControl> cifrasControlList) {
 		this.cifrasControlList = cifrasControlList;
 	}
+
 }

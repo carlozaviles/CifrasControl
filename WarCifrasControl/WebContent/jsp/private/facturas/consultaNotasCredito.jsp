@@ -78,7 +78,7 @@
 					<Td colspan="8" class="special"></Td>
 				</tr>
 				<tbody>
-					<c:forEach var="i" begin="0" end="2">
+					<c:forEach var="i" begin="0" end="${num - 1}">
 						<tr>
 							<td class="text_centro">${facturasCorrectasList[i].cantidadFacturas}</td>
 							<td class="text_centro">${facturasCorrectasList[i].subTotal}</td>
@@ -150,12 +150,12 @@
 				<display:setProperty name="export.banner" value="${exportar}"/>
 				<display:setProperty name="basic.show.header" value="false" />
 				<display:setProperty name="export.pdf" value="false" />
-				<display:setProperty name="export.excel" value="false" />
+				<display:setProperty name="export.excel" value="true" />
 				<display:setProperty name="export.xml" value="false" />
 				<display:setProperty name="export.rtf" value="false" />
-				<display:setProperty name="export.csv" value="true" />
-				<display:setProperty name="export.csv.filename"
-					value="ConsultaNotasCredito.csv" />
+				<display:setProperty name="export.csv" value="false" />
+				<display:setProperty name="export.excel.filename"
+					value="ConsultaNotasCredito.xls" />
 			</display:table>
 
 <div class="PiePag">

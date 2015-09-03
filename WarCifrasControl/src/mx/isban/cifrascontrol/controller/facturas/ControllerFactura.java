@@ -1,13 +1,13 @@
 /**************************************************************
-* Queretaro, Qro Junio 2015
-*
-* La redistribucion y el uso en formas fuente y binario, 
-* son responsabilidad del propietario.
-* 
-* Este software fue elaborado en @Everis
-* 
-* Para mas informacion, consulte <www.everis.com/mexico>
-***************************************************************/
+ * Queretaro, Qro Junio 2015
+ *
+ * La redistribucion y el uso en formas fuente y binario,
+ * son responsabilidad del propietario.
+ *
+ * Este software fue elaborado en @Everis
+ *
+ * Para mas informacion, consulte <www.everis.com/mexico>
+ ***************************************************************/
 package mx.isban.cifrascontrol.controller.facturas;
 
 import java.util.ArrayList;
@@ -18,11 +18,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
@@ -31,22 +26,28 @@ import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.servicio.facturas.BOFactura;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
 /**
-* Clase ControllerFactura
-* 
-* <P>Clase encargada de definir los metodos que permitan las siguientes consultas:
-* <ul>
-* <li>Facturas</li>
-* <li>Notas de credito </li>
-* <li>Divisas </li>
-* <li>Recibos deducibles </li>
-* </ul>
-*  
-* @author Everis
-* @version 1.0
-* @see www.everis.com/mexico
-* 
-*/
+ * Clase ControllerFactura
+ *
+ * <P>
+ * Clase encargada de definir los metodos que permitan las siguientes consultas:
+ * <ul>
+ * <li>Facturas</li>
+ * <li>Notas de credito</li>
+ * <li>Divisas</li>
+ * <li>Recibos deducibles</li>
+ * </ul>
+ *
+ * @author Everis
+ * @version 1.0
+ * @see www.everis.com/mexico
+ *
+ */
 @Controller
 public class ControllerFactura extends Architech {
 
@@ -59,17 +60,17 @@ public class ControllerFactura extends Architech {
 	 * Tipo de factura para localizar las cuentas correctas e incorrectas
 	 */
 	private static final String CONFIRMING = "CONFIRMING";
-	
+
 	/**
 	 * Tipo de factura para localizar las cuentas correctas e incorrectas
 	 */
 	private static final String FACTORAJE = "FACTORAJE";
-	
+
 	/**
 	 * Tipo de factura para facturas
 	 */
 	private static final String FACT = "FACT";
-	
+
 	/**
 	 * Tipo de factura para Notas de credito
 	 */
@@ -82,148 +83,197 @@ public class ControllerFactura extends Architech {
 	 * Tipo de factura para recibos deducibles
 	 */
 	private static final String RECI = "RECI";
-	
+
 	/**
 	 * Propiedad que contiene un objeto de negocio de tipo {@link BOFactura}
 	 */
 	private BOFactura boFactura;
-	
+
 	private BOCatalogos boCatalogo;
-	
+
 	/**
 	 * Metodo encargado de inicializar el formulario de consulta de facturas
-	 * 
-	 * @param request Un objeto de tipo {@link HttpServletRequest}
-	 * @param response Un objeto de tipo {@link HttpServletResponse}
-	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista formularioFacturas.jsp
-	 * @throws BusinessException En caso de presentarse un error al momento de consultar
-	 * los diferentes productos
+	 *
+	 * @param request
+	 *            Un objeto de tipo {@link HttpServletRequest}
+	 * @param response
+	 *            Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista
+	 *         formularioFacturas.jsp
+	 * @throws BusinessException
+	 *             En caso de presentarse un error al momento de consultar los
+	 *             diferentes productos
 	 */
 	@RequestMapping("facturasInit.do")
-	public ModelAndView facturasInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView facturasInit(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
 		this.info("Iniciando el formulario de facturas");
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		this.info("Se inicia la consulta de productos....");
-		final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
-		this.info("El total de productos obtenidos es:"+productos.size());
+		final List<BeanProducto> productos = boCatalogo
+				.obtenerProductosUsuario(getArchitechBean(), getArchitechBean()
+						.getUsuario(), "FACT");
+		this.info("El total de productos obtenidos es:" + productos.size());
 		parametros.put("productosList", productos);
 		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
 		parametros.put("anioList", GeneradorCatalogos.obtenerListaAnios(5, 0));
 		this.info("Metodo de inicializacion del formulario de facturas inicializado con exito, direccionando a formularioFacturas.jsp");
-		return new ModelAndView("formularioFacturas",parametros);
+		return new ModelAndView("formularioFacturas", parametros);
 	}
-	
+
 	/**
-	 * Metodo encargado de inicializar el formulario de consulta de las notas de credito
-	 * 
-	 * @param request Un objeto de tipo {@link HttpServletRequest}
-	 * @param response Un objeto de tipo {@link HttpServletResponse}
-	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista formularioNotasCredito.jsp
-	 * @throws BusinessException En caso de presentarse un error al momento de consultar
-	 * los diferentes productos
+	 * Metodo encargado de inicializar el formulario de consulta de las notas de
+	 * credito
+	 *
+	 * @param request
+	 *            Un objeto de tipo {@link HttpServletRequest}
+	 * @param response
+	 *            Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista
+	 *         formularioNotasCredito.jsp
+	 * @throws BusinessException
+	 *             En caso de presentarse un error al momento de consultar los
+	 *             diferentes productos
 	 */
 	@RequestMapping("notasCreditoInit.do")
-	public ModelAndView notasCreditoInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView notasCreditoInit(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
 		this.info("Iniciando el formulario de facturas");
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		this.info("Se inicia la consulta de productos....");
-		final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
-		this.info("El total de productos obtenidos es:"+productos.size());
+		final List<BeanProducto> productos = boCatalogo
+				.obtenerProductosUsuario(getArchitechBean(), getArchitechBean()
+						.getUsuario(), "FACT");
+		this.info("El total de productos obtenidos es:" + productos.size());
 		parametros.put("productosList", productos);
 		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
 		parametros.put("anioList", GeneradorCatalogos.obtenerListaAnios(5, 0));
 		this.info("Metodo de inicializacion del formulario de facturas inicializado con exito, direccionando a formularioNotasCredito.jsp");
-		return new ModelAndView("formularioNotasCredito",parametros);
+		return new ModelAndView("formularioNotasCredito", parametros);
 	}
-	
+
 	/**
 	 * Metodo encargado de inicializar el formulario de consulta de divisas
-	 * 
-	 * @param request Un objeto de tipo {@link HttpServletRequest}
-	 * @param response Un objeto de tipo {@link HttpServletResponse}
-	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista formularioDivisas.jsp
-	 * @throws BusinessException En caso de presentarse un error al momento de consultar
-	 * los diferentes productos
+	 *
+	 * @param request
+	 *            Un objeto de tipo {@link HttpServletRequest}
+	 * @param response
+	 *            Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista
+	 *         formularioDivisas.jsp
+	 * @throws BusinessException
+	 *             En caso de presentarse un error al momento de consultar los
+	 *             diferentes productos
 	 */
 	@RequestMapping("divisasInit.do")
-	public ModelAndView divisasInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView divisasInit(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
 		this.info("Iniciando el formulario de facturas");
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		this.info("Se inicia la consulta de productos....");
-		final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
-		this.info("El total de productos obtenidos es:"+productos.size());
+		final List<BeanProducto> productos = boCatalogo
+				.obtenerProductosUsuario(getArchitechBean(), getArchitechBean()
+						.getUsuario(), "FACT");
+		this.info("El total de productos obtenidos es:" + productos.size());
 		parametros.put("productosList", productos);
 		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
 		parametros.put("anioList", GeneradorCatalogos.obtenerListaAnios(5, 0));
 		this.info("Metodo de inicializacion del formulario de divisas inicializado con exito, direccionando a formularioDivisas.jsp");
-		return new ModelAndView("formularioDivisas",parametros);
+		return new ModelAndView("formularioDivisas", parametros);
 	}
-	
+
 	/**
 	 * Metodo encargado de inicializar el formulario de consulta de recibos
-	 * 
-	 * @param request Un objeto de tipo {@link HttpServletRequest}
-	 * @param response Un objeto de tipo {@link HttpServletResponse}
-	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista formularioRecibos.jsp
-	 * @throws BusinessException En caso de presentarse un error al momento de consultar
-	 * los diferentes productos
+	 *
+	 * @param request
+	 *            Un objeto de tipo {@link HttpServletRequest}
+	 * @param response
+	 *            Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista
+	 *         formularioRecibos.jsp
+	 * @throws BusinessException
+	 *             En caso de presentarse un error al momento de consultar los
+	 *             diferentes productos
 	 */
 	@RequestMapping("recibosInit.do")
-	public ModelAndView recibosInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView recibosInit(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
 		this.info("Iniciando el formulario de recibos");
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		this.info("Se inicia la consulta de productos....");
-		final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "FACT");
-		this.info("El total de productos obtenidos es:"+productos.size());
+		final List<BeanProducto> productos = boCatalogo
+				.obtenerProductosUsuario(getArchitechBean(), getArchitechBean()
+						.getUsuario(), "FACT");
+		this.info("El total de productos obtenidos es:" + productos.size());
 		parametros.put("productosList", productos);
 		parametros.put("mesesList", GeneradorCatalogos.obtenerListaMeses());
 		parametros.put("anioList", GeneradorCatalogos.obtenerListaAnios(5, 0));
 		this.info("Metodo de inicializacion del formulario de recibos inicializado con exito, direccionando a formularioRecibos.jsp");
-		return new ModelAndView("formularioRecibos",parametros);
+		return new ModelAndView("formularioRecibos", parametros);
 	}
 
 	/**
-	 * Metodo encargado de realizar la consulta de las facturas disponibles, en relacion a un tipo de aplicativo (FACT) y periodo
-	 * @param request Un objeto de tipo {@link HttpServletRequest}
-	 * @param response Un objeto de tipo {@link HttpServletResponse}
-	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultaFacturas.jsp, en caso de no presentarse
-	 * un resultado, direcciona a la vista formularioFacturas.jsp
-	 * @throws BusinessException En caso de presentarse un error al momento de consultar
-	 * las facturas
+	 * Metodo encargado de realizar la consulta de las facturas disponibles, en
+	 * relacion a un tipo de aplicativo (FACT) y periodo
+	 *
+	 * @param request
+	 *            Un objeto de tipo {@link HttpServletRequest}
+	 * @param response
+	 *            Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista
+	 *         consultaFacturas.jsp, en caso de no presentarse un resultado,
+	 *         direcciona a la vista formularioFacturas.jsp
+	 * @throws BusinessException
+	 *             En caso de presentarse un error al momento de consultar las
+	 *             facturas
 	 */
 	@RequestMapping("consultaFacturas.do")
-	public ModelAndView consultaFacturas(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView consultaFacturas(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
 		this.info("Iniciando la consulta de facturas");
 		String aplicativo = request.getParameter("aplicativo");
 		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
 		periodo.append("-").append(request.getParameter("mes"));
 		List<BeanFactura> totalFacturas;
 		List<BeanFactura> totalFactoraje = new ArrayList<BeanFactura>();
-		//Caso especial: en caso de ser confirming y factura, se realiza la busqueda por separado
-		if("Confirming y Factoraje".equals(aplicativo)){
-			totalFacturas = boFactura.consultarFacturas(CONFIRMING, periodo.toString(), FACT, getArchitechBean());
-			totalFactoraje = boFactura.consultarFacturas(FACTORAJE, periodo.toString(), FACT, getArchitechBean());
-		}else{
-			totalFacturas = boFactura.consultarFacturas(aplicativo, periodo.toString(), FACT, getArchitechBean());
+		// Caso especial: en caso de ser confirming y factura, se realiza la
+		// busqueda por separado
+		if ("CONFIRMING Y FACTORAJE".equalsIgnoreCase(aplicativo)) {
+			totalFacturas = boFactura.consultarFacturas(CONFIRMING,
+					periodo.toString(), FACT, getArchitechBean());
+			totalFactoraje = boFactura.consultarFacturas(FACTORAJE,
+					periodo.toString(), FACT, getArchitechBean());
+		} else {
+			totalFacturas = boFactura.consultarFacturas(aplicativo,
+					periodo.toString(), FACT, getArchitechBean());
 		}
-		if(!totalFacturas.isEmpty() || !totalFactoraje.isEmpty()){
+		if (!totalFacturas.isEmpty() || !totalFactoraje.isEmpty()) {
 			this.info("Consulta de facturas realizada correctamente, realizando el calculo de los totales a mostrar");
-			List<BeanFactura> facturasCorrectas = boFactura.obtenerFacturasCorrectas(totalFacturas, getArchitechBean());
-			List<BeanFactura> facturasIncorrectas = boFactura.obtenerFacturasIncorrectas(totalFacturas, getArchitechBean());
+			List<BeanFactura> facturasCorrectas = boFactura
+					.obtenerFacturasCorrectas(totalFacturas, getArchitechBean());
+			List<BeanFactura> facturasIncorrectas = boFactura
+					.obtenerFacturasIncorrectas(totalFacturas,
+							getArchitechBean());
 			List<BeanFactura> facturaList = new ArrayList<BeanFactura>();
 			facturaList.addAll(facturasCorrectas);
 			facturaList.addAll(facturasIncorrectas);
 			final Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("facturasCorrectas", facturasCorrectas);
 			parametros.put("facturasIncorrectas", facturasIncorrectas);
+			parametros.put("num", facturasCorrectas.size());
 			String aplicativoBuscado = facturaList.get(0).getAplicativo();
-			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses().get(request.getParameter("mes")));
+			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses()
+					.get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
-			parametros.put("periodo",periodo.toString());
-			if(!totalFactoraje.isEmpty()){
+			parametros.put("periodo", periodo.toString());
+			if (!totalFactoraje.isEmpty()) {
 				List<BeanFactura> factorajeList = new ArrayList<BeanFactura>();
-				List<BeanFactura> factorajeCorrectas = boFactura.obtenerFacturasCorrectas(totalFactoraje, getArchitechBean());
-				List<BeanFactura> factorajeIncorrectas = boFactura.obtenerFacturasIncorrectas(totalFactoraje, getArchitechBean());
+				List<BeanFactura> factorajeCorrectas = boFactura
+						.obtenerFacturasCorrectas(totalFactoraje,
+								getArchitechBean());
+				List<BeanFactura> factorajeIncorrectas = boFactura
+						.obtenerFacturasIncorrectas(totalFactoraje,
+								getArchitechBean());
 				factorajeList.addAll(factorajeCorrectas);
 				factorajeList.addAll(factorajeIncorrectas);
 				facturaList.addAll(factorajeList);
@@ -231,61 +281,82 @@ public class ControllerFactura extends Architech {
 				parametros.put("factoraje", factorajeList);
 				parametros.put("factorajeCorrecto", factorajeCorrectas);
 				parametros.put("factorajeIncorrecto", factorajeIncorrectas);
+				parametros.put("numFactoraje", factorajeCorrectas.size());
 			}
 			parametros.put("facturaList", facturaList);
 			parametros.put("aplicativo", aplicativoBuscado);
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaFacturas");
-			return new ModelAndView("consultaFacturas",parametros);
-		}else{
+			return new ModelAndView("consultaFacturas", parametros);
+		} else {
 			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
-			 ModelAndView mav = this.facturasInit(request, response);
-			 mav.addObject("sinDatos", "sinDatos");
-			 return mav;
+			ModelAndView mav = this.facturasInit(request, response);
+			mav.addObject("sinDatos", "sinDatos");
+			return mav;
 		}
 	}
-	
+
 	/**
-	 * Metodo encargado de realizar la consulta de las facturas disponibles, en relacion a un tipo de aplicativo (NOTA) y periodo
-	 * @param request Un objeto de tipo {@link HttpServletRequest}
-	 * @param response Un objeto de tipo {@link HttpServletResponse}
-	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultaNotas.jsp, en caso de no presentarse
-	 * un resultado, direcciona a la vista formularioNotasCredito.jsp
-	 * @throws BusinessException En caso de presentarse un error al momento de consultar
-	 * las notas de credito
+	 * Metodo encargado de realizar la consulta de las facturas disponibles, en
+	 * relacion a un tipo de aplicativo (NOTA) y periodo
+	 *
+	 * @param request
+	 *            Un objeto de tipo {@link HttpServletRequest}
+	 * @param response
+	 *            Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista
+	 *         consultaNotas.jsp, en caso de no presentarse un resultado,
+	 *         direcciona a la vista formularioNotasCredito.jsp
+	 * @throws BusinessException
+	 *             En caso de presentarse un error al momento de consultar las
+	 *             notas de credito
 	 */
 	@RequestMapping("consultaNotasCredito.do")
-	public ModelAndView consultaNotasCredito(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView consultaNotasCredito(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
 		this.info("Iniciando la consulta de notas de credito");
 		String aplicativo = request.getParameter("aplicativo");
 		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
 		periodo.append("-").append(request.getParameter("mes"));
 		List<BeanFactura> totalFacturas;
 		List<BeanFactura> totalFactoraje = new ArrayList<BeanFactura>();
-		//Caso especial: en caso de ser confirming y factura, se realiza la busqueda por separado
-		if("Confirming y Factoraje".equals(aplicativo)){
-			totalFacturas = boFactura.consultarFacturas(CONFIRMING, periodo.toString(), NOTA, getArchitechBean());
-			totalFactoraje = boFactura.consultarFacturas(FACTORAJE, periodo.toString(), NOTA, getArchitechBean());
-		}else{
-			totalFacturas = boFactura.consultarFacturas(aplicativo, periodo.toString(), NOTA, getArchitechBean());
+		// Caso especial: en caso de ser confirming y factura, se realiza la
+		// busqueda por separado
+		if ("Confirming y Factoraje".equals(aplicativo)) {
+			totalFacturas = boFactura.consultarFacturas(CONFIRMING,
+					periodo.toString(), NOTA, getArchitechBean());
+			totalFactoraje = boFactura.consultarFacturas(FACTORAJE,
+					periodo.toString(), NOTA, getArchitechBean());
+		} else {
+			totalFacturas = boFactura.consultarFacturas(aplicativo,
+					periodo.toString(), NOTA, getArchitechBean());
 		}
-		if(!totalFacturas.isEmpty() || !totalFactoraje.isEmpty()){
+		if (!totalFacturas.isEmpty() || !totalFactoraje.isEmpty()) {
 			this.info("Consulta de facturas realizada correctamente, realizando el calculo de los totales a mostrar");
-			List<BeanFactura> facturasCorrectas = boFactura.obtenerFacturasCorrectas(totalFacturas, getArchitechBean());
-			List<BeanFactura> facturasIncorrectas = boFactura.obtenerFacturasIncorrectas(totalFacturas, getArchitechBean());
+			List<BeanFactura> facturasCorrectas = boFactura
+					.obtenerFacturasCorrectas(totalFacturas, getArchitechBean());
+			List<BeanFactura> facturasIncorrectas = boFactura
+					.obtenerFacturasIncorrectas(totalFacturas,
+							getArchitechBean());
 			List<BeanFactura> facturaList = new ArrayList<BeanFactura>();
 			facturaList.addAll(facturasCorrectas);
 			facturaList.addAll(facturasIncorrectas);
 			final Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("facturasCorrectas", facturasCorrectas);
 			parametros.put("facturasIncorrectas", facturasIncorrectas);
+			parametros.put("num", facturasCorrectas.size());
 			String aplicativoBuscado = facturaList.get(0).getAplicativo();
-			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses().get(request.getParameter("mes")));
+			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses()
+					.get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
-			parametros.put("periodo",periodo.toString());
-			if(!totalFactoraje.isEmpty()){
+			parametros.put("periodo", periodo.toString());
+			if (!totalFactoraje.isEmpty()) {
 				List<BeanFactura> factorajeList = new ArrayList<BeanFactura>();
-				List<BeanFactura> factorajeCorrectas = boFactura.obtenerFacturasCorrectas(totalFactoraje, getArchitechBean());
-				List<BeanFactura> factorajeIncorrectas = boFactura.obtenerFacturasIncorrectas(totalFactoraje, getArchitechBean());
+				List<BeanFactura> factorajeCorrectas = boFactura
+						.obtenerFacturasCorrectas(totalFactoraje,
+								getArchitechBean());
+				List<BeanFactura> factorajeIncorrectas = boFactura
+						.obtenerFacturasIncorrectas(totalFactoraje,
+								getArchitechBean());
 				factorajeList.addAll(factorajeCorrectas);
 				factorajeList.addAll(factorajeIncorrectas);
 				facturaList.addAll(factorajeList);
@@ -297,57 +368,77 @@ public class ControllerFactura extends Architech {
 			parametros.put("facturaList", facturaList);
 			parametros.put("aplicativo", aplicativoBuscado);
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaNotasCredito");
-			return new ModelAndView("consultaNotasCredito",parametros);
-		}else{
+			return new ModelAndView("consultaNotasCredito", parametros);
+		} else {
 			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
-			 ModelAndView mav = this.notasCreditoInit(request, response);
-			 mav.addObject("sinDatos", "sinDatos");
-			 return mav;
+			ModelAndView mav = this.notasCreditoInit(request, response);
+			mav.addObject("sinDatos", "sinDatos");
+			return mav;
 		}
 	}
-	
+
 	/**
-	 * Metodo encargado de realizar la consulta de las facturas disponibles, en relacion a un tipo de aplicativo (DIVI) y periodo
-	 * @param request Un objeto de tipo {@link HttpServletRequest}
-	 * @param response Un objeto de tipo {@link HttpServletResponse}
-	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultaDivisas.jsp, en caso de no presentarse
-	 * un resultado, direcciona a la vista formularioFacturas.jsp
-	 * @throws BusinessException En caso de presentarse un error al momento de consultar
-	 * las divisas
+	 * Metodo encargado de realizar la consulta de las facturas disponibles, en
+	 * relacion a un tipo de aplicativo (DIVI) y periodo
+	 *
+	 * @param request
+	 *            Un objeto de tipo {@link HttpServletRequest}
+	 * @param response
+	 *            Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista
+	 *         consultaDivisas.jsp, en caso de no presentarse un resultado,
+	 *         direcciona a la vista formularioFacturas.jsp
+	 * @throws BusinessException
+	 *             En caso de presentarse un error al momento de consultar las
+	 *             divisas
 	 */
 	@RequestMapping("consultaDivisas.do")
-	public ModelAndView consultaDivisas(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView consultaDivisas(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
 		this.info("Iniciando la consulta de divisas");
 		String aplicativo = request.getParameter("aplicativo");
 		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
 		periodo.append("-").append(request.getParameter("mes"));
 		List<BeanFactura> totalFacturas;
 		List<BeanFactura> totalFactoraje = new ArrayList<BeanFactura>();
-		//Caso especial: en caso de ser confirming y factura, se realiza la busqueda por separado
-		if("Confirming y Factoraje".equals(aplicativo)){
-			totalFacturas = boFactura.consultarFacturas(CONFIRMING, periodo.toString(), DIVI, getArchitechBean());
-			totalFactoraje = boFactura.consultarFacturas(FACTORAJE, periodo.toString(), DIVI, getArchitechBean());
-		}else{
-			totalFacturas = boFactura.consultarFacturas(aplicativo, periodo.toString(), DIVI, getArchitechBean());
+		// Caso especial: en caso de ser confirming y factura, se realiza la
+		// busqueda por separado
+		if ("Confirming y Factoraje".equals(aplicativo)) {
+			totalFacturas = boFactura.consultarFacturas(CONFIRMING,
+					periodo.toString(), DIVI, getArchitechBean());
+			totalFactoraje = boFactura.consultarFacturas(FACTORAJE,
+					periodo.toString(), DIVI, getArchitechBean());
+		} else {
+			totalFacturas = boFactura.consultarFacturas(aplicativo,
+					periodo.toString(), DIVI, getArchitechBean());
 		}
-		if(!totalFacturas.isEmpty() || !totalFactoraje.isEmpty()){
+		if (!totalFacturas.isEmpty() || !totalFactoraje.isEmpty()) {
 			this.info("Consulta de facturas realizada correctamente, realizando el calculo de los totales a mostrar");
-			List<BeanFactura> facturasCorrectas = boFactura.obtenerFacturasCorrectas(totalFacturas, getArchitechBean());
-			List<BeanFactura> facturasIncorrectas = boFactura.obtenerFacturasIncorrectas(totalFacturas, getArchitechBean());
+			List<BeanFactura> facturasCorrectas = boFactura
+					.obtenerFacturasCorrectas(totalFacturas, getArchitechBean());
+			List<BeanFactura> facturasIncorrectas = boFactura
+					.obtenerFacturasIncorrectas(totalFacturas,
+							getArchitechBean());
 			List<BeanFactura> facturaList = new ArrayList<BeanFactura>();
 			facturaList.addAll(facturasCorrectas);
 			facturaList.addAll(facturasIncorrectas);
 			final Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("facturasCorrectas", facturasCorrectas);
 			parametros.put("facturasIncorrectas", facturasIncorrectas);
+			parametros.put("num", facturasCorrectas.size());
 			String aplicativoBuscado = facturaList.get(0).getAplicativo();
-			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses().get(request.getParameter("mes")));
+			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses()
+					.get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
-			parametros.put("periodo",periodo.toString());
-			if(!totalFactoraje.isEmpty()){
+			parametros.put("periodo", periodo.toString());
+			if (!totalFactoraje.isEmpty()) {
 				List<BeanFactura> factorajeList = new ArrayList<BeanFactura>();
-				List<BeanFactura> factorajeCorrectas = boFactura.obtenerFacturasCorrectas(totalFactoraje, getArchitechBean());
-				List<BeanFactura> factorajeIncorrectas = boFactura.obtenerFacturasIncorrectas(totalFactoraje, getArchitechBean());
+				List<BeanFactura> factorajeCorrectas = boFactura
+						.obtenerFacturasCorrectas(totalFactoraje,
+								getArchitechBean());
+				List<BeanFactura> factorajeIncorrectas = boFactura
+						.obtenerFacturasIncorrectas(totalFactoraje,
+								getArchitechBean());
 				factorajeList.addAll(factorajeCorrectas);
 				factorajeList.addAll(factorajeIncorrectas);
 				facturaList.addAll(factorajeList);
@@ -359,34 +450,46 @@ public class ControllerFactura extends Architech {
 			parametros.put("facturaList", facturaList);
 			parametros.put("aplicativo", aplicativoBuscado);
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaDivisas");
-			return new ModelAndView("consultaDivisas",parametros);
-		}else{
+			return new ModelAndView("consultaDivisas", parametros);
+		} else {
 			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
-			 ModelAndView mav = this.divisasInit(request, response);
-			 mav.addObject("sinDatos", "sinDatos");
-			 return mav;
+			ModelAndView mav = this.divisasInit(request, response);
+			mav.addObject("sinDatos", "sinDatos");
+			return mav;
 		}
 	}
-	
+
 	/**
-	 * Metodo encargado de realizar la consulta de las facturas disponibles, en relacion a un tipo de aplicativo(RECI) y periodo
-	 * @param request Un objeto de tipo {@link HttpServletRequest}
-	 * @param response Un objeto de tipo {@link HttpServletResponse}
-	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultaFacturas.jsp, en caso de no presentarse
-	 * un resultado, direcciona a la vista formularioFacturas.jsp
-	 * @throws BusinessException En caso de presentarse un error al momento de consultar
-	 * los recibos
+	 * Metodo encargado de realizar la consulta de las facturas disponibles, en
+	 * relacion a un tipo de aplicativo(RECI) y periodo
+	 *
+	 * @param request
+	 *            Un objeto de tipo {@link HttpServletRequest}
+	 * @param response
+	 *            Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista
+	 *         consultaFacturas.jsp, en caso de no presentarse un resultado,
+	 *         direcciona a la vista formularioFacturas.jsp
+	 * @throws BusinessException
+	 *             En caso de presentarse un error al momento de consultar los
+	 *             recibos
 	 */
 	@RequestMapping("consultaRecibos.do")
-	public ModelAndView consultaRecibos(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView consultaRecibos(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
 		this.info("Iniciando la consulta de recibos");
 		String aplicativo = request.getParameter("aplicativo");
 		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
 		periodo.append("-").append(request.getParameter("mes"));
-		List<BeanFactura> recibosConsultados = boFactura.consultarFacturas(aplicativo, periodo.toString(), RECI, getArchitechBean());
-		if(!recibosConsultados.isEmpty()){
-			List<BeanFactura> recibosGenerados = boFactura.obtenerFacturasRecibosGenerados(recibosConsultados, getArchitechBean());
-			List<BeanFactura> recibosCancelados = boFactura.obtenerFacturasRecibosCancelados(recibosConsultados, getArchitechBean());
+		List<BeanFactura> recibosConsultados = boFactura.consultarFacturas(
+				aplicativo, periodo.toString(), RECI, getArchitechBean());
+		if (!recibosConsultados.isEmpty()) {
+			List<BeanFactura> recibosGenerados = boFactura
+					.obtenerFacturasRecibosGenerados(recibosConsultados,
+							getArchitechBean());
+			List<BeanFactura> recibosCancelados = boFactura
+					.obtenerFacturasRecibosCancelados(recibosConsultados,
+							getArchitechBean());
 			List<BeanFactura> totalRegistros = new ArrayList<BeanFactura>();
 			totalRegistros.addAll(recibosGenerados);
 			totalRegistros.addAll(recibosCancelados);
@@ -394,39 +497,52 @@ public class ControllerFactura extends Architech {
 			parametros.put("recibosConsultados", totalRegistros);
 			parametros.put("recibosGenerados", recibosGenerados);
 			parametros.put("recibosCancelados", recibosCancelados);
-			String aplicativoBuscado = recibosConsultados.get(0).getAplicativo();
-			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses().get(request.getParameter("mes")));
+			parametros.put("num", recibosGenerados.size());
+			String aplicativoBuscado = recibosConsultados.get(0)
+					.getAplicativo();
+			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses()
+					.get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
-			parametros.put("periodo",periodo.toString());
+			parametros.put("periodo", periodo.toString());
 			parametros.put("aplicativo", aplicativoBuscado);
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaRecibos");
-			return new ModelAndView("consultaRecibos",parametros);
-		}else{
+			return new ModelAndView("consultaRecibos", parametros);
+		} else {
 			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
-			 ModelAndView mav = this.recibosInit(request, response);
-			 mav.addObject("sinDatos", "sinDatos");
-			 return mav;
+			ModelAndView mav = this.recibosInit(request, response);
+			mav.addObject("sinDatos", "sinDatos");
+			return mav;
 		}
 	}
-	
+
 	/**
-	 * Metodo encargado de procecesar los errores que se pueden presentar en el modulo de Facturas
-	 * @param req Un objeto de tipo {@link HttpServletRequest}
-	 * @param res Un objeto de tipo {@link HttpServletResponse}
-	 * @param handler Un objeto con la excepcion a procesar
-	 * @param exception Un objeto de tipo {@link Exception}
-	 * @return Un objeto de tipo {@link ModelAndView} con la pantalla de manejo de errores
+	 * Metodo encargado de procecesar los errores que se pueden presentar en el
+	 * modulo de Facturas
+	 *
+	 * @param req
+	 *            Un objeto de tipo {@link HttpServletRequest}
+	 * @param res
+	 *            Un objeto de tipo {@link HttpServletResponse}
+	 * @param handler
+	 *            Un objeto con la excepcion a procesar
+	 * @param exception
+	 *            Un objeto de tipo {@link Exception}
+	 * @return Un objeto de tipo {@link ModelAndView} con la pantalla de manejo
+	 *         de errores
 	 */
 	@ExceptionHandler
-	public ModelAndView manejoErrores(HttpServletRequest req, HttpServletResponse res, Object handler, Exception exception){
+	public ModelAndView manejoErrores(final HttpServletRequest req,
+			final HttpServletResponse res, final Object handler,
+			final Exception exception) {
 		this.info("Inicio de ejecucion de metodo de manejo de errores");
 		String pagina = null;
 		final Map<String, String> modelo = new HashMap<String, String>();
-		if(handler instanceof BusinessException){
-			modelo.put("codeError", ((BusinessException)handler).getCode());
+		if (handler instanceof BusinessException) {
+			modelo.put("codeError", ((BusinessException) handler).getCode());
 			pagina = "../errores/errorAgave.do";
-			this.info("Fue cachada una excepcion BuisinessException " + handler.toString());
-		}else{
+			this.info("Fue cachada una excepcion BuisinessException "
+					+ handler.toString());
+		} else {
 			pagina = "../errores/errorGrl.do";
 			this.info("Fue cachada una excepcion " + handler.toString());
 		}
@@ -434,10 +550,11 @@ public class ControllerFactura extends Architech {
 		this.info("La pagina de destino es " + pagina);
 		return new ModelAndView("redirect:" + pagina, modelo);
 	}
-	
+
 	/**
 	 * Metodo encargado de obtener un objeto de tipo {@link BOFactura}
-	 * @return Un objeto de tipo {@link BOFactura} 
+	 *
+	 * @return Un objeto de tipo {@link BOFactura}
 	 */
 	public BOFactura getBoFactura() {
 		return boFactura;
@@ -445,9 +562,11 @@ public class ControllerFactura extends Architech {
 
 	/**
 	 * Metodo encargado de establecer un objeto de tipo {@link BOFactura}
-	 * @param boFactura El objeto de tipo {@link BOFactura} a establecer
+	 *
+	 * @param boFactura
+	 *            El objeto de tipo {@link BOFactura} a establecer
 	 */
-	public void setBoFactura(BOFactura boFactura) {
+	public void setBoFactura(final BOFactura boFactura) {
 		this.boFactura = boFactura;
 	}
 
@@ -459,10 +578,11 @@ public class ControllerFactura extends Architech {
 	}
 
 	/**
-	 * @param boCatalogo the boCatalogo to set
+	 * @param boCatalogo
+	 *            the boCatalogo to set
 	 */
-	public void setBoCatalogo(BOCatalogos boCatalogo) {
+	public void setBoCatalogo(final BOCatalogos boCatalogo) {
 		this.boCatalogo = boCatalogo;
 	}
-	
+
 }
