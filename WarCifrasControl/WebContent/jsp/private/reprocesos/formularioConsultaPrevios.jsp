@@ -71,7 +71,7 @@
 		</form>
 	</div>
 </div>
-<c:if test="${noCoincidencias}">
+<c:if test="${sinResultados}">
 	<script type="text/javascript">
 		jInfo('${noResultados}', '', 'Info', '');
 	</script>

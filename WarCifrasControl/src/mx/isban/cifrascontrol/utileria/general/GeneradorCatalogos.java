@@ -41,6 +41,36 @@ public final class GeneradorCatalogos {
 	}
 	
 	/**
+	 * Retorna los ultimos n meses de acuerdo al parametro rango negativo. La llave del HashMap tiene un formato yyyyMM.
+	 * @param rangoNegativo Determina la cantidad de meses a regresar.
+	 * @return Map<String,String>
+	 */
+	public static Map<String, String> obtenerListaMeses(int rangoNegativo){
+		if(rangoNegativo < 1 || rangoNegativo > 12){
+			throw new IllegalArgumentException("El parametra de entrada debe de ser entre 1 y 12");
+		}
+		final Map<String, String> mesesAnteriores = new LinkedHashMap<String, String>();
+		final Map<String, String> totalMeses = obtenerListaMeses();
+		final Date fechaHoy = new Date();
+		final Calendar calendario = Calendar.getInstance();
+		calendario.setTime(fechaHoy);
+		for(int i = 1; i <= rangoNegativo; i++){
+			int anio = calendario.get(Calendar.YEAR);
+			int mes = calendario.get(Calendar.MONTH) + 1;
+			String cadenaMes = null;
+			if(mes <= 9){
+				cadenaMes = "0" + String.valueOf(mes);
+			}else{
+				cadenaMes = String.valueOf(mes);
+			}
+			String key = String.valueOf(anio) + cadenaMes;
+			mesesAnteriores.put(key, totalMeses.get(cadenaMes));
+			calendario.add(Calendar.MONTH, -1);
+		}
+		return mesesAnteriores;
+	}
+	
+	/**
 	 * Construye un catalogo de anios de acuerdo a los parametros recibidos. Se construye un objeto de tipo
 	 * Map ya que sera utilizado para llenar un input de tipo select en la capa cliente.
 	 * @param rangoNegativo El catalogo sera construido a partir de anioActual - rangoNegativo.
@@ -89,4 +119,5 @@ public final class GeneradorCatalogos {
 		}
 		return catalogoProductos;
 	}
+
 }

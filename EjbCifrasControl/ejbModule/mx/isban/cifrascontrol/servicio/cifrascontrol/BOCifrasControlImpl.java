@@ -161,7 +161,22 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 			}
 		}
 		
-		final String codigoProducto = relacionProductoCodigo.get(aplicativo.toUpperCase());
+		String codigoProducto = relacionProductoCodigo.get(aplicativo.toUpperCase());
+		
+		final String []tokens = codigoProducto.split(",");
+		//Si el codigo de producto contiene valores separados por comas, estos se pasaran en la exprecion regular separados por pipes. 
+		if(tokens.length > 1){
+			final StringBuilder exprecion = new StringBuilder("(");
+			for(int i = 0; i < tokens.length; i++){
+				exprecion.append(tokens[i]);
+				if(i < (tokens.length -1)){
+					exprecion.append("|");
+				}
+			}
+			exprecion.append(")");
+			codigoProducto = exprecion.toString();
+		}
+		
 		final String fecha = anio + mes;
 		
 		this.info("El codigo de producto medianta el cual se realizara la consulta es: " + codigoProducto);

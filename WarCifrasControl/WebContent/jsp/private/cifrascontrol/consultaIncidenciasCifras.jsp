@@ -42,7 +42,7 @@
 					<tr>
 						<td class="text_centro">${insidencia.producto}</td>
 						<td class="text_centro">${insidencia.fase}</td>
-						<td class="text_centro">${insidencia.fechaInsidencia}</td>
+						<td class="text_centro">${insidencia.cadenaFecha}</td>
 						<td class="text_centro">
 							<a href="${pageContext.servletContext.contextPath}/cifrascontrol/descargaInsidencia.do?indice=${index}">Descarga</a>
 						</td>

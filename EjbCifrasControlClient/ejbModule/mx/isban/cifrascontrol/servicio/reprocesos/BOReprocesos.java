@@ -6,6 +6,7 @@ import javax.ejb.Remote;
 
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
+import mx.isban.cifrascontrol.bean.reprocesos.BeanCancelacion;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanDatosSolicitudReprocesos;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaPrevios;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaReproceso;
@@ -53,5 +54,15 @@ public interface BOReprocesos {
 	 */
 	public List<BeanPrevioEdc> ejecutaConsultaPrevios(BeanParamsConsultaPrevios parametros, 
 			ArchitechSessionBean sessionBean) throws BusinessException;
+	
+	/**
+	 * Realiza la ejecucion de la consulta de cancelaciones.
+	 * @param periodo Periodo para el cual se realiza la consulta.
+	 * @param sessionBean Objeto de la Arquitectura Agave. 
+	 * @return List<BeanCancelacion>
+	 * @throws BusinessException Exception
+	 */
+	public List<BeanCancelacion> ejecutaConsultaCancelaciones(String periodo, ArchitechSessionBean sessionBean) 
+			throws BusinessException;
 }
 

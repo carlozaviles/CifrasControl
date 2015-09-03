@@ -19,6 +19,7 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.logging.Level;
+import mx.isban.cifrascontrol.bean.reprocesos.BeanCancelacion;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanDatosClienteDAO;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanDatosSolicitudReprocesos;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaPrevios;
@@ -190,5 +191,36 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 		
 		return listaPrevios;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.servicio.reprocesos.BOReprocesos#ejecutaConsultaCancelaciones(java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
+	@Override
+	public List<BeanCancelacion> ejecutaConsultaCancelaciones(String periodo, ArchitechSessionBean sessionBean) 
+			throws BusinessException {
+		BeanCancelacion bean1 = new BeanCancelacion();
+		bean1.setNumeroCuenta("12398473921");
+		bean1.setComicionInteres(".15");
+		bean1.setFolioSat("83832932392");
+		bean1.setIva("15");
+		bean1.setPeriodo("2015-08");
+		bean1.setRetenciones("Retenciones");
+		bean1.setAplicativo("Aplicativo");
+		bean1.setFechaCancelacion("2015-08-31");
+		
+		BeanCancelacion bean2 = new BeanCancelacion();
+		bean2.setNumeroCuenta("09876543210");
+		bean2.setComicionInteres(".15");
+		bean2.setFolioSat("83832932392");
+		bean2.setIva("15");
+		bean2.setPeriodo("2015-08");
+		bean2.setRetenciones("Retenciones");
+		bean1.setAplicativo("OPICS");
+		bean1.setFechaCancelacion("2015-08-31");
+		
+		List<BeanCancelacion> cancelaciones = new ArrayList<BeanCancelacion>();
+		cancelaciones.add(bean1);
+		cancelaciones.add(bean2);
+		return cancelaciones;
+	}
 }

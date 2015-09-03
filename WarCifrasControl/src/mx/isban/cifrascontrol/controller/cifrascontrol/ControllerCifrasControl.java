@@ -199,14 +199,14 @@ public class ControllerCifrasControl extends Architech {
 		this.info("Se ejecutara la consulta de insidencias de cifras de control.");
 		this.info("***********************************************************************");
 		this.info("Aplicativo -> " + app);
-		this.info("Mes        -> " + mes  );
+		this.info("Mes        -> " + mes);
 		this.info("Anio       -> " + anio);
 		this.info("***********************************************************************");
 		List<BeanInsidenciaCifras> listaInsidencias = boCifrasControl.ejecutaConsultaInsidencias(app, mes, anio, 
 				this.getArchitechBean());
 		this.info("Cantidad de archivos de insidencia encontrados: " + listaInsidencias.size());
 		if(listaInsidencias.size() > 0){
-			final Locale local = request.getLocale();
+			final Locale local = new Locale("es-MX");
 			for(BeanInsidenciaCifras bean : listaInsidencias){
 				bean.setCadenaFecha(CifrasControlUtil.generaFormatoFechaTipoUno(bean.getFechaInsidencia(), local));
 			}
