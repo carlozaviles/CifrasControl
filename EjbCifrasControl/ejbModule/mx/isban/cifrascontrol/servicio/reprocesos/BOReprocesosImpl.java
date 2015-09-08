@@ -171,7 +171,7 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 			this.warn("Error al cargar la configuracion para consulta de Previos");
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_CONFIG_PREVIOS);
 		}
-		final String periodo = parametros.getAnio().concat(parametros.getMes());
+		final String periodo = parametros.getMes().concat(parametros.getAnio());
 		final String mascaraPreviosEditada = mascaraPrevios.replace("PRODUCTO", parametros.getProducto())
 				.replace("NUMEROCUENTA", parametros.getNumeroCuenta().trim()).replace("PERIODO", periodo);
 		this.info("La mascara utilizada para realizar la consulta es " + mascaraPreviosEditada);

@@ -3,19 +3,16 @@
  */
 package mx.isban.cifrascontrol.controller.reprocesos;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.io.ByteArrayInputStream;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.StringTokenizer;
 
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,12 +20,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+//
+import com.ibm.afp2pdf.AFP2Pdf;
+import com.ibm.afp2pdf.AFP2PdfException;
 
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
-import mx.isban.cifrascontrol.bean.reprocesos.BeanCancelacion;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaPrevios;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaReproceso;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanPrevioEdc;
@@ -160,62 +159,72 @@ public class ControllerConsultaReprocesos extends Architech {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
 	@RequestMapping("descargaPrevio.do")
 	public void descargaPrevio(HttpServletRequest request, HttpServletResponse response) {
+		
+		String property = System.getProperty("java.library.path");
+		StringTokenizer parser = new StringTokenizer(property, ";");
+		while (parser.hasMoreTokens()) {
+		    System.err.println(parser.nextToken());
+		}
+		
 		this.info("Se recibe la peticion para la descarga de previos.");
 		@SuppressWarnings("unchecked")
 		final List<BeanPrevioEdc> listaPrevios = (List<BeanPrevioEdc>)request.getSession().getAttribute("listaPrevios");
 		final int indicePrevio = Integer.parseInt(request.getParameter("indice"));
 		final BeanPrevioEdc previoDescarga = listaPrevios.get(indicePrevio);
-		this.info("El previo a descargar se muestra a continuacion: " + previoDescarga.getRutaPrevio());	
+		this.info("El previo a descargar se muestra a continuacion: " + previoDescarga.getRutaPrevio());				
 	
-		
-
-		
-	
-				
+		//Converter AFP a PDF		
+		try{
+	        byte[] myArray;    
+		    ByteArrayOutputStream outBuf = new ByteArrayOutputStream();
+		    FileInputStream in = new FileInputStream(previoDescarga.getRutaPrevio());
+		    final int bufferSize = 500;
+		    byte []buffer = new byte[bufferSize];
+		    int bytesLeidos = 0;
+		    while((bytesLeidos = in.read(buffer)) != -1){
+		    	outBuf.write(buffer, 0, bytesLeidos);
+		    }
+		    outBuf.flush();
+		    myArray = outBuf.toByteArray(); 
+		    in.close();
+		               
+		    /*AFP2Pdf myAFP = new AFP2Pdf();
+		    myAFP.setLinearize(true);
+		    myAFP.A2PDocStart2(myArray, "/tmp");
+		    myAFP.A2PGenerateMessages(true);
+		    myAFP.A2PXFormDoc();*/	      
+		            
+		    String rutaNombre[] = previoDescarga.getRutaPrevio().split(File.separator);    
+			response.setContentType("application/pdf");
+			String headerKey = "Content-Disposition";
+	        //String headerValue = String.format("attachment; filename=\"%s\"", rutaNombre[rutaNombre.length - 1].replace("afp", "pfd"));
+			String headerValue = String.format("attachment; filename=\"%s\"", rutaNombre[rutaNombre.length - 1]);
+	        response.setHeader(headerKey, headerValue);
+	        //response.getOutputStream().write(myAFP.getPDFOutBuf());
+		    response.getOutputStream().write(myArray);
+	        //myAFP.A2PDocEnd();
+		    response.getOutputStream().flush();      
+	    }catch (IOException e){
+	        e.printStackTrace();
+	        System.err.println("IOException "+ e);
+	    }catch (NoSuchFieldError e) {
+	        e.printStackTrace();
+	        System.err.println("NoSuchFieldError "+e);
+	     }/*catch (AFP2PdfException e) {
+            e.printStackTrace();
+            System.err.println("AFP2PdfException "+e);
+	     }*/
 	}
-	
-	/**
-	 * Muestra el formulario de consulta de cancelaciones.
-	 * @param modelo Modelo Spring MVC
-	 * @return ModelAndView
-	 */
-	@RequestMapping("initConsultaCancelaciones.do")
-	public ModelAndView muestraFormularioCancelaciones(Map<String, Object> modelo){
-		this.info("Se muestra al usuario el formulario para la consulta de cancelaciones.");
-		modelo.put("listaMeses", GeneradorCatalogos.obtenerListaMeses(3));
-		return new ModelAndView("formularioCancelaciones", modelo);
-	}
-	
-	/**
-	 * Realiza la consulta de cancelaciones y muestra los resultados.
-	 * @param mes Parametro utilizado como filtro para la consulta de cancelaciones.
-	 * @param modelo Modelo Spring MVC
-	 * @return ModelAndView
-	 * @throws BusinessException Exception
-	 */
-	@RequestMapping("consultaCancelaciones.do")
-	public ModelAndView llamaConsultaCancelaciones(HttpServletRequest request, @RequestParam("mes")String mes, Map<String, Object> modelo) 
-			throws BusinessException, ParseException{
-		this.info("Se ejecutara la consulta de cancelaciones para el siguiente mes: " + mes);
-		List<BeanCancelacion> listaCancelaciones = reprocesos.ejecutaConsultaCancelaciones(mes, this.getArchitechBean());
-		this.info("Se encontro el siguiente numero de coincidencias: " + listaCancelaciones.size());
-		if(listaCancelaciones.size() > 0){
-			SimpleDateFormat sdf = new SimpleDateFormat();
-			sdf.applyPattern("yyyyMM");
-			Date fecha = sdf.parse(mes);
-			sdf = new SimpleDateFormat("MMMM yyyy", new Locale("es-MX"));
-			final String cadenaFecha = sdf.format(fecha);
-			modelo.put("fecha", cadenaFecha);
-			modelo.put("listaCancelaciones", listaCancelaciones);
-			return new ModelAndView("consultaCancelaciones", modelo);
-		}else{
-			modelo.put("sinResultados", true);
-			return muestraFormularioCancelaciones(modelo);
-		}
-	}
-	
+		 
+	     
+	   
 	/**
 	 * Manejador de errores de este controller.
 	 * @param req Request

@@ -206,7 +206,10 @@ public final class UtilGeneralCifras {
 	 * @throws ParseException Exception
 	 */
 	public static BeanPrevioEdc fabricaBeanPrevioEdc(File previo) throws ParseException {
-		return null;
+		BeanPrevioEdc beanPrevio = new BeanPrevioEdc();
+		beanPrevio.setFecha(new Date());
+		beanPrevio.setRutaPrevio(previo.toString());
+		return beanPrevio;
 	}
 	
 	/**
