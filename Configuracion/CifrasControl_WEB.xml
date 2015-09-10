@@ -26,7 +26,7 @@
 	  <!--  Modalidad de Loggeo [CONSOLE|FILE]   --> 
 	  <PATH_LOG replicable="true">/arquitecturaAgave/temp/cmpLogging/log/CifrasControlWeb.log</PATH_LOG> 
 	  <!--  Ruta del archivo que contendra los logs [c://logs...|/logs....]   --> 
-	  <LEVEL_LOG replicable="true">TRACE</LEVEL_LOG> 
+	  <LEVEL_LOG replicable="true">INFO</LEVEL_LOG> 
 	  <!--  Nivel de los logs que se enviaran a los appenders [TRACE|DEBUG|INFO|WARN|ERROR|FATAL].   --> 
 	  <DB_LOGGING replicable="true">FALSE</DB_LOGGING> 
 	  <!--  Determina si los log seran enviados a la BD [TRUE|FALSE].   --> 
@@ -73,7 +73,7 @@
 	  <!--  Especifica el nombre cualificado de la clase que implementa la fabrica encargada de crear las conexiónes que usara el canal --> 
 	  <DATABASE.CANAL_DB_DATASOURCE.TYPE_CONECTION replicable="false">DATASOURCE</DATABASE.CANAL_DB_DATASOURCE.TYPE_CONECTION> 
 	  <!--  Especifica la forma en como obtendra una conexión hacia la Base de datos: [JDBC|DATASOURCE] --> 
-	  <DATABASE.CANAL_DB_DATASOURCE.JNDI_NAME replicable="false">jdbc/modulo_integrador</DATABASE.CANAL_DB_DATASOURCE.JNDI_NAME> 
+	  <DATABASE.CANAL_DB_DATASOURCE.JNDI_NAME replicable="false">jdbc/cifras</DATABASE.CANAL_DB_DATASOURCE.JNDI_NAME> 
 	  <!--  Especifica el nombre JNDI del DATASOURCE --> 
 	  <DATABASE.CANAL_DB_DATASOURCE.JDBC_DRIVER replicable="false" /> 
 	  <!--  Define el nombre cualificado del Driver para poder establecer la conexion a la base de datos. --> 
@@ -182,7 +182,7 @@
 	  <!--  Especifica el máximo tiempo de vida del mensaje de petición, enviado mendiante JMS   --> 
 	  <GENERICMQ.CANAL_JMS_MENSAJERIA.IS_REPLY_TO_QUEUE replicable="false">TRUE</GENERICMQ.CANAL_JMS_MENSAJERIA.IS_REPLY_TO_QUEUE> 
 	  <!--  Especifica que se asignara al mensaje de request la queue a la cual debera de responder, en este caso seria al 'Destination response'.   --> 
-  </IsbanDataAccess>  
+  </IsbanDataAccess> 
   <cmpSesionesApi id="8" activo="true">
  	  <!--  Parametros de configuracion especiales para modo distribuido y para el 2ABE - No Modificar --> 
 	  <id replicable="false">8</id> 
@@ -193,7 +193,7 @@
 	  <!--  ID_CANAL replicable  = [Valor default: CANAL_ARQ_BD] Define el Id del canal que se usara para persistir la informacion de las sesiones. --> 
 	  <!--  TIME_OUT_APLICACION  = [Valor default: 300] Define el timeout de la aplicacion que debera de cumplirse antes de que la sesion del usuario expire. Expresado en segundos  [-1 = nunca expira ] --> 
 	  <ID_CANAL replicable="true">CANAL_DB_DATASOURCE</ID_CANAL> 
-	  <TIME_OUT_APLICACION replicable="true">300</TIME_OUT_APLICACION> 
+	  <TIME_OUT_APLICACION replicable="true">900</TIME_OUT_APLICACION> 
   </cmpSesionesApi>
   <cmpLookAndFeel id="9" activo="true">
 	<LookAndFeel replicable="false">default</LookAndFeel> 

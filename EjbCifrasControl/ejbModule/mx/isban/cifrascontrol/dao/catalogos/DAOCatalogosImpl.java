@@ -47,7 +47,6 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
      */
     public DAOCatalogosImpl() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	@Override
@@ -76,7 +75,6 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
 		}
 		finally{
 			cerrarRecursos(filas,sentencia,conexion);
-			ConexionUtil.borrarInstancia();
 		}
 		return productosList;
 	}
@@ -102,10 +100,8 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
 		} catch (SQLException e) {
 			showException(e,Level.ERROR);
 			throw new BusinessException(CODIGO_ERROR_CONSULTA_PRODUCTOS_POR_ID);
-		}
-		finally{
+		}finally{
 			cerrarRecursos(filas,sentencia,conexion);
-			ConexionUtil.borrarInstancia();
 		}
 		return producto;
 	}

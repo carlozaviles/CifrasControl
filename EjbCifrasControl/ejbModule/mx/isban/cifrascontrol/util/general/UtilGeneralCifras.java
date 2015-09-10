@@ -22,7 +22,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import mx.isban.agave.commons.exception.BusinessException;
-import mx.isban.cifrascontrol.bean.reprocesos.BeanPrevioEdc;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import static mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl.*;
@@ -52,7 +51,11 @@ public final class UtilGeneralCifras {
 	 * Cadena que representa la fase ORIGEN
 	 */
 	private static final String ORIGEN = "ORIGEN";
-
+	/**
+	 * Formato de fecha AnioMesDia
+	 */
+	private static final String FORMATO_FECHA_AAAAMMMDD = "yyyyMMdd";
+	
 	/**
 	 * Constructor privado
 	 */
@@ -163,7 +166,7 @@ public final class UtilGeneralCifras {
 			fase = tokens[1];
 		}
 		final String textoFecha = tokens[3].substring(0, 8);
-		final Date fecha = obtenerFecha(textoFecha);
+		final Date fecha = obtenerFecha(textoFecha, FORMATO_FECHA_AAAAMMMDD);
 		final BeanInsidenciaCifras insidencia = new BeanInsidenciaCifras();
 		insidencia.setProducto(producto);
 		insidencia.setFase(fase);
@@ -189,7 +192,7 @@ public final class UtilGeneralCifras {
 		}else {
 			return null;
 		}
-		final Date fecha = obtenerFecha(fechaIncidencias);
+		final Date fecha = obtenerFecha(fechaIncidencias, FORMATO_FECHA_AAAAMMMDD);
 		final String producto = nombreArchivo.replace("ERR", CADENA_VACIA).replaceFirst("[0-9]{8}\\.TXT", CADENA_VACIA);
 		final BeanInsidenciaCifras incidenciaSat = new BeanInsidenciaCifras();
 		incidenciaSat.setFase(SAT);
@@ -200,26 +203,13 @@ public final class UtilGeneralCifras {
 	}
 	
 	/**
-	 * Genera una instancia de tipo BeanPrevioEdc a partir de el nombre de un archivo.
-	 * @param previo Objeto de tipo archivo a partir del cual se extrae la informacion del previo.
-	 * @return BeanPrevioEdc
-	 * @throws ParseException Exception
-	 */
-	public static BeanPrevioEdc fabricaBeanPrevioEdc(File previo) throws ParseException {
-		BeanPrevioEdc beanPrevio = new BeanPrevioEdc();
-		beanPrevio.setFecha(new Date());
-		beanPrevio.setRutaPrevio(previo.toString());
-		return beanPrevio;
-	}
-	
-	/**
 	 * Crea un objeto de tipo fecha a partir de una cadena.
 	 * @param cadenaFecha Cadena en formato de cadena.
 	 * @return Date
 	 * @throws ParseException Exception
 	 */
-	private static Date obtenerFecha(String cadenaFecha) throws ParseException{
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	public static Date obtenerFecha(String cadenaFecha, String formato) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat(formato);
 		return sdf.parse(cadenaFecha);
 	}
 }

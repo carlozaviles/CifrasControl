@@ -30,7 +30,10 @@
   </binding>
   <service name="ReprocesoService">
     <port binding="tns:ReprocesoImplPortBinding" name="ReprocesoImplPort">
-      <soap:address location="http://192.168.16.143:9080/ConsultaDeReprocesos/ReprocesoService"/>
+      <!-- Local -->
+      <!--<soap:address location="http://192.168.16.143:9080/ConsultaDeReprocesos/ReprocesoService"/>-->
+      <!-- Desarrollo -->
+      <soap:address location="http://srvcfdidvlmx01.dev.mx.corp:1444/ConsultaDeReprocesos/ReprocesoService"/>
     </port>
   </service>
 </definitions>

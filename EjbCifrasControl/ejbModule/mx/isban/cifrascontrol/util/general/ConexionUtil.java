@@ -10,15 +10,9 @@
 ***************************************************************/
 package mx.isban.cifrascontrol.util.general;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.ConnectException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -27,12 +21,12 @@ import javax.sql.DataSource;
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.logging.Level;
+import mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl;
 
 /**
  * Clase ConexionUtil
  * 
- * Singleton encargado de obtener la conexion a la base de datos por medio
- * de la lectura de un archivo properties con el valor del jndi
+ * Singleton encargado de obtener la conexion a la base de datos de Catalogos.
  * 
  * @author Everis
  * @version 1.0
@@ -52,29 +46,9 @@ public final class ConexionUtil extends Architech{
 	private static ConexionUtil conexionUtil;
 	
 	/**
-	 * Propiedad de tipo {@link Connection}
+	 * Origen de datos.
 	 */
-	private static Connection conexion;
-	
-	/*
-	 * Propiedades temporales, solo para probar la conexion de los catalogos
-	 */
-	private String url;
-	private String usuario;
-	private String password;
-	private String driver;
-	
-	
-	/**
-	 * Constante que contiene la ruta de la ubicacion del archivo properties, del cual se realiza
-	 * la lectura de la propiedad JNDI
-	 */
-	private static final String PATH_PROPERTIES = "/arquitecturaAgave/DistV1/Configuracion/CatalogoProductos.properties";
-	
-	/**
-	 * Propiedad que contiene el jndi asociado a la conexion datasource
-	 */
-	private String jndi;
+	private DataSource origen;
 	
 	/**
 	 * Metodo encargado de obtener una instancia de tipo {@link ConexionUtil}
@@ -82,7 +56,9 @@ public final class ConexionUtil extends Architech{
 	 * @throws BusinessException En caso de presentarse un error al momento de realizar la consulta del jndi
 	 */
 	public static ConexionUtil getInstance()throws BusinessException{
-		conexionUtil = new ConexionUtil();
+		if(conexionUtil == null){
+			conexionUtil = new ConexionUtil();
+		}
 		return conexionUtil;
 	}
 	
@@ -92,38 +68,21 @@ public final class ConexionUtil extends Architech{
 	 * al momento de leer el archivo de propiedades
 	 */
 	private ConexionUtil()throws BusinessException{
-		establecerJndi();
-	}
-	
-	/**
-	 * Metodo encargado de leer un archivo de tipo properties con
-	 * el valor del JNDI
-	 * @throws ReprocesoException En caso de presentarse un error al momento
-	 * de leer el archivo properties
-	 */
-	private void establecerJndi()throws BusinessException{
-		try {
-			final Properties propiedades = new Properties();
-			final File archivoPropiedades = new File(PATH_PROPERTIES);
-			if(archivoPropiedades.isFile()){
-				final InputStream imputStreamPropiedades = new FileInputStream(archivoPropiedades);
-				propiedades.load(imputStreamPropiedades);
-				jndi = propiedades.getProperty("productos.db.jndi");
-				url = propiedades.getProperty("productos.db.host");
-				usuario = propiedades.getProperty("productos.db.usuario");
-				password = propiedades.getProperty("productos.db.password");
-				driver = propiedades.getProperty("productos.db.driver");
-				this.info("Se obtiene la propiedad "+jndi+" de la ruta "+PATH_PROPERTIES);
-			}else{
-				this.error("No se encuentra el archivo de propiedades para la ruta:"+PATH_PROPERTIES);
-				throw new BusinessException("No se encontro el archivo properties", "No se ha encontrado el archivo properties relacionado al path"+PATH_PROPERTIES);
-			}	
-		} catch (IOException e) {
-			showException(e, Level.ERROR);
-			throw new BusinessException(e.getMessage(), "Error de tipo IOException al "
-					+ "momento de leer el archivo de propiedades");
+		final String nombreOrigenDatos = this.getConfigDeCmpAplicacion("ORIGEN_DATOS");
+		if(nombreOrigenDatos == null){
+			final String mensaje = "No se encontro el nombre del Datasource en el archivo de configuracion"; 
+			this.warn(mensaje);
+			throw new BusinessException(ConstantesCifrasControl.ERROR_CARGA_CONFIG_DS_CATALOGOS, mensaje);
 		}
-		
+		InitialContext ctx = null;
+		try{
+			ctx = new InitialContext();
+			origen = (DataSource)ctx.lookup(nombreOrigenDatos);
+			ctx.close();
+		}catch(NamingException e){
+			showException(e, Level.ERROR);
+			throw new BusinessException(ConstantesCifrasControl.ERROR_DS_LOOKUP, e.getMessage());
+		}
 	}
 	
 	/**
@@ -133,48 +92,29 @@ public final class ConexionUtil extends Architech{
 	 * al momento de crear la conexion
 	 */
 	public Connection getConexion()throws BusinessException{
-		final InitialContext context;
+		Connection conn = null;
 		try {
-			context = new InitialContext();
-			final DataSource dataSource = (DataSource) context.lookup(jndi);
-			conexion = dataSource.getConnection();
-			//Class.forName(driver);
-			//conexion = DriverManager.getConnection(url, usuario, password);
-		} catch (NamingException e) {
-			showException(e, Level.ERROR);
-			throw new BusinessException("Se ha presentado un error de tipo NamingException",e.getMessage());
+			conn = origen.getConnection();
 		} catch (SQLException e) {
 			showException(e, Level.ERROR);
 			throw new BusinessException("Se ha presentado un error de tipo SQLException",e.getMessage());
-		} //catch (ClassNotFoundException e) {
-			//showException(e, Level.ERROR);
-		//}
+		} 
 		
-		return conexion;
-	
-	}
-	
-	/**
-	 * Metodo encargado de cerrar la conexion y establecer el valor null
-	 * para la instancia conexionUtil 
-	 */
-	public static void borrarInstancia(){
-		cerrarConexion();
-		conexionUtil = null;
+		return conn;
 	}
 	
 	/**
 	 * Metodo encargado de cerrar las conexiones del objeto 
 	 * de tipo {@link Connection}
+	 * @param conn Conexion a base de datos que sera cerrada.
 	 */
-	private static void cerrarConexion(){
+	public static void cerrarConexion(Connection conn){
 		try {
-			if(conexion != null){
-				conexion.close();
+			if(conn != null){
+				conn.close();
 			}
 		} catch (SQLException e) {
 			showException(e, Level.ERROR);
 		}
 	}
-
 }

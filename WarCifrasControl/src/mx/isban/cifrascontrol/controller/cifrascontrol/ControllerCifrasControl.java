@@ -30,11 +30,6 @@ import mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl;
 import mx.isban.cifrascontrol.utileria.general.CifrasControlUtil;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 @Controller
 public class ControllerCifrasControl extends Architech {
 
@@ -42,32 +37,29 @@ public class ControllerCifrasControl extends Architech {
 	 * Numero de la clase serializada
 	 */
 	private static final long serialVersionUID = 7336548460682095091L;
-
 	/**
 	 * Constante que contiene el tipo de cifras de control "ORIGEN"
 	 */
 	private static final String ORIGEN = "ORIGEN";
-
 	/**
 	 * Constante que contiene el tipo de cifras de control "CFD"
 	 */
 	private static final String CFD = "CFD";
-
 	/**
 	 * Constante que contiene el tipo de cifras de control "EDC"
 	 */
 	private static final String EDC = "EDC";
-
 	/**
 	 * Constante que contiene el tipo de cifras de control "SAT"
 	 */
 	private static final String SAT = "SAT";
-
 	/**
 	 * Objeto de negocio de tipo {@link BOCifrasControl}
 	 */
 	private BOCifrasControl boCifrasControl;
-
+	/**
+	 * Objeto de negocio que se encarga de consultar los catalogos.
+	 */
 	private BOCatalogos boCatalogo;
 
 	/**

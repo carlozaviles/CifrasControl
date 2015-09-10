@@ -181,7 +181,11 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 		final List<BeanPrevioEdc> listaPrevios = new ArrayList<BeanPrevioEdc>();
 		for(File coincidencia : listaCoincidencias){
 			try{
-				final BeanPrevioEdc previo = UtilGeneralCifras.fabricaBeanPrevioEdc(coincidencia);
+				final BeanPrevioEdc previo = new BeanPrevioEdc();
+				previo.setRutaPrevio(coincidencia.toString());
+				previo.setNumeroCuenta(parametros.getNumeroCuenta());
+				previo.setProducto(parametros.getProducto());
+				previo.setFecha(UtilGeneralCifras.obtenerFecha(parametros.getAnio() + parametros.getMes(), "yyyyMM"));
 				listaPrevios.add(previo);
 			}catch(ParseException e){
 				showException(e, Level.ERROR);

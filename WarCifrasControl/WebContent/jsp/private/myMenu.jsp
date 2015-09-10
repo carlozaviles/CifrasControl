@@ -2,7 +2,7 @@
 	<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-	<%@ page import="mx.isban.agave.configuracion.Configuracion"%>
+	<%@ page import="mx.isban.agave.configuracion.Config"%>
 
 	<script src="${pageContext.servletContext.contextPath}/lf/${LyFBean.lookAndFeel}/js/global.js"           type="text/javascript"></script>
 	<script src="${pageContext.servletContext.contextPath}/lf/${LyFBean.lookAndFeel}/js/menu/dynamicMenu.js" type="text/javascript"></script>
@@ -41,24 +41,27 @@
 	<spring:message code="menu.ItemConsultaAplicacion" 	 			var="consultaAplicacion"/>
 	
 	<spring:message code="menu.menuPrincipal" 						var="menuPrincipal"/>
-	<spring:message code="menu.menuPrincipalReprocesos" 					var="menuPrincipalReprocesos"/>
-	<spring:message code="menu.submenuReprocesosSolicitud" 					var="submenuReprocesosSolicitud"/>
-	<spring:message code="menu.submenuReprocesosConsulta" 					var="submenuReprocesosConsulta"/>
+	<spring:message code="menu.menuPrincipalReprocesos" 			var="menuPrincipalReprocesos"/>
+	<spring:message code="menu.submenuReprocesosSolicitud" 			var="submenuReprocesosSolicitud"/>
+	<spring:message code="menu.submenuReprocesosConsulta" 			var="submenuReprocesosConsulta"/>
+	<spring:message code="menu.submenuConsultaCancelaciones"        var="submenuConsultaCancelaciones"/>
+	<spring:message code="menu.submenuConsultaPrevios"              var="submenuConsultaPrevios"/>
 
-	<spring:message code="menu.menuPrincipalCifras" 					var="menuPrincipalCifras"/>
-	<spring:message code="menu.submenuCifrasConsultaCifras" 				var="submenuCifrasConsultaCifras"/>
+	<spring:message code="menu.menuPrincipalCifras" 				var="menuPrincipalCifras"/>
+	<spring:message code="menu.submenuCifrasConsultaCifras" 		var="submenuCifrasConsultaCifras"/>
+	<spring:message code="menu.submenuIncidencias"                  var="submenuIncidencias"/>
 
-	<spring:message code="menu.menuPrincipalFacturas" 					var="menuPrincipalFacturas"/>
-	<spring:message code="menu.submenuFacturas" 						var="submenuFacturas"/>
-	<spring:message code="menu.submenuNotasCredito" 					var="submenuNotasCredito"/>
+	<spring:message code="menu.menuPrincipalFacturas" 				var="menuPrincipalFacturas"/>
+	<spring:message code="menu.submenuFacturas" 					var="submenuFacturas"/>
+	<spring:message code="menu.submenuNotasCredito" 				var="submenuNotasCredito"/>
 	<spring:message code="menu.submenuDivisas" 						var="submenuDivisas"/>
-	<spring:message code="menu.submenuRecibosDeducibles" 					var="submenuRecibosDeducibles"/>
+	<spring:message code="menu.submenuRecibosDeducibles" 			var="submenuRecibosDeducibles"/>
 	
 	
-	<spring:message code="menu.menuPrincipalAdministracion" 				var="menuPrincipalAdministracion"/>
+	<spring:message code="menu.menuPrincipalAdministracion" 		var="menuPrincipalAdministracion"/>
 	<spring:message code="menu.submenuGrupo" 						var="submenuGrupo"/>
-	<spring:message code="menu.submenuUsuarios" 						var="submenuUsuarios"/>
-	<spring:message code="menu.submenuPantallas" 						var="submenuPantallas"/>
+	<spring:message code="menu.submenuUsuarios" 					var="submenuUsuarios"/>
+	<spring:message code="menu.submenuPantallas" 					var="submenuPantallas"/>
 	<spring:message code="menu.submenuModulo" 						var="submenuModulo"/>
 
 
@@ -84,7 +87,9 @@
 								<c:if test = "${pantalla.nombrePantalla == 'CONSULTA DE REPROCESOS'}">							
 							<li id="consultaReprocesos">      	<a href="../reprocesos/consultaReprocesos.do">    &gt;<span class="subMenuText">${submenuReprocesosConsulta}</span></a></li>
 								</c:if>							
-							</c:forEach>						
+							</c:forEach>
+							<li id="consultaCancelaciones"><a href="../reprocesos/initConsultaCancelaciones.do">&gt;<span class="subMenuText">${submenuConsultaCancelaciones}</span></a></li>
+							<li id="consultaPrevios"><a href="../reprocesos/initConsultaPrevios.do">&gt;<span class="subMenuText">${submenuConsultaPrevios}</span></a></li>						
 						</ul>
 					</li>	
 						</c:if>
@@ -96,7 +101,8 @@
 								<c:if test = "${pantalla.nombrePantalla == 'CONSULTAR CIFRAS DE CONTROL'}">
 							<li id="consultaCifras">      		<a href="../cifrascontrol/cifrasInit.do">    &gt;<span class="subMenuText">${submenuCifrasConsultaCifras}</span></a></li>
 								</c:if>
-							</c:forEach>						
+							</c:forEach>
+							<li id="consultaIncidencias"><a href="../cifrascontrol/initConsultaIncidencias.do">&gt;<span class="subMenuText">${submenuIncidencias}</span></a></li>						
 						</ul>
 					</li>	
 					</c:if>

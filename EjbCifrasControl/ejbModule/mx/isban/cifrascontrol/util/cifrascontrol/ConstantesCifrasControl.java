@@ -58,4 +58,12 @@ public final class ConstantesCifrasControl {
 	 * archivos en la consulta de incidencia de cifras de control.
 	 */
 	public static final String ERROR_PROCESA_ARCHIVOS_CONSULTA_INCIDENCIAS = "10002";
+	/**
+	 * Codigo de error lanzado cuando no se encuentra el nombre del DataSource de Catalogos.
+	 */
+	public static final String ERROR_CARGA_CONFIG_DS_CATALOGOS = "10003";
+	/**
+	 * Codigo para indicar que ocurrio un error al cargar el DataSource de Catalogos.
+	 */
+	public static final String ERROR_DS_LOOKUP = "10004";
 }

@@ -8,8 +8,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 
@@ -20,14 +24,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-//
-import com.ibm.afp2pdf.AFP2Pdf;
-import com.ibm.afp2pdf.AFP2PdfException;
+//import com.ibm.afp2pdf.AFP2Pdf;
+//import com.ibm.afp2pdf.AFP2PdfException;
 
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
+import mx.isban.cifrascontrol.bean.reprocesos.BeanCancelacion;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaPrevios;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaReproceso;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanPrevioEdc;
@@ -223,7 +228,45 @@ public class ControllerConsultaReprocesos extends Architech {
 	     }*/
 	}
 		 
-	     
+	/**
+	 * Muestra el formulario de consulta de cancelaciones.
+	 * @param modelo Modelo Spring MVC
+	 * @return ModelAndView
+	 */
+	@RequestMapping("initConsultaCancelaciones.do")
+	public ModelAndView muestraFormularioCancelaciones(Map<String, Object> modelo){
+		this.info("Se muestra al usuario el formulario para la consulta de cancelaciones.");
+		modelo.put("listaMeses", GeneradorCatalogos.obtenerListaMeses(3));
+		return new ModelAndView("formularioCancelaciones", modelo);
+	}
+	
+	/**
+	 * Realiza la consulta de cancelaciones y muestra los resultados.
+	 * @param mes Parametro utilizado como filtro para la consulta de cancelaciones.
+	 * @param modelo Modelo Spring MVC
+	 * @return ModelAndView
+	 * @throws BusinessException Exception
+	 */
+	@RequestMapping("consultaCancelaciones.do")
+	public ModelAndView llamaConsultaCancelaciones(HttpServletRequest request, @RequestParam("mes")String mes, Map<String, Object> modelo) 
+			throws BusinessException, ParseException{
+		this.info("Se ejecutara la consulta de cancelaciones para el siguiente mes: " + mes);
+		List<BeanCancelacion> listaCancelaciones = reprocesos.ejecutaConsultaCancelaciones(mes, this.getArchitechBean());
+		this.info("Se encontro el siguiente numero de coincidencias: " + listaCancelaciones.size());
+		if(listaCancelaciones.size() > 0){
+			SimpleDateFormat sdf = new SimpleDateFormat();
+			sdf.applyPattern("yyyyMM");
+			Date fecha = sdf.parse(mes);
+			sdf = new SimpleDateFormat("MMMM yyyy", new Locale("es-MX"));
+			final String cadenaFecha = sdf.format(fecha);
+			modelo.put("fecha", cadenaFecha);
+			modelo.put("listaCancelaciones", listaCancelaciones);
+			return new ModelAndView("consultaCancelaciones", modelo);
+		}else{
+			modelo.put("sinResultados", true);
+			return muestraFormularioCancelaciones(modelo);
+		}
+	}     
 	   
 	/**
 	 * Manejador de errores de este controller.
