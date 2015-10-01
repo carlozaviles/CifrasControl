@@ -8,16 +8,24 @@
     <part element="tns:consultarReprocesosResponse" name="parameters">
     </part>
   </message>
+  <message name="consultaCancelacion">
+    <part element="tns:consultaCancelacion" name="parameters">
+    </part>
+  </message>
+  <message name="consultaCancelacionResponse">
+    <part element="tns:consultaCancelacionResponse" name="parameters">
+    </part>
+  </message>
+  <message name="solicitarReproceso">
+    <part element="tns:solicitarReproceso" name="parameters">
+    </part>
+  </message>
   <message name="consultarReprocesos">
     <part element="tns:consultarReprocesos" name="parameters">
     </part>
   </message>
   <message name="ReprocesoException">
     <part element="tns:ReprocesoException" name="fault">
-    </part>
-  </message>
-  <message name="solicitarReproceso">
-    <part element="tns:solicitarReproceso" name="parameters">
     </part>
   </message>
   <message name="solicitarReprocesoResponse">
@@ -39,6 +47,14 @@
       <output message="tns:consultarReprocesosResponse" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultarReprocesosResponse">
     </output>
       <fault message="tns:ReprocesoException" name="ReprocesoException" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultarReprocesos/Fault/ReprocesoException">
+    </fault>
+    </operation>
+    <operation name="consultaCancelacion">
+      <input message="tns:consultaCancelacion" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultaCancelacionRequest">
+    </input>
+      <output message="tns:consultaCancelacionResponse" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultaCancelacionResponse">
+    </output>
+      <fault message="tns:ReprocesoException" name="ReprocesoException" ns1:Action="http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultaCancelacion/Fault/ReprocesoException">
     </fault>
     </operation>
   </portType>

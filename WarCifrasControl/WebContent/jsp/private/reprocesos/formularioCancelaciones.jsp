@@ -11,6 +11,7 @@
 <spring:message code="reprocesos.cancelaciones.tituloFormulario" var="tituloFormulario"/>
 <spring:message code="reprocesos.cancelaciones.tituloPagina"     var="tituloPagina"/>
 <spring:message code="reprocesos.cancelaciones.mes"              var="mes"/>
+<spring:message code="reprocesos.cancelaciones.anio"			 var="anio"/>
 <spring:message code="reprocesos.cancelaciones.linkAceptar"      var="linkAceptar"/>
 <spring:message code="reprocesos.cancelaciones.noCoincidencias"  var="noCoincidencias"/>
 <spring:message code="general.selectVacio"                       var="selectVacio"/>
@@ -26,7 +27,7 @@
 				<table>
 					<tr>
 						<td class="odd">${mes}:</td>
-						<td class="odd">
+						<td>
 							<select name="mes" id="mes">
 								<option value="NONE" selected>${selectVacio}</option>
 								<c:forEach var="periodo" items="${listaMeses}">
@@ -41,10 +42,10 @@
 	</div>
 </div>
 
-<c:if test="${noCoincidencias}">
+<c:if test="${noCoincidenciasCancel}">
 	<script type="text/javascript">
-		jInfo('${noResultados}', '', 'Info', '');
+	jInfo('', '${noCoincidencias}', '', '');
 	</script>
-</c:if>
 
+</c:if>
 <jsp:include page="../myFooter.jsp" flush="true"/>

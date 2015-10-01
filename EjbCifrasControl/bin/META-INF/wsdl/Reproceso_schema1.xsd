@@ -2,6 +2,10 @@
 
   <xs:element name="ReprocesoException" type="tns:ReprocesoException"/>
 
+  <xs:element name="consultaCancelacion" type="tns:consultaCancelacion"/>
+
+  <xs:element name="consultaCancelacionResponse" type="tns:consultaCancelacionResponse"/>
+
   <xs:element name="consultarReprocesos" type="tns:consultarReprocesos"/>
 
   <xs:element name="consultarReprocesosResponse" type="tns:consultarReprocesosResponse"/>
@@ -12,8 +16,9 @@
 
   <xs:complexType name="consultarReprocesos">
     <xs:sequence>
+      <xs:element minOccurs="0" name="noCuenta" type="xs:string"/>
       <xs:element minOccurs="0" name="periodo" type="xs:string"/>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="producto" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -32,7 +37,6 @@
       <xs:element minOccurs="0" name="estatus" type="xs:string"/>
       <xs:element minOccurs="0" name="fechaFin" type="xs:string"/>
       <xs:element minOccurs="0" name="fechaSolicitud" type="xs:string"/>
-      <xs:element minOccurs="0" name="folioCancelacion" type="xs:string"/>
       <xs:element minOccurs="0" name="folioInicial" type="xs:string"/>
       <xs:element minOccurs="0" name="folioNuevo" type="xs:string"/>
       <xs:element minOccurs="0" name="materno" type="xs:string"/>
@@ -88,6 +92,32 @@
   <xs:complexType name="solicitarReprocesoResponse">
     <xs:sequence>
       <xs:element name="filasAfectadas" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="consultaCancelacion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="periodo" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="consultaCancelacionResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="detalleCancelaciones" type="tns:cancelacionDTO"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cancelacionDTO">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="aplicativo" type="xs:string"/>
+      <xs:element minOccurs="0" name="fechaCancelacion" type="xs:string"/>
+      <xs:element minOccurs="0" name="folioSAT" type="xs:string"/>
+      <xs:element minOccurs="0" name="idCancelacion" type="xs:string"/>
+      <xs:element minOccurs="0" name="importeComisInter" type="xs:string"/>
+      <xs:element minOccurs="0" name="importeIva" type="xs:string"/>
+      <xs:element minOccurs="0" name="importeRetencion" type="xs:string"/>
+      <xs:element minOccurs="0" name="numeroCuenta" type="xs:string"/>
+      <xs:element minOccurs="0" name="periodo" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

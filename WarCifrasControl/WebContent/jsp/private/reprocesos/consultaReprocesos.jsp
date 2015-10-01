@@ -17,6 +17,9 @@
 <spring:message code="reprocesos.anio" var="etiquetaAnio"/>
 <spring:message code="reprocesos.consulta" var="linkConsultaReproceso"/>
 <spring:message code="general.selectVacio" var="seleccione"/>
+<spring:message code="reprocesos.nocuenta" var= "etiquetanoCuenta"/>
+<spring:message code="reprocesos.producto" var="etiquetaProducto"/>
+<spring:message code="reprocesos.prod" var="etiquetaSelectProducto"/>
 
 <div class="pageTitleContainer">
 	<span class="pageTitle">${tituloConsultaReprocesos}</span>
@@ -27,6 +30,10 @@
 		<div class="titleFormularioB">${tituloFormularioConsultaReproceso}</div>
 		<form:form action="realizaConsultaReproceso.do" method="POST" modelAttribute="consultaReprocesoForm">
 			<table>
+				<tr>
+					<td class="odd">${etiquetanoCuenta}:</td>
+					<td colspan="3"> <form:input path="numeroCuenta" name="numeroCuenta" id="numeroCuenta" maxlength="11" onblur="return permiteUpperLista(3,this)" /></td>
+				</tr>
 				<tr>
 					<td class="odd">${etiquetaPeriodo}:</td>
 					<td>${etiquetaMes}</td>
@@ -43,6 +50,16 @@
 							<form:options items="${catalogoAnios}"/>
 						</form:select>
 					</td>
+					<tr>
+					<td class="odd">${etiquetaProducto}:</td>
+					<td colspan="3">
+							<form:select path="productoSeleccionado">
+						<form:option value="NONE" selected="selected">--Seleccione--</form:option>
+						<c:forEach var="producto" items="${productosList}">					
+							<form:option value="${producto.descripcion}">${producto.descripcion}</form:option>
+						</c:forEach>
+				</form:select>	
+				</td>
 				</tr>
 			</table>
 		</form:form>

@@ -12,8 +12,6 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 import java.util.List;
-import javax.xml.ws.Action;
-import javax.xml.ws.FaultAction;
 
 public class ReprocesoImplPortProxy{
 
@@ -122,8 +120,12 @@ public class ReprocesoImplPortProxy{
         return _getDescriptor().getProxy().solicitarReproceso(solicitudReproceso);
     }
 
-    public List<ReprocesoDTO> consultarReprocesos(String periodo, List<String> arg1) throws ReprocesoException_Exception {
-        return _getDescriptor().getProxy().consultarReprocesos(periodo,arg1);
+    public List<ReprocesoDTO> consultarReprocesos(String noCuenta, String periodo, String producto) throws ReprocesoException_Exception {
+        return _getDescriptor().getProxy().consultarReprocesos(noCuenta,periodo,producto);
+    }
+
+    public List<CancelacionDTO> consultaCancelacion(String periodo) throws ReprocesoException_Exception {
+        return _getDescriptor().getProxy().consultaCancelacion(periodo);
     }
 
 }

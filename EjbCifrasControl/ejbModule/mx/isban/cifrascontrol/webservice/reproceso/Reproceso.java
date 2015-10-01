@@ -45,7 +45,8 @@ public interface Reproceso {
 
     /**
      * 
-     * @param arg1
+     * @param producto
+     * @param noCuenta
      * @param periodo
      * @return
      *     returns java.util.List<mx.isban.cifrascontrol.webservice.reproceso.ReprocesoDTO>
@@ -59,10 +60,32 @@ public interface Reproceso {
         @FaultAction(className = ReprocesoException_Exception.class, value = "http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultarReprocesos/Fault/ReprocesoException")
     })
     public List<ReprocesoDTO> consultarReprocesos(
+        @WebParam(name = "noCuenta", targetNamespace = "")
+        String noCuenta,
         @WebParam(name = "periodo", targetNamespace = "")
         String periodo,
-        @WebParam(name = "arg1", targetNamespace = "")
-        List<String> arg1)
+        @WebParam(name = "producto", targetNamespace = "")
+        String producto)
+        throws ReprocesoException_Exception
+    ;
+
+    /**
+     * 
+     * @param periodo
+     * @return
+     *     returns java.util.List<mx.isban.cifrascontrol.webservice.reproceso.CancelacionDTO>
+     * @throws ReprocesoException_Exception
+     */
+    @WebMethod
+    @WebResult(name = "detalleCancelaciones", targetNamespace = "")
+    @RequestWrapper(localName = "consultaCancelacion", targetNamespace = "http://sei.reproceso.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.reproceso.ConsultaCancelacion")
+    @ResponseWrapper(localName = "consultaCancelacionResponse", targetNamespace = "http://sei.reproceso.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.reproceso.ConsultaCancelacionResponse")
+    @Action(input = "http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultaCancelacionRequest", output = "http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultaCancelacionResponse", fault = {
+        @FaultAction(className = ReprocesoException_Exception.class, value = "http://sei.reproceso.modulointegrador.isban.mx/Reproceso/consultaCancelacion/Fault/ReprocesoException")
+    })
+    public List<CancelacionDTO> consultaCancelacion(
+        @WebParam(name = "periodo", targetNamespace = "")
+        String periodo)
         throws ReprocesoException_Exception
     ;
 

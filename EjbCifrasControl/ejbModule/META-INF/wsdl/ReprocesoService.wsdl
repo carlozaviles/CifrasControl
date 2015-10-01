@@ -27,13 +27,25 @@
         <soap:fault name="ReprocesoException" use="literal"/>
       </fault>
     </operation>
+    <operation name="consultaCancelacion">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="ReprocesoException">
+        <soap:fault name="ReprocesoException" use="literal"/>
+      </fault>
+    </operation>
   </binding>
   <service name="ReprocesoService">
     <port binding="tns:ReprocesoImplPortBinding" name="ReprocesoImplPort">
-      <!-- Local -->
-      <!--<soap:address location="http://192.168.16.143:9080/ConsultaDeReprocesos/ReprocesoService"/>-->
+      <!-- Local -->	
+      <soap:address location="http://localhost:9080/ConsultaDeReprocesos/ReprocesoService"/>
       <!-- Desarrollo -->
-      <soap:address location="http://srvcfdidvlmx01.dev.mx.corp:1444/ConsultaDeReprocesos/ReprocesoService"/>
+      <!-- <soap:address location="https://srvcfdidvlmx01.dev.mx.corp:1444/ConsultaDeReprocesos/ReprocesoService"/> -->
     </port>
   </service>
 </definitions>

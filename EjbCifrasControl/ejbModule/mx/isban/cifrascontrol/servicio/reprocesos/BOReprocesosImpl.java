@@ -29,6 +29,7 @@ import mx.isban.cifrascontrol.bean.reprocesos.BeanRegistroReproceso;
 import mx.isban.cifrascontrol.dao.reprocesos.DAOReprocesos;
 import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
 import mx.isban.cifrascontrol.util.reproceso.ConstantesReprocesos;
+import mx.isban.cifrascontrol.webservice.reproceso.CancelacionDTO;
 import mx.isban.cifrascontrol.webservice.reproceso.Reproceso;
 import mx.isban.cifrascontrol.webservice.reproceso.ReprocesoDTO;
 import mx.isban.cifrascontrol.webservice.reproceso.ReprocesoException_Exception;
@@ -126,13 +127,15 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 		final ReprocesoService rs = new ReprocesoService();
 		final Reproceso reprocesoProxy = rs.getReprocesoImplPort();
 		final StringBuilder periodo = new StringBuilder();
+		final StringBuilder noCuenta = new StringBuilder();
+		noCuenta.append(parametros.getNumeroCuenta());
 		periodo.append(parametros.getAnio()).append("-").append(parametros.getMes());
 		List<BeanRegistroReproceso> listaReprocesos = null;
 		try{
 			final List<String> productos = UtilGeneralCifras.obtenerNombresProductos(parametros.getProductos());
 			List<ReprocesoDTO> resultadoConsulta = null;
 			if(!productos.isEmpty()){
-				resultadoConsulta = reprocesoProxy.consultarReprocesos(periodo.toString(),productos);
+				resultadoConsulta = reprocesoProxy.consultarReprocesos(noCuenta.toString(),periodo.toString(),parametros.getProductoSeleccionado());
 			}
 			if(resultadoConsulta != null && resultadoConsulta.size() > 0){
 				this.info("Cantidad de reprocesos encontrada: " + resultadoConsulta.size());
@@ -143,7 +146,7 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 					listaReprocesos.add(reprocesoGenerado);
 				}
 			}else{
-				this.info("No se encontraron reprocesos para el periodo: " + periodo.toString());
+				this.info("No se encontraron reprocesos para el periodo: " + periodo.toString() + noCuenta.toString());
 			}
 		}catch(ReprocesoException_Exception e){
 			showException(e, Level.ERROR);
@@ -202,29 +205,39 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 	@Override
 	public List<BeanCancelacion> ejecutaConsultaCancelaciones(String periodo, ArchitechSessionBean sessionBean) 
 			throws BusinessException {
-		BeanCancelacion bean1 = new BeanCancelacion();
-		bean1.setNumeroCuenta("12398473921");
-		bean1.setComicionInteres(".15");
-		bean1.setFolioSat("83832932392");
-		bean1.setIva("15");
-		bean1.setPeriodo("2015-08");
-		bean1.setRetenciones("Retenciones");
-		bean1.setAplicativo("Aplicativo");
-		bean1.setFechaCancelacion("2015-08-31");
+		this.info("Se ejecutara la consulta de Cancelacion con el siguiente parametro AQUI: " + periodo);
+		final ReprocesoService rps = new ReprocesoService();
+		final Reproceso reprocesoProxy = rps.getReprocesoImplPort();
 		
-		BeanCancelacion bean2 = new BeanCancelacion();
-		bean2.setNumeroCuenta("09876543210");
-		bean2.setComicionInteres(".15");
-		bean2.setFolioSat("83832932392");
-		bean2.setIva("15");
-		bean2.setPeriodo("2015-08");
-		bean2.setRetenciones("Retenciones");
-		bean1.setAplicativo("OPICS");
-		bean1.setFechaCancelacion("2015-08-31");
-		
-		List<BeanCancelacion> cancelaciones = new ArrayList<BeanCancelacion>();
-		cancelaciones.add(bean1);
-		cancelaciones.add(bean2);
-		return cancelaciones;
+		List<BeanCancelacion> listaCancelaciones = new ArrayList<BeanCancelacion>();
+		try{
+			final String fechasCancel = UtilGeneralCifras.obtenerFechas(periodo);
+			List<CancelacionDTO> resultConsulta = null;
+			if(!fechasCancel.isEmpty()){
+				resultConsulta = reprocesoProxy.consultaCancelacion(fechasCancel);
+			}
+			
+			if(resultConsulta != null && resultConsulta.size()>0){
+				this.info("Cantidad de cancelaciones encontradas: " + resultConsulta.size());
+				for(CancelacionDTO repro : resultConsulta){
+					BeanCancelacion reproGenerado = new BeanCancelacion();
+					BeanUtils.copyProperties(reproGenerado, repro);
+					listaCancelaciones.add(reproGenerado);
+				}
+			}else {
+				this.info("No se encontro cancelacion para el periodo seleccionado :" + periodo);
+			}
+		}catch(ReprocesoException_Exception e){
+			showException(e, Level.ERROR);
+			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_CONSULTA_REPROCESOS);
+		}catch(IllegalAccessException e){
+			showException(e, Level.ERROR);
+			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_GENERA_SOLICITUD_REPROCESO);
+		}catch(InvocationTargetException e){
+			showException(e, Level.ERROR);
+			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_GENERA_SOLICITUD_REPROCESO);
+		}
+
+		return listaCancelaciones;
 	}
 }

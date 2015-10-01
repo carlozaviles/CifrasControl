@@ -28,25 +28,32 @@ public class BeanCancelacion implements Serializable {
 	 */
 	private String periodo;
 	/**
+	 * Anio para la busqueda de Cancelaciones
+	 */
+	private String anio;
+	
+
+	/**
 	 * Fecha cancelacion.
 	 */
 	private String fechaCancelacion;
 	/**
 	 * Folio SAT.
 	 */
-	private String folioSat;
+	private String folioSAT;
 	/**
 	 * Comiciones e Intereses.
 	 */
-	private String comicionInteres;
+	private String importeComisInter;
 	/**
 	 * IVA.
 	 */
-	private String iva;
+	private String importeIva;
+	
 	/**
 	 * Retenciones.
 	 */
-	private String retenciones;
+	private String importeRetencion;
 	
 	/**
 	 * @return the numeroCuenta
@@ -107,56 +114,53 @@ public class BeanCancelacion implements Serializable {
 	/**
 	 * @return the folioSat
 	 */
-	public String getFolioSat() {
-		return folioSat;
+	public String getFolioSAT() {
+		return folioSAT;
 	}
 	
 	/**
 	 * @param folioSat the folioSat to set
 	 */
-	public void setFolioSat(String folioSat) {
-		this.folioSat = folioSat;
+	public void setFolioSAT(String folioSAT) {
+		this.folioSAT = folioSAT;
 	}
 	
 	/**
 	 * @return the comicionInteres
 	 */
-	public String getComicionInteres() {
-		return comicionInteres;
+	public String getimporteComisInter() {
+		return importeComisInter;
 	}
 	
 	/**
 	 * @param comicionInteres the comicionInteres to set
 	 */
-	public void setComicionInteres(String comicionInteres) {
-		this.comicionInteres = comicionInteres;
+	public void setimporteComisInter(String importeComisInter) {
+		this.importeComisInter = importeComisInter;
 	}
 	
-	/**
-	 * @return the iva
-	 */
-	public String getIva() {
-		return iva;
+	public String getImporteIva() {
+		return importeIva;
 	}
-	
-	/**
-	 * @param iva the iva to set
-	 */
-	public void setIva(String iva) {
-		this.iva = iva;
+
+	public void setImporteIva(String importeIva) {
+		this.importeIva = importeIva;
 	}
-	
-	/**
-	 * @return the retenciones
-	 */
-	public String getRetenciones() {
-		return retenciones;
+	public String getImporteRetencion() {
+		return importeRetencion;
 	}
-	
+
+	public void setImporteRetencion(String importeRetencion) {
+		this.importeRetencion = importeRetencion;
+	}
 	/**
-	 * @param retenciones the retenciones to set
+	 * @param anio
 	 */
-	public void setRetenciones(String retenciones) {
-		this.retenciones = retenciones;
+	public String getAnio() {
+		return anio;
+	}
+
+	public void setAnio(String anio) {
+		this.anio = anio;
 	}
 }

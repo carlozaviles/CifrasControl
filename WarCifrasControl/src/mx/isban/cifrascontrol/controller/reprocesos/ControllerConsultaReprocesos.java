@@ -79,13 +79,22 @@ public class ControllerConsultaReprocesos extends Architech {
 	 * @return ModelAndView
 	 */
 	@RequestMapping("consultaReprocesos.do")
-	public ModelAndView muestraMenuConsulta(HttpServletRequest req, HttpServletResponse res){
+	public ModelAndView muestraMenuConsulta(HttpServletRequest req, HttpServletResponse res,
+			final HttpServletResponse response) throws BusinessException {
+		{
 		this.info("Se redirecciona al usuario hacia la pagina " + PAGINA_CONSULTA_REPROCESOS);
 		final Map<String, Object> modelo = new HashMap<String, Object>();
+
+		List<BeanProducto> listaProductos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), 
+				getArchitechBean().getUsuario(), "EDC");
+		modelo.put("productosList", listaProductos);
 		modelo.put("catalogoMes", GeneradorCatalogos.obtenerListaMeses());
 		modelo.put("catalogoAnios", GeneradorCatalogos.obtenerListaAnios(5,	0));
 		modelo.put(FORMA_CONSULTA_REPROCESOS, new BeanParamsConsultaReproceso());
+	//everis
+		
 		return new ModelAndView(PAGINA_CONSULTA_REPROCESOS, modelo);
+	}
 	}
 	
 	/**
@@ -100,6 +109,7 @@ public class ControllerConsultaReprocesos extends Architech {
 	public ModelAndView ejecutaConsultaReproceso(HttpServletRequest req, HttpServletResponse res, 
 			@ModelAttribute(FORMA_CONSULTA_REPROCESOS) BeanParamsConsultaReproceso parametrosConsulta) throws BusinessException{
 		this.info("Realizando la busqueda de productos que el usuario puede consultar");
+	
 		List<BeanProducto> listaProductos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "EDC");
 		parametrosConsulta.setProductos(listaProductos);
 		this.info("Se realizara la peticion de consulta de reprocesos con los siguientes parametros: " + parametrosConsulta.toString());
@@ -146,7 +156,7 @@ public class ControllerConsultaReprocesos extends Architech {
 			Map<String, Object> modelo) throws BusinessException {
 		this.info("Se realiza la peticion para la consulta de Previos.");
 		final BeanParamsConsultaPrevios filtros = new BeanParamsConsultaPrevios();
-		filtros.setNumeroCuenta(request.getParameter("numeroCuenta"));
+		filtros.setNumeroCuenta(request.getParameter("noCuenta"));
 		filtros.setProducto(request.getParameter("aplicativo"));
 		filtros.setMes(request.getParameter("mes"));
 		filtros.setAnio(request.getParameter("anio"));
@@ -229,6 +239,7 @@ public class ControllerConsultaReprocesos extends Architech {
 	}
 		 
 	/**
+	 * EverisCancelaciones
 	 * Muestra el formulario de consulta de cancelaciones.
 	 * @param modelo Modelo Spring MVC
 	 * @return ModelAndView
@@ -237,6 +248,7 @@ public class ControllerConsultaReprocesos extends Architech {
 	public ModelAndView muestraFormularioCancelaciones(Map<String, Object> modelo){
 		this.info("Se muestra al usuario el formulario para la consulta de cancelaciones.");
 		modelo.put("listaMeses", GeneradorCatalogos.obtenerListaMeses(3));
+		System.out.print(modelo);
 		return new ModelAndView("formularioCancelaciones", modelo);
 	}
 	
@@ -251,6 +263,9 @@ public class ControllerConsultaReprocesos extends Architech {
 	public ModelAndView llamaConsultaCancelaciones(HttpServletRequest request, @RequestParam("mes")String mes, Map<String, Object> modelo) 
 			throws BusinessException, ParseException{
 		this.info("Se ejecutara la consulta de cancelaciones para el siguiente mes: " + mes);
+		String anio = mes.substring(0, 4);
+		this.info("El año es: " + anio);
+	
 		List<BeanCancelacion> listaCancelaciones = reprocesos.ejecutaConsultaCancelaciones(mes, this.getArchitechBean());
 		this.info("Se encontro el siguiente numero de coincidencias: " + listaCancelaciones.size());
 		if(listaCancelaciones.size() > 0){
@@ -262,13 +277,14 @@ public class ControllerConsultaReprocesos extends Architech {
 			modelo.put("fecha", cadenaFecha);
 			modelo.put("listaCancelaciones", listaCancelaciones);
 			return new ModelAndView("consultaCancelaciones", modelo);
+			
 		}else{
-			modelo.put("sinResultados", true);
+			modelo.put("noCoincidenciasCancel", true);
 			return muestraFormularioCancelaciones(modelo);
 		}
 	}     
 	   
-	/**
+	/**muestraFormularioCancelaciones
 	 * Manejador de errores de este controller.
 	 * @param req Request
 	 * @param res Response

@@ -212,4 +212,10 @@ public final class UtilGeneralCifras {
 		SimpleDateFormat sdf = new SimpleDateFormat(formato);
 		return sdf.parse(cadenaFecha);
 	}
+
+	public static String obtenerFechas(String periodo) {
+		final StringBuilder periodoConcatenado = new StringBuilder(periodo);
+		periodoConcatenado.insert(4, "-");
+		return periodoConcatenado.toString();
+	}
 }

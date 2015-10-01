@@ -49,10 +49,10 @@
 		<display:column property="aplicativo" title="${aplicativo}" sortable="true" headerClass="text_centro"/>
 		<display:column property="periodo" title="${periodo}" sortable="true" headerClass="text_centro"/>
 		<display:column property="fechaCancelacion" title="${fechaCancelacion}" sortable="true" headerClass="text_centro"/>
-		<display:column property="folioSat" title="${folioSat}" sortable="true" headerClass="text_centro"/>
-		<display:column property="comicionInteres" title="${comicionesIntereses}" sortable="true" headerClass="text_centro"/>
-		<display:column property="iva" title="${iva}" sortable="true" headerClass="text_centro"/>
-		<display:column property="retenciones" title="${retenciones}" sortable="true" headerClass="text_centro"/>
+		<display:column property="folioSAT" title="${folioSat}" sortable="true" headerClass="text_centro"/>
+		<display:column property="importeComisInter" title="${comicionesIntereses}" sortable="true" headerClass="text_centro"/>
+		<display:column property="importeIva" title="${iva}" sortable="true" headerClass="text_centro"/>
+		<display:column property="importeRetencion" title="${retenciones}" sortable="true" headerClass="text_centro"/>
 	</display:table>
 </div>
 
