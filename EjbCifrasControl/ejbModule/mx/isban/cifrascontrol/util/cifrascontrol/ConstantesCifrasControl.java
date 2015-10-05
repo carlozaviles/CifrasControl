@@ -45,6 +45,8 @@ public final class ConstantesCifrasControl {
 	
 	public static final String ERROR_CONSULTAR_CIFRAS_CONTROL = "CIFRAS-01";
 	
+	public static final String ERROR_CONSULTAR_CIFRAS_CONTROL_CONFIG = "CIFRAS-03";
+	
 	public static final String ERROR_CONSULTAR_CIFRAS_CONTROL_DETALLE = "CIFRAS-02";
 	
 	

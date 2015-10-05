@@ -3,6 +3,7 @@ package mx.isban.cifrascontrol.servicio.cifrascontrol;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -18,9 +19,7 @@ import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.logging.Level;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
-
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
-
 import mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl;
 import mx.isban.cifrascontrol.util.general.OrdenadorInsidenciaCifras;
 import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
@@ -77,26 +76,35 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 	public int consultarCifrasControl(final String aplicativo,
 			final String periodo, final ArchitechSessionBean sessionBean)
 			throws BusinessException {
+		this.cifrasControlList.clear();
 		this.info("Creando la solicitud para consultar las cifras de control");
-		final SolicitudCifrasControlDTO solicitud = new SolicitudCifrasControlDTO();
-		solicitud.setAplicativo(aplicativo);
-		solicitud.setPeriodo(periodo);
-		try {
-			this.info("Consultando las cifras de control con el aplicativo:"
-					+ aplicativo + " y el periodo:" + periodo);
-			final List<CifrasControlDTO> cifrasControlDTO = cifrasControl
-					.consultarCifrasControl(solicitud);
-			final List<BeanCifrasControl> cifrasControlList = UtilGeneralCifras
-					.establecerRegistros(cifrasControlDTO,
-							CifrasControlDTO.class, BeanCifrasControl.class);
-			this.cifrasControlList = cifrasControlList;
-			this.info("Consulta de cifras de control realizada con exito");
-		} catch (CifrasControlException_Exception e) {
-			this.error("Ocurrio un error al momento de consultar el web service"
-					+ e.getFaultInfo());
-			throw new BusinessException(
-					ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL);
+		
+		this.info("Consultando las cifras de control con el aplicativo:"
+				+ aplicativo + " y el periodo:" + periodo);
+		
+		List<String> codigos = codigosAplicacion(aplicativo);
+		
+		for(String codigoAplicativo : codigos){
+			final SolicitudCifrasControlDTO solicitud = new SolicitudCifrasControlDTO();
+			solicitud.setAplicativo(codigoAplicativo);
+			solicitud.setPeriodo(periodo);
+			try {
+				this.info("Consultando las cifras de control con el codigo de aplicativo:"+ codigoAplicativo);
+				final List<CifrasControlDTO> cifrasControlDTO = cifrasControl
+						.consultarCifrasControl(solicitud);
+				final List<BeanCifrasControl> cifrasControlList = UtilGeneralCifras
+						.establecerRegistros(cifrasControlDTO,
+								CifrasControlDTO.class, BeanCifrasControl.class);
+				this.cifrasControlList.addAll(cifrasControlList);
+				this.info("Consulta de cifras de control realizada con exito para codigo: " + codigoAplicativo);
+			} catch (CifrasControlException_Exception e) {
+				this.error("Ocurrio un error al momento de consultar el web service"
+						+ e.getFaultInfo());
+				throw new BusinessException(
+						ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL);
+			}
 		}
+		
 		return this.cifrasControlList.size();
 	}
 
@@ -260,4 +268,29 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 		this.cifrasControlList = cifrasControlList;
 	}
 
+	/**
+	 * Dado el nombre de un aplicativo, recupera su lista de codigos asociados. En caso de no encontrar codigos retorna una lista vacia.
+	 * @param nombreAplicacion Nombre de la aplicacion
+	 * @return List<String>
+	 * @throws BusinessException e
+	 */
+	private List<String> codigosAplicacion(String nombreAplicacion) throws BusinessException {
+		this.info("El nombre del producto que sera consultado es: " + nombreAplicacion);
+		String cantidadAplicativos = this.getConfigDeCmpAplicacion("NUMERO_PARES_PRODUCTO_CODIGO");
+		int numeroAplicativos = 0;
+		if(cantidadAplicativos != null){
+			numeroAplicativos = Integer.parseInt(cantidadAplicativos);
+		}else{
+			throw new BusinessException(ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL_CONFIG);
+		}
+		for(int i = 1; i <= numeroAplicativos; i++){
+			String aplicativoConfig = this.getConfigDeCmpAplicacion("NOMBRE_PRODUCTO" + i);
+			if(nombreAplicacion.equals(aplicativoConfig)){
+				String tramaCodigos = this.getConfigDeCmpAplicacion("CODIGO_PRODUCTO" + i);
+				String[] tokens = tramaCodigos.split(",");
+				return Arrays.asList(tokens);
+			}
+		}
+		return new ArrayList<String>();
+	}
 }

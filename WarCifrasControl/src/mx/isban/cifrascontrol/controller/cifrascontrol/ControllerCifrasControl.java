@@ -123,8 +123,8 @@ public class ControllerCifrasControl extends Architech {
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		final String aplicativo = request.getParameter("aplicativo");
 		final StringBuilder periodo = new StringBuilder(
-				request.getParameter("anio"));
-		periodo.append("-").append(request.getParameter("mes"));
+				request.getParameter("mes"));
+		periodo.append("-").append(request.getParameter("anio"));
 		final int registros = boCifrasControl.consultarCifrasControl(
 				aplicativo, periodo.toString(), getArchitechBean());
 		if (registros > 0) {

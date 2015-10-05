@@ -213,9 +213,18 @@ public final class UtilGeneralCifras {
 		return sdf.parse(cadenaFecha);
 	}
 
+	/**
+	 * Obtiene el formato de fecha esperado para realizar la consulta de cancelaciones.
+	 * @param periodo Fecha que sera tratada.
+	 * @return String
+	 */
 	public static String obtenerFechas(String periodo) {
 		final StringBuilder periodoConcatenado = new StringBuilder(periodo);
 		periodoConcatenado.insert(4, "-");
 		return periodoConcatenado.toString();
 	}
+//	
+//	public static List<String> obtenerCodigosAplicacion(String nombreAplicacion, Architech objArchitech){
+//		String numeroAplic
+//	}
 }
