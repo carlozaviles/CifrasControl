@@ -12,8 +12,10 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.LookAndFeel;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.commons.utils.LogUtil;
+import mx.isban.agave.logging.Level;
 import mx.isban.cifrascontrol.beans.administracion.modulo.BeanModulo;
 import mx.isban.cifrascontrol.servicio.administracion.modulo.BOModulo;
+import mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,10 +25,26 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControllerPrincipal extends Architech{
 
+	/**
+	 * Serial
+	 */
 	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * Referencia al servicio de Modulos.
+	 */
 	private BOModulo boModulo;
+	/**
+	 * Referencia al servicio de Usuarios.
+	 */
+	private BOUsuario boUsuarios;
 
+	/**
+	 * Metodo que sirve para inicializar el LookAndFeel, el Perfilamiento
+	 * @param req
+	 * @param res
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("auto.do")
 	public ModelAndView auto(HttpServletRequest req, HttpServletResponse res)throws Exception{
 
@@ -46,7 +64,17 @@ public class ControllerPrincipal extends Architech{
 		lobjSession.setAttribute("LyFBean", lobjLyFBean);
 	
 		String txtUser =req.getHeader("iv-user")==null ? "EXPC" :req.getHeader("iv-user").toString();
-		this.info("Usuario por header:"+txtUser);
+		String cadenaGrupos = req.getHeader("iv-groups");
+		
+		this.info("Usuario por header: " + txtUser);
+		this.info("Los grupos del usuario son: " + cadenaGrupos);
+		
+		String tokensGrupos[] = cadenaGrupos.split(",");
+		for(int i = 0; i < tokensGrupos.length; i++){
+			tokensGrupos[i] = tokensGrupos[i].replaceAll("\"", "");
+		}
+		
+		boUsuarios.validaUsuario(this.getArchitechBean(), txtUser, tokensGrupos);
 		txtUser = txtUser.startsWith("Y")?txtUser.substring(1):txtUser;
 		List<BeanModulo> modulos = boModulo.obtenerModulosPorUsuarioLogueado(getArchitechBean(), txtUser);
 		
@@ -77,11 +105,11 @@ public class ControllerPrincipal extends Architech{
 		this.debug("°°Sucedio un error inesperado...");
 		this.debug("°°Origen      :" + request.getRequestURL());
 		this.debug("°°HandlerError:" + handler.getClass().getName());
-		showException(ex);
+		showException((Exception)handler, Level.ERROR);
 	
         String lstrPaginaException = "";
         String lstrContextPath = "";
-		HashMap<String, String>lhsmParametros = new HashMap<String, String>();
+		HashMap<String, String> lhsmParametros = new HashMap<String, String>();
 	
 		lhsmParametros.put("paginaError", request.getRequestURL().toString());
 		if (lobjLyFBean != null) {
@@ -110,6 +138,20 @@ public class ControllerPrincipal extends Architech{
 
 	public void setBoModulo(BOModulo boModulo) {
 		this.boModulo = boModulo;
+	}
+
+	/**
+	 * @return the boUsuario
+	 */
+	public BOUsuario getBoUsuarios() {
+		return boUsuarios;
+	}
+
+	/**
+	 * @param boUsuario the boUsuario to set
+	 */
+	public void setBoUsuarios(BOUsuario boUsuario) {
+		this.boUsuarios = boUsuario;
 	}
 	
 	

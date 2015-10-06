@@ -65,5 +65,13 @@ public interface BOUsuario {
 	 */
 	public void altaUsuario(ArchitechSessionBean sessionBean,BeanUsuario usuario)throws BusinessException;
 	
-
+	/**
+	 * Se valida la existencia de un usuario en la BD de la aplicacion, en caso de que el usuario no exista, se guarda en la BD.
+	 * Ademas se valida la integridad de los grupos a los que pertenece el usuario.
+	 * @param sessionBean Objeto de la arquitectura Agave.
+	 * @param usuario Identificador del usuario que sera validado.
+	 * @param grupos Lista de grupos a los que pertenece el usuario.
+	 * @throws BusinessException Exception.
+	 */
+	public void validaUsuario(ArchitechSessionBean sessionBean, String usuario, String[] grupos) throws BusinessException;	
 }

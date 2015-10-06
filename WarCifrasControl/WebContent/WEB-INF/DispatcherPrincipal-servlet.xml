@@ -14,15 +14,20 @@
         	<value>file:/arquitecturaAgave/DistV1/Configuracion/CifrasControl_AmbienteEJB.properties</value>
        	</property>
      </bean>
-	
 
 	<bean id="boModulos" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
 		<property name="jndiName" value="${EJBCLUSTER}mx.isban.cifrascontrol.servicio.administracion.modulo.BOModulo"/>
     	<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.administracion.modulo.BOModulo"/>
 	</bean>
 
+	<bean id="boUsuarios" class="org.springframework.ejb.access.SimpleRemoteStatelessSessionProxyFactoryBean">
+		<property name="jndiName" value="${EJBCLUSTER}mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario"/>
+		<property name="businessInterface" value="mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario"/>
+	</bean>
+
 	<bean id="controllerPrincipal" name="controllerPrincipal" class="mx.isban.cifrascontrol.controller.principal.ControllerPrincipal">
 		<property name="boModulo" ref="boModulos"/>
+		<property name="boUsuarios" ref="boUsuarios"/>
 	</bean>
 	
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -170,4 +170,28 @@ public class BeanGrupo implements Serializable {
 		this.grupoSeleccionado = grupoSeleccionado;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode(){
+		int code = 0;
+		code += this.idGrupo != null ? this.idGrupo.length() : 0;
+		code += this.nombreGrupo != null ? this.nombreGrupo.length() : 0;
+		return code;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object objeto){
+		if(objeto instanceof BeanGrupo){
+			BeanGrupo cmp = (BeanGrupo)objeto;
+			return this.idGrupo != null && this.idGrupo.equals(cmp.getIdGrupo()) 
+					&& this.nombreGrupo != null && this.nombreGrupo.equals(cmp.getNombreGrupo());
+		}else {
+			return false;
+		}
+	}
 }

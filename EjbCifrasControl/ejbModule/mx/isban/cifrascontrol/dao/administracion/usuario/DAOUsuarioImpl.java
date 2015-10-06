@@ -130,7 +130,7 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 				respuesta.setMsgError(responseDTO.getMessageError());
 			}else{
 				final List<BeanGrupo> grupos = usuario.getGrupos();
-				if(!grupos.isEmpty()){
+				if(grupos != null && !grupos.isEmpty()){
 					for (int i = 0;i < grupos.size();i++) {	
 						final BeanUsuarioRespuesta actualizaRelaciones = actualizaRelacionesUsuarioGrupo(sessionBean, usuario.getIdUsuario(), grupos.get(i).getIdGrupo());
 						if(!CODIGO_SIN_ERRORES.equals(actualizaRelaciones.getCodError())){
@@ -143,7 +143,7 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 					}
 				}
 				final List<BeanProducto> productos = usuario.getProductos();
-				if(!productos.isEmpty()){
+				if(productos != null && !productos.isEmpty()){
 					for (int i = 0;i < productos.size();i++) {
 						final BeanUsuarioRespuesta actualizaRelacionesProducto = actualizaRelacionesUsuarioProducto(sessionBean, usuario.getIdUsuario(), productos.get(i));
 						if(!CODIGO_SIN_ERRORES.equals(actualizaRelacionesProducto.getCodError())){

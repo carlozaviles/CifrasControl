@@ -240,6 +240,87 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 		this.info("Finaliza la ejecucion del metodo de alta de usuario");	
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario#validaUsuario(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String, java.lang.String[])
+	 */
+	@Override
+	public void validaUsuario(ArchitechSessionBean sessionBean, String usuario, String[] grupos) 
+			throws BusinessException {
+		this.info("El usuario a validar es: " + usuario);
+		StringBuilder cadenaGrupos = new StringBuilder();
+		for(String grupo : grupos){
+			cadenaGrupos.append(grupo).append(" ");
+		}
+		this.info("Los grupos que tiene el usuario a validar son: " + cadenaGrupos.toString());
+		//Se realiza una consulta para verificar si el usuario ya existe en la BD de la aplicacion.
+		final BeanUsuarioRespuesta existeUsuario = daoUsuario.obtenerUsuarioPorID(sessionBean, usuario);		
+		verificarRespuesta(existeUsuario);
+		
+		//Se valida que los grupos que vienen con el usuario ya esten dados de alta.
+		//Si un grupo no esta en la BD, este se ignora.
+		List<BeanGrupo> gruposValidos = new ArrayList<BeanGrupo>();
+		this.info("Se valida que los grupos con los que viene el usuario ya esten dados de alta en la BD");
+		for(String grupo : grupos){
+			BeanGrupoRespuesta respuestaValidacionGrupo = daoGrupo.consultarGrupoPorNombre(sessionBean, grupo);
+			verificarRespuesta(respuestaValidacionGrupo);
+			if(respuestaValidacionGrupo.getGrupos().size() > 0){
+				this.info("Este grupo es valido: " + grupo);
+				gruposValidos.addAll(respuestaValidacionGrupo.getGrupos());
+			}else{
+				this.info("Este grupo no se encuentra en BD, por lo que no es tomado en cuenta para el registro del usuario: " 
+						+ grupo);
+			}
+		}
+		
+		if(existeUsuario.getUsuarios().size() == 0){
+			this.info("El usuario no existe en la BD de la aplicacion.");
+			final BeanUsuario nuevoUsuario = new BeanUsuario();
+			nuevoUsuario.setIdUsuario(usuario);
+			nuevoUsuario.setGrupos(gruposValidos.size() > 0 ? gruposValidos : null);
+			nuevoUsuario.setEstatus(true);
+			final BeanUsuarioRespuesta altaUsuarioResp = daoUsuario.altaUsuario(sessionBean, nuevoUsuario);
+			verificarRespuesta(altaUsuarioResp);
+		}else{
+			this.info("El usuario ya existe en la BD de la aplicacion.");
+			//Se obtienen los grupos que actualmente tiene el usuario.
+			BeanGrupoRespuesta gruposUsuario = daoGrupo.obtenerGrupoPorUsuario(sessionBean, usuario);
+			verificarRespuesta(gruposUsuario);
+			this.info("Se valida que el usuario siga contando con los mismos perfiles.");
+			//En caso de que se detecte un cambio en los perfiles, estos se actualizaran.
+			boolean cambioPerfiles = false;
+			for(BeanGrupo grupoExistente : gruposUsuario.getGrupos()){
+				if(gruposValidos.contains(grupoExistente)){
+					this.info("Se valido que el usuario sigue contando con el perfil: " + grupoExistente.getNombreGrupo());
+				}else{
+					this.info("El usuario no cuenta mas con el perfil: " + grupoExistente.getNombreGrupo());
+					cambioPerfiles = true;
+				}
+			}
+			//Se valida si el usuario tiene asignados nuevos perfiles.
+			this.info("Se valida si al usuario se le han asginado nuevos perfiles.");
+			for(BeanGrupo grupoPeticion : gruposValidos){
+				if(gruposUsuario.getGrupos().contains(grupoPeticion)){
+					this.info("El usuario ya contaba con el perfil: " + grupoPeticion.getNombreGrupo());
+				}else{
+					this.info("Se ha detectado un nuevo perfil para el usuario: " + grupoPeticion.getNombreGrupo());
+					cambioPerfiles = true;
+				}
+			}
+			if(cambioPerfiles){
+				this.info("Se actualizan los perfiles del usuario.");
+				final BeanUsuario usuarioActualizado = new BeanUsuario();
+				usuarioActualizado.setIdUsuario(usuario);
+				usuarioActualizado.setGrupos(gruposValidos);
+				usuarioActualizado.setProductos(new ArrayList<BeanProducto>());
+				usuarioActualizado.setEstatus(true);
+				BeanUsuarioRespuesta actualizacionUsuarioResp = daoUsuario.modificarUsuario(sessionBean, usuarioActualizado);
+				verificarRespuesta(actualizacionUsuarioResp);
+			}else{
+				this.info("Los perfiles asignados al usuario no han sufrido cambios.");
+			}
+		}
+	}
+	
 	/**
 	 * Metodo encargado de verificar las respuestas obtenidas del DAO
 	 * @param resultadoConsulta Un objeto con los resultados de la consulta
@@ -303,5 +384,4 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 	public void setDaoPantalla(DAOPantalla daoPantalla) {
 		this.daoPantalla = daoPantalla;
 	}
-	
 }
