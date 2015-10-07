@@ -132,9 +132,9 @@
 					<li id="administracion" class="withSubMenus startMenuGroup"><a href="javascript:selectMenuItem('administracion')"><span>${menuPrincipalAdministracion}</span></a>
 						<ul>
 							<c:forEach var="pantalla" items="${modulo.pantallas}">
-								<c:if test = "${pantalla.nombrePantalla == 'USUARIOS'}">
+								<!--<c:if test = "${pantalla.nombrePantalla == 'USUARIOS'}">
 							<li id="usuarios">      	<a href="../administracion/consultarUsuarios.do">    &gt;<span class="subMenuText">${submenuUsuarios}</span></a></li>
-								</c:if>	
+								</c:if>-->	
 								<c:if test = "${pantalla.nombrePantalla == 'GRUPOS'}">
 							<li id="grupos">      		<a href="../administracion/consultarGrupos.do">    &gt;<span class="subMenuText">${submenuGrupo}</span></a></li>
 								</c:if>	
@@ -142,7 +142,7 @@
 							<li id="pantallas">      	<a href="../administracion/consultarPantallas.do">    &gt;<span class="subMenuText">${submenuPantallas}</span></a></li>
 								</c:if>	
 								<c:if test = "${pantalla.nombrePantalla == 'MODULOS'}">							
-							<li id="modulos" name="modulos">      	<a href="../administracion/consultarModulos.do">    &gt;<span class="subMenuText">${submenuModulo}</span></a></li>
+							<li id="modulos">    	<a href="../administracion/consultarModulos.do">    &gt;<span class="subMenuText">${submenuModulo}</span></a></li>
 								</c:if>							
 							</c:forEach>
 						</ul>

@@ -51,6 +51,14 @@ public class BeanGrupo implements Serializable {
 	 * Lista de pantallas relacionadas al grupo
 	 */
 	private List<BeanPantalla> pantallas;
+	/**
+	 * Contiene el tipo de Grupo.
+	 */
+	private String tipoGrupo;
+	/**
+	 * En caso de que este grupo sea de tipo Operativo, contiene el grupo Administrador al que pertenece
+	 */
+	private String grupoAdministrador;
 
 	/**
 	 *Constructor que crea un nuevo objeto de tipo BeanGrupo 
@@ -170,6 +178,34 @@ public class BeanGrupo implements Serializable {
 		this.grupoSeleccionado = grupoSeleccionado;
 	}
 	
+	/**
+	 * @return the tipoGrupo
+	 */
+	public String getTipoGrupo() {
+		return tipoGrupo;
+	}
+
+	/**
+	 * @param tipoGrupo the tipoGrupo to set
+	 */
+	public void setTipoGrupo(String tipoGrupo) {
+		this.tipoGrupo = tipoGrupo;
+	}
+
+	/**
+	 * @return the grupoAdministrador
+	 */
+	public String getGrupoAdministrador() {
+		return grupoAdministrador;
+	}
+
+	/**
+	 * @param grupoAdministrador the grupoAdministrador to set
+	 */
+	public void setGrupoAdministrador(String grupoAdministrador) {
+		this.grupoAdministrador = grupoAdministrador;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */

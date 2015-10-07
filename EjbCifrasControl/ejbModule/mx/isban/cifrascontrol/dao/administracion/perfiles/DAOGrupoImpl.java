@@ -57,7 +57,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 	 */
 	private static final String QUERY_ACTUALIZA_GRUPO = 
 			"UPDATE MOI_MX_MAE_ADMIN_GPO"
-			+ " SET TXT_NOM = ?,DSC_DESC = ?"
+			+ " SET TXT_NOM = ?,DSC_DESC = ?,TIPO_PERFIL = ?,ID_PERFIL_ADMIN = ?"
 			+ " WHERE ID_GPO = ?";
 	/**
 	 * Consulta SQL que elimina las relaciones GRUPO - PANTALLA
@@ -74,7 +74,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 	 * Consulta SQL que permite dar de alta un nuevo Grupo
 	 */
 	private static final String QUERY_ALTA_GRUPO = 
-			"INSERT INTO MOI_MX_MAE_ADMIN_GPO(ID_GPO,TXT_NOM,DSC_DESC) VALUES (MOI_MX_SEQ_GPO.NEXTVAL,?,?)";
+			"INSERT INTO MOI_MX_MAE_ADMIN_GPO(ID_GPO,TXT_NOM,DSC_DESC,TIPO_PERFIL,ID_PERFIL_ADMIN) VALUES (MOI_MX_SEQ_GPO.NEXTVAL,?,?,?,?)";
 	/**
 	 * Consulta SQL que elimina un Grupo
 	 */
@@ -111,7 +111,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 	public BeanGrupoRespuesta buscarTodosGrupos(
 			ArchitechSessionBean sessionBean) {
 		this.info("Se inicia la consulta de todos los perfiles...");
-		final String consulta = "SELECT ID_GPO,TXT_NOM,DSC_DESC FROM MOI_MX_MAE_ADMIN_GPO";
+		final String consulta = "SELECT ID_GPO,TXT_NOM,DSC_DESC,TIPO_PERFIL,ID_PERFIL_ADMIN FROM MOI_MX_MAE_ADMIN_GPO";
 		final BeanGrupoRespuesta grupos = new BeanGrupoRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY);
@@ -151,6 +151,8 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 			grupo.setIdGrupo(String.valueOf(registro.get("ID_GPO")));
 			grupo.setNombreGrupo(String.valueOf(registro.get("TXT_NOM")));
 			grupo.setDescripcionGrupo(String.valueOf(registro.get("DSC_DESC")));
+			grupo.setTipoGrupo(String.valueOf(registro.get("TIPO_PERFIL")));
+			grupo.setGrupoAdministrador(String.valueOf(registro.get("ID_PERFIL_ADMIN")));
 			listaGrupos.add(grupo);
 		}
 		return listaGrupos;
@@ -163,7 +165,7 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 	public BeanGrupoRespuesta consultarGrupoPorId(ArchitechSessionBean sessionBean,
 			String idGrupo) {
 		this.info("Se inicia la consulta del perfil con id:"+idGrupo);
-		final String consulta = "SELECT ID_GPO,TXT_NOM,DSC_DESC FROM MOI_MX_MAE_ADMIN_GPO WHERE ID_GPO = ?";
+		final String consulta = "SELECT ID_GPO,TXT_NOM,DSC_DESC,TIPO_PERFIL,ID_PERFIL_ADMIN FROM MOI_MX_MAE_ADMIN_GPO WHERE ID_GPO = ?";
 		final BeanGrupoRespuesta grupos = new BeanGrupoRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_QUERY_PARAMS);
@@ -238,6 +240,8 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 		requestDTO.setCodeOperation("COD04 Actualiza-Grupo");
 		requestDTO.addParamToSql(grupo.getNombreGrupo());
 		requestDTO.addParamToSql(grupo.getDescripcionGrupo());
+		requestDTO.addParamToSql(grupo.getTipoGrupo());
+		requestDTO.addParamToSql(grupo.getGrupoAdministrador() != null? grupo.getGrupoAdministrador() : "");
 		requestDTO.addParamToSql(grupo.getIdGrupo());
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
@@ -291,6 +295,8 @@ public class DAOGrupoImpl extends Architech implements DAOGrupo {
 		requestDTO.setCodeOperation("COD04 Alta-Grupo");
 		requestDTO.addParamToSql(grupo.getNombreGrupo());
 		requestDTO.addParamToSql(grupo.getDescripcionGrupo());
+		requestDTO.addParamToSql(grupo.getTipoGrupo());
+		requestDTO.addParamToSql(grupo.getGrupoAdministrador() != null? grupo.getGrupoAdministrador() : "");
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);

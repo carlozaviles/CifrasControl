@@ -3,6 +3,15 @@ $(document).ready(function(){
 	$('#nombreRequerido').hide();
 	$('#descripcionRequerido').hide();
 	$('#pantallaRequerida').hide();
+	$('#usuarioAdministrador').attr('disabled', true);
+	
+	$('#tipoPerfil').change(function(){
+		if($('#tipoPerfil').val() === 'O'){
+			$('#usuarioAdministrador').attr('disabled', false);
+		}else{
+			$('#usuarioAdministrador').attr('disabled', true);
+		}
+	});
 	
     $('#btnAltaGrupo').click(function(){
     	var error = false;
@@ -24,6 +33,17 @@ $(document).ready(function(){
         	$('#pantallaRequerida').show();
             error = true;
         }
+    	
+    	if($('#tipoPerfil').val() === 'NONE'){
+    		error = true;
+    	}
+    	
+    	if($('#tipoPerfil').val() === 'O' && $('#usuarioAdministrador').val() === 'NONE'){
+    		error = true;
+    		jAlert('', 'Se requiere un perfil Administrador.', 'Alerta', 
+    				'Cuando se selecciona un tipo de perfil operativo, se requiere informar a que grupo administrativo pertenece.');
+    		return;
+    	}
     	
     	if(error == true){
     		jAlert($('#gralCamposObligatorios').val(), $('#gralFaltanCampos').val(), 'Alerta', $('#gralVerifique').val());

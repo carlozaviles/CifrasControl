@@ -30,6 +30,10 @@
 <spring:message code="administracion.gralFaltanCampos"     			var="gralFaltanCampos"/>
 <spring:message code="administracion.gralVerifique"     		var="gralVerifique"/>
 
+<spring:message code="administracion.tipoPerfil"                var="etiquetaTipoPerfil"/>
+<spring:message code="administracion.usuarioAdministrador"     var="usuarioAdministrador"/>
+<spring:message code="general.selectVacio"                     var="seleccione"/>
+
 <div class="pageTitleContainer">
    <span class="pageTitle">${modulo}</span> - ${formulario}
 </div>
@@ -55,6 +59,28 @@
 						<td width="154" class="odd">${nombreGrupo}:</td>
 						<td colspan="3"><input name="nombreGrupo"
 							type="text" class="Campos_Des" id="nombreGrupo" maxlength="50"/></td><div style="color:#FF0000;" id="nombreRequerido">${divIngresarNombre}</div>
+					</tr>
+					<tr>
+						<td class="odd">${etiquetaTipoPerfil}:</td>
+						<td colspan="3">
+							<select id="tipoPerfil" name="tipoPerfil">
+								<option value="NONE">${seleccione}</option>
+								<c:forEach items="${tiposDePerfil}" var="perfil">
+									<option value="${perfil.key}">${perfil.value}</option>
+								</c:forEach>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="odd">${usuarioAdministrador}:</td>
+						<td colspan="3">
+							<select id="usuarioAdministrador" name="usuarioAdministrador">
+								<option value="NONE">${seleccione}</option>
+								<c:forEach items="${perfilesAdministradores}" var="perfilAdmin">
+									<option value="${perfilAdmin.idGrupo}">${perfilAdmin.nombreGrupo}</option>
+								</c:forEach>
+							</select>
+						</td>
 					</tr>
 					<tr>
 						<td class="odd">${descripcion}:</td>

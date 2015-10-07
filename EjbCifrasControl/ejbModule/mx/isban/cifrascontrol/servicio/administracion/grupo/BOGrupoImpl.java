@@ -10,6 +10,7 @@
 ***************************************************************/
 package mx.isban.cifrascontrol.servicio.administracion.grupo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -155,6 +156,25 @@ public class BOGrupoImpl extends Architech implements BOGrupo {
 		verificarRespuesta(resultadoConsulta);
 		this.info("Finaliza la ejecucion del metodo de borrado de grupo");
 	}
+	
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.servicio.administracion.grupo.BOGrupo#obtenerGruposPorTipo(java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
+	@Override
+	public List<BeanGrupo> obtenerGruposPorTipo(String tipoGrupo, ArchitechSessionBean sessionBean) 
+			throws BusinessException {
+		this.info("Se realizara la busqueda de los perfiles de tipo: " + tipoGrupo);
+		final BeanGrupoRespuesta consultaGrupos = daoGrupo.buscarTodosGrupos(sessionBean);
+		verificarRespuesta(consultaGrupos);
+		List<BeanGrupo> gruposCoincidentes = new ArrayList<BeanGrupo>();
+		for(BeanGrupo grupo : consultaGrupos.getGrupos()){
+			if(grupo.getTipoGrupo().equals(tipoGrupo)){
+				gruposCoincidentes.add(grupo);
+			}
+		}
+		this.info("El numero de grupos que coinciden con la busqueda es: " + gruposCoincidentes.size());
+		return gruposCoincidentes;
+	}
 
 	/**
 	 * Metodo encargado de obtener y establecer las pantallas seleccionadas por un usuario
@@ -228,6 +248,5 @@ public class BOGrupoImpl extends Architech implements BOGrupo {
 	public void setDaoPantalla(DAOPantalla daoPantalla) {
 		this.daoPantalla = daoPantalla;
 	}
-
 	
 }

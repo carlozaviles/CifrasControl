@@ -70,4 +70,13 @@ public interface BOGrupo {
 	 */
 	public BeanGrupo consultarGrupo(String idGrupo, ArchitechSessionBean sessionBean) throws BusinessException;
 	
+	/**
+	 * Obtiene la lista de Grupos de acuerdo a su tipo.
+	 * @param tipoGrupo
+	 * @param sessionBean
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<BeanGrupo> obtenerGruposPorTipo(String tipoGrupo, ArchitechSessionBean sessionBean) throws BusinessException;
+	
 }

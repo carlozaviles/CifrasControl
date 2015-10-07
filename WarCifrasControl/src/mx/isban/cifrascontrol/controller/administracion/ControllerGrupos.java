@@ -30,6 +30,7 @@ import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantalla;
 import mx.isban.cifrascontrol.servicio.administracion.grupo.BOGrupo;
 import mx.isban.cifrascontrol.servicio.administracion.pantalla.BOPantalla;
 import mx.isban.cifrascontrol.utileria.administracion.ValidadorAccesoPantallas;
+import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
 /**
 * Clase ControllerGrupos
@@ -112,6 +113,9 @@ public class ControllerGrupos extends Architech {
 		final List<BeanPantalla> pantallasList = boPantalla.buscarTodasPantallas(getArchitechBean());
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("todasPantallas", pantallasList);
+		parametros.put("tiposDePerfil", GeneradorCatalogos.obtenerCatalogoTipoPerfil());
+		parametros.put("perfilesAdministradores", 
+				boGrupo.obtenerGruposPorTipo("A", this.getArchitechBean()));
 		return new ModelAndView("altaGrupo",parametros);
 	}
 	
@@ -130,6 +134,10 @@ public class ControllerGrupos extends Architech {
 		final BeanGrupo grupo = new BeanGrupo();
 		grupo.setNombreGrupo(request.getParameter("nombreGrupo"));
 		grupo.setDescripcionGrupo(request.getParameter("descripcionGrupo"));
+		grupo.setTipoGrupo(request.getParameter("tipoPerfil"));
+		if("O".equals(grupo.getTipoGrupo())){
+			grupo.setGrupoAdministrador(request.getParameter("usuarioAdministrador"));
+		}
 		final String[] pantallasSeleccionadas = request.getParameterValues("pantallaActiva");
 		final List<BeanPantalla> pantallasList = new ArrayList<BeanPantalla>();
 		for (int i = 0; i < pantallasSeleccionadas.length; i++) {
@@ -176,6 +184,12 @@ public class ControllerGrupos extends Architech {
 		grupo.setIdGrupo(request.getParameter("idGrupo"));
 		grupo.setNombreGrupo(request.getParameter("nombreGrupo"));
 		grupo.setDescripcionGrupo(request.getParameter("descripcionGrupo"));
+		grupo.setTipoGrupo(request.getParameter("tipoPerfil"));
+		if("O".equals(grupo.getTipoGrupo())){
+			grupo.setGrupoAdministrador(request.getParameter("usuarioAdministrador"));
+		}else{
+			grupo.setGrupoAdministrador(null);
+		}
 		final String[] pantallasSeleccionadas = request.getParameterValues("pantallaActiva");
 		final List<BeanPantalla> pantallasList = new ArrayList<BeanPantalla>();
 		for (int i = 0; i < pantallasSeleccionadas.length; i++) {
@@ -207,6 +221,9 @@ public class ControllerGrupos extends Architech {
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("grupo", grupo);
 		parametros.put("todasPantallas", pantallasList);
+		parametros.put("tiposDePerfil", GeneradorCatalogos.obtenerCatalogoTipoPerfil());
+		parametros.put("perfilesAdministradores", 
+				boGrupo.obtenerGruposPorTipo("A", this.getArchitechBean()));
 		return new ModelAndView("modificarGrupo",parametros);
 	}
 	

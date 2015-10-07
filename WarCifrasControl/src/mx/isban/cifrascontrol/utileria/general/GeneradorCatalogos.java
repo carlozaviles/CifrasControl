@@ -120,4 +120,11 @@ public final class GeneradorCatalogos {
 		return catalogoProductos;
 	}
 
+	public static Map<String, String> obtenerCatalogoTipoPerfil(){
+		final Map<String, String> tipoPerfil = new LinkedHashMap<String, String>();
+		tipoPerfil.put("S", "Seguridad Inform\u00e1tica");
+		tipoPerfil.put("A", "Administrador");
+		tipoPerfil.put("O", "Operativo");
+		return tipoPerfil;
+	}
 }
