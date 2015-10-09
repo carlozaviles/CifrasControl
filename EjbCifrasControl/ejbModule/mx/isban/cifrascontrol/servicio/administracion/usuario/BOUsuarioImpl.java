@@ -11,7 +11,9 @@
 package mx.isban.cifrascontrol.servicio.administracion.usuario;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -207,6 +209,8 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 				 producto = daoCatalogos.obtenerProductoPorId(beanProducto.getIdProducto());
 			}else{
 				producto = CatalogoProductosReproceso.obtenerCatalogoProductosReprocesos().get((Integer.parseInt(beanProducto.getIdProducto())-1));
+				producto.setProductoSeleccionado(beanProducto.isProductoSeleccionado());
+				producto.setPermisoReproceso(beanProducto.isPermisoReproceso());
 			}
 			productosList.add(producto);
 		}
@@ -319,6 +323,55 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 				this.info("Los perfiles asignados al usuario no han sufrido cambios.");
 			}
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario#obtenerUsuariosOperativos(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String)
+	 */
+	@Override
+	public List<BeanUsuario> obtenerUsuariosOperativos(ArchitechSessionBean sessionBean, String usuarioAdministrador)
+			throws BusinessException {
+		this.info("Se consultan los usuarios operativos relacionados con un perfil administrador.");
+		final BeanGrupoRespuesta gruposUsuarioAdministrador = daoGrupo.obtenerGrupoPorUsuario(sessionBean, usuarioAdministrador);
+		verificarRespuesta(gruposUsuarioAdministrador);
+		final BeanUsuarioRespuesta totalUsuarios = daoUsuario.obtenerTodosUsuarios(sessionBean);
+		verificarRespuesta(totalUsuarios);
+		final Set<BeanUsuario> usuariosOperativos = new HashSet<BeanUsuario>();
+		for(BeanGrupo grupoAdmn : gruposUsuarioAdministrador.getGrupos()){
+			if("A".equals(grupoAdmn.getTipoGrupo())){
+				this.info("Se obtienen los usuarios operativos del perfil administrativo: " + grupoAdmn.getNombreGrupo());
+				for(BeanUsuario usuario : totalUsuarios.getUsuarios()){
+					BeanGrupoRespuesta gruposUsuario = daoGrupo.obtenerGrupoPorUsuario(sessionBean, usuario.getIdUsuario());
+					verificarRespuesta(gruposUsuario);
+					usuario.setGrupos(gruposUsuario.getGrupos());
+					if(validaPertenenciaUsuarioGrupo(usuario, grupoAdmn)){
+						usuariosOperativos.add(usuario);
+					}
+				}
+			}
+		}
+		this.info("El numero de usuarios operativos para este administrador es: " + usuariosOperativos.size());
+		final List<BeanUsuario> listaUsuariosOperativos = new ArrayList<BeanUsuario>();
+		listaUsuariosOperativos.addAll(usuariosOperativos);
+		return listaUsuariosOperativos;
+	}
+	
+	/**
+	 * Valida si un usuario pertenece a un grupo operativo que esta asociado con un perfil administrador en especifico.
+	 * @param usuario Usuario a validar.
+	 * @param grupoAdmn Perfil contra el cual se validara al usuario.
+	 * @return boolean
+	 */
+	private boolean validaPertenenciaUsuarioGrupo(BeanUsuario usuario, BeanGrupo grupoAdmn){
+		if(usuario.getGrupos() == null){
+			return false;
+		}
+		for(BeanGrupo grupoUsuario : usuario.getGrupos()){
+			if(grupoAdmn.getIdGrupo().equals(grupoUsuario.getGrupoAdministrador())){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

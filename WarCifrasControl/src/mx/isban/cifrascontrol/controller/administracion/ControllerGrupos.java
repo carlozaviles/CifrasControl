@@ -219,11 +219,22 @@ public class ControllerGrupos extends Architech {
 		final BeanGrupo grupo = boGrupo.consultarGrupo(idGrupo, getArchitechBean());
 		final List<BeanPantalla> pantallasList = grupo.getPantallas();
 		final Map<String, Object> parametros = new HashMap<String, Object>();
+		
+		final List<BeanGrupo> gruposAdministradores = boGrupo.obtenerGruposPorTipo("A", this.getArchitechBean());
+		
 		parametros.put("grupo", grupo);
 		parametros.put("todasPantallas", pantallasList);
 		parametros.put("tiposDePerfil", GeneradorCatalogos.obtenerCatalogoTipoPerfil());
-		parametros.put("perfilesAdministradores", 
-				boGrupo.obtenerGruposPorTipo("A", this.getArchitechBean()));
+		parametros.put("perfilesAdministradores", gruposAdministradores);
+		parametros.put("nombreGrupoAdministrador", "No Aplica");
+		if("O".equals(grupo.getTipoGrupo())){
+			for(BeanGrupo elemento : gruposAdministradores){
+				if(grupo.getGrupoAdministrador() != null && grupo.getGrupoAdministrador().equals(elemento.getIdGrupo())){
+					parametros.put("nombreGrupoAdministrador", elemento.getNombreGrupo());
+				}
+			}
+		}
+		
 		return new ModelAndView("modificarGrupo",parametros);
 	}
 	

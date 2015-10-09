@@ -1,6 +1,13 @@
 $(document).ready(function(){
 
 	$('#grupoRequerido').hide();
+	$('#apartadoGrupos').hide();
+	
+	if($('#tipoProd').val() === 'EDC'){
+		$('#apartadoFACT').hide();
+	}else{
+		$('#apartadoEDC').hide();
+	}
 	
     $('#btnGuardaUsuario').click(function(){
     	var error = false;

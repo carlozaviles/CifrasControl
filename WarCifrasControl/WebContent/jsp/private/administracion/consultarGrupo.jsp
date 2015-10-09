@@ -67,7 +67,7 @@
 	</div>
 </div>
 </form>
-<form action="altaGrupoInit.do" method="post" name="altaGrupo" id="altaGrupo">
+<!--<form action="altaGrupoInit.do" method="post" name="altaGrupo" id="altaGrupo">
 <div class="PiePag"><button name="btnAltaPerfil" id="btnAltaPerfil" type="submit">${nuevoGrupo}</button></div>
-</form>
+</form>-->
 <jsp:include page="../myFooter.jsp" flush="true"/>

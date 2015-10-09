@@ -210,24 +210,37 @@ public class BeanGrupo implements Serializable {
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
-	public int hashCode(){
-		int code = 0;
-		code += this.idGrupo != null ? this.idGrupo.length() : 0;
-		code += this.nombreGrupo != null ? this.nombreGrupo.length() : 0;
-		return code;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((idGrupo == null) ? 0 : idGrupo.hashCode());
+		result = prime * result
+				+ ((nombreGrupo == null) ? 0 : nombreGrupo.hashCode());
+		return result;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object objeto){
-		if(objeto instanceof BeanGrupo){
-			BeanGrupo cmp = (BeanGrupo)objeto;
-			return this.idGrupo != null && this.idGrupo.equals(cmp.getIdGrupo()) 
-					&& this.nombreGrupo != null && this.nombreGrupo.equals(cmp.getNombreGrupo());
-		}else {
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
-		}
+		if (!(obj instanceof BeanGrupo))
+			return false;
+		BeanGrupo other = (BeanGrupo) obj;
+		if (idGrupo == null) {
+			if (other.idGrupo != null)
+				return false;
+		} else if (!idGrupo.equals(other.idGrupo))
+			return false;
+		if (nombreGrupo == null) {
+			if (other.nombreGrupo != null)
+				return false;
+		} else if (!nombreGrupo.equals(other.nombreGrupo))
+			return false;
+		return true;
 	}
 }

@@ -41,17 +41,18 @@ public class BeanProducto implements Serializable {
 	 * Propiedad que contiene la descripcion del producto
 	 */
 	private String descripcion;
-	
 	/**
 	 * Propiedad que contiene el tipo de producto
 	 */
 	private String tipoProducto;
-	
-	
 	/**
 	 * Propiedad que indica si un producto esta seleccionado 
 	 */
 	private boolean productoSeleccionado;
+	/**
+	 * Sirve para indicar si un usuario tiene permiso para reproceso con este producto.
+	 */
+	private boolean permisoReproceso;
 	
 	/**
 	 * Constructor vacio
@@ -120,6 +121,20 @@ public class BeanProducto implements Serializable {
 	 */
 	public void setProductoSeleccionado(boolean productoSeleccionado) {
 		this.productoSeleccionado = productoSeleccionado;
+	}
+
+	/**
+	 * @return the permisoReproceso
+	 */
+	public boolean isPermisoReproceso() {
+		return permisoReproceso;
+	}
+
+	/**
+	 * @param permisoReproceso the permisoReproceso to set
+	 */
+	public void setPermisoReproceso(boolean permisoReproceso) {
+		this.permisoReproceso = permisoReproceso;
 	}
 
 	

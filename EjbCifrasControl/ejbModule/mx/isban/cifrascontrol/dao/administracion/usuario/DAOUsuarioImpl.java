@@ -88,7 +88,7 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 	 * Constante que contiene una consulta SQL que permite la creacion de relaciones Usuario - Producto
 	 */
 	private static final String QUERY_CREA_RELACIONES_USUARIO_PRODUCTO =
-			"INSERT INTO MOI_MX_REL_USR_PROD(ID_REL,ID_PROD,ID_USER_FK,DSC_DESC,COD_TIPO_PROD) VALUES (MOI_MX_SEQ_USR_PROD.NEXTVAL,?,?,?,?)";
+			"INSERT INTO MOI_MX_REL_USR_PROD(ID_REL,ID_PROD,ID_USER_FK,DSC_DESC,COD_TIPO_PROD,FLG_PER_REPRO) VALUES (MOI_MX_SEQ_USR_PROD.NEXTVAL,?,?,?,?,?)";
 	
 	/**
 	 * Constante que contiene una consulta SQL que permite realizar el alta de un usuario
@@ -304,8 +304,8 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 						respuesta.setMsgError(eliminacionRelacionesProducto.getMsgError());
 					}else{
 						List<BeanProducto> productos = usuario.getProductos();
-						this.info("Tamaño de lista seleccionada:"+productos.size());
-						for (int i = 0;i < productos.size();i++) {	
+						this.info("Tamanio de lista seleccionada:"+productos.size());
+						for (int i = 0; i < productos.size(); i++) {	
 							BeanUsuarioRespuesta actualizaRelacionesProducto = actualizaRelacionesUsuarioProducto(sessionBean, usuario.getIdUsuario(),productos.get(i));
 							if(!CODIGO_SIN_ERRORES.equals(actualizaRelacionesProducto.getCodError())){
 								this.error(MENSAJE_ERROR+actualizaRelacionesProducto.getCodError()+actualizaRelacionesProducto.getMsgError());
@@ -383,6 +383,7 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 		requestDTO.addParamToSql(idUsuario);
 		requestDTO.addParamToSql(producto.getDescripcion());
 		requestDTO.addParamToSql(producto.getTipoProducto().trim());
+		requestDTO.addParamToSql(producto.isPermisoReproceso()? 1 : 0);
 		try{
 			final DataAccess ida = DataAccess.getInstance(requestDTO, this.getLoggingBean());
 			final ResponseMessageDataBaseDTO responseDTO = (ResponseMessageDataBaseDTO)ida.execute(ID_CANAL);

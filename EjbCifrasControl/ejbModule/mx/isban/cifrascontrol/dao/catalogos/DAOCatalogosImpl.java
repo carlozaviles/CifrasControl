@@ -133,11 +133,14 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.dao.catalogos.DAOCatalogos#obtenerProductoPorUsuario(java.lang.String, java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
 	@Override
 	public BeanProductoRespuesta obtenerProductoPorUsuario(String idUsuario,
 			String tipo, ArchitechSessionBean sessionBean){
 		this.info("Se inicia la consulta de productos para el usuario:"+idUsuario+" y el tipo:"+tipo);
-		final String consulta = "SELECT ID_PROD, DSC_DESC,COD_TIPO_PROD "
+		final String consulta = "SELECT ID_PROD, DSC_DESC,COD_TIPO_PROD,FLG_PER_REPRO "
 				+ "FROM MOI_MX_REL_USR_PROD WHERE ID_USER_FK = ? AND COD_TIPO_PROD = ?";
 		final BeanProductoRespuesta productoRespuesta = new BeanProductoRespuesta();
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
@@ -180,6 +183,8 @@ public class DAOCatalogosImpl extends Architech implements DAOCatalogos {
 			producto.setIdProducto(String.valueOf(registro.get("ID_PROD")));
 			producto.setDescripcion(String.valueOf(registro.get("DSC_DESC")));
 			producto.setTipoProducto(String.valueOf(registro.get("COD_TIPO_PROD")));
+			final String permisoReproceso = String.valueOf(registro.get("FLG_PER_REPRO"));
+			producto.setPermisoReproceso(permisoReproceso != null && "1".equals(permisoReproceso)? true : false);
 			listaProductos.add(producto);
 		}
 		return listaProductos;

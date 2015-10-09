@@ -43,6 +43,10 @@
 	<input id="gralCamposObligatorios" type="hidden" value="${gralCamposObligatorios}"/>
 	<input id="gralFaltanCampos" type="hidden" value="${gralFaltanCampos}"/>
 	<input id="gralVerifique" type="hidden" value="${gralVerifique}"/>
+	<input type="hidden" name="nombreGrupo" value="${grupo.nombreGrupo}"/>
+	<input type="hidden" name="tipoPerfil" value="${grupo.tipoGrupo}"/>
+	<input type="hidden" name="usuarioAdministrador" value="${grupo.grupoAdministrador}"/>
+	<input type="hidden" name="descripcionGrupo" value="${grupo.descripcionGrupo}"/>
 <div class="frameFormularioB" id="divFormulario">
 	<div class="contentFormularioB">
 		<div class="titleFormularioB">${formularioModifica} - <span class="textosin">${modificarGrupo}</span></div>
@@ -57,38 +61,19 @@
 					</tr>
 					<tr>
 						<td width="154" class="odd">${nombreGrupo}:</td>
-						<td colspan="3"><input name="nombreGrupo"
-							type="text" class="Campos_Des" id="nombreGrupo" maxlength="50" value="<c:out value="${grupo.nombreGrupo}"/>"/></td><div style="color:#FF0000;" id="nombreRequerido">${divIngresarNombre}</div>
+						<td colspan="3">${grupo.nombreGrupo}</td>
 					</tr>
 					<tr>
 						<td class="odd">${etiquetaTipoPerfil}:</td>
-						<td colspan="3">
-							<select id="tipoPerfil" name="tipoPerfil">
-								<option value="NONE">${seleccione}</option>
-								<c:forEach items="${tiposDePerfil}" var="perfil">
-									<option value="${perfil.key}" ${grupo.tipoGrupo == perfil.key? 'selected' :''}>
-										${perfil.value}
-									</option>
-								</c:forEach>
-							</select>
-						</td>
+						<td colspan="3">${tiposDePerfil[grupo.tipoGrupo]}</td>
 					</tr>
 					<tr>
 						<td class="odd">${usuarioAdministrador}:</td>
-						<td colspan="3">
-							<select id="usuarioAdministrador" name="usuarioAdministrador">
-								<option value="NONE">${seleccione}</option>
-								<c:forEach items="${perfilesAdministradores}" var="perfilAdmin">
-									<option value="${perfilAdmin.idGrupo}" ${perfilAdmin.idGrupo == grupo.grupoAdministrador? 'selected' :''}>
-										${perfilAdmin.nombreGrupo}
-									</option>
-								</c:forEach>
-							</select>
-						</td>
+						<td colspan="3">${nombreGrupoAdministrador}</td>
 					</tr>
 					<tr>
 						<td class="odd">${descripcion}:</td>
-						<td colspan="3"><textarea rows="6" cols="50" name="descripcionGrupo" id="descripcionGrupo"><c:out value="${grupo.descripcionGrupo}"/></textarea>(300 caracteres m&aacute;ximo)</td><div style="color:#FF0000;" id="descripcionRequerido">${divIngresarDescripcion}</div>
+						<td colspan="3">${grupo.descripcionGrupo}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -125,6 +110,6 @@
 			</table>
 	</div>
 </div>
-<div class="PiePag"><button name="btnModificaGpo" id="btnModificaGpo" type="button">${guardarGrupo}</button><button name="btnBorrarGpo" id="btnBorrarGpo" type="button">${borrar}</button><button name="regresar" id="regresar" type="button">${cancelar}</button></div>
+<div class="PiePag"><button name="btnModificaGpo" id="btnModificaGpo" type="button">${guardarGrupo}</button><button name="regresar" id="regresar" type="button">${cancelar}</button></div>
 </form>
 <jsp:include page="../myFooter.jsp" flush="true"/>

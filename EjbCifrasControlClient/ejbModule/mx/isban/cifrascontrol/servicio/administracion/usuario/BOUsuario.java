@@ -73,5 +73,14 @@ public interface BOUsuario {
 	 * @param grupos Lista de grupos a los que pertenece el usuario.
 	 * @throws BusinessException Exception.
 	 */
-	public void validaUsuario(ArchitechSessionBean sessionBean, String usuario, String[] grupos) throws BusinessException;	
+	public void validaUsuario(ArchitechSessionBean sessionBean, String usuario, String[] grupos) throws BusinessException;
+	
+	/**
+	 * Se buscan los usuarios operativos relacionados con un usuario administrador.
+	 * @param sessionBean Objeto de arquitectura agave.
+	 * @param usuarioAdministrador Parametro de consulta.
+	 * @return List<BeanUsuario>
+	 * @throws BusinessException Exception.
+	 */
+	public List<BeanUsuario> obtenerUsuariosOperativos(ArchitechSessionBean sessionBean, String usuarioAdministrador) throws BusinessException;
 }

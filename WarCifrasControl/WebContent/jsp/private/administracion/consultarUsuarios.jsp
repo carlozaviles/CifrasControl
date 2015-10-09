@@ -22,6 +22,8 @@
 <spring:message code="administracion.detalle"		var="detalle"/>
 <spring:message code="administracion.nuevoUsuario"	var="nuevoUsuario"/>
 <spring:message code="administracion.pantallas"		var="pantallas"/>
+<spring:message code="administracion.titulo.permisosFiliales" var="tituloFiliales"/>
+<spring:message code="administracion.titulo.permisosEDC" var="titulosEDC"/>
 
 <spring:message code="administracion.faltaSeleccionarUsuario"     	var="faltaSeleccionarUsuario"/>
 <spring:message javaScriptEscape="true" code="administracion.faltaUsuario"     			var="faltaUsuario"/>
@@ -32,8 +34,19 @@
 	<input id="faltaSeleccionarUsuario" type="hidden" value="${faltaSeleccionarUsuario}"/>
 	<input id="faltaUsuario" type="hidden" value="${faltaUsuario}"/>
 	<input id="seleccioneUsuario" type="hidden" value="${seleccioneUsuario}"/>
+	
+	<input type="hidden" id="tipoProd" name="tipoProd" value="${tipoProd}"/>
+	
 <div class="pageTitleContainer">
-   <span class="pageTitle">${modulo}</span> - ${usuarios}
+   <span class="pageTitle">${modulo}</span> -
+   <c:choose>
+   	<c:when test="${tipoProd == 'EDC'}">
+   		${titulosEDC}
+   	</c:when>
+   	<c:when test="${tipoProd == 'FAC'}">
+   		${tituloFiliales}
+   	</c:when>
+   </c:choose>
 </div>
 
 <div class="frameTablaVariasColumnas">
@@ -46,8 +59,6 @@
 				<tr>
 					<th colspan="2" class="text_izquierda">${claveUsuario}</th>
 					<th width="150" class="text_centro">${grupo}</th>
-					<th width="291" class="text_centro">${pantallas}</th>
-					<th width="50" 	class="text_derecha">${grupoActivo}</th>
 				</tr>
 			</thead>
 			<tr>
@@ -57,12 +68,9 @@
 				<c:forEach var="regs" items="${registros}">
 				<tr class="odd">
 					<td width="20"><input name="idUsuario" type="radio" class="Campos"
-						id="idUsuario" value=${regs.idUsuario}></input></td>
+						id="idUsuario" value="${regs.idUsuario}"></input></td>
 					<td width="128" class="text_izquierda">${regs.idUsuario}</td>
 					<td width="150" class="text_izquierda">${regs.gruposToString}</td>
-					<td width="291" class="text_izquierda">${regs.pantallasToString}</td>
-					<td width="50" class="text_centro"><input type="checkbox" name="usuarioActivo" value="${regs.idUsuario}"
-							<c:if test="${regs.estatus}">checked</c:if> disabled></td>
 				</tr>
 				</c:forEach>
 			</tbody>
@@ -72,14 +80,11 @@
 		<div class="contentPieContenedor">
 			<table>
 				<tr>
-					<td class="izq"><a href="#" id="detalleUsuario">${detalle}</td>
+					<td class="izq"><a href="#" id="detalleUsuario">${detalle}</a></td>
 				</tr>
 			</table>
 		</div>
 	</div>
 </div>
-</form>
-<form action="altaUsuarioInit.do" method="post" name="altaUsuario" id="altaUsuario">
-<div class="PiePag"><button name="btnAltaUsuario" id="btnAltaUsuario" type="submit">${nuevoUsuario}</button></div>
 </form>
 <jsp:include page="../myFooter.jsp" flush="true"/>

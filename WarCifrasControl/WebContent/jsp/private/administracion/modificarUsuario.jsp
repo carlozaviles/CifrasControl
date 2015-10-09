@@ -37,10 +37,14 @@
 <spring:message code="administracion.tipo"     		var="tipo"/>
 <spring:message code="administracion.asignarProducto"     		var="asignarProducto"/>
 <spring:message code="administracion.divSeleccionarProducto"     		var="divSeleccionarProducto"/>
+<spring:message code="administracion.permisoReproceso"   var="permisoReprocesoEtiqueta"/>
+
+<spring:message code="administracion.titulo.permisosFiliales" var="tituloFiliales"/>
+<spring:message code="administracion.titulo.permisosEDC" var="titulosEDC"/>
 
 
 <div class="pageTitleContainer">
-   <span class="pageTitle">${modulo}</span> - ${formularioModificarUsuario}
+   <span class="pageTitle">${modulo}</span>
 </div>
 
 <form name="modificarUsuario" id="modificarUsuario" method="post">
@@ -48,14 +52,22 @@
 <input id="gralCamposObligatorios" type="hidden" value="${gralCamposObligatorios}"/>
 	<input id="gralFaltanCampos" type="hidden" value="${gralFaltanCampos}"/>
 	<input id="gralVerifique" type="hidden" value="${gralVerifique}"/>
+	<input id="tipoProd" name="tipoProd" type="hidden" value="${tipoProd}"/>
+	<input type="hidden" value="activo"/>
 <div class="frameFormularioB">
 	<div class="contentFormularioB">
-		<div class="titleFormularioB">${formularioModificarUsuario} - <span class="textosin">${modificarUsuario}</span></div>
+		<div class="titleFormularioB">
+			<c:choose>
+		   	<c:when test="${tipoProd == 'EDC'}">
+		   		${titulosEDC}
+		   	</c:when>
+		   	<c:when test="${tipoProd == 'FAC'}">
+		   		${tituloFiliales}
+		   	</c:when>
+		   </c:choose>
+		</div>
 			<table>
 				<tbody>
-					<tr>
-						<td colspan="4" class="ind">${camposObligatorios}</td>
-					</tr>
 					<tr>
 						<th colspan="4" class="text_izquierda">${datosUsuario}<span
 							class="textosin">.......................................................................................................</span></th>
@@ -63,10 +75,6 @@
 					<tr>
 						<td width="154" class="odd">${identificadorUsuario}:</td>
 						<td colspan="3"><c:out value="${usuario.idUsuario}"/></td>
-					</tr>
-					<tr>
-						<td width="154" class="odd">${usuarioActivo}:</td>
-						<td colspan="3"><input type="checkbox" name="usuarioActivo" value="activo" <c:if test="${usuario.estatus}">checked</c:if>></td>
 					</tr>
 
 				</tbody>
@@ -78,7 +86,7 @@
 		</div>
 </div>
 
-<div class="frameTablaVariasColumnas">
+<div class="frameTablaVariasColumnas" id="apartadoGrupos">
 	<div class="titleTablaVariasColumnas">${tituloGrupo}</div>
 		<div class="contentTablaVariasColumnas" style="height:100px;overflow:auto;">
 			<table>
@@ -106,13 +114,14 @@
 	</div>
 </div>
 
-<div class="frameTablaVariasColumnas">
+<div class="frameTablaVariasColumnas" id="apartadoEDC">
 	<div class="titleTablaVariasColumnas">${productosEDC}</div>
-		<div class="contentTablaVariasColumnas" style="height:300px;overflow:auto;">
+		<div class="contentTablaVariasColumnas" style="height:300px;overflow-y:auto;overflow-x:hidden">
 			<table>
 				<tr>
-					<th width="300" class="text_izquierda">${producto}</th>
-					<th width="50" class="text_centro" scope="col">${asignarProducto}</th>
+					<th class="text_izquierda">${producto}</th>
+					<th class="text_centro" scope="col">${asignarProducto}</th>
+					<th class="text_centro">${permisoReprocesoEtiqueta}</th>
 				</tr>
 			
 				<tr>
@@ -121,25 +130,28 @@
 				</tr>
 				<tbody>
 					<c:forEach var="productoItem" items="${productosEDCList}">
-					<tr class="odd2">
-						<td class="text_izquierda">${productoItem.descripcion}</td>
-						<td class="text_izquierda"><input type="checkbox" name="idProducto" value="${productoItem.idProducto}"
-							<c:if test="${productoItem.productoSeleccionado}">checked</c:if>>
-						</td>
-					</tr>
+						<tr class="odd2">
+							<td class="text_izquierda">${productoItem.descripcion}</td>
+							<td class="text_izquierda"><input type="checkbox" name="idProducto" value="${productoItem.idProducto}"
+								<c:if test="${productoItem.productoSeleccionado}">checked</c:if> />
+							</td>
+							<td class="text_izquierda"><input type="checkbox" name="permisoReproceso" value="${productoItem.idProducto}"
+								<c:if test="${productoItem.permisoReproceso}">checked</c:if> />
+							</td>
+						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 	</div>
 </div>
 
-<div class="frameTablaVariasColumnas">
+<div class="frameTablaVariasColumnas" id="apartadoFACT">
 	<div class="titleTablaVariasColumnas">${productosFACT}</div>
-		<div class="contentTablaVariasColumnas" style="height:300px;overflow:auto;">
+		<div class="contentTablaVariasColumnas" style="height:300px;overflow-y:auto;overflow-x:hidden">
 			<table>
 				<tr>
-					<th width="300" class="text_izquierda">${producto}</th>
-					<th width="50" class="text_centro" scope="col">${asignarProducto}</th>
+					<th class="text_izquierda">${producto}</th>
+					<th class="text_centro" scope="col">${asignarProducto}</th>
 				</tr>
 			
 				<tr>
@@ -150,7 +162,7 @@
 					<tr class="odd2">
 						<td class="text_izquierda">${productoItemFact.descripcion}</td>
 						<td class="text_izquierda"><input type="checkbox" name="idProductoFact" value="${productoItemFact.idProducto}"
-							<c:if test="${productoItemFact.productoSeleccionado}">checked</c:if>>
+							<c:if test="${productoItemFact.productoSeleccionado}">checked</c:if> />
 						</td>
 					</tr>
 					</c:forEach>

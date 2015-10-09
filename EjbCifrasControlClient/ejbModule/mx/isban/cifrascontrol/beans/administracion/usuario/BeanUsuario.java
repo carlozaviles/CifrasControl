@@ -148,6 +148,40 @@ public class BeanUsuario implements Serializable {
 		}
 	}
 	
+	
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((idUsuario == null) ? 0 : idUsuario.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof BeanUsuario))
+			return false;
+		BeanUsuario other = (BeanUsuario) obj;
+		if (idUsuario == null) {
+			if (other.idUsuario != null)
+				return false;
+		} else if (!idUsuario.equals(other.idUsuario))
+			return false;
+		return true;
+	}
+
 	/**
 	 * Metodo encargado de obtener los productos relacionados a un usuario
 	 * @return the productos Los productos a establecer

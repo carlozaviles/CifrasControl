@@ -11,6 +11,7 @@
 package mx.isban.cifrascontrol.controller.administracion;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,17 +97,23 @@ public class ControllerUsuarios extends Architech {
 	 * Metodo encargado de consultar los usuarios disponibles y regresar a la vista los datos obtenidos
 	 * @param request Un objeto de tipo {@link HttpServletRequest}
 	 * @param response Un objeto de tipo {@link HttpServletResponse}
+	 * @param parametros Objeto que contiene el modelo.
 	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista consultarUsuarios.jsp
 	 * @throws BusinessException En caso de presentarse un error al momento de obtener los usuarios
 	 */
 	@RequestMapping("consultarUsuarios.do")
-	public ModelAndView consultarUsuarios(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
+	public ModelAndView consultarUsuarios(HttpServletRequest request, HttpServletResponse response, 
+			Map<String, Object> parametros)throws BusinessException{
 		this.info("Iniciando el formulario de consulta de usuarios...");
 		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
-		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
-		final Map<String, Object> parametros = new HashMap<String, Object>();
-		final List<BeanUsuario> listaUsuarios  = boUsuario.obtenerTodosUsuarios(getArchitechBean());
+		final String tipoProducto = request.getParameter("tipoProd");
+		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, obtenerIdPantalla(tipoProducto));
+		final List<BeanUsuario> listaUsuarios = boUsuario.obtenerUsuariosOperativos(this.getArchitechBean(), 
+				this.getArchitechBean().getUsuario());
 		parametros.put("registros", listaUsuarios);
+		if(tipoProducto != null){
+			parametros.put("tipoProd", tipoProducto);
+		}
 		this.info("Direccionando a la vista: consultaUsuarios");
 		return new ModelAndView("consultarUsuarios",parametros);
 	}
@@ -184,7 +191,7 @@ public class ControllerUsuarios extends Architech {
 		usuario.setGrupos(listaGrupos);
 		boUsuario.altaUsuario(getArchitechBean(), usuario);
 		this.info("Termina la ejecucion del metodo de alta de usuario");
-		return this.consultarUsuarios(request, response);
+		return this.consultarUsuarios(request, response, new HashMap<String, Object>());
 	}
 	
 	
@@ -198,23 +205,28 @@ public class ControllerUsuarios extends Architech {
 	@RequestMapping("modificarUsuarioInit.do")
 	public ModelAndView modificarUsuarioInit(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de consulta de usuarios...");
-		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
-		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
+		//final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
 		final String idUsuario = request.getParameter("idUsuario");
+		final String tipoProducto = request.getParameter("tipoProd");
+		//ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, obtenerIdPantalla(tipoProducto));
 		final BeanUsuario usuario = boUsuario.obtenerUsuarioPorID(getArchitechBean(), idUsuario);
 		final List<BeanGrupo> grupos = usuario.getGrupos();
-		final List<BeanProducto> listaProductosEDC = boCatalogo.obtenerProductosUsuario(getArchitechBean(), idUsuario, EDC);
-		final List<BeanProducto> listaProductosFACT = boCatalogo.obtenerProductosUsuario(getArchitechBean(), idUsuario, FACT);
-		final List<BeanProducto> listaEDCAll = boCatalogo.obtenerTodosProductos(EDC);
-		final List<BeanProducto> listaFACTAll = boCatalogo.obtenerTodosProductos(FACT);
 		final Map<String, Object> parametros = new HashMap<String, Object>();
+		
+		final List<BeanProducto> listaProductosEDC = boCatalogo.obtenerProductosUsuario(getArchitechBean(), idUsuario, EDC);
+		final List<BeanProducto> listaEDCAll = boCatalogo.obtenerTodosProductos(EDC);
 		for (BeanProducto beanProducto : listaProductosEDC) {
 			for (BeanProducto beanProductoAll : listaEDCAll) {
 				if(beanProducto.getDescripcion().trim().equals(beanProductoAll.getDescripcion().trim())){
 					beanProductoAll.setProductoSeleccionado(true);
+					beanProductoAll.setPermisoReproceso(beanProducto.isPermisoReproceso());
 				}
 			}
 		}
+		parametros.put("productosEDCList", listaEDCAll);
+		
+		final List<BeanProducto> listaProductosFACT = boCatalogo.obtenerProductosUsuario(getArchitechBean(), idUsuario, FACT);
+		final List<BeanProducto> listaFACTAll = boCatalogo.obtenerTodosProductos(FACT);
 		for (BeanProducto beanProducto : listaProductosFACT) {
 			for (BeanProducto beanProductoAll : listaFACTAll) {
 				if(beanProducto.getDescripcion().trim().equals(beanProductoAll.getDescripcion().trim())){
@@ -222,10 +234,11 @@ public class ControllerUsuarios extends Architech {
 				}
 			}
 		}
+		parametros.put("productosFACTList", listaFACTAll);
+		parametros.put("tipoProd", tipoProducto);	
 		parametros.put("usuario", usuario);
 		parametros.put("todosGrupos", grupos);
-		parametros.put("productosEDCList", listaEDCAll);
-		parametros.put("productosFACTList", listaFACTAll);
+		
 		return new ModelAndView("modificarUsuario",parametros);
 	}
 	
@@ -239,14 +252,11 @@ public class ControllerUsuarios extends Architech {
 	@RequestMapping("modificarUsuario.do")
 	public ModelAndView modificarUsuario(HttpServletRequest request, HttpServletResponse response)throws BusinessException{
 		this.info("Iniciando el formulario de modificacion de usuarios");
-		final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
-		ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, PANTALLA);
+		//final Object objeto = request.getSession().getAttribute(MODULOS_PERMITIDOS);
+		//ValidadorAccesoPantallas.validarAcceso(objeto, MODULO, request.getParameter("tipoProd"));
 		final BeanUsuario usuario = new BeanUsuario();
 		usuario.setIdUsuario(request.getParameter("idUsuario"));
-		final String usuarioActivo = request.getParameter("usuarioActivo");
-		if(null != usuarioActivo && "activo".equals(usuarioActivo)){
-			usuario.setEstatus(true);
-		}
+		usuario.setEstatus(true);
 		final String[] gruposSeleccionados = request.getParameterValues("idGrupo");
 		final List<BeanGrupo> listaGrupos = new ArrayList<BeanGrupo>();
 		for (int i = 0; i < gruposSeleccionados.length; i++) {
@@ -256,6 +266,12 @@ public class ControllerUsuarios extends Architech {
 			this.info("idGrupo:"+gruposSeleccionados[i]);
 		}
 		final String[] productosEDCSeleccionados = request.getParameterValues("idProducto");
+		final String[] productosEDCPermisoReprocesoArray = request.getParameterValues("permisoReproceso");
+		List<String> listaProductosReproceso = new ArrayList<String>();
+		if(productosEDCPermisoReprocesoArray != null){
+			listaProductosReproceso = Arrays.asList(productosEDCPermisoReprocesoArray);
+			this.info("Los ID de los productos que tienen permiso para reproceso son: " + listaGrupos.toString());
+		}
 		final String[] productosFACTSeleccionados = request.getParameterValues("idProductoFact");
 		final List<BeanProducto> productos = new ArrayList<BeanProducto>();
 		if(null != productosEDCSeleccionados && productosEDCSeleccionados.length > 0){
@@ -264,6 +280,10 @@ public class ControllerUsuarios extends Architech {
 				producto.setIdProducto(productosEDCSeleccionados[i]);
 				producto.setTipoProducto(EDC);
 				productos.add(producto);
+				if(listaProductosReproceso.contains(producto.getIdProducto())){
+					this.info("El siguiente ID de producto se envia con permiso de reproceso: " + producto.getIdProducto());
+					producto.setPermisoReproceso(true);
+				}
 			}
 		}
 		if(null != productosFACTSeleccionados && productosFACTSeleccionados.length > 0){
@@ -278,7 +298,9 @@ public class ControllerUsuarios extends Architech {
 		usuario.setGrupos(listaGrupos);
 		boUsuario.modificarUsuario(getArchitechBean(), usuario);
 		this.info("Termina la ejecucion del metodo de actualizacion");
-		return this.consultarUsuarios(request, response);
+		Map<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("tipoProd", request.getParameter("tipoProd"));
+		return this.consultarUsuarios(request, response, parametros);
 	}
 
 	/**
@@ -354,6 +376,14 @@ public class ControllerUsuarios extends Architech {
 	 */
 	public void setBoCatalogo(BOCatalogos boCatalogo) {
 		this.boCatalogo = boCatalogo;
+	}
+	
+	private String obtenerIdPantalla(String producto){
+		if("EDC".equals(producto)){
+			return "PERMISOS PRODUCTOS EDC";
+		}else{
+			return "PERMISOS PRODUCTOS FILIALES";
+		}
 	}
 	
 }

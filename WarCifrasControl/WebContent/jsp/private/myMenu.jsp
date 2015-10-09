@@ -64,7 +64,8 @@
 	<spring:message code="menu.submenuPantallas" 					var="submenuPantallas"/>
 	<spring:message code="menu.submenuModulo" 						var="submenuModulo"/>
 
-
+	<spring:message code="menu.submenuProdEDC"                      var="submenuProdEDC"/>
+	<spring:message code="menu.submenuProdFAC"                      var="submenuProdFAC"/>
 
 
 	<!-- <body onload="initialize('${param.menuItem}', '${param.menuSubitem}'); addMenuItem('eight','Mi opcion dinamica','','', 'true', 'true'); disabledMenuItem('three'); disabledMenuItem('fiveDotTwo');"> -->
@@ -84,12 +85,16 @@
 								<c:if test = "${pantalla.nombrePantalla == 'SOLICITAR REPROCESO'}">
 							<li id="solicitudReprocesos">      <a href="../reprocesos/consultaPersonas.do">    &gt;<span class="subMenuText">${submenuReprocesosSolicitud}</span></a></li>
 								</c:if>
-								<c:if test = "${pantalla.nombrePantalla == 'CONSULTA DE REPROCESOS'}">							
+								<c:if test ="${pantalla.nombrePantalla == 'CONSULTA DE REPROCESOS'}">							
 							<li id="consultaReprocesos">      	<a href="../reprocesos/consultaReprocesos.do">    &gt;<span class="subMenuText">${submenuReprocesosConsulta}</span></a></li>
 								</c:if>							
-							</c:forEach>
+								<c:if test="${pantalla.nombrePantalla == 'CONSULTA DE CANCELACIONES'}">
 							<li id="consultaCancelaciones"><a href="../reprocesos/initConsultaCancelaciones.do">&gt;<span class="subMenuText">${submenuConsultaCancelaciones}</span></a></li>
-							<li id="consultaPrevios"><a href="../reprocesos/initConsultaPrevios.do">&gt;<span class="subMenuText">${submenuConsultaPrevios}</span></a></li>						
+								</c:if>
+								<c:if test="${pantalla.nombrePantalla == 'CONSULTA DE PREVIOS'}">
+							<li id="consultaPrevios"><a href="../reprocesos/initConsultaPrevios.do">&gt;<span class="subMenuText">${submenuConsultaPrevios}</span></a></li>
+								</c:if>
+							</c:forEach>						
 						</ul>
 					</li>	
 						</c:if>
@@ -138,11 +143,17 @@
 								<c:if test = "${pantalla.nombrePantalla == 'GRUPOS'}">
 							<li id="grupos">      		<a href="../administracion/consultarGrupos.do">    &gt;<span class="subMenuText">${submenuGrupo}</span></a></li>
 								</c:if>	
-								<c:if test = "${pantalla.nombrePantalla == 'PANTALLAS'}">							
+								<!--<c:if test = "${pantalla.nombrePantalla == 'PANTALLAS'}">							
 							<li id="pantallas">      	<a href="../administracion/consultarPantallas.do">    &gt;<span class="subMenuText">${submenuPantallas}</span></a></li>
-								</c:if>	
-								<c:if test = "${pantalla.nombrePantalla == 'MODULOS'}">							
+								</c:if>-->	
+								<!--<c:if test = "${pantalla.nombrePantalla == 'MODULOS'}">							
 							<li id="modulos">    	<a href="../administracion/consultarModulos.do">    &gt;<span class="subMenuText">${submenuModulo}</span></a></li>
+								</c:if>-->
+								<c:if test="${pantalla.nombrePantalla == 'PERMISOS PRODUCTOS EDC'}">
+							<li id="permisosEDC"><a href="../administracion/consultarUsuarios.do?tipoProd=EDC">    &gt;<span class="subMenuText">${submenuProdEDC}</span></a></li>
+								</c:if>
+								<c:if test="${pantalla.nombrePantalla == 'PERMISOS PRODUCTOS FILIALES'}">
+							<li id="permisosEDC"><a href="../administracion/consultarUsuarios.do?tipoProd=FAC">    &gt;<span class="subMenuText">${submenuProdFAC}</span></a></li>
 								</c:if>							
 							</c:forEach>
 						</ul>

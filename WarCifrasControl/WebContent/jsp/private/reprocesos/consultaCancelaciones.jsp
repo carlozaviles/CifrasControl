@@ -4,8 +4,8 @@
 
 <jsp:include page="../myHeader.jsp" flush="true"/>
 <jsp:include page="../myMenu.jsp" flush="true">
-	<jsp:param name="menuItem"   	 value="cifras" />
-	<jsp:param name="menuSubItem"    value="consultaCifras" />	
+	<jsp:param name="menuItem"   	 value="reprocesos" />
+	<jsp:param name="menuSubItem"    value="consultaCancelaciones" />	
 </jsp:include>
 <script src="${pageContext.servletContext.contextPath}/recursos/js/reprocesos/consultaCancelaciones.js" type="text/javascript"></script>
 
