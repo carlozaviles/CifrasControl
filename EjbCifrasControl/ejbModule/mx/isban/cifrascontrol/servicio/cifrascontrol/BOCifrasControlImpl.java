@@ -138,6 +138,7 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 	public List<BeanInsidenciaCifras> ejecutaConsultaInsidencias(String aplicativo, String mes, String anio,
 			ArchitechSessionBean sessionBean) throws BusinessException {
 		this.info("Se ejecuta la consulta de insidencias.");
+		//Este mapa contiene la relacion entre los nombres de los aplicativos, y los codigos manejados en la parte batch.
 		final Map<String, String> relacionProductoCodigo = new HashMap<String, String>();
 		final String cadenaCantidadProductos = this.getConfigDeCmpAplicacion("NUMERO_PARES_PRODUCTO_CODIGO");
 		final String mascaraOrigenYCfd = this.getConfigDeCmpAplicacion("MASCARA_ORIGEN_Y_CFD");

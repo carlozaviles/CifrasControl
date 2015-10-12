@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="estatus" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="fechaFin" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="fechaSolicitud" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="folioCancelacion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="folioInicial" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="folioNuevo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="materno" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -59,7 +58,6 @@ import javax.xml.bind.annotation.XmlType;
     "estatus",
     "fechaFin",
     "fechaSolicitud",
-    "folioCancelacion",
     "folioInicial",
     "folioNuevo",
     "materno",
@@ -84,7 +82,6 @@ public class ReprocesoDTO {
     protected String estatus;
     protected String fechaFin;
     protected String fechaSolicitud;
-    protected String folioCancelacion;
     protected String folioInicial;
     protected String folioNuevo;
     protected String materno;
@@ -266,30 +263,6 @@ public class ReprocesoDTO {
      */
     public void setFechaSolicitud(String value) {
         this.fechaSolicitud = value;
-    }
-
-    /**
-     * Gets the value of the folioCancelacion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getFolioCancelacion() {
-        return folioCancelacion;
-    }
-
-    /**
-     * Sets the value of the folioCancelacion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setFolioCancelacion(String value) {
-        this.folioCancelacion = value;
     }
 
     /**
