@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -18,9 +19,12 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.logging.Level;
+import mx.isban.cifrascontrol.bean.auditoria.BeanPistaAuditoria;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanCifrasControl;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
+import mx.isban.cifrascontrol.servicio.auditoria.BOPistasAuditoria;
 import mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl;
+import mx.isban.cifrascontrol.util.general.ConstantesModuloIntegrador;
 import mx.isban.cifrascontrol.util.general.OrdenadorInsidenciaCifras;
 import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControl;
@@ -45,11 +49,15 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 	 * Objeto que contiene los metodos a ejecutar por el servicio web
 	 */
 	private CifrasControl cifrasControl;
-
 	/**
 	 * Listado de las cifras de control
 	 */
 	private List<BeanCifrasControl> cifrasControlList;
+	/**
+	 * Referencia hacia objeto de la capa de negocio BOPistasAuditoria.
+	 */
+	@EJB
+	private BOPistasAuditoria boPistas;
 
 	/**
 	 * @see Architech#Architech()
@@ -77,6 +85,11 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 			final String periodo, final ArchitechSessionBean sessionBean)
 			throws BusinessException {
 		this.cifrasControlList.clear();
+		
+		final BeanPistaAuditoria pistaAuditoria = new BeanPistaAuditoria();
+		pistaAuditoria.setCodigoOperacion(ConstantesModuloIntegrador.COD_PA_CONSULTA_CIFRAS);
+		pistaAuditoria.setClienteAfectado(ConstantesModuloIntegrador.COD_PA_NO_APLICA);
+		
 		this.info("Creando la solicitud para consultar las cifras de control");
 		
 		this.info("Consultando las cifras de control con el aplicativo:"
@@ -100,10 +113,15 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 			} catch (CifrasControlException_Exception e) {
 				this.error("Ocurrio un error al momento de consultar el web service"
 						+ e.getFaultInfo());
+				pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK);
+				boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
 				throw new BusinessException(
 						ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL);
 			}
 		}
+		
+		pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_OK);
+		boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
 		
 		return this.cifrasControlList.size();
 	}
@@ -138,6 +156,11 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 	public List<BeanInsidenciaCifras> ejecutaConsultaInsidencias(String aplicativo, String mes, String anio,
 			ArchitechSessionBean sessionBean) throws BusinessException {
 		this.info("Se ejecuta la consulta de insidencias.");
+		
+		final BeanPistaAuditoria pistaAuditoria = new BeanPistaAuditoria();
+		pistaAuditoria.setCodigoOperacion(ConstantesModuloIntegrador.COD_PA_CONSULTA_INCIDENCIAS);
+		pistaAuditoria.setClienteAfectado(ConstantesModuloIntegrador.COD_PA_NO_APLICA);
+		
 		//Este mapa contiene la relacion entre los nombres de los aplicativos, y los codigos manejados en la parte batch.
 		final Map<String, String> relacionProductoCodigo = new HashMap<String, String>();
 		final String cadenaCantidadProductos = this.getConfigDeCmpAplicacion("NUMERO_PARES_PRODUCTO_CODIGO");
@@ -149,6 +172,8 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 		if(cadenaCantidadProductos == null || mascaraOrigenYCfd == null || mascaraSat == null || 
 				rutaIncidencias == null){
 			this.warn("Error al cargar la configuracion para la consulta de incidencias de Cifras de Control");
+			pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK);
+			boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
 			throw new BusinessException(ConstantesCifrasControl.ERROR_CONFIGURACION_CONSULTA_INCIDENCIAS);
 		}else{
 			cantidadProductos = Integer.parseInt(cadenaCantidadProductos);
@@ -162,6 +187,8 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 			}else{
 				this.debug("Numero de Producto con error: " + i);
 				this.warn("La configuracion para la consulta de incidencias de cifras de control no es correcta.");
+				pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK);
+				boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
 				throw new BusinessException(ConstantesCifrasControl.ERROR_CONFIGURACION_CONSULTA_INCIDENCIAS);
 			}
 		}
@@ -210,6 +237,8 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 			}
 		}catch(ParseException e){
 			showException(e, Level.WARN);
+			pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK);
+			boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
 			throw new BusinessException(ConstantesCifrasControl.ERROR_PROCESA_ARCHIVOS_CONSULTA_INCIDENCIAS);
 		}
 		
@@ -226,6 +255,9 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 		String []ordenParametros = {"ORIGEN", "SAT", "EDC"};
 		
 		Collections.sort(listaFinalIncidencias, new OrdenadorInsidenciaCifras(ordenParametros));
+		
+		pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_OK);
+		boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
 		
 		return listaFinalIncidencias;
 	}
@@ -294,4 +326,5 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 		}
 		return new ArrayList<String>();
 	}
+	
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
@@ -27,7 +28,10 @@ import javax.ejb.TransactionManagementType;
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
+import mx.isban.cifrascontrol.bean.auditoria.BeanPistaAuditoria;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
+import mx.isban.cifrascontrol.servicio.auditoria.BOPistasAuditoria;
+import mx.isban.cifrascontrol.util.general.ConstantesModuloIntegrador;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControl;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlException_Exception;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlService;
@@ -60,6 +64,11 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 	 *Numero de la clase serializada 
 	 */
 	private static final long serialVersionUID = 4332825216520593352L;
+	/**
+	 * Referencia al objeto de la capa de negocio BOPistasAuditoria.
+	 */
+	@EJB
+	private BOPistasAuditoria boPistas;
 
 	/**
      * @see Architech#Architech()
@@ -92,8 +101,10 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 			}
 			this.info("Consulta del servicio web, realizada correctamente");
 		} catch (CifrasControlException_Exception e) {
+			ejecutaEnvioPistaAuditoria(tipoFactura, ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK, sessionBean);
 			throw new BusinessException(e.getMessage());
 		}
+		ejecutaEnvioPistaAuditoria(tipoFactura, ConstantesModuloIntegrador.COD_PA_OPERACION_OK, sessionBean);
 		
 		return beanFacturaList;
 	}
@@ -277,8 +288,25 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		return factura;
 	}
 
-	
-
-	
-	
+	/**
+	 * Genera una pista de auditoria, en la que el valor Cliente Afectado es enviado con un valor de no aplica.
+	 * @param tipoFactura Codigo de operacion que se coloca en la pista de auditoria.
+	 * @param estatus Estatus que se envia en la pista de auditoria.
+	 * @param sessionBean Objeto de la arquitectura agave.
+	 */
+	private void ejecutaEnvioPistaAuditoria(String tipoFactura, String estatus, ArchitechSessionBean sessionBean){
+		final BeanPistaAuditoria pistaAuditoria = new BeanPistaAuditoria();
+		if("FACT".equals(tipoFactura)){
+			pistaAuditoria.setCodigoOperacion(ConstantesModuloIntegrador.COD_PA_CONSULTA_FACTURAS);
+		}else if("DIVI".equals(tipoFactura)){
+			pistaAuditoria.setCodigoOperacion(ConstantesModuloIntegrador.COD_PA_CONSULTA_DIVISAS);
+		}else if("NOTA".equals(tipoFactura)){
+			pistaAuditoria.setCodigoOperacion(ConstantesModuloIntegrador.COD_PA_CONSULTA_NOTAS_CREDITO);
+		}else if("RECI".equals(tipoFactura)){
+			pistaAuditoria.setCodigoOperacion(ConstantesModuloIntegrador.COD_PA_CONSULTA_RECIBOS);
+		}
+		pistaAuditoria.setEstatusOperacion(estatus);
+		pistaAuditoria.setClienteAfectado(ConstantesModuloIntegrador.COD_PA_NO_APLICA);
+		boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
+	}
 }

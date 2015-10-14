@@ -19,6 +19,7 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.logging.Level;
+import mx.isban.cifrascontrol.bean.auditoria.BeanPistaAuditoria;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanCancelacion;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanDatosClienteDAO;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanDatosSolicitudReprocesos;
@@ -27,6 +28,8 @@ import mx.isban.cifrascontrol.bean.reprocesos.BeanParamsConsultaReproceso;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanPrevioEdc;
 import mx.isban.cifrascontrol.bean.reprocesos.BeanRegistroReproceso;
 import mx.isban.cifrascontrol.dao.reprocesos.DAOReprocesos;
+import mx.isban.cifrascontrol.servicio.auditoria.BOPistasAuditoria;
+import mx.isban.cifrascontrol.util.general.ConstantesModuloIntegrador;
 import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
 import mx.isban.cifrascontrol.util.reproceso.ConstantesReprocesos;
 import mx.isban.cifrascontrol.webservice.reproceso.CancelacionDTO;
@@ -52,6 +55,11 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 	 */
 	@EJB
 	private transient DAOReprocesos reprocesos;
+	/**
+	 * Referencia al servicio BOPistasAuditoria.
+	 */
+	@EJB
+	private transient BOPistasAuditoria boPistas;
 
 	/* (non-Javadoc)
 	 * @see mx.isban.cifrascontrol.servicio.reprocesos.BOReprocesos#realizarConsultaPersonas(java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
@@ -94,7 +102,10 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 		ReprocesoService rs = new ReprocesoService();
 		Reproceso reprocesoProxy = rs.getReprocesoImplPort();
 		final SolicitudReprocesoDTO solicitudDTO = new SolicitudReprocesoDTO();
-		
+		final StringBuilder clienteAfectado = new StringBuilder();
+		clienteAfectado.append(datosSolicitud.getNombre()).append(" ").append(datosSolicitud.getPaterno()).append(" ")
+			.append(datosSolicitud.getMaterno());
+		boolean ocurrioError = false;
 		try{
 			BeanUtils.copyProperties(solicitudDTO, datosSolicitud);
 			final StringBuilder periodo = new StringBuilder();
@@ -105,15 +116,26 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 			solicitudDTO.setUsuarioOperativo(sessionBean.getUsuario());
 			reprocesoProxy.solicitarReproceso(solicitudDTO);
 		}catch(ReprocesoException_Exception e){
+			ocurrioError = true;
 			showException(e, Level.ERROR);
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_SOLICITUD_REPROCESO);
 		}catch(IllegalAccessException e){
+			ocurrioError = true;
 			showException(e, Level.ERROR);
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_GENERA_SOLICITUD_REPROCESO);
 		}catch(InvocationTargetException e){
+			ocurrioError = true;
 			showException(e, Level.ERROR);
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_GENERA_SOLICITUD_REPROCESO);
+		}finally{
+			if(ocurrioError){
+				registrarPistaAuditoria(ConstantesModuloIntegrador.COD_PA_SOLICITUD_REPROCESOS, 
+						ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK, clienteAfectado.toString(), sessionBean);
+			}
 		}
+		registrarPistaAuditoria(ConstantesModuloIntegrador.COD_PA_SOLICITUD_REPROCESOS, 
+				ConstantesModuloIntegrador.COD_PA_OPERACION_OK, clienteAfectado.toString(), sessionBean);
+		
 		this.info("Se llevo a cabo la solicitud de reproceso.");
 	}
 
@@ -131,6 +153,7 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 		noCuenta.append(parametros.getNumeroCuenta());
 		periodo.append(parametros.getAnio()).append("-").append(parametros.getMes());
 		List<BeanRegistroReproceso> listaReprocesos = null;
+		boolean ocurrioError = false;
 		try{
 			final List<String> productos = UtilGeneralCifras.obtenerNombresProductos(parametros.getProductos());
 			List<ReprocesoDTO> resultadoConsulta = null;
@@ -149,15 +172,26 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 				this.info("No se encontraron reprocesos para el periodo: " + periodo.toString() + noCuenta.toString());
 			}
 		}catch(ReprocesoException_Exception e){
+			ocurrioError = true;
 			showException(e, Level.ERROR);
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_CONSULTA_REPROCESOS);
 		}catch(IllegalAccessException e){
+			ocurrioError = true;
 			showException(e, Level.ERROR);
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_GENERA_SOLICITUD_REPROCESO);
 		}catch(InvocationTargetException e){
+			ocurrioError = true;
 			showException(e, Level.ERROR);
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_GENERA_SOLICITUD_REPROCESO);
+		}finally{
+			if(ocurrioError){
+				registrarPistaAuditoria(ConstantesModuloIntegrador.COD_PA_CONSULTA_REPROCESOS, 
+						ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK, ConstantesModuloIntegrador.COD_PA_NO_APLICA, sessionBean);
+			}
 		}
+		registrarPistaAuditoria(ConstantesModuloIntegrador.COD_PA_CONSULTA_REPROCESOS, 
+				ConstantesModuloIntegrador.COD_PA_OPERACION_OK, ConstantesModuloIntegrador.COD_PA_NO_APLICA, sessionBean);
+		
 		return listaReprocesos;
 	}
 
@@ -172,6 +206,8 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 		final String rutaPrevios = this.getConfigDeCmpAplicacion("RUTA_PREVIOS");
 		if(mascaraPrevios == null || rutaPrevios == null){
 			this.warn("Error al cargar la configuracion para consulta de Previos");
+			registrarPistaAuditoria(ConstantesModuloIntegrador.COD_PA_CONSULTA_PREVIOS, 
+					ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK, ConstantesModuloIntegrador.COD_PA_NO_APLICA, sessionBean);
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_CONFIG_PREVIOS);
 		}
 		final String periodo = parametros.getMes().concat(parametros.getAnio());
@@ -191,10 +227,15 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 				previo.setFecha(UtilGeneralCifras.obtenerFecha(parametros.getAnio() + parametros.getMes(), "yyyyMM"));
 				listaPrevios.add(previo);
 			}catch(ParseException e){
+				registrarPistaAuditoria(ConstantesModuloIntegrador.COD_PA_CONSULTA_PREVIOS, 
+						ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK, ConstantesModuloIntegrador.COD_PA_NO_APLICA, sessionBean);
 				showException(e, Level.ERROR);
 				throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_PROCESO_PREVIOS);
 			}
 		}
+		
+		registrarPistaAuditoria(ConstantesModuloIntegrador.COD_PA_CONSULTA_PREVIOS, 
+				ConstantesModuloIntegrador.COD_PA_OPERACION_OK, ConstantesModuloIntegrador.COD_PA_NO_APLICA, sessionBean);
 		
 		return listaPrevios;
 	}
@@ -210,6 +251,7 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 		final Reproceso reprocesoProxy = rps.getReprocesoImplPort();
 		
 		List<BeanCancelacion> listaCancelaciones = new ArrayList<BeanCancelacion>();
+		boolean ocurrioError = false;
 		try{
 			final String fechasCancel = UtilGeneralCifras.obtenerFechas(periodo);
 			List<CancelacionDTO> resultConsulta = null;
@@ -228,16 +270,43 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 				this.info("No se encontro cancelacion para el periodo seleccionado :" + periodo);
 			}
 		}catch(ReprocesoException_Exception e){
+			ocurrioError = true;
 			showException(e, Level.ERROR);
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_CONSULTA_REPROCESOS);
 		}catch(IllegalAccessException e){
+			ocurrioError = true;
 			showException(e, Level.ERROR);
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_GENERA_SOLICITUD_REPROCESO);
 		}catch(InvocationTargetException e){
+			ocurrioError = true;
 			showException(e, Level.ERROR);
 			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_GENERA_SOLICITUD_REPROCESO);
+		}finally{
+			if(ocurrioError){
+				registrarPistaAuditoria(ConstantesModuloIntegrador.COD_PA_CONSULTA_CANCELACION, 
+						ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK, ConstantesModuloIntegrador.COD_PA_NO_APLICA, sessionBean);
+			}
 		}
 
+		registrarPistaAuditoria(ConstantesModuloIntegrador.COD_PA_CONSULTA_CANCELACION, 
+				ConstantesModuloIntegrador.COD_PA_OPERACION_OK, ConstantesModuloIntegrador.COD_PA_NO_APLICA, sessionBean);
+		
 		return listaCancelaciones;
+	}
+	
+	/**
+	 * Metodo utilitario para regstrar pistas de auditoria.
+	 * @param operacion La operacion que fue realizada.
+	 * @param estatus El estatus resultado de la operacion.
+	 * @param clienteAfectado El cliente que fue afectado con la operacion, en caso de que aplique.
+	 * @param sessionBean Objeto de la arquitectura agave.
+	 */
+	private void registrarPistaAuditoria(String operacion, String estatus, String clienteAfectado, 
+			ArchitechSessionBean sessionBean){
+		final BeanPistaAuditoria pistaAuditoria = new BeanPistaAuditoria();
+		pistaAuditoria.setCodigoOperacion(operacion);
+		pistaAuditoria.setEstatusOperacion(estatus);
+		pistaAuditoria.setClienteAfectado(clienteAfectado);
+		boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
 	}
 }

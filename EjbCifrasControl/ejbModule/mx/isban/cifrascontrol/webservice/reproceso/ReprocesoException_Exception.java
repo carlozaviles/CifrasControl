@@ -13,6 +13,10 @@ public class ReprocesoException_Exception
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6130419020753563458L;
+	/**
      * Java type that goes as soapenv:Fault detail element.
      * 
      */

@@ -156,7 +156,7 @@ public class ControllerConsultaReprocesos extends Architech {
 			Map<String, Object> modelo) throws BusinessException {
 		this.info("Se realiza la peticion para la consulta de Previos.");
 		final BeanParamsConsultaPrevios filtros = new BeanParamsConsultaPrevios();
-		filtros.setNumeroCuenta(request.getParameter("noCuenta"));
+		filtros.setNumeroCuenta(request.getParameter("numeroCuenta"));
 		filtros.setProducto(request.getParameter("aplicativo"));
 		filtros.setMes(request.getParameter("mes"));
 		filtros.setAnio(request.getParameter("anio"));
