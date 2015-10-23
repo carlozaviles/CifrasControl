@@ -73,4 +73,12 @@ public class ConstantesModuloIntegrador {
 	 * Codigo de operacion para la asignacion de Pantallas a Grupos
 	 */
 	public static final String COD_PA_ASIGNACION_PANTALLAS = "Asignacion de Pantallas a Grupos";
+	/**
+	 * Clave con la que se identifica a los productos EDC.
+	 */
+	public static final String CLAVE_PRODUCTOS_EDC = "EDC";
+	/**
+	 * Clave con la que se identifica a los productos de Facturas.
+	 */
+	public static final String CLAVE_PRODUCTOS_FACTURAS = "FACT";
 }

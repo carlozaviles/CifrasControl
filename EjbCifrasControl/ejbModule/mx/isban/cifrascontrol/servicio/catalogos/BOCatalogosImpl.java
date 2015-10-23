@@ -22,10 +22,11 @@ import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.agave.commons.interfaces.BeanResultBO;
+import mx.isban.cifrascontrol.beans.producto.BeanIDProductoRespuesta;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.beans.producto.BeanProductoRespuesta;
 import mx.isban.cifrascontrol.dao.catalogos.DAOCatalogos;
-import mx.isban.cifrascontrol.util.reproceso.CatalogoProductosReproceso;
+import mx.isban.cifrascontrol.util.general.ConstantesModuloIntegrador;
 
 /**
  * Session Bean implementation class BOCatalogosImpl
@@ -60,7 +61,6 @@ public class BOCatalogosImpl extends Architech implements BOCatalogos {
      */
     public BOCatalogosImpl() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/* (non-Javadoc)
@@ -68,12 +68,16 @@ public class BOCatalogosImpl extends Architech implements BOCatalogos {
 	 */
 	@Override
 	public List<BeanProducto> obtenerTodosProductos(String tipoProducto) throws BusinessException {
-		this.info("Iniciando la busqueda de todos los productos");
+		this.info("Iniciando la busqueda de todos los productos de tipo: " + tipoProducto);
 		List<BeanProducto> listaProductos = new ArrayList<BeanProducto>();
-		if("EDC".equalsIgnoreCase(tipoProducto)){
-			listaProductos = CatalogoProductosReproceso.obtenerCatalogoProductosReprocesos();
+		if(ConstantesModuloIntegrador.CLAVE_PRODUCTOS_EDC.equalsIgnoreCase(tipoProducto)){
+			BeanProductoRespuesta respuesta = daoCatalogos.obtenerProductosEDC();
+			verificarRespuesta(respuesta);
+			listaProductos = respuesta.getProductos();
 		}else{
-			listaProductos = daoCatalogos.obtenerTodosProductos(tipoProducto);
+			BeanProductoRespuesta respuestaFacturas = daoCatalogos.obtenerProductosFacturas();
+			verificarRespuesta(respuestaFacturas);
+			listaProductos = respuestaFacturas.getProductos();
 		}
 		this.info("El numero de productos encontrados es:"+listaProductos.size());
 		this.info("Metodo de consulta de todos los productos, realizado con exito");
@@ -84,16 +88,29 @@ public class BOCatalogosImpl extends Architech implements BOCatalogos {
 	 * @see mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos#obtenerProductosUsuario(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public List<BeanProducto> obtenerProductosUsuario(
-			ArchitechSessionBean sessionBean, String idUsuario, String tipo)
+	public List<BeanProducto> obtenerProductosUsuario(ArchitechSessionBean sessionBean, String idUsuario, String tipo)
 			throws BusinessException {
 		this.info("Iniciando la busqueda de productos de tipo:"+tipo+" para el usuario:"+idUsuario);
-		final BeanProductoRespuesta respuesta = daoCatalogos.obtenerProductoPorUsuario(idUsuario, tipo, sessionBean);
-		verificarRespuesta(respuesta);
-		final List<BeanProducto> productos = respuesta.getProductos();
-		this.info("El numero de productos encontrados es:"+productos.size());
-		this.info("Metodo de consulta de productos por usuario, realizado con exito");
-		return productos;
+		List<BeanProducto> listaProductosUsuario = new ArrayList<BeanProducto>();
+		final BeanIDProductoRespuesta respuestaConsultaID = 
+				daoCatalogos.obtenerIdentificadoresProductosPorUsuario(idUsuario, tipo);
+		verificarRespuesta(respuestaConsultaID);
+		BeanProductoRespuesta totalProductos = null;
+		if(ConstantesModuloIntegrador.CLAVE_PRODUCTOS_EDC.equals(tipo)){
+			totalProductos = daoCatalogos.obtenerProductosEDC();
+		}else if(ConstantesModuloIntegrador.CLAVE_PRODUCTOS_FACTURAS.equals(tipo)){
+			totalProductos = daoCatalogos.obtenerProductosFacturas();
+		}
+		verificarRespuesta(totalProductos);
+		for(BeanProducto producto : totalProductos.getProductos()){
+			String permisoReproceso = null;
+			if((permisoReproceso = respuestaConsultaID.getListaIdentificadoresProductos().get(producto.getIdProducto())) != null){
+				producto.setPermisoReproceso(permisoReproceso != null && "1".equals(permisoReproceso));
+				listaProductosUsuario.add(producto);
+			}
+		}
+		
+		return listaProductosUsuario;
 	}
 	
 	/**

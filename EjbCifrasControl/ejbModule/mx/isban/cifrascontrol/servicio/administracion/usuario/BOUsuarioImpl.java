@@ -32,6 +32,7 @@ import mx.isban.cifrascontrol.beans.administracion.pantalla.BeanPantallaRespuest
 import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario;
 import mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuarioRespuesta;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
+import mx.isban.cifrascontrol.beans.producto.BeanProductoRespuesta;
 import mx.isban.cifrascontrol.dao.administracion.pantalla.DAOPantalla;
 import mx.isban.cifrascontrol.dao.administracion.perfiles.DAOGrupo;
 import mx.isban.cifrascontrol.dao.administracion.usuario.DAOUsuario;
@@ -108,8 +109,8 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 	 * @see mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario#obtenerTodosUsuarios(mx.isban.agave.commons.beans.ArchitechSessionBean)
 	 */
 	@Override
-	public List<BeanUsuario> obtenerTodosUsuarios(
-			ArchitechSessionBean sessionBean)throws BusinessException {
+	public List<BeanUsuario> obtenerTodosUsuarios(ArchitechSessionBean sessionBean)
+			throws BusinessException {
 		this.info("Iniciando la busqueda de todos los usaurios....");
 		final BeanUsuarioRespuesta resultadoConsulta = daoUsuario.obtenerTodosUsuarios(sessionBean);
 		verificarRespuesta(resultadoConsulta);
@@ -120,8 +121,6 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 		return usuarios;
 	}
 	
-	
-
 	/* (non-Javadoc)
 	 * @see mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario#obtenerUsuarioPorID(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String)
 	 */
@@ -147,17 +146,19 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 	 * @see mx.isban.cifrascontrol.servicio.administracion.usuario.BOUsuario#modificarUsuario(mx.isban.agave.commons.beans.ArchitechSessionBean, mx.isban.cifrascontrol.beans.administracion.usuario.BeanUsuario)
 	 */
 	@Override
-	public void modificarUsuario(ArchitechSessionBean sessionBean,
-			BeanUsuario usuario) throws BusinessException{
+	public void modificarUsuario(ArchitechSessionBean sessionBean, BeanUsuario usuario) 
+			throws BusinessException{
 		this.info("Iniciando la modificacion de un usuario....");
 		List<BeanProducto> productosList = new ArrayList<BeanProducto>();
 		List<BeanProducto> productosIdList = usuario.getProductos();
 		for (BeanProducto beanProducto : productosIdList) {
 			BeanProducto producto = new BeanProducto();
 			if("FACT".equalsIgnoreCase(beanProducto.getTipoProducto())){
-				 producto = daoCatalogos.obtenerProductoPorId(beanProducto.getIdProducto());
+				 producto = daoCatalogos.obtenerProductoFacturaPorId(beanProducto.getIdProducto());
 			}else{
-				producto = CatalogoProductosReproceso.obtenerCatalogoProductosReprocesos().get((Integer.parseInt(beanProducto.getIdProducto())-1));
+				BeanProductoRespuesta respuesta = daoCatalogos.obtenerProductoEDCPorId(beanProducto.getIdProducto());
+				verificarRespuesta(respuesta);
+				producto = respuesta.getProductos().get(0);
 				producto.setProductoSeleccionado(beanProducto.isProductoSeleccionado());
 				producto.setPermisoReproceso(beanProducto.isPermisoReproceso());
 			}
@@ -186,7 +187,7 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 		for (BeanProducto beanProducto : productosIdList) {
 			BeanProducto producto = new BeanProducto();
 			if("FACT".equalsIgnoreCase(beanProducto.getTipoProducto())){
-				 producto = daoCatalogos.obtenerProductoPorId(beanProducto.getIdProducto());
+				 producto = daoCatalogos.obtenerProductoFacturaPorId(beanProducto.getIdProducto());
 			}else{
 				producto = CatalogoProductosReproceso.obtenerCatalogoProductosReprocesos().get(Integer.parseInt(beanProducto.getIdProducto())-1);
 			}
