@@ -13,25 +13,25 @@ $(document).ready(function(){
 	}
 	
 	if($('#sinDatos').length){
-		if($('#sinDatos').val().trim() != ''){
+		if($.trim($('#sinDatos').val()) != ''){
 			jAlert($('#gralSinDatos').val(), $('#gralSinDatosRespuesta').val(), 'Alerta', $('#gralModificarFiltros').val());
 		}
 	}
 	
 	if($('#tamanioDetalle').length){
-		if($('#tamanioDetalle').val().trim() === '0'){
+		if($.trim($('#tamanioDetalle').val()) === '0'){
 			$('#linkDetalle').hide();
 		}
 	}
 	$('#aceptarFormulario').click(function(){
 		var isError = false;
-		if($('#aplicativo').val().trim() === ''){
+		if($.trim($('#aplicativo').val()) === ''){
 			isError = true;
 		}
-		if($('#mes').val().trim() === ''){
+		if($.trim($('#mes').val()) === ''){
 			isError = true;
 		}
-		if($('#anio').val().trim() === ''){
+		if($.trim($('#anio').val()) === ''){
 			isError = true;
 		}
 		if(isError === true){

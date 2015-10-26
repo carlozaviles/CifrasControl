@@ -25,12 +25,12 @@
 <spring:message code="facturas.resumen"              	var="resumen"/>
 <spring:message code="facturas.facturasFactoraje"      	var="facturasFactoraje"/>
 <spring:message code="facturas.facturasConfirming"     	var="facturasConfirming"/>
-<spring:message code="facturas.exportar"     		var="exportar"/>
+<spring:message code="facturas.exportar"     		    var="exportar"/>
+<spring:message code="facturas.exportarReporte"         var="exportarReporte"/>
 
 
 <c:set var="facturasCorrectasList" value="${facturasCorrectas}" />
 <c:set var="facturasIncorrectasList" value="${facturasIncorrectas}" />
-
 
 
 <div class="pageTitleContainer">
@@ -138,30 +138,20 @@
 
 <display:table name="facturaList" sort="list" pagesize="10" id="tableExport"
 				requestURI="../facturas/consultaFacturas.do" export="true">
-				<display:column property="cantidadFacturas" title="${totalFacturas}" group="1" sortable="false"
-					headerClass="text_centro" />
-				<display:column property="subTotal" title="${subtotal}" sortable="false"
-					headerClass="text_centro" />
-				<display:column property="iva" title="${tasaIva}" sortable="false"
-					headerClass="text_centro" />
-				<display:column property="totalImpuestos" title="${total}" sortable="false"
-					headerClass="text_centro" />
-				<display:setProperty name="export.banner" value="${exportar}"/>
-				<display:setProperty name="basic.show.header" value="false" />
-				<display:setProperty name="export.pdf" value="false" />
-				<display:setProperty name="export.excel" value="true" />
-				<display:setProperty name="export.xml" value="false" />
-				<display:setProperty name="export.rtf" value="false" />
-				<display:setProperty name="export.csv" value="false" />
-				<display:setProperty name="export.excel.filename"
-					value="ConsultaFacturas.xls" />
-			</display:table>
+	<display:column property="cantidadFacturas" title="${totalFacturas}" group="1" sortable="false"
+		headerClass="text_centro" />
+	<display:column property="subTotal" title="${subtotal}" sortable="false"
+		headerClass="text_centro" />
+	<display:column property="iva" title="${tasaIva}" sortable="false"
+		headerClass="text_centro" />
+	<display:column property="totalImpuestos" title="${total}" sortable="false"
+		headerClass="text_centro" />
+	<display:setProperty name="export.excel.filename" value="ConsultaFacturas.xls" />
+</display:table>
 
 <div class="PiePag">
-
-<a href="../facturas/facturasInit.do">${regresar}</a> 
-
-
+	<a href="#" id="exportarReporte">${exportarReporte}</a>
+	<a href="../facturas/facturasInit.do">${regresar}</a> 
 </div>
 			
 <jsp:include page="../myFooter.jsp" flush="true"/>

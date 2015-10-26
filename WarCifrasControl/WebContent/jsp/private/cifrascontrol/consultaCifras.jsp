@@ -209,8 +209,7 @@
 				<display:setProperty name="export.xml" value="false" />
 				<display:setProperty name="export.rtf" value="false" />
 				<display:setProperty name="export.csv" value="false" />
-				<display:setProperty name="export.excel.filename"
-					value="ConsultaCifrasEDC.xls" />
+				<display:setProperty name="export.excel.filename" value="ConsultaCifrasEDC.xls" />
 			</display:table>
 
 

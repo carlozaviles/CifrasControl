@@ -5,7 +5,7 @@ $(document).ready(function(){
 	
     $('#btnAltaUsuario').click(function(){
     	var error = false;
-    	if ($('#idUsuario').val().trim() === '' || $('#idUsuario').val().length > 10) {
+    	if ($.trim($('#idUsuario').val()) === '' || $('#idUsuario').val().length > 10) {
     		$('#idRequerido').show();
             error = true;
         }else{

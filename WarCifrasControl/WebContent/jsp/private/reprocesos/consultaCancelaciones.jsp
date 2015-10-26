@@ -53,6 +53,7 @@
 		<display:column property="importeComisInter" title="${comicionesIntereses}" sortable="true" headerClass="text_centro"/>
 		<display:column property="importeIva" title="${iva}" sortable="true" headerClass="text_centro"/>
 		<display:column property="importeRetencion" title="${retenciones}" sortable="true" headerClass="text_centro"/>
+		<display:setProperty name="export.excel.filename" value="ConsultaCancelaciones.xls" />
 	</display:table>
 </div>
 

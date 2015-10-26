@@ -6,6 +6,6 @@ $(document).ready(function(){
 	$('.pagelinks').hide();
 	$('#exportaReprocesos').hide();
 	$('.exportlinks').hide();
-	var url = $('.exportlinks a:first').attr('href');
+	var url = $('.exportlinks a:nth-child(2)').attr('href');
 	$('#exportarInformeReprocesos').attr('href', url);
 });

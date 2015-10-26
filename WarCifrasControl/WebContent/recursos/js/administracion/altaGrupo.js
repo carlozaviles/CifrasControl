@@ -15,7 +15,7 @@ $(document).ready(function(){
 	
     $('#btnAltaGrupo').click(function(){
     	var error = false;
-    	if ($('#nombreGrupo').val().trim() === '' || $('#nombreGrupo').val().length > 50) {
+    	if ($.trim($('#nombreGrupo').val()) === '' || $('#nombreGrupo').val().length > 50) {
     		$('#nombreRequerido').show();
             error = true;
         }else{

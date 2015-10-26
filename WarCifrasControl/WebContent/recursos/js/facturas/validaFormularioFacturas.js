@@ -3,27 +3,28 @@ $(document).ready(function(){
 		$('#camposObligatorios').hide();
 	}
 	
-		$('#tableExport').hide();
-	
-		$('.pagebanner').hide();
-	
-		$('.pagelinks').hide();
+	$('#tableExport').hide();
+	$('.pagebanner').hide();
+	$('.pagelinks').hide();
+	$('.exportlinks').hide();
+	var url = $('.exportlinks a:nth-child(2)').attr('href');
+	$('#exportarReporte').attr('href', url);
 	
 	if($('#sinDatos').length){
-		if($('#sinDatos').val().trim() != ''){
+		if($.trim($('#sinDatos').val()) != ''){
 			jAlert($('#gralSinDatos').val(), $('#gralSinDatosRespuesta').val(), 'Alerta', $('#gralModificarFiltros').val());
 		}
 	}
 
 	$('#aceptarFormulario').click(function(){
 		var isError = false;
-		if($('#aplicativo').val().trim() === ''){
+		if($.trim($('#aplicativo').val()) === ''){
 			isError = true;
 		}
-		if($('#mes').val().trim() === ''){
+		if($.trim($('#mes').val()) === ''){
 			isError = true;
 		}
-		if($('#anio').val().trim() === ''){
+		if($.trim($('#anio').val()) === ''){
 			isError = true;
 		}
 		if(isError === true){

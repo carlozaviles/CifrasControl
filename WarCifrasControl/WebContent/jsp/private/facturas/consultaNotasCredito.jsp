@@ -26,7 +26,7 @@
 <spring:message code="facturas.facturasFactoraje"      	var="facturasFactoraje"/>
 <spring:message code="facturas.facturasConfirming"     	var="facturasConfirming"/>
 <spring:message code="facturas.exportar"     		var="exportar"/>
-
+<spring:message code="facturas.exportarReporte"         var="exportarReporte"/>
 
 <c:set var="facturasCorrectasList" value="${facturasCorrectas}" />
 <c:set var="facturasIncorrectasList" value="${facturasIncorrectas}" />
@@ -147,22 +147,12 @@
 					headerClass="text_centro" />
 				<display:column property="totalImpuestos" title="${total}" sortable="false"
 					headerClass="text_centro" />
-				<display:setProperty name="export.banner" value="${exportar}"/>
-				<display:setProperty name="basic.show.header" value="false" />
-				<display:setProperty name="export.pdf" value="false" />
-				<display:setProperty name="export.excel" value="true" />
-				<display:setProperty name="export.xml" value="false" />
-				<display:setProperty name="export.rtf" value="false" />
-				<display:setProperty name="export.csv" value="false" />
-				<display:setProperty name="export.excel.filename"
-					value="ConsultaNotasCredito.xls" />
+				<display:setProperty name="export.excel.filename" value="ConsultaNotasCredito.xls" />
 			</display:table>
 
 <div class="PiePag">
-
-<a href="../facturas/notasCreditoInit.do">${regresar}</a> 
-
-
+	<a href="#" id="exportarReporte">${exportarReporte}</a>
+	<a href="../facturas/notasCreditoInit.do">${regresar}</a> 
 </div>
 			
 <jsp:include page="../myFooter.jsp" flush="true"/>

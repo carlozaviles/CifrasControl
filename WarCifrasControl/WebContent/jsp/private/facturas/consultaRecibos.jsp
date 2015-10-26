@@ -22,6 +22,7 @@
 <spring:message code="facturas.generados"     		var="generados"/>
 <spring:message code="facturas.cancelados"     		var="cancelados"/>
 <spring:message code="facturas.total"     		var="total"/>
+<spring:message code="facturas.exportarReporte"         var="exportarReporte"/>
 
 
 <div class="pageTitleContainer">
@@ -77,21 +78,12 @@
 					headerClass="text_centro" />
 				<display:column property="importe" title="${total}" sortable="false"
 					headerClass="text_centro" />
-				<display:setProperty name="export.banner" value="${exportar}"/>
-				<display:setProperty name="basic.show.header" value="false" />
-				<display:setProperty name="export.pdf" value="false" />
-				<display:setProperty name="export.excel" value="true" />
-				<display:setProperty name="export.xml" value="false" />
-				<display:setProperty name="export.rtf" value="false" />
-				<display:setProperty name="export.csv" value="false" />
-				<display:setProperty name="export.excel.filename"
-					value="ConsultaRecibos.xls" />
+				<display:setProperty name="export.excel.filename" value="ConsultaRecibos.xls" />
 			</display:table>
 
 <div class="PiePag">
-
-<a href="../facturas/recibosInit.do">${regresar}</a> 
-
+	<a href="#" id="exportarReporte">${exportarReporte}</a>
+	<a href="../facturas/recibosInit.do">${regresar}</a> 
 </div>
 			
 <jsp:include page="../myFooter.jsp" flush="true"/>

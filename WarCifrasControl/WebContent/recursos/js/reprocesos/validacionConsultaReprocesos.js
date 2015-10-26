@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$("#consultaReproceso").click(function(evt){
 		
-		if($('#numeroCuenta').val() === ''){
+		if($.trim($('#numeroCuenta').val()) === ''){
 			alert("El campo 'N\u00famero de Cuenta' debe ser informado.");
 			return;
 		}

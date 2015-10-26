@@ -120,6 +120,7 @@
 		<display:column property="folioCancelacion" title="${etiquetaSelloCancelacion}" sortable="false" headerClass="text_centro"/>
 		<display:column property="folioNuevo" title="${etiquetaSelloFiscal}" sortable="false" headerClass="text_centro"/>
 		<display:column property="estatus" title="${etiquetaEstatus}" sortable="false" headerClass="text_centro"/>
+		<display:setProperty name="export.excel.filename" value="ConsultaReprocesos.xls" />
 	</display:table>
 </c:if>
 <c:if test="${noHayDatos}">

@@ -3,7 +3,7 @@ $(document).ready(
 	function(){
 		$('#btnModificaPerfil').click(
 			function(event){
-				 if ($('#nombreGrupo').val().trim() === '') {
+				 if ($.trim($('#nombreGrupo').val()) === '') {
 		                alert('El campo esta vacio');
 		                event.preventDefault();
 		            }
@@ -18,7 +18,7 @@ $(document).ready(
 		});
 		$('#btnAltaGrupo').click(
 				function(event){
-					 if ($('#nombreGrupo').val().trim() === '') {
+					 if ($.trim($('#nombreGrupo').val()) === '') {
 			                alert('El campo esta vacio');
 			                event.preventDefault();
 			            }

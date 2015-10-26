@@ -6,7 +6,7 @@ $(document).ready(function(){
 	
     $('#btnAltaPantalla').click(function(){
     	var error = false;
-    	if ($('#nombrePantalla').val().trim() === '' || $('#nombrePantalla').val().length > 50) {
+    	if ($.trim($('#nombrePantalla').val()) === '' || $('#nombrePantalla').val().length > 50) {
     		$('#nombreRequerido').show();
             error = true;
         }else{

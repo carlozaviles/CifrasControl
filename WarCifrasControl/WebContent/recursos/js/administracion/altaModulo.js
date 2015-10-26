@@ -5,7 +5,7 @@ $(document).ready(function(){
 	
     $('#btnGuardaModulo').click(function(){
     	var error = false;
-    	if ($('#nombreModulo').val().trim() === '' || $('#nombreModulo').val().length > 50) {
+    	if ($.trim($('#nombreModulo').val()) === '' || $('#nombreModulo').val().length > 50) {
     		$('#nombreRequerido').show();
             error = true;
         }else{
