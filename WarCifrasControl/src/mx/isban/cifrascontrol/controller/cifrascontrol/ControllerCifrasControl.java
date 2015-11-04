@@ -8,16 +8,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
@@ -130,6 +136,7 @@ public class ControllerCifrasControl extends Architech {
 		if (registros > 0) {
 			final String aplicativoText = request.getParameter("productoText");
 			final String periodoText = request.getParameter("periodoText");
+			final String mes =request.getParameter("mes");
 			final int tamanioDetalle = detalleCifrasControl.size();
 			final List<BeanCifrasControl> listaCifrasOrigen = boCifrasControl
 					.obtenerCifrasPorAplicativo(ORIGEN, getArchitechBean());
@@ -152,6 +159,7 @@ public class ControllerCifrasControl extends Architech {
 			parametros.put("tamanioDetalle", tamanioDetalle);
 			parametros.put("aplicativo", aplicativoText);
 			parametros.put("periodo", periodoText);
+			parametros.put("mes", mes);
 			this.info("Metodo de consulta de cifras inicializado con exito, direccionando a la vista consultaCifras");
 			return new ModelAndView("consultaCifras", parametros);
 		} else {
@@ -160,6 +168,52 @@ public class ControllerCifrasControl extends Architech {
 			mav.addObject("sinDatos", "sinDatos");
 			return mav;
 		}
+	}
+	/**
+	 * Metodo encargado de descargar Excel con información consultaCifras
+	 */
+   @RequestMapping("excelCifras.xls")
+	public ModelAndView excelCifras(final HttpServletRequest request,
+			final HttpServletResponse response, final String aplicativo, final String mes, final String anio,final String mesText) throws BusinessException {
+		
+		final Map<String, Object> parametros = new HashMap<String, Object>();
+		final StringBuilder periodo = new StringBuilder(mes);
+		periodo.append("-").append(anio);
+		final StringBuilder periodoText = new StringBuilder(mesText);
+		periodoText.append("-").append(anio);
+		final int registros = boCifrasControl.consultarCifrasControl(
+				aplicativo, periodo.toString(), getArchitechBean());
+		
+		   parametros.put("aplicativoText", aplicativo);
+		   parametros.put("periodoText",periodoText.toString());
+		if (registros > 0) {
+			final List<BeanCifrasControl> listaCifrasOrigen = boCifrasControl
+					.obtenerCifrasPorAplicativo(ORIGEN, getArchitechBean());
+			final List<BeanCifrasControl> listaCifrasInterfase = boCifrasControl
+					.obtenerCifrasPorAplicativo(CFD, getArchitechBean());
+			final List<BeanCifrasControl> listaCifrasControlSat = boCifrasControl
+					.obtenerCifrasPorAplicativo(SAT, getArchitechBean());
+			final List<BeanCifrasControl> listaCifrasControlEdc = boCifrasControl
+					.obtenerCifrasPorAplicativo(EDC, getArchitechBean());
+		
+		   JRDataSource datasourceAplicativoOrigen = new JRBeanCollectionDataSource(listaCifrasOrigen);
+		   JRDataSource dataSourceComprobanteFiscal = new JRBeanCollectionDataSource(listaCifrasInterfase);
+		   JRDataSource dataSourceSistemaAdministracion = new JRBeanCollectionDataSource(listaCifrasControlSat);
+		   JRDataSource dataSourceCuentas = new JRBeanCollectionDataSource(listaCifrasControlEdc);
+		   parametros.put("datasourceAplicativoOrigen", datasourceAplicativoOrigen);
+		   parametros.put("dataSourceComprobanteFiscal", dataSourceComprobanteFiscal);
+		   parametros.put("dataSourceSistemaAdministracion", dataSourceSistemaAdministracion);
+		   parametros.put("dataSourceCuentas", dataSourceCuentas);
+	        return new ModelAndView("xlsCifrasControl", parametros);
+		} else {
+			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
+			final ModelAndView mav = this.cifrasInit(request, response);
+			mav.addObject("sinDatos", "sinDatos");
+			return mav;
+		}
+		
+		   
+	
 	}
 
 	/**
