@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-11-04T09:33:24 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aplicativoOrigen" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="5" bottomMargin="0" whenResourceMissingType="Error" uuid="f7503b2b-4cbf-4419-a7ff-4ec3d1269e05">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="tipoDocumento" class="java.lang.String">
+		<fieldDescription><![CDATA[tipoDocumento]]></fieldDescription>
+	</field>
+	<field name="cantidadCuentas" class="java.lang.String">
+		<fieldDescription><![CDATA[cantidadCuentas]]></fieldDescription>
+	</field>
+	<field name="comisionesIntereses" class="java.lang.String">
+		<fieldDescription><![CDATA[comisionesIntereses]]></fieldDescription>
+	</field>
+	<field name="ivas" class="java.lang.String">
+		<fieldDescription><![CDATA[ivas]]></fieldDescription>
+	</field>
+	<field name="retenciones" class="java.lang.String">
+		<fieldDescription><![CDATA[retenciones]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="550" height="20" uuid="516104f7-cb3e-4907-9654-3ac9eca472f2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COMPROBANTE FISCAL DIGITAL POR INTERNET (INTERFASE)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="c6da6150-8ebc-4486-93af-e0a7b17b0d3a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="20" uuid="ee251e9e-ae6c-442e-9143-69cd9181a593">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuentas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="0" width="139" height="20" uuid="ad042694-7a5e-42d1-ade8-89a67414e33e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comisiones / Intereses]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="341" y="0" width="97" height="20" uuid="e4ddd3d3-ea8d-4d02-9910-4614a3fdfe2a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ivas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="0" width="112" height="20" uuid="97303d01-0314-4b5d-8952-20cadb6b53f9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Retenciones]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="c911043a-14f1-404b-a41a-f57f7cfa1980">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tipoDocumento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="0" width="99" height="20" uuid="6c469c61-d26b-4a37-8ca5-f675a632fc51"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantidadCuentas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="0" width="139" height="20" uuid="81ff4694-e607-4851-8cf1-195982bf2d1c"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{comisionesIntereses}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="341" y="0" width="97" height="20" uuid="e9b58c6a-6773-458e-8314-e5a59bdbb110"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ivas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="0" width="112" height="20" uuid="3325d16c-d482-470e-b545-c8c65bb2cc52"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{retenciones}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -11,13 +11,15 @@
 </jsp:include>
 
 <script src="${pageContext.servletContext.contextPath}/recursos/js/cifrascontrol/validaCifrasControl.js" type="text/javascript"></script>
+<script src="${pageContext.servletContext.contextPath}/recursos/js/cifrascontrol/exportarExcel.js" type="text/javascript"></script>
 
 <spring:message code="cifrascontrol.moduloCifras"         	var="modulo"/>
 <spring:message code="cifrascontrol.producto"             	var="productoLabel"/>
 <spring:message code="cifrascontrol.periodo"              	var="periodoLabel"/>
 <spring:message code="cifrascontrol.regresar"              	var="regresar"/>
 <spring:message code="cifrascontrol.resumen"              	var="resumen"/>
-<spring:message code="cifrascontrol.exportar"     		var="exportar"/>
+<spring:message code="cifrascontrol.exportar"     		    var="exportar"/>
+<spring:message code="cifrascontrol.exportarExcel"     		var="exportarExcel"/>
 
 <spring:message code="cifrascontrol.aplicativoorigen"           var="aplicativoorigen"/>
 <spring:message code="cifrascontrol.moneda"              	var="moneda"/>
@@ -59,6 +61,7 @@
 <form action="consultaDetalleCifras.do" name="formularioFacturas" id="formularioFacturas" method="post" > 
 <input type="hidden" name="aplicativo" id ="aplicativo" value="${aplicativo}">   
 <input type="hidden" name="periodo" id ="periodo" value="${periodo}">   
+<input type="hidden" name="mes" id ="mes" value="${mes}"> 
 </form>
 
 <div class="frameTablaVariasColumnas">
@@ -177,45 +180,11 @@
 	
 </div>
 </div>
-
-<display:table name="listaExportar" sort="list" pagesize="10" id="tableExport"
-				requestURI="../cifrascontrol/consultaCifras.do" export="true">
-				<display:column property="moneda" title="${moneda}" group="1" sortable="false"
-					headerClass="text_centro" />
-				<display:column property="status" title="${estatus}" sortable="false"
-					headerClass="text_centro" />
-				<display:column property="cantidadCuentas" title="${cuentas}" sortable="false"
-					headerClass="text_centro" />
-				
-				<display:column property="tipoDocumento" title="${tipoDocumento}" group="1" sortable="false"
-					headerClass="text_centro" />
-				<display:column property="comisionesIntereses" title="${comisiones}" sortable="false"
-					headerClass="text_centro" />
-				<display:column property="retenciones" title="${retenciones}" sortable="false"
-					headerClass="text_centro" />
-				
-				<display:column property="cuentasConSello" title="${conSello}" sortable="false"
-					headerClass="text_centro" />
-				<display:column property="cuentasSinSello" title="${sinSello}" sortable="false"
-					headerClass="text_centro" />
-				<display:column property="cuentasConIncidencias" title="${conIncidente}" sortable="false"
-					headerClass="text_centro" />
-								
-
-				<display:setProperty name="export.banner" value="${exportar}"/>
-				<display:setProperty name="basic.show.header" value="false" />
-				<display:setProperty name="export.pdf" value="false" />
-				<display:setProperty name="export.excel" value="true" />
-				<display:setProperty name="export.xml" value="false" />
-				<display:setProperty name="export.rtf" value="false" />
-				<display:setProperty name="export.csv" value="false" />
-				<display:setProperty name="export.excel.filename" value="ConsultaCifrasEDC.xls" />
-			</display:table>
-
+<a id="exportarExcel" href="#">${exportarExcel}</a>
 
 <div class="PiePag">
 
-<a href="../cifrascontrol/cifrasInit.do">${regresar}</a> 
+<a href="../cifrascontrol/cifrasInit.do">${regresar}</a>
 
 
 </div>
