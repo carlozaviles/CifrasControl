@@ -9,6 +9,7 @@
 </jsp:include>
 
 <script src="${pageContext.servletContext.contextPath}/recursos/js/reprocesos/validacionConsultaReprocesos.js" type="text/javascript"></script>
+<script src="${pageContext.servletContext.contextPath}/recursos/js/reprocesos/validacionesCommon.js" type="text/javascript"></script>
 
 <spring:message code="reprocesos.tituloConsultaReprocesos" var="tituloConsultaReprocesos"/>
 <spring:message code="reprocesos.tituloFormularioReprocesos" var="tituloFormularioConsultaReproceso"/>
@@ -32,7 +33,7 @@
 			<table>
 				<tr>
 					<td class="odd">${etiquetanoCuenta}:</td>
-					<td colspan="3"> <form:input path="numeroCuenta" name="numeroCuenta" id="numeroCuenta" maxlength="11" onblur="return permiteUpperLista(3,this)" /></td>
+					<td colspan="3"> <form:input path="numeroCuenta" name="numeroCuenta" id="numeroCuenta" /></td>
 				</tr>
 				<tr>
 					<td class="odd">${etiquetaPeriodo}:</td>

@@ -7,6 +7,7 @@
 	<jsp:param name="menuSubItem"    value="consultaPrevios" />	
 </jsp:include>
 <script src="${pageContext.servletContext.contextPath}/recursos/js/reprocesos/validaFormPrevios.js" type="text/javascript"></script>
+<script src="${pageContext.servletContext.contextPath}/recursos/js/reprocesos/validacionesCommon.js" type="text/javascript"></script>
 
 <spring:message code="reprocesos.previos.titulo.pagina" var="tituloPagina"/>
 <spring:message code="reprocesos.previos.titulo.formulario" var="tituloFormulario"/>

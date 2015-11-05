@@ -3,6 +3,9 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
+<script src="${pageContext.servletContext.contextPath}/recursos/js/reprocesos/validacionesDatosPersonas.js" type="text/javascript"></script>
+<script src="${pageContext.servletContext.contextPath}/recursos/js/reprocesos/validacionesCommon.js" type="text/javascript"></script>
+
 <spring:message code="reprocesos.modulo"             		var="modulo"/>
 <spring:message code="reprocesos.tituloTablaDatosPersonas"      var="tituloTablaDatosPersonas"/>
 <spring:message code="reprocesos.etiquetaNumeroCuenta"         	var="etiquetaNumeroCuenta"/>
