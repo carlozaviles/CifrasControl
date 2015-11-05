@@ -29,11 +29,6 @@
 <spring:message code="facturas.exportarReporte"         var="exportarReporte"/>
 
 
-<c:set var="facturasCorrectasList" value="${facturasCorrectas}" />
-<c:set var="facturasIncorrectasList" value="${facturasIncorrectas}" />
-
-
-
 <div class="pageTitleContainer">
    <span class="pageTitle">${resumen}</span> - ${modulo}
 </div>
@@ -79,17 +74,17 @@
 					<Td colspan="8" class="special"></Td>
 				</tr>
 				<tbody>
-					<c:forEach var="i" begin="0" end="${num - 1}">
+					<c:forEach var="filaDivisa" items="${reporteDivisas}">
 						<tr>
-							<td class="text_centro">${facturasCorrectasList[i].cantidadFacturas}</td>
-							<td class="text_centro">${facturasCorrectasList[i].subTotal}</td>
-							<td class="text_centro">${facturasCorrectasList[i].iva}</td>
-							<td class="text_centro">${facturasCorrectasList[i].totalImpuestos}</td>
-							<td class="text_centro">${facturasIncorrectasList[i].cantidadFacturas}</td>
-							<td class="text_centro">${facturasIncorrectasList[i].subTotal}</td>
-							<td class="text_centro">${facturasIncorrectasList[i].iva}</td>
-							<td class="text_centro">${facturasIncorrectasList[i].totalImpuestos}</td>
-						</tr>           				
+							<td class="text_centro">${filaDivisa.facturasCorrectas}</td>
+							<td class="text_centro">${filaDivisa.subtotalFactCorrectas}</td>
+							<td class="text_centro">${filaDivisa.ivaFactCorrectas}</td>
+							<td class="text_centro">${filaDivisa.totalFactCorrectas}</td>
+							<td class="text_centro">${filaDivisa.facturasCanceladas}</td>
+							<td class="text_centro">${filaDivisa.subtotalFactCanceladas}</td>
+							<td class="text_centro">${filaDivisa.ivaFactCanceladas}</td>
+							<td class="text_centro">${filaDivisa.totalFactCanceladas}</td>
+						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
@@ -115,17 +110,17 @@
 					<Td colspan="8" class="special"></Td>
 				</tr>
 				<tbody>
-					<c:forEach var="i" begin="0" end="2">
+					<c:forEach var="filaReporteExtra" items="${reporteDivisasExtra}">
 						<tr>
-							<td class="text_centro">${factorajeCorrecto[i].cantidadFacturas}</td>
-							<td class="text_centro">${factorajeCorrecto[i].subTotal}</td>
-							<td class="text_centro">${factorajeCorrecto[i].iva}</td>
-							<td class="text_centro">${factorajeCorrecto[i].totalImpuestos}</td>
-							<td class="text_centro">${factorajeIncorrecto[i].cantidadFacturas}</td>
-							<td class="text_centro">${factorajeIncorrecto[i].subTotal}</td>
-							<td class="text_centro">${factorajeIncorrecto[i].iva}</td>
-							<td class="text_centro">${factorajeIncorrecto[i].totalImpuestos}</td>
-						</tr>           				
+							<td class="text_centro">${filaReporteExtra.facturasCorrectas}</td>
+							<td class="text_centro">${filaReporteExtra.subtotalFactCorrectas}</td>
+							<td class="text_centro">${filaReporteExtra.ivaFactCorrectas}</td>
+							<td class="text_centro">${filaReporteExtra.totalFactCorrectas}</td>
+							<td class="text_centro">${filaReporteExtra.facturasCanceladas}</td>
+							<td class="text_centro">${filaReporteExtra.subtotalFactCanceladas}</td>
+							<td class="text_centro">${filaReporteExtra.ivaFactCanceladas}</td>
+							<td class="text_centro">${filaReporteExtra.totalFactCanceladas}</td>
+						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
@@ -138,15 +133,23 @@
 	</div>
 </div>
 
-<display:table name="facturaList" sort="list" pagesize="10" id="tableExport"
+<display:table name="reporteRecibos" sort="list" pagesize="10" id="tableExport"
 				requestURI="../facturas/consultaDivisas.do" export="true">
-	<display:column property="cantidadFacturas" title="${totalFacturas}" group="1" sortable="false"
+	<display:column property="facturasCorrectas" title="${totalFacturas}" group="1" sortable="false"
 		headerClass="text_centro" />
-	<display:column property="subTotal" title="${subtotal}" sortable="false"
+	<display:column property="subtotalFactCorrectas" title="${subtotal}" sortable="false"
 		headerClass="text_centro" />
-	<display:column property="iva" title="${tasaIva}" sortable="false"
+	<display:column property="ivaFactCorrectas" title="${tasaIva}" sortable="false"
 		headerClass="text_centro" />
-	<display:column property="totalImpuestos" title="${total}" sortable="false"
+	<display:column property="totalFactCorrectas" title="${total}" sortable="false"
+		headerClass="text_centro" />
+	<display:column property="facturasCanceladas" title="${facturasCanceladas}" sortable="false"
+		headerClass="text_centro" />
+	<display:column property="subtotalFactCanceladas" title="${subtotal}" sortable="false"
+		headerClass="text_centro" />
+	<display:column property="ivaFactCanceladas" title="${tasaIva}" sortable="false"
+		headerClass="text_centro" />
+	<display:column property="totalFactCanceladas" title="${total}" sortable="false"
 		headerClass="text_centro" />
 	<display:setProperty name="export.excel.filename" value="ConsultaDivisas.xls" />
 </display:table>

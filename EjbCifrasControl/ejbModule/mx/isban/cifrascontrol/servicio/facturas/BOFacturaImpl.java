@@ -30,6 +30,7 @@ import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.bean.auditoria.BeanPistaAuditoria;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
+import mx.isban.cifrascontrol.beans.facturas.BeanReporteFacturas;
 import mx.isban.cifrascontrol.servicio.auditoria.BOPistasAuditoria;
 import mx.isban.cifrascontrol.util.general.ConstantesModuloIntegrador;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControl;
@@ -107,6 +108,75 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		ejecutaEnvioPistaAuditoria(tipoFactura, ConstantesModuloIntegrador.COD_PA_OPERACION_OK, sessionBean);
 		
 		return beanFacturaList;
+	}
+	
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.servicio.facturas.BOFactura#obtenerReporteFacturas(java.lang.String, java.lang.String, java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
+	@Override
+	public List<BeanReporteFacturas> obtenerReporteFacturas(String aplicativo, String periodo, 
+			String tipoFactura, ArchitechSessionBean sessionBean) throws BusinessException {
+		final List<BeanFactura> totalFacturas = this.consultarFacturas(aplicativo, periodo, tipoFactura, sessionBean);
+		final List<BeanReporteFacturas> infoReporteFacturas = new ArrayList<BeanReporteFacturas>();
+		if(totalFacturas.size() > 0){
+			final List<BeanFactura> facturasCorrectas = this.obtenerFacturasCorrectas(totalFacturas, sessionBean);
+			final List<BeanFactura> facturasIncorrectas = this.obtenerFacturasIncorrectas(totalFacturas, sessionBean);
+			
+			for(int i = 0; i < 3; i++){
+				BeanReporteFacturas beanReporte = new BeanReporteFacturas();
+				beanReporte.setFacturasCorrectas(facturasCorrectas.get(i).getCantidadFacturas());
+				beanReporte.setSubtotalFactCorrectas(facturasCorrectas.get(i).getSubTotal());
+				beanReporte.setIvaFactCorrectas(facturasCorrectas.get(i).getIva());
+				beanReporte.setTotalFactCorrectas(facturasCorrectas.get(i).getTotalImpuestos());
+				
+				beanReporte.setFacturasCanceladas(facturasIncorrectas.get(i).getCantidadFacturas());
+				beanReporte.setSubtotalFactCanceladas(facturasIncorrectas.get(i).getSubTotal());
+				beanReporte.setIvaFactCanceladas(facturasIncorrectas.get(i).getIva());
+				beanReporte.setTotalFactCanceladas(facturasIncorrectas.get(i).getTotalImpuestos());
+				infoReporteFacturas.add(beanReporte);
+			}
+		}
+		return infoReporteFacturas;
+	}
+	
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.servicio.facturas.BOFactura#obtenerReporteRecibos(java.lang.String, java.lang.String, java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
+	 */
+	@Override
+	public List<BeanReporteFacturas> obtenerReporteRecibos(String aplicativo, String periodo, String tipoRecibo, 
+			ArchitechSessionBean sessionBean) throws BusinessException {
+		final List<BeanFactura> totalRecibos = this.consultarFacturas(aplicativo, periodo, tipoRecibo, sessionBean);
+		final List<BeanReporteFacturas> reporteRecibos = new ArrayList<BeanReporteFacturas>();
+		if(!totalRecibos.isEmpty()){
+			final List<BeanFactura> recibosGenerados = this.obtenerFacturasRecibosGenerados(totalRecibos, sessionBean);
+			final List<BeanFactura> recibosCancelados = this.obtenerFacturasRecibosCancelados(totalRecibos, sessionBean);
+			int recibosExpedidos = 0;
+			BigDecimal totalRecibosExpedidos = new BigDecimal(0).setScale(2);
+			for(BeanFactura generado : recibosGenerados){
+				recibosExpedidos += Integer.parseInt(generado.getCantidadRecibos());
+				totalRecibosExpedidos = totalRecibosExpedidos.add(new BigDecimal(generado.getImporte()));
+			}
+			
+			int numRecibosCancelados = 0;
+			BigDecimal totalRecibosCancelados = new BigDecimal(0).setScale(2);
+			for(BeanFactura cancelado : recibosCancelados){
+				numRecibosCancelados += Integer.parseInt(cancelado.getCantidadRecibos());
+				totalRecibosCancelados = totalRecibosCancelados.add(new BigDecimal(cancelado.getImporte()));
+			}
+			
+			DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(Locale.US);
+			decimalFormat.applyPattern("#,##0.00");
+			
+			final BeanReporteFacturas reporte = new BeanReporteFacturas();
+			reporte.setFacturasCorrectas(String.valueOf(recibosExpedidos));
+			reporte.setTotalFactCorrectas(decimalFormat.format(totalRecibosExpedidos));
+			reporte.setFacturasCanceladas(String.valueOf(numRecibosCancelados));
+			reporte.setTotalFactCanceladas(decimalFormat.format(totalRecibosCancelados));
+			
+			reporteRecibos.add(reporte);
+		}
+		
+		return reporteRecibos;
 	}
 
 	/* (non-Javadoc)
@@ -232,7 +302,7 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		String producto = "";
 		for (BeanFactura beanFactura : facturasCorrectas) {
 			producto = beanFactura.getAplicativo();
-			if(null == beanFactura.getIva() || "".equals(beanFactura.getIva().trim())){
+			if(null == beanFactura.getIva() || "e".equals(beanFactura.getIva().trim())){
 				facturasVigentesExcentas.add(beanFactura);
 			}else{
 				if("0.00".equals(beanFactura.getIva().trim())){
@@ -309,4 +379,5 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		pistaAuditoria.setClienteAfectado(ConstantesModuloIntegrador.COD_PA_NO_APLICA);
 		boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
 	}
+
 }

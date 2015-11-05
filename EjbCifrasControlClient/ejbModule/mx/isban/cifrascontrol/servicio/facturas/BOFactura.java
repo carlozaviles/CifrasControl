@@ -17,6 +17,7 @@ import javax.ejb.Remote;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
+import mx.isban.cifrascontrol.beans.facturas.BeanReporteFacturas;
 
 /**
  * Interface BOFactura
@@ -57,7 +58,32 @@ public interface BOFactura {
 	 * @return Una lista de tipo {@link BeanFactura} con el resultado de la consulta
 	 * @throws BusinessException En caso de presentarse un error al momento de realizar la consulta de facturas.
 	 */
-	public List<BeanFactura> consultarFacturas(String aplicativo, String periodo, String tipoFactura, ArchitechSessionBean sessionBean)throws BusinessException;
+	public List<BeanFactura> consultarFacturas(String aplicativo, String periodo, String tipoFactura, 
+			ArchitechSessionBean sessionBean)throws BusinessException;
+	
+	/**
+	 * Ejecuta la consulta de facturas y a partir de los resultados crear la relacion entre las facturas correctas e incorrectas.
+	 * @param aplicativo Aplicativo para el cual se realizar el reporte.
+	 * @param periodo Perido anio/mes para el cual se realiza el reporte.
+	 * @param tipoFactura Tipo de factura para el cual se realiza el reporte (Factura, Notas de Credito, Divisas).
+	 * @param sessionBean Objeto de la arquitectura agave.
+	 * @return List<BeanReporteFacturas>
+	 * @throws BusinessException Exception
+	 */
+	public List<BeanReporteFacturas> obtenerReporteFacturas(String aplicativo, String periodo, String tipoFactura, 
+			ArchitechSessionBean sessionBean) throws BusinessException;
+	
+	/**
+	 * Ejecuta la consulta de facturas y a partir de los resultados crea la la relacion entre los recibos correctos y cancelados.
+	 * @param aplicativo Aplicativo a partir del cual se realiza el reporte.
+	 * @param periodo Periodo anio-mes para el cual se realiza el reporte.
+	 * @param tipoRecibo Clave que identifica a los recibos.
+	 * @param sessionBean Objeto de la arquitectura agave.
+	 * @return List<BeanReporteFacturas>
+	 * @throws BusinessException Exception
+	 */
+	public List<BeanReporteFacturas> obtenerReporteRecibos(String aplicativo, String periodo, String tipoRecibo, 
+			ArchitechSessionBean sessionBean) throws BusinessException;
 	
 	/**
 	 * <p>Metodo encargado de diferenciar y obtener los totales de las facturas 

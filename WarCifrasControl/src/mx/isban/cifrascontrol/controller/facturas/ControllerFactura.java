@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
-import mx.isban.cifrascontrol.beans.facturas.BeanFactura;
+import mx.isban.cifrascontrol.beans.facturas.BeanReporteFacturas;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.servicio.facturas.BOFactura;
@@ -234,57 +234,33 @@ public class ControllerFactura extends Architech {
 		String aplicativo = request.getParameter("aplicativo");
 		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
 		periodo.append("-").append(request.getParameter("mes"));
-		List<BeanFactura> totalFacturas;
-		List<BeanFactura> totalFactoraje = new ArrayList<BeanFactura>();
-		// Caso especial: en caso de ser confirming y factura, se realiza la
-		// busqueda por separado
+		List<BeanReporteFacturas> totalReporte = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> infoReporteFacturas = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> infoReporteExtra = new ArrayList<BeanReporteFacturas>();
 		if ("CONFIRMING Y FACTORAJE".equalsIgnoreCase(aplicativo)) {
-			totalFacturas = boFactura.consultarFacturas(CONFIRMING,
-					periodo.toString(), FACT, getArchitechBean());
-			totalFactoraje = boFactura.consultarFacturas(FACTORAJE,
-					periodo.toString(), FACT, getArchitechBean());
+			infoReporteFacturas = boFactura.obtenerReporteFacturas(CONFIRMING, periodo.toString(), 
+					FACT, this.getArchitechBean());
+			infoReporteExtra = boFactura.obtenerReporteFacturas(FACTORAJE, periodo.toString(), 
+					FACT, this.getArchitechBean());
 		} else {
-			totalFacturas = boFactura.consultarFacturas(aplicativo,
-					periodo.toString(), FACT, getArchitechBean());
+			infoReporteFacturas = boFactura.obtenerReporteFacturas(aplicativo, periodo.toString(), 
+					FACT, this.getArchitechBean());
 		}
-		if (!totalFacturas.isEmpty() || !totalFactoraje.isEmpty()) {
+		if (!infoReporteFacturas.isEmpty() || !infoReporteExtra.isEmpty()) {
 			this.info("Consulta de facturas realizada correctamente, realizando el calculo de los totales a mostrar");
-			List<BeanFactura> facturasCorrectas = boFactura
-					.obtenerFacturasCorrectas(totalFacturas, getArchitechBean());
-			List<BeanFactura> facturasIncorrectas = boFactura
-					.obtenerFacturasIncorrectas(totalFacturas,
-							getArchitechBean());
-			List<BeanFactura> facturaList = new ArrayList<BeanFactura>();
-			facturaList.addAll(facturasCorrectas);
-			facturaList.addAll(facturasIncorrectas);
 			final Map<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("facturasCorrectas", facturasCorrectas);
-			parametros.put("facturasIncorrectas", facturasIncorrectas);
-			parametros.put("num", facturasCorrectas.size());
-			String aplicativoBuscado = facturaList.get(0).getAplicativo();
+			parametros.put("reporteFacturas", infoReporteFacturas);
 			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses()
 					.get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
 			parametros.put("periodo", periodo.toString());
-			if (!totalFactoraje.isEmpty()) {
-				List<BeanFactura> factorajeList = new ArrayList<BeanFactura>();
-				List<BeanFactura> factorajeCorrectas = boFactura
-						.obtenerFacturasCorrectas(totalFactoraje,
-								getArchitechBean());
-				List<BeanFactura> factorajeIncorrectas = boFactura
-						.obtenerFacturasIncorrectas(totalFactoraje,
-								getArchitechBean());
-				factorajeList.addAll(factorajeCorrectas);
-				factorajeList.addAll(factorajeIncorrectas);
-				facturaList.addAll(factorajeList);
-				aplicativoBuscado = "Confirming y Factoraje";
-				parametros.put("factoraje", factorajeList);
-				parametros.put("factorajeCorrecto", factorajeCorrectas);
-				parametros.put("factorajeIncorrecto", factorajeIncorrectas);
-				parametros.put("numFactoraje", factorajeCorrectas.size());
+			if (!infoReporteExtra.isEmpty()) {
+				parametros.put("reporteExtra", infoReporteExtra);
 			}
-			parametros.put("facturaList", facturaList);
-			parametros.put("aplicativo", aplicativoBuscado);
+			totalReporte.addAll(infoReporteFacturas);
+			totalReporte.addAll(infoReporteExtra);
+			parametros.put("reporteExport", totalReporte);
+			parametros.put("aplicativo", aplicativo);
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaFacturas");
 			return new ModelAndView("consultaFacturas", parametros);
 		} else {
@@ -317,56 +293,36 @@ public class ControllerFactura extends Architech {
 		String aplicativo = request.getParameter("aplicativo");
 		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
 		periodo.append("-").append(request.getParameter("mes"));
-		List<BeanFactura> totalFacturas;
-		List<BeanFactura> totalFactoraje = new ArrayList<BeanFactura>();
+		List<BeanReporteFacturas> reporteNotas = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> reporteNotasExtra = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> totalReporte = new ArrayList<BeanReporteFacturas>();
+		
 		// Caso especial: en caso de ser confirming y factura, se realiza la
 		// busqueda por separado
 		if ("Confirming y Factoraje".equals(aplicativo)) {
-			totalFacturas = boFactura.consultarFacturas(CONFIRMING,
-					periodo.toString(), NOTA, getArchitechBean());
-			totalFactoraje = boFactura.consultarFacturas(FACTORAJE,
-					periodo.toString(), NOTA, getArchitechBean());
+			reporteNotas = boFactura.obtenerReporteFacturas(CONFIRMING, periodo.toString(), NOTA, 
+					this.getArchitechBean());
+			reporteNotasExtra = boFactura.obtenerReporteFacturas(FACTORAJE, periodo.toString(), NOTA, 
+					this.getArchitechBean());
 		} else {
-			totalFacturas = boFactura.consultarFacturas(aplicativo,
-					periodo.toString(), NOTA, getArchitechBean());
+			reporteNotas = boFactura.obtenerReporteFacturas(aplicativo, periodo.toString(), NOTA, 
+					this.getArchitechBean());
 		}
-		if (!totalFacturas.isEmpty() || !totalFactoraje.isEmpty()) {
+		if (!reporteNotas.isEmpty() || !reporteNotasExtra.isEmpty()) {
 			this.info("Consulta de facturas realizada correctamente, realizando el calculo de los totales a mostrar");
-			List<BeanFactura> facturasCorrectas = boFactura
-					.obtenerFacturasCorrectas(totalFacturas, getArchitechBean());
-			List<BeanFactura> facturasIncorrectas = boFactura
-					.obtenerFacturasIncorrectas(totalFacturas,
-							getArchitechBean());
-			List<BeanFactura> facturaList = new ArrayList<BeanFactura>();
-			facturaList.addAll(facturasCorrectas);
-			facturaList.addAll(facturasIncorrectas);
 			final Map<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("facturasCorrectas", facturasCorrectas);
-			parametros.put("facturasIncorrectas", facturasIncorrectas);
-			parametros.put("num", facturasCorrectas.size());
-			String aplicativoBuscado = facturaList.get(0).getAplicativo();
+			parametros.put("reporteNotas", reporteNotas);
 			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses()
 					.get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
 			parametros.put("periodo", periodo.toString());
-			if (!totalFactoraje.isEmpty()) {
-				List<BeanFactura> factorajeList = new ArrayList<BeanFactura>();
-				List<BeanFactura> factorajeCorrectas = boFactura
-						.obtenerFacturasCorrectas(totalFactoraje,
-								getArchitechBean());
-				List<BeanFactura> factorajeIncorrectas = boFactura
-						.obtenerFacturasIncorrectas(totalFactoraje,
-								getArchitechBean());
-				factorajeList.addAll(factorajeCorrectas);
-				factorajeList.addAll(factorajeIncorrectas);
-				facturaList.addAll(factorajeList);
-				aplicativoBuscado = "Confirming y Factoraje";
-				parametros.put("factoraje", factorajeList);
-				parametros.put("factorajeCorrecto", factorajeCorrectas);
-				parametros.put("factorajeIncorrecto", factorajeIncorrectas);
+			if (!reporteNotasExtra.isEmpty()) {
+				parametros.put("reporteNotasExtra", reporteNotasExtra);
 			}
-			parametros.put("facturaList", facturaList);
-			parametros.put("aplicativo", aplicativoBuscado);
+			totalReporte.addAll(reporteNotas);
+			totalReporte.addAll(reporteNotasExtra);
+			parametros.put("reporteNotasExport", totalReporte);
+			parametros.put("aplicativo", aplicativo);
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaNotasCredito");
 			return new ModelAndView("consultaNotasCredito", parametros);
 		} else {
@@ -399,56 +355,36 @@ public class ControllerFactura extends Architech {
 		String aplicativo = request.getParameter("aplicativo");
 		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
 		periodo.append("-").append(request.getParameter("mes"));
-		List<BeanFactura> totalFacturas;
-		List<BeanFactura> totalFactoraje = new ArrayList<BeanFactura>();
+		
+		List<BeanReporteFacturas> reporteDivisas = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> reporteDivisasExtra = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> reporteDivisasExport = new ArrayList<BeanReporteFacturas>();
 		// Caso especial: en caso de ser confirming y factura, se realiza la
 		// busqueda por separado
 		if ("Confirming y Factoraje".equals(aplicativo)) {
-			totalFacturas = boFactura.consultarFacturas(CONFIRMING,
-					periodo.toString(), DIVI, getArchitechBean());
-			totalFactoraje = boFactura.consultarFacturas(FACTORAJE,
-					periodo.toString(), DIVI, getArchitechBean());
+			reporteDivisas = boFactura.obtenerReporteFacturas(CONFIRMING, periodo.toString(), DIVI, 
+					this.getArchitechBean());
+			reporteDivisasExtra = boFactura.obtenerReporteFacturas(FACTORAJE, periodo.toString(), DIVI, 
+					this.getArchitechBean());
 		} else {
-			totalFacturas = boFactura.consultarFacturas(aplicativo,
-					periodo.toString(), DIVI, getArchitechBean());
+			reporteDivisas = boFactura.obtenerReporteFacturas(aplicativo, periodo.toString(), DIVI, 
+					this.getArchitechBean());
 		}
-		if (!totalFacturas.isEmpty() || !totalFactoraje.isEmpty()) {
+		if (!reporteDivisas.isEmpty() || !reporteDivisasExtra.isEmpty()) {
 			this.info("Consulta de facturas realizada correctamente, realizando el calculo de los totales a mostrar");
-			List<BeanFactura> facturasCorrectas = boFactura
-					.obtenerFacturasCorrectas(totalFacturas, getArchitechBean());
-			List<BeanFactura> facturasIncorrectas = boFactura
-					.obtenerFacturasIncorrectas(totalFacturas,
-							getArchitechBean());
-			List<BeanFactura> facturaList = new ArrayList<BeanFactura>();
-			facturaList.addAll(facturasCorrectas);
-			facturaList.addAll(facturasIncorrectas);
 			final Map<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("facturasCorrectas", facturasCorrectas);
-			parametros.put("facturasIncorrectas", facturasIncorrectas);
-			parametros.put("num", facturasCorrectas.size());
-			String aplicativoBuscado = facturaList.get(0).getAplicativo();
+			parametros.put("reporteDivisas", reporteDivisas);
 			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses()
 					.get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
 			parametros.put("periodo", periodo.toString());
-			if (!totalFactoraje.isEmpty()) {
-				List<BeanFactura> factorajeList = new ArrayList<BeanFactura>();
-				List<BeanFactura> factorajeCorrectas = boFactura
-						.obtenerFacturasCorrectas(totalFactoraje,
-								getArchitechBean());
-				List<BeanFactura> factorajeIncorrectas = boFactura
-						.obtenerFacturasIncorrectas(totalFactoraje,
-								getArchitechBean());
-				factorajeList.addAll(factorajeCorrectas);
-				factorajeList.addAll(factorajeIncorrectas);
-				facturaList.addAll(factorajeList);
-				aplicativoBuscado = "Confirming y Factoraje";
-				parametros.put("factoraje", factorajeList);
-				parametros.put("factorajeCorrecto", factorajeCorrectas);
-				parametros.put("factorajeIncorrecto", factorajeIncorrectas);
+			if (!reporteDivisasExtra.isEmpty()) {
+				parametros.put("reporteDivisasExtra", reporteDivisasExtra);
 			}
-			parametros.put("facturaList", facturaList);
-			parametros.put("aplicativo", aplicativoBuscado);
+			reporteDivisasExport.addAll(reporteDivisas);
+			reporteDivisasExport.addAll(reporteDivisasExtra);
+			parametros.put("reporteDivisasExport", reporteDivisasExport);
+			parametros.put("aplicativo", aplicativo);
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaDivisas");
 			return new ModelAndView("consultaDivisas", parametros);
 		} else {
@@ -481,30 +417,16 @@ public class ControllerFactura extends Architech {
 		String aplicativo = request.getParameter("aplicativo");
 		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
 		periodo.append("-").append(request.getParameter("mes"));
-		List<BeanFactura> recibosConsultados = boFactura.consultarFacturas(
-				aplicativo, periodo.toString(), RECI, getArchitechBean());
-		if (!recibosConsultados.isEmpty()) {
-			List<BeanFactura> recibosGenerados = boFactura
-					.obtenerFacturasRecibosGenerados(recibosConsultados,
-							getArchitechBean());
-			List<BeanFactura> recibosCancelados = boFactura
-					.obtenerFacturasRecibosCancelados(recibosConsultados,
-							getArchitechBean());
-			List<BeanFactura> totalRegistros = new ArrayList<BeanFactura>();
-			totalRegistros.addAll(recibosGenerados);
-			totalRegistros.addAll(recibosCancelados);
+		List<BeanReporteFacturas> reporteRecibos = boFactura.obtenerReporteRecibos(aplicativo, periodo.toString(), 
+				RECI, this.getArchitechBean());
+		if (!reporteRecibos.isEmpty()) {
 			final Map<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("recibosConsultados", totalRegistros);
-			parametros.put("recibosGenerados", recibosGenerados);
-			parametros.put("recibosCancelados", recibosCancelados);
-			parametros.put("num", recibosGenerados.size());
-			String aplicativoBuscado = recibosConsultados.get(0)
-					.getAplicativo();
+			parametros.put("reporteRecibos", reporteRecibos);
 			periodo = new StringBuilder(GeneradorCatalogos.obtenerListaMeses()
 					.get(request.getParameter("mes")));
 			periodo.append("-").append(request.getParameter("anio"));
 			parametros.put("periodo", periodo.toString());
-			parametros.put("aplicativo", aplicativoBuscado);
+			parametros.put("aplicativo", aplicativo);
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaRecibos");
 			return new ModelAndView("consultaRecibos", parametros);
 		} else {

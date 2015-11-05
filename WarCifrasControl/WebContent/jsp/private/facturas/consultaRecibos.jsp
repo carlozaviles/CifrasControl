@@ -59,27 +59,31 @@
 					<Td colspan="4" class="special"></Td>
 				</tr>
 				<tbody>
-					<c:forEach var="i" begin="0" end="${num - 1}">
+					<c:forEach var="filaRecibo" items="${reporteRecibos}">
 						<tr>
-							<td class="text_centro">${recibosGenerados[i].cantidadRecibos}</td>
-							<td class="text_centro">${recibosGenerados[i].importe}</td>
-							<td class="text_centro">${recibosCancelados[i].cantidadRecibos}</td>
-							<td class="text_centro">${recibosCancelados[i].importe}</td>
-						</tr>           				
+							<td class="text_centro">${filaRecibo.facturasCorrectas}</td>
+							<td class="text_centro">${filaRecibo.totalFactCorrectas}</td>
+							<td class="text_centro">${filaRecibo.facturasCanceladas}</td>
+							<td class="text_centro">${filaRecibo.totalFactCanceladas}</td>
+						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 	</div>
 </div>
 
-<display:table name="recibosConsultados" sort="list" pagesize="10" id="tableExport"
-				requestURI="../facturas/consultaRecibos.do" export="true">
-				<display:column property="cantidadRecibos" title="${generados}" group="1" sortable="false"
-					headerClass="text_centro" />
-				<display:column property="importe" title="${total}" sortable="false"
-					headerClass="text_centro" />
-				<display:setProperty name="export.excel.filename" value="ConsultaRecibos.xls" />
-			</display:table>
+<display:table name="reporteRecibos" sort="list" pagesize="10" id="tableExport"
+		requestURI="../facturas/consultaRecibos.do" export="true">
+	<display:column property="facturasCorrectas" title="${generados}" group="1" sortable="false"
+		headerClass="text_centro" />
+	<display:column property="totalFactCorrectas" title="${total}" sortable="false"
+		headerClass="text_centro" />
+	<display:column property="facturasCanceladas" title="${cancelados}" sortable="false"
+		headerClass="text_centro" />
+	<display:column property="totalFactCanceladas" title="${total}" sortable="false"
+		headerClass="text_centro" />	
+	<display:setProperty name="export.excel.filename" value="ConsultaRecibos.xls" />
+</display:table>
 
 <div class="PiePag">
 	<a href="#" id="exportarReporte">${exportarReporte}</a>
