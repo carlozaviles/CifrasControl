@@ -1,22 +1,35 @@
 $(document).ready(function(){
+	 $('#numeroCuenta').keyup(function (){
+			this.value = $.trim(this.value).substr(0, getNumCuentaLength());
+			this.value = (this.value + '').replace(getNumCuentaFormat(), '');
+		  });
 	$("#consultaReproceso").click(function(evt){
 		
 		if($.trim($('#numeroCuenta').val()) === ''){
-			alert("El campo 'N\u00famero de Cuenta' debe ser informado.");
+			jAlert("El campo 'N\u00famero de Cuenta' debe ser informado.", 
+					'Faltan campos por informar', 'Alerta', '');
 			return;
 		}
 		if($('#mes').val() === 'NONE'){
-			alert("El campo 'Mes' debe ser informado.");
+			jAlert("El campo 'Mes' debe ser informado.", 
+					'Faltan campos por informar', 'Alerta', '');
 			return;
 		}
 		if($('#anio').val() === 'NONE'){
-			alert("El campo 'A\u00f1o' debe ser informado.");
+			jAlert("El campo 'A\u00f1o' debe ser informado.", 
+					'Faltan campos por informar', 'Alerta', '');
 			return;
 		}
 		if($('#productoSeleccionado').val() === 'NONE'){
-			alert("El campo 'Aplicativo' debe ser informado.");
+			jAlert("El campo 'Aplicativo' debe ser informado.", 
+					'Faltan campos por informar', 'Alerta', '');
 			return;
 			}
+		if(!validarNumCuenta($('#numeroCuenta'))){
+			jAlert("La longitud del numero de cuenta es invalido.",
+	    			'Error en el formato','Alerta', '');
+			return;
+	    }
 		$('#consultaReprocesoForm').submit();
 	});	
 });
@@ -33,7 +46,8 @@ function permiteUpperLista(permiso, inputActual) {
 		if (permitidos.test(nombreTexto)) {
 			inputActual.value = nombreTexto.toUpperCase();
 		} else {
-			alert('Letras no validas en este tipo de campo.');
+			jAlert('Letras no validas en este tipo de campo.',
+	    			'Error en el formato','Alerta', '');
 			inputActual.value = "";
 			return false;
 		}
