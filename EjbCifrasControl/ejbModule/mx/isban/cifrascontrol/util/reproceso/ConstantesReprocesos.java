@@ -45,9 +45,9 @@ public final class ConstantesReprocesos {
 	/**
 	 * Codigo de error al cargar configuracion para consulta de Previos
 	 */
-	public static final String CODIGO_ERROR_CONFIG_PREVIOS = "10003";
+	public static final String CODIGO_ERROR_CONFIG_PREVIOS = "2007";
 	/**
 	 * Codigo de error que indica falla al procesar los resultados de la consulta de previos.
 	 */
-	public static final String CODIGO_ERROR_PROCESO_PREVIOS = "10004";
+	public static final String CODIGO_ERROR_PROCESO_PREVIOS = "2008";
 }
