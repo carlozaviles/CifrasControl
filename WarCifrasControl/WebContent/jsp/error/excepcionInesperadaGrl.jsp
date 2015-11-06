@@ -5,14 +5,24 @@
 <jsp:include page="../private/myMenu.jsp" flush="true">
 	<jsp:param name="menuItem"    value="principal" />
 </jsp:include>
-
+		
+	<spring:message code="error.labelDescripcion"       var="descripcion" />
+	<spring:message code="error.errorGral"              var="errorGral" />
 		
 	
-		<div class="pageTitleContainer">
-			<span class="pageTitle">Error</span> - ${codeError}
-		</div>
-		
-		
+	<div class="frameFormularioConfirmacion">
+	<div class="titleFormularioConfirmacion">${errorGral} </div>
+		<div class="contentFormularioConfirmacion">
+			<table>
+				<tbody>
+					<tr>
+						<td class="odd">${descripcion} </td>
+						<td class="text_izquierda">${errorGral}</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+</div>
 <jsp:include page="../private/myFooter.jsp" flush="true"/>
 
 

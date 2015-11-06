@@ -6,12 +6,23 @@
 	<jsp:param name="menuItem"    value="principal" />
 </jsp:include>
 
+    <spring:message code="error.labelDescripcion" var="descripcion" />
+	<spring:message code="error.errorNoPagina"    var="errorNoPagina" />
 		
 	
-		<div class="pageTitleContainer">
-			<span class="pageTitle">Pagina no encontrada</span>
-		</div>
-		
+	<div class="frameFormularioConfirmacion">
+	<div class="titleFormularioConfirmacion">${errorNoPagina} </div>
+		<div class="contentFormularioConfirmacion">
+			<table>
+				<tbody>
+					<tr>
+						<td class="odd">${descripcion} </td>
+						<td class="text_izquierda">${errorNoPagina}</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+</div>
 		
 <jsp:include page="../private/myFooter.jsp" flush="true"/>
 
