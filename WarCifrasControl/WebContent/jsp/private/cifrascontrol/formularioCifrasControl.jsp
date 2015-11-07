@@ -18,15 +18,15 @@
 <spring:message code="cifrascontrol.anio"             		var="anio"/>
 <spring:message code="cifrascontrol.camposObligatorios"        	var="camposObligatorios"/>
 <spring:message code="cifrascontrol.linkAceptar"             	var="linkAceptar"/>
-<spring:message code="facturas.gralSinDatos"              	var="gralSinDatos"/>
-<spring:message code="facturas.gralSinDatosRespuesta"           var="gralSinDatosRespuesta"/>
-<spring:message code="facturas.gralModificarFiltros"            var="gralModificarFiltros"/>
+<spring:message code="cifrascontrol.gralSinDatos"              	var="gralSinDatos"/>
+<spring:message code="cifrascontrol.gralSinDatosRespuesta"           var="gralSinDatosRespuesta"/>
+<spring:message code="cifrascontrol.gralModificarFiltros"            var="gralModificarFiltros"/>
 
 <div class="pageTitleContainer">
    <span class="pageTitle">${modulo}</span>
 </div>
 
-<div id="camposObligatorios" style="font-size:12px;color:#FF0000">${camposObligatorios}</div>
+
 <form action="consultaCifras.do" name="formularioFacturas" id="formularioFacturas" method="post" > 
 	
 	<input type="hidden" name="sinDatos" id ="sinDatos" value="${sinDatos}">

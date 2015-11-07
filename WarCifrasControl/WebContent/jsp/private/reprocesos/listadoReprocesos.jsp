@@ -35,11 +35,18 @@
 <spring:message code="reprocesos.consulta.estatus" var="etiquetaEstatus"/>
 <spring:message code="reprocesos.consulta.linkRegresar" var="linkRegresar"/>
 <spring:message code="reprocesos.consulta.linkExportar" var="linkExportar"/>
+<spring:message code="reprocesos.gralSinDatos"              	var="gralSinDatos"/>
+<spring:message code="reprocesos.gralSinDatosRespuesta"           var="gralSinDatosRespuesta"/>
+<spring:message code="reprocesos.gralModificarFiltros"            var="gralModificarFiltros"/>        
 
 <div class="pageTitleContainer">
 	<span class="pageTitle">${tituloReporteReprocesos}</span>
 </div>
 <br>
+				<input type="hidden" name="sinDatos" id ="sinDatos" value="${sinDatos}">
+				<input id="gralSinDatos" type="hidden" value="${gralSinDatos}"/>
+				<input id="gralSinDatosRespuesta" type="hidden" value="${gralSinDatosRespuesta}"/>
+				<input id="gralModificarFiltros" type="hidden" value="${gralModificarFiltros}"/>
 <div class="frameTablaEstandar">
 	<div class="titleTablaEstandar">${tituloTablaEstatus}</div>
 	<div class="contentTablaEstandar">
@@ -124,9 +131,8 @@
 	</display:table>
 </c:if>
 <c:if test="${noHayDatos}">
-	<spring:message code="reprocesos.mensaje.NoDatosConsultaReprocesos" var="mensajeNoDatos"/>
-	<script>
-		jInfo('', '${mensajeNoDatos}', '', '');
+	<script type="text/javascript">
+		jAlert($('#gralSinDatos').val(), $('#gralSinDatosRespuesta').val(), 'Alerta', $('#gralModificarFiltros').val());
 	</script>
 </c:if>
 <jsp:include page="../myFooter.jsp" flush="true"/>

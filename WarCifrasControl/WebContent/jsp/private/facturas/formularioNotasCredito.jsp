@@ -22,7 +22,6 @@
    <span class="pageTitle">${modulo}</span>
 </div>
 
-<div id="camposObligatorios" style="font-size:12px;color:#FF0000">${camposObligatorios}</div>
 <form action="consultaNotasCredito.do" name="formularioFacturas" id="formularioFacturas" method="post" > 
 	
 	<input type="hidden" name="sinDatos" id ="sinDatos" value="${sinDatos}">

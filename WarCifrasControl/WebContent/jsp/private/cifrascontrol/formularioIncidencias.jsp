@@ -15,7 +15,9 @@
 <spring:message code="cifrascontrol.anio"             		var="anio"/>
 <spring:message code="general.selectVacio"                  var="selectVacio"/>
 <spring:message code="cifrascontrol.linkAceptar"            var="linkAceptar"/>
-<spring:message code="cifrascontrol.incidencias.mensaje.noResultados"   var="noResultados"/>                             
+<spring:message code="cifrascontrol.gralSinDatos"              	var="gralSinDatos"/>
+<spring:message code="cifrascontrol.gralSinDatosRespuesta"           var="gralSinDatosRespuesta"/>
+<spring:message code="cifrascontrol.gralModificarFiltros"            var="gralModificarFiltros"/>                            
 
 <div class="pageTitleContainer">
    <span class="pageTitle">${modulo}</span>
@@ -25,6 +27,10 @@
 	<div class="contentFormularioB">
 		<div class="titleFormularioB">${modulo}</div>
 		<form action="consultaInsidencias.do" name="formularioIncidencias" id="formularioIncidencias" method="POST">
+			<input type="hidden" name="sinDatos" id ="sinDatos" value="${sinDatos}">
+			<input id="gralSinDatos" type="hidden" value="${gralSinDatos}"/>
+			<input id="gralSinDatosRespuesta" type="hidden" value="${gralSinDatosRespuesta}"/>
+			<input id="gralModificarFiltros" type="hidden" value="${gralModificarFiltros}"/>
 			<table>
 				<tr>
 					<td class="odd">${aplicativo}:</td>
@@ -65,7 +71,7 @@
 </div>
 <c:if test="${noCoincidencias}">
 	<script type="text/javascript">
-		jInfo('${noResultados}', '', 'Info', '');
+		jAlert($('#gralSinDatos').val(), $('#gralSinDatosRespuesta').val(), 'Alerta', $('#gralModificarFiltros').val());
 	</script>
 </c:if>
 <jsp:include page="../myFooter.jsp" flush="true"/>

@@ -15,6 +15,9 @@
 <spring:message code="reprocesos.cancelaciones.linkAceptar"      var="linkAceptar"/>
 <spring:message code="reprocesos.cancelaciones.noCoincidencias"  var="noCoincidencias"/>
 <spring:message code="general.selectVacio"                       var="selectVacio"/>
+<spring:message code="reprocesos.gralSinDatos"              	var="gralSinDatos"/>
+<spring:message code="reprocesos.gralSinDatosRespuesta"           var="gralSinDatosRespuesta"/>
+<spring:message code="reprocesos.gralModificarFiltros"            var="gralModificarFiltros"/>
 
 <div class="pageTitleContainer">
    <span class="pageTitle">${tituloPagina}</span>
@@ -24,6 +27,11 @@
 	<div class="contentFormularioB">
 		<div class="titleFormularioB">${tituloFormulario}</div>
 			<form action="consultaCancelaciones.do" name="formularioCancelaciones" id="formularioCancelaciones">
+				
+				<input type="hidden" name="sinDatos" id ="sinDatos" value="${sinDatos}">
+				<input id="gralSinDatos" type="hidden" value="${gralSinDatos}"/>
+				<input id="gralSinDatosRespuesta" type="hidden" value="${gralSinDatosRespuesta}"/>
+				<input id="gralModificarFiltros" type="hidden" value="${gralModificarFiltros}"/>
 				<table>
 					<tr>
 						<td class="odd">${mes}:</td>
@@ -42,10 +50,9 @@
 	</div>
 </div>
 
-<c:if test="${noCoincidenciasCancel}">
-	<script type="text/javascript">
-	jInfo('', '${noCoincidencias}', '', '');
+ <c:if test="${noCoincidenciasCancel}">
+ 	<script type="text/javascript">
+		jAlert($('#gralSinDatos').val(), $('#gralSinDatosRespuesta').val(), 'Alerta', $('#gralModificarFiltros').val());
 	</script>
-
-</c:if>
+ </c:if>
 <jsp:include page="../myFooter.jsp" flush="true"/>

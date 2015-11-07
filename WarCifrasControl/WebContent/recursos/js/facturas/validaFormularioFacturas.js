@@ -28,7 +28,7 @@ $(document).ready(function(){
 			isError = true;
 		}
 		if(isError === true){
-			$('#camposObligatorios').show();
+			jAlert('Todos los campos deben de ser informados para realizar la consulta.', 'Faltan campos por informar.','Alerta', '');
 		}else{
 			 $('#formularioFacturas').submit();
 		}
