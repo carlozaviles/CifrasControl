@@ -64,7 +64,8 @@ public class ControllerReprocesoSolicitud extends Architech{
 	 * @throws BusinessException Exception.
 	 */
 	@RequestMapping("datosFiscales.do")
-	public ModelAndView solicitaConsultaPersonas(HttpServletRequest req, HttpServletResponse res) throws BusinessException {
+	public ModelAndView solicitaConsultaPersonas(HttpServletRequest req, HttpServletResponse res) 
+			throws BusinessException {
 		this.info("Se solicitara la ejecucion de la consulta de personas.");
 		final String numeroCuenta = req.getParameter("numero-cuenta");
 		this.info("El numero de cuenta que sera enviado como parametro es: " + numeroCuenta);
@@ -78,7 +79,8 @@ public class ControllerReprocesoSolicitud extends Architech{
 			modelo.put("catalogoMeses", GeneradorCatalogos.obtenerListaMeses());
 			modelo.put("catalogoAnios", GeneradorCatalogos.obtenerListaAnios(5, 0));
 			modelo.put("catalogoTiposMovimiento", GeneradorCatalogos.obtenerCatalogoTipoMov());
-			final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "EDC");
+			final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), 
+					getArchitechBean().getUsuario(), "EDC");
 			modelo.put("catalogoProductos", GeneradorCatalogos.obtenerCatalogoProductosReprocesos(productos));
 			modelo.put("muestraDatosFiscales", true);
 		}else{

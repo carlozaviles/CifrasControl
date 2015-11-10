@@ -50,4 +50,8 @@ public final class ConstantesReprocesos {
 	 * Codigo de error que indica falla al procesar los resultados de la consulta de previos.
 	 */
 	public static final String CODIGO_ERROR_PROCESO_PREVIOS = "2008";
+	/**
+	 * Codigo de error que indica que el filtro para la consulta de personas es invalido
+	 */
+	public static final String CODIGO_ERROR_FILTRO_CONSULTA_PERSONAS = "2009";
 }

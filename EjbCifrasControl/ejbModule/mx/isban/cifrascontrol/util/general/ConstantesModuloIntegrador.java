@@ -81,4 +81,8 @@ public class ConstantesModuloIntegrador {
 	 * Clave con la que se identifica a los productos de Facturas.
 	 */
 	public static final String CLAVE_PRODUCTOS_FACTURAS = "FACT";
+	/**
+	 * Caracter de espacio.
+	 */
+	public static final String CARACTER_ESPACIO = " ";
 }

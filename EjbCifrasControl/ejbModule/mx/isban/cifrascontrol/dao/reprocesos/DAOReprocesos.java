@@ -28,5 +28,5 @@ public interface DAOReprocesos {
 	 * @param sessionBean Objeto de arquitectura Agave.
 	 * @return BeanDatosClienteDAO
 	 */
-	public BeanDatosClienteDAO ejecutaConsultaPersonas(String numeroCuenta, ArchitechSessionBean sessionBean);
+	public BeanDatosClienteDAO ejecutaConsultaPersonas(String numeroCuenta, String numeroTarjeta, ArchitechSessionBean sessionBean);
 }

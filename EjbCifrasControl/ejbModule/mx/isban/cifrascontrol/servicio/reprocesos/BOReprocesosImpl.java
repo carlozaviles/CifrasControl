@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -65,10 +66,21 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 	 * @see mx.isban.cifrascontrol.servicio.reprocesos.BOReprocesos#realizarConsultaPersonas(java.lang.String, mx.isban.agave.commons.beans.ArchitechSessionBean)
 	 */
 	@Override
-	public BeanDatosSolicitudReprocesos realizarConsultaPersonas(String numeroCuenta, ArchitechSessionBean sessionBean) 
+	public BeanDatosSolicitudReprocesos realizarConsultaPersonas(String filtroConsulta, ArchitechSessionBean sessionBean) 
 			throws BusinessException {
-		this.info("Se ejecutara la consulta de personas con el numero de cuenta: " + numeroCuenta);
-		final BeanDatosClienteDAO respuestaConsulta = reprocesos.ejecutaConsultaPersonas(numeroCuenta, sessionBean);
+		this.info("Se ejecutara la consulta de personas con el siguiente parametro: " + filtroConsulta);
+		String numCuenta = null;
+		String numTarjeta = null;
+		if(Pattern.matches("^(\\d{11})|(\\d{20})$", filtroConsulta)){
+			numCuenta = filtroConsulta;
+		}else if(Pattern.matches("^(\\d{15})|(\\d{16})|(\\d{22})$", filtroConsulta)){
+			numTarjeta = filtroConsulta;
+		}else{
+			throw new BusinessException(ConstantesReprocesos.CODIGO_ERROR_FILTRO_CONSULTA_PERSONAS);
+		}
+		
+		final BeanDatosClienteDAO respuestaConsulta = reprocesos.ejecutaConsultaPersonas(numCuenta, numTarjeta, sessionBean);
+		
 		if(DAOReprocesos.CODIGO_OPERACION_OK.equals(respuestaConsulta.getCodError())){
 			this.info("Se retorna la respuesta encontrada hacia el front");
 			final BeanDatosSolicitudReprocesos datosFiscales = new BeanDatosSolicitudReprocesos();
@@ -84,7 +96,7 @@ public class BOReprocesosImpl extends Architech implements BOReprocesos {
 			}
 			return datosFiscales;
 		}else if(DAOReprocesos.CODIGO_NO_RESULTADOS.equals(respuestaConsulta.getCodError())){
-			this.info("La consulta de personas no arrojo resultados para el numero de cuenta: " + numeroCuenta);
+			this.info("La consulta de personas no arrojo resultados para el numero de cuenta: " + filtroConsulta);
 			return null;
 		}else{
 			this.info("Se presento un error al ejecutar la consulta de personas: " + respuestaConsulta.getCodError());
