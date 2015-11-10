@@ -14,15 +14,15 @@
 <!--Configuracion JasperReportsXlsView CifrasControl  -->
  <bean id="xlsCifrasControl"
           class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
-          p:url="classpath:/recursos/reportes/consultaCifras.jrxml"
+          p:url="classpath:/recursos/consultaCifras.jrxml"
           p:reportDataKey="datasourceAplicativoOrigen"
           p:subReportUrls-ref="subReportUrls"
           p:subReportDataKeys-ref="subReportDatasource"/>
 
      <util:map id="subReportUrls">
-			<entry key="subReportComprobanteFiscal" value="classpath:/recursos/reportes/comprobanteFiscal.jrxml"/>
-			<entry key="subReportSistemaAdministracion" value="classpath:/recursos/reportes/sistemaAdministracion.jrxml"/>
-			<entry key="subReportCuentas" value="classpath:/recursos/reportes/cuentas.jrxml"/>			                                                                                   
+			<entry key="subReportComprobanteFiscal" value="classpath:/recursos/comprobanteFiscal.jrxml"/>
+			<entry key="subReportSistemaAdministracion" value="classpath:/recursos/sistemaAdministracion.jrxml"/>
+			<entry key="subReportCuentas" value="classpath:/recursos/cuentas.jrxml"/>			                                                                                   
      </util:map>
  
 	 <util:list id="subReportDatasource">
