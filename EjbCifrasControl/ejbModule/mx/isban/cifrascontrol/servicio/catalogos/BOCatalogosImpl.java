@@ -113,6 +113,23 @@ public class BOCatalogosImpl extends Architech implements BOCatalogos {
 		return listaProductosUsuario;
 	}
 	
+	/* (non-Javadoc)
+	 * @see mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos#obtenerProductosUsuario(mx.isban.agave.commons.beans.ArchitechSessionBean, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<BeanProducto> obtenerProductosUsuarioReporceso(ArchitechSessionBean sessionBean, String idUsuario, String tipo)
+			throws BusinessException {
+		List<BeanProducto> listaProductosUsuario= new ArrayList<BeanProducto>();
+		List<BeanProducto> listaProductosUsuarioReporceso= new ArrayList<BeanProducto>();
+		listaProductosUsuario=this.obtenerProductosUsuario(sessionBean, idUsuario, tipo);
+		
+		for(BeanProducto producto:listaProductosUsuario){
+			if(producto.isPermisoReproceso())
+			listaProductosUsuarioReporceso.add(producto);
+		}
+		return listaProductosUsuarioReporceso;
+		
+	}
 	/**
 	 * Metodo encargado de verificar las respuestas obtenidas del DAO
 	 * @param resultadoConsulta Un objeto con los resultados de la consulta
