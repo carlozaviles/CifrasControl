@@ -62,7 +62,7 @@ public class ControllerReprocesoSolicitud extends Architech{
 	 * @param res Response
 	 * @return ModelAndView
 	 * @throws BusinessException Exception.
-	 */
+	 */ 
 	@RequestMapping("datosFiscales.do")
 	public ModelAndView solicitaConsultaPersonas(HttpServletRequest req, HttpServletResponse res) 
 			throws BusinessException {
@@ -79,7 +79,7 @@ public class ControllerReprocesoSolicitud extends Architech{
 			modelo.put("catalogoMeses", GeneradorCatalogos.obtenerListaMeses());
 			modelo.put("catalogoAnios", GeneradorCatalogos.obtenerListaAnios(5, 0));
 			modelo.put("catalogoTiposMovimiento", GeneradorCatalogos.obtenerCatalogoTipoMov());
-			final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), 
+			final List<BeanProducto> productos = boCatalogo.obtenerProductosUsuarioReporceso(getArchitechBean(), 
 					getArchitechBean().getUsuario(), "EDC");
 			modelo.put("catalogoProductos", GeneradorCatalogos.obtenerCatalogoProductosReprocesos(productos));
 			modelo.put("muestraDatosFiscales", true);
