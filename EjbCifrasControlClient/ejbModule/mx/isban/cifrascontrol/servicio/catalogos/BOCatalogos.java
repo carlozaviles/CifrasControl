@@ -60,4 +60,18 @@ public interface BOCatalogos {
 	 */
 	public List<BeanProducto> obtenerProductosUsuario(ArchitechSessionBean sessionBean,String idUsuario, String tipo)throws BusinessException;
 	
+	/**
+	 * Metodo encargado de obtener los productos relacionados a un usuario, el  cual cuenta con el permiso
+	 * de Reproceso, estos se muestran al momento de realizar la consulta y/o solicitud
+	 * de reprocesos
+	 * 
+	 * @param sessionBean Objeto de la arquitectura agave de tipo {@link ArchitechSessionBean}
+	 * @param idUsuario El id del usuario a realizar la busqueda
+	 * @param tipo El tipo de producto a buscar (EDC o FACT)
+	 * @return Un listado de objetos de tipo {@link BeanProducto}
+	 * @throws BusinessException En caso de presentarse un error al momento de 
+	 * consultar los registros en la base de datos
+	 */
+	 public List<BeanProducto> obtenerProductosUsuarioReporceso(ArchitechSessionBean sessionBean,String idUsuario, String tipo)throws BusinessException;
+	 
 }
