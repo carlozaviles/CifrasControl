@@ -155,7 +155,7 @@ public class BeanDatosSolicitudReprocesos implements Serializable {
 	
 	/**
 	 * Establece el campo movimiento
-	 * @param movimiento Valor que sera colocado en el campo movimiento.
+	 * @param tipoMovimiento Valor que sera colocado en el campo movimiento.
 	 */
 	public void setMovimiento(String tipoMovimiento) {
 		this.movimiento = tipoMovimiento;

@@ -110,6 +110,7 @@ public final class GeneradorCatalogos {
 	/**
 	 * Obtiene el catalogo de productos para la solicitud de reprocesos.
 	 * Se retorna un objeto de tipo Map que se utilizara en la capa cliente para llenar un bojeto de tipo select.
+	 * @param productoList Lista de productos utilizada para formar el catalogo.
 	 * @return Map<String, String>
 	 */
 	public static Map<String, String> obtenerCatalogoProductosReprocesos(List<BeanProducto> productoList){
@@ -120,6 +121,10 @@ public final class GeneradorCatalogos {
 		return catalogoProductos;
 	}
 
+	/**
+	 * Obtiene el catalogo con los tipos de perfiles existentes en la aplicacion.
+	 * @return Map<String, String>
+	 */
 	public static Map<String, String> obtenerCatalogoTipoPerfil(){
 		final Map<String, String> tipoPerfil = new LinkedHashMap<String, String>();
 		tipoPerfil.put("S", "Seguridad Inform\u00e1tica");

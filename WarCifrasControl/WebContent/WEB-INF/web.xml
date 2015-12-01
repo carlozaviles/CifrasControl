@@ -32,19 +32,6 @@
 		<listener-class>mx.isban.agave.configuracion.ListenerConfig</listener-class>
 	</listener>
 	
-	
-	<!-- Filtro de validacion de seseiones -->
-	<filter>
-		<display-name>FilterValidadorSesion</display-name>
-		<filter-name>FilterValidacionSesion</filter-name>
-		<filter-class>mx.isban.cifrascontrol.utileria.general.FilterValidadorSesion</filter-class>
-	</filter>
-	
-	<filter-mapping>
-		<filter-name>FilterValidacionSesion</filter-name>
-		<url-pattern>/principal/auto.do</url-pattern>
-	</filter-mapping>
-	
 	<!-- Filtro del componente cmpSesiones -->
 	<filter>
 		<display-name>FilterLogin</display-name>

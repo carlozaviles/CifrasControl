@@ -191,7 +191,7 @@ public class BeanDetalleCifrasControl implements Serializable {
 
 	/**
 	 * Metodo que establece el tipo de documento
-	 * @param tipoDocumento
+	 * @param tipoDocumento Valor a establecer.
 	 */
 	public void setTipoDocumento(String tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
@@ -207,7 +207,7 @@ public class BeanDetalleCifrasControl implements Serializable {
 
 	/**
 	 * Metodo que establece las comisiones intereses
-	 * @param comisionesIntereses
+	 * @param comisionesIntereses Valor a establecer.
 	 */
 	public void setComisionesIntereses(String comisionesIntereses) {
 		this.comisionesIntereses = comisionesIntereses;

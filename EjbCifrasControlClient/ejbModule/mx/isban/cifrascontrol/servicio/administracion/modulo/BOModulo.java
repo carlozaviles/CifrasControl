@@ -38,34 +38,39 @@ public interface BOModulo {
 	 * @throws BusinessException En caso de presentarse un error al momento de realizar la busqueda de modulos por usuario
 	 */
 	public List<BeanModulo> obtenerModulosPorUsuarioLogueado(ArchitechSessionBean sessionBean,String idUsuario)throws BusinessException;
+	
 	/**
 	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
-	 * @return
+	 * @return List<BeanModulo>
 	 * @throws BusinessException En caso de presentarse un error al momento de realizar la busqueda de todos los modulos
 	 */
 	public List<BeanModulo> obtenerTodosModulos(ArchitechSessionBean sessionBean)throws BusinessException;
+	
 	/**
 	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
 	 * @param idModulo
-	 * @return
+	 * @return BeanModulo
 	 * @throws BusinessException En caso de presentarse un error al momento de realizar la busqueda de un modulo por id
 	 */
 	public BeanModulo obtenerModuloPorId(ArchitechSessionBean sessionBean, String idModulo)throws BusinessException;
+	
 	/**
 	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
-	 * @param modulo
+	 * @param modulo Objeto que representa el modulo a modificar.
 	 * @throws BusinessException En caso de presentarse un error al momento de realizar la modificacion de un modulo
 	 */
 	public void modificarModulo(ArchitechSessionBean sessionBean, BeanModulo modulo)throws BusinessException;
+	
 	/**
 	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
-	 * @param modulo
+	 * @param modulo Objeto que representa el modulo a dar de alta.
 	 * @throws BusinessException En caso de presentarse un error al momento de realizar el alta de un modulo
 	 */
 	public void altaModulo(ArchitechSessionBean sessionBean, BeanModulo modulo)throws BusinessException;
+	
 	/**
 	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
-	 * @param idModulo
+	 * @param idModulo Identificador del modulo a eliminar.
 	 * @throws BusinessException En caso de presentarse un error al momento de eliminar un modulo de la base de datos
 	 */
 	public void borrarModulo(ArchitechSessionBean sessionBean, String idModulo)throws BusinessException;

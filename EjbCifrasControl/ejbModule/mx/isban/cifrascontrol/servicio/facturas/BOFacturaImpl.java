@@ -11,7 +11,7 @@
 package mx.isban.cifrascontrol.servicio.facturas;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+//import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -24,6 +24,9 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+
+import org.apache.commons.beanutils.BeanUtils;
+//import org.apache.commons.beanutils.BeanUtilsBean;
 
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.beans.ArchitechSessionBean;
@@ -268,21 +271,23 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 			
 			for (T objeto : listaResultado) {
 				final BeanFactura factura = new BeanFactura();
-				final Method[] metodosBean = factura.getClass().getDeclaredMethods();
-				final Method[] metodosDTO = clase.getDeclaredMethods();
-				for (int i = 0; i < metodosBean.length; i++) {
-					if(metodosBean[i].getName().startsWith("set")){
-						String nombreMetodoBean = metodosBean[i].getName().substring(3);
-						for (int j = 0; j < metodosDTO.length; j++) {
-							if(metodosDTO[j].getName().startsWith("get")){
-								String nombreMetodoDTO = metodosDTO[j].getName().substring(3);
-								if(nombreMetodoBean.equalsIgnoreCase(nombreMetodoDTO)){
-									metodosBean[i].invoke(factura, metodosDTO[j].invoke(objeto));
-								}
-							}
-						}
-					}
-				}
+//				final Method[] metodosBean = factura.getClass().getDeclaredMethods();
+//				final Method[] metodosDTO = clase.getDeclaredMethods();
+//				for (int i = 0; i < metodosBean.length; i++) {
+//					if(metodosBean[i].getName().startsWith("set")){
+//						String nombreMetodoBean = metodosBean[i].getName().substring(3);
+//						for (int j = 0; j < metodosDTO.length; j++) {
+//							if(metodosDTO[j].getName().startsWith("get")){
+//								String nombreMetodoDTO = metodosDTO[j].getName().substring(3);
+//								if(nombreMetodoBean.equalsIgnoreCase(nombreMetodoDTO)){
+//									metodosBean[i].invoke(factura, metodosDTO[j].invoke(objeto));
+//								}
+//							}
+//						}
+//					}
+//				}
+				BeanUtils.copyProperties(factura, objeto);
+				
 				lista.add(factura);
 			}
 		} catch (IllegalAccessException e) {

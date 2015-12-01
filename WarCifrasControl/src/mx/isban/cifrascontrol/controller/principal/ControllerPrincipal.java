@@ -40,13 +40,13 @@ public class ControllerPrincipal extends Architech{
 
 	/**
 	 * Metodo que sirve para inicializar el LookAndFeel, el Perfilamiento
-	 * @param req
-	 * @param res
-	 * @return
-	 * @throws Exception
+	 * @param req Request
+	 * @param res Response
+	 * @return ModelAndView
+	 * @throws BusinessException Excepcion de la capa de negocios.
 	 */
 	@RequestMapping("auto.do")
-	public ModelAndView auto(HttpServletRequest req, HttpServletResponse res)throws Exception{
+	public ModelAndView auto(HttpServletRequest req, HttpServletResponse res) throws BusinessException{
 
 		String url = "inicio";
 		
@@ -85,8 +85,14 @@ public class ControllerPrincipal extends Architech{
 		return new ModelAndView(url);
 	}
 	
+	/**
+	 * Este metodo maneja la salida del aplicativo.
+	 * @param request Request
+	 * @param respones Response
+	 * @return ModelAndView
+	 */
 	@RequestMapping("salir.do")
-	public ModelAndView salir(final HttpServletRequest request, final HttpServletResponse respones) throws Exception {
+	public ModelAndView salir(final HttpServletRequest request, final HttpServletResponse respones) {
 		this.debug("saliendo de la aplicacion");
 		LookAndFeel lyFBean = (LookAndFeel)request.getSession().getAttribute("LyFBean");
 		//ArchitechSessionBean objArchitectBean = (ArchitechSessionBean)request.getSession().getAttribute("ArchitectSession");
@@ -96,6 +102,14 @@ public class ControllerPrincipal extends Architech{
 		return new ModelAndView("redirect:" + salirUrl);
 	}
 	
+	/**
+	 * Manejador de excepciones de este controller.
+	 * @param request Request
+	 * @param response Response
+	 * @param handler Excepcion cachada por este metodo
+	 * @param ex Exception
+	 * @return ModelAndView
+	 */
 	@ExceptionHandler
 	public ModelAndView resolveException(final HttpServletRequest request, final HttpServletResponse response,
 		final Object handler, final Exception ex) {
@@ -132,10 +146,18 @@ public class ControllerPrincipal extends Architech{
 		return new ModelAndView("redirect:" + lstrPaginaException, lhsmParametros);
 	}
 
+	/**
+	 * Retorna el objeto boModulo.
+	 * @return BOModulo
+	 */
 	public BOModulo getBoModulo() {
 		return boModulo;
 	}
 
+	/**
+	 * Establece el valor de la referencia boModulo
+	 * @param boModulo Objeto a esteblecer.
+	 */
 	public void setBoModulo(BOModulo boModulo) {
 		this.boModulo = boModulo;
 	}

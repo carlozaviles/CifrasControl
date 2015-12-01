@@ -27,13 +27,13 @@ public class ControllerPublico extends Architech {
 
 	/**
      * Sesionexistente.
-     * @paramreqthereq
+     * @param req thereq
      * @param res the res
      * @return the model and view
      * @throws Exception the exception
      */
 	@RequestMapping("sesionExistente.go")
-	public ModelAndView sesionExistente(final HttpServletRequest req, final HttpServletResponse res) throws Exception {
+	public ModelAndView sesionExistente(final HttpServletRequest req, final HttpServletResponse res) {
 		this.debug("Enviar a sesionExistente...");
 		String lstrUsuario = req.getParameter("user") == null ? "" :req.getParameter("user");
 		this.info("Usuario :" + lstrUsuario);
@@ -45,12 +45,12 @@ public class ControllerPublico extends Architech {
 
     /**
      * Login.
-     * @paramreq the req
+     * @param req the req
      * @param res the res
      * @return the model and view
      * @throws Exception the exception*/
 	@RequestMapping("login.go")
-	public ModelAndView login(final HttpServletRequest req, final HttpServletResponse res) throws Exception {
+	public ModelAndView login(final HttpServletRequest req, final HttpServletResponse res) {
 		this.debug("Enviar a Login...");
         String lstrUsuario = req.getParameter("user") == null ? "" :req.getParameter("user");
         String lstrClave = req.getParameter("password") == null ? "" :req.getParameter("password");

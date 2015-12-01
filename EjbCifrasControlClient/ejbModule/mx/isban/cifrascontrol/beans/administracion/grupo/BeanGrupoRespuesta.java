@@ -53,7 +53,7 @@ public class BeanGrupoRespuesta implements Serializable, BeanResultBO {
 	
 	/**
 	 * Metodo que obtiene los grupos resultantes de la consulta a Base de datos
-	 * @return
+	 * @return List<BeanGrupo>
 	 */
 	public List<BeanGrupo> getGrupos() {
 		return grupos;

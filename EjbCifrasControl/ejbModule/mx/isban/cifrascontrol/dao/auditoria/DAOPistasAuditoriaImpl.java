@@ -40,20 +40,6 @@ public class DAOPistasAuditoriaImpl extends Architech implements DAOPistasAudito
 	 */
 	@Override
 	public BeanResultBO guardaPistaAuditoria(BeanPistaAuditoria pistaAuditoria, ArchitechSessionBean sessionBean) {
-		System.out.println("**********************************");
-		System.out.println("Fecha: " + pistaAuditoria.getFecha());
-		System.out.println("Hora: " + pistaAuditoria.getHora());
-		System.out.println("IP Cliente: " + pistaAuditoria.getIpTerminalCliente());
-		System.out.println("Usuario: " + pistaAuditoria.getUsuarioApp());
-		System.out.println("Aplicacion: " + pistaAuditoria.getAplicacion());
-		System.out.println("Codigo de Operacion: " + pistaAuditoria.getCodigoOperacion());
-		System.out.println("Estatus: " + pistaAuditoria.getEstatusOperacion());
-		System.out.println("Cliente Afectado: " + pistaAuditoria.getClienteAfectado());
-		System.out.println("ID Sesion: " + pistaAuditoria.getIdSesion());
-		System.out.println("Nombre Servidor: " + pistaAuditoria.getNombreServidorWeb());
-		System.out.println("IP Servidor: " + pistaAuditoria.getIpServidorWeb());
-		System.out.println("**********************************");
-		
 		final RequestMessageDataBaseDTO requestDTO = new RequestMessageDataBaseDTO();
 		requestDTO.setTypeOperation(ConfigFactoryJDBC.OPERATION_TYPE_INSERT_PARAMS);
 		requestDTO.setQuery(INSERT_PISTA_AUDITORIA);

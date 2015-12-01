@@ -119,7 +119,7 @@ public class BeanCancelacion implements Serializable {
 	}
 	
 	/**
-	 * @param folioSat the folioSat to set
+	 * @param folioSAT the folioSat to set
 	 */
 	public void setFolioSAT(String folioSAT) {
 		this.folioSAT = folioSAT;
@@ -133,33 +133,56 @@ public class BeanCancelacion implements Serializable {
 	}
 	
 	/**
-	 * @param comicionInteres the comicionInteres to set
+	 * @param importeComisInter the comicionInteres to set
 	 */
 	public void setimporteComisInter(String importeComisInter) {
 		this.importeComisInter = importeComisInter;
 	}
 	
+	/**
+	 * Retorna importeIva
+	 * @return String
+	 */
 	public String getImporteIva() {
 		return importeIva;
 	}
 
+	/**
+	 * Establece el valor del campo importeIva
+	 * @param importeIva Valor a establecer
+	 */
 	public void setImporteIva(String importeIva) {
 		this.importeIva = importeIva;
 	}
+	
+	/**
+	 * Retorna el valor del campo importeRetencion
+	 * @return String
+	 */
 	public String getImporteRetencion() {
 		return importeRetencion;
 	}
 
+	/**
+	 * Establece el valor del campo importeRetencion.
+	 * @param importeRetencion Valor a esteblecer.
+	 */
 	public void setImporteRetencion(String importeRetencion) {
 		this.importeRetencion = importeRetencion;
 	}
+	
 	/**
-	 * @param anio
+	 * Retorna el valor del campo anio.
+	 * @param anio Valor a establecer.
 	 */
 	public String getAnio() {
 		return anio;
 	}
 
+	/**
+	 * Establece el valor del campo anio.
+	 * @param anio Valor a establecer.
+	 */
 	public void setAnio(String anio) {
 		this.anio = anio;
 	}

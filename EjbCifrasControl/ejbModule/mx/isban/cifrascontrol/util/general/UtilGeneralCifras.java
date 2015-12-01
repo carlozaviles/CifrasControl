@@ -12,7 +12,7 @@ package mx.isban.cifrascontrol.util.general;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+//import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 import mx.isban.agave.commons.exception.BusinessException;
 import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
@@ -74,27 +76,30 @@ public final class UtilGeneralCifras {
 	 * @param claseContenedora El tipo de retorno 
 	 * @return Un listado de objetos de tipo de la clase de retorno
 	 */
-	public static <T,E> List<E> establecerRegistros(List<T> listaResultado, Class<T> clase,Class<E> claseContenedora)throws BusinessException{
+	public static <T,E> List<E> establecerRegistros(List<T> listaResultado, Class<T> clase,Class<E> claseContenedora)
+			throws BusinessException{
 		List<E> lista = new ArrayList<E>();
 		try {
 			
 			for (T objeto : listaResultado) {
 				final E factura = claseContenedora.cast(Class.forName(claseContenedora.getName()).newInstance());
-				final Method[] metodosBean = factura.getClass().getDeclaredMethods();
-				final Method[] metodosDTO = clase.getDeclaredMethods();
-				for (int i = 0; i < metodosBean.length; i++) {
-					if(metodosBean[i].getName().startsWith("set")){
-						String nombreMetodoBean = metodosBean[i].getName().substring(3);
-						for (int j = 0; j < metodosDTO.length; j++) {
-							if(metodosDTO[j].getName().startsWith("get")){
-								String nombreMetodoDTO = metodosDTO[j].getName().substring(3);
-								if(nombreMetodoBean.equalsIgnoreCase(nombreMetodoDTO)){
-									metodosBean[i].invoke(factura, metodosDTO[j].invoke(objeto));
-								}
-							}
-						}
-					}
-				}
+//				final Method[] metodosBean = factura.getClass().getDeclaredMethods();
+//				final Method[] metodosDTO = clase.getDeclaredMethods();
+//				for (int i = 0; i < metodosBean.length; i++) {
+//					if(metodosBean[i].getName().startsWith("set")){
+//						String nombreMetodoBean = metodosBean[i].getName().substring(3);
+//						for (int j = 0; j < metodosDTO.length; j++) {
+//							if(metodosDTO[j].getName().startsWith("get")){
+//								String nombreMetodoDTO = metodosDTO[j].getName().substring(3);
+//								if(nombreMetodoBean.equalsIgnoreCase(nombreMetodoDTO)){
+//									metodosBean[i].invoke(factura, metodosDTO[j].invoke(objeto));
+//								}
+//							}
+//						}
+//					}
+//				}
+				
+				BeanUtils.copyProperties(factura, objeto);
 				lista.add(factura);
 			}
 		} catch (IllegalAccessException e) {

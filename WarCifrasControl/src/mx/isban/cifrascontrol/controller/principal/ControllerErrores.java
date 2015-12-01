@@ -16,20 +16,32 @@ import mx.isban.agave.commons.architech.Architech;
 public class ControllerErrores extends Architech{
 	
 	/**
-	 * 
+	 * Serial.
 	 */
 	private static final long serialVersionUID = 960423900408489008L;
 
+	/**
+	 * Manejador de error de la capa de negocio.
+	 * @param req Request
+	 * @param res Response
+	 * @return ModelAndView
+	 */
 	@RequestMapping("errorAgave.do")
-	public ModelAndView errorEBE(final HttpServletRequest req, final HttpServletResponse res) throws Exception {
+	public ModelAndView errorEBE(final HttpServletRequest req, final HttpServletResponse res) {
 		final String nombreParametro = "codeError";
 		Map<String, String> modelo = new HashMap<String, String>();
 		modelo.put(nombreParametro, req.getParameter(nombreParametro));
 		return new ModelAndView("excepcionInesperadaArq", modelo);
 	}
 	
+	/**
+	 * Manejador de error general
+	 * @param req Request
+	 * @param res Response
+	 * @return ModelAndView
+	 */
 	@RequestMapping("errorGrl.do")
-	public ModelAndView errorGrl(final HttpServletRequest req, final HttpServletResponse res) throws Exception {
+	public ModelAndView errorGrl(final HttpServletRequest req, final HttpServletResponse res) {
 		return new ModelAndView("excepcionInesperadaGrl");
 	}
 }

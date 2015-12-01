@@ -43,7 +43,7 @@ public final class ConexionUtil extends Architech{
 	/**
 	 * Propiedad de tipo {@link ConexionUtil}
 	 */
-	private static ConexionUtil conexionUtil;
+	private static ConexionUtil connUtil;
 	
 	/**
 	 * Origen de datos.
@@ -56,10 +56,10 @@ public final class ConexionUtil extends Architech{
 	 * @throws BusinessException En caso de presentarse un error al momento de realizar la consulta del jndi
 	 */
 	public static ConexionUtil getInstance()throws BusinessException{
-		if(conexionUtil == null){
-			conexionUtil = new ConexionUtil();
+		if(connUtil == null){
+			connUtil = new ConexionUtil();
 		}
-		return conexionUtil;
+		return connUtil;
 	}
 	
 	/**

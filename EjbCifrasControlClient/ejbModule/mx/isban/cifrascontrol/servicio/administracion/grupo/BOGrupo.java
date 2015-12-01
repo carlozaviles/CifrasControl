@@ -72,10 +72,10 @@ public interface BOGrupo {
 	
 	/**
 	 * Obtiene la lista de Grupos de acuerdo a su tipo.
-	 * @param tipoGrupo
-	 * @param sessionBean
-	 * @return
-	 * @throws BusinessException
+	 * @param tipoGrupo Tipo de grupos a obtener.
+	 * @param sessionBean Objeto de la arquitectura agave.
+	 * @return List<BeanGrupo>
+	 * @throws BusinessException Excepcion.
 	 */
 	public List<BeanGrupo> obtenerGruposPorTipo(String tipoGrupo, ArchitechSessionBean sessionBean) throws BusinessException;
 	

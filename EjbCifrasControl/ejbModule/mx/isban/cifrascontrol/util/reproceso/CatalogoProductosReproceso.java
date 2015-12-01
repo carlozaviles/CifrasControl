@@ -7,10 +7,17 @@ import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 
 public final class CatalogoProductosReproceso {
 	
+	/**
+	 * Constructor por defecto.
+	 */
 	private CatalogoProductosReproceso() {
 		super();
 	}
 	
+	/**
+	 * Obtiene el catalogo de productos para reprocesos.
+	 * @return List<BeanProducto>
+	 */
 	public static List<BeanProducto> obtenerCatalogoProductosReprocesos(){
 
  		final List<BeanProducto> catalogoProductos = new ArrayList<BeanProducto>();

@@ -15,7 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.StringTokenizer;
+//import java.util.StringTokenizer;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 //import com.ibm.afp2pdf.AFP2Pdf;
 //import com.ibm.afp2pdf.AFP2PdfException;
+
 
 import mx.isban.agave.commons.architech.Architech;
 import mx.isban.agave.commons.exception.BusinessException;
@@ -77,11 +79,11 @@ public class ControllerConsultaReprocesos extends Architech {
 	 * @param req Request
 	 * @param res Response.
 	 * @return ModelAndView
+	 * @throws BusinessException Excepcion de la capa de negocio.
 	 */
 	@RequestMapping("consultaReprocesos.do")
 	public ModelAndView muestraMenuConsulta(HttpServletRequest req, HttpServletResponse res,
 			final HttpServletResponse response) throws BusinessException {
-		{
 		this.info("Se redirecciona al usuario hacia la pagina " + PAGINA_CONSULTA_REPROCESOS);
 		final Map<String, Object> modelo = new HashMap<String, Object>();
 
@@ -91,10 +93,8 @@ public class ControllerConsultaReprocesos extends Architech {
 		modelo.put("catalogoMes", GeneradorCatalogos.obtenerListaMeses());
 		modelo.put("catalogoAnios", GeneradorCatalogos.obtenerListaAnios(5,	0));
 		modelo.put(FORMA_CONSULTA_REPROCESOS, new BeanParamsConsultaReproceso());
-	//everis
 		
 		return new ModelAndView(PAGINA_CONSULTA_REPROCESOS, modelo);
-	}
 	}
 	
 	/**
@@ -131,6 +131,7 @@ public class ControllerConsultaReprocesos extends Architech {
 	 * Muestra el formulario de consulta de previos.
 	 * @param modelo Modelo Spring MVC
 	 * @return ModelAndView
+	 * @throws BusinessException Excepcion de la capa de negocio.
 	 */
 	@RequestMapping("initConsultaPrevios.do")
 	public ModelAndView muestraFormularioPrevios(Map<String, Object> modelo) throws BusinessException {
@@ -175,18 +176,20 @@ public class ControllerConsultaReprocesos extends Architech {
 	}
 	
 	/**
-	 * 
-	 * @param request
-	 * @param response
+	 * Maneja la funcionalidad de descarga de previos.
+	 * @param request Request
+	 * @param response Response
+	 * @throws IOException Excepcion de entrada/salida
+	 * @throws NoSuchFieldError Error de campo inexistente.
 	 */
 	@RequestMapping("descargaPrevio.do")
-	public void descargaPrevio(HttpServletRequest request, HttpServletResponse response) {
+	public void descargaPrevio(HttpServletRequest request, HttpServletResponse response) throws IOException, NoSuchFieldError{
 		
-		String property = System.getProperty("java.library.path");
-		StringTokenizer parser = new StringTokenizer(property, ";");
-		while (parser.hasMoreTokens()) {
-		    System.err.println(parser.nextToken());
-		}
+//		String property = System.getProperty("java.library.path");
+//		StringTokenizer parser = new StringTokenizer(property, ";");
+//		while (parser.hasMoreTokens()) {
+//		    System.err.println(parser.nextToken());
+//		}
 		
 		this.info("Se recibe la peticion para la descarga de previos.");
 		@SuppressWarnings("unchecked")
@@ -196,46 +199,35 @@ public class ControllerConsultaReprocesos extends Architech {
 		this.info("El previo a descargar se muestra a continuacion: " + previoDescarga.getRutaPrevio());				
 	
 		//Converter AFP a PDF		
-		try{
-	        byte[] myArray;    
-		    ByteArrayOutputStream outBuf = new ByteArrayOutputStream();
-		    FileInputStream in = new FileInputStream(previoDescarga.getRutaPrevio());
-		    final int bufferSize = 500;
-		    byte []buffer = new byte[bufferSize];
-		    int bytesLeidos = 0;
-		    while((bytesLeidos = in.read(buffer)) != -1){
-		    	outBuf.write(buffer, 0, bytesLeidos);
-		    }
-		    outBuf.flush();
-		    myArray = outBuf.toByteArray(); 
-		    in.close();
-		               
-		    /*AFP2Pdf myAFP = new AFP2Pdf();
-		    myAFP.setLinearize(true);
-		    myAFP.A2PDocStart2(myArray, "/tmp");
-		    myAFP.A2PGenerateMessages(true);
-		    myAFP.A2PXFormDoc();*/	      
-		            
-		    String rutaNombre[] = previoDescarga.getRutaPrevio().split(File.separator);    
-			response.setContentType("application/pdf");
-			String headerKey = "Content-Disposition";
-	        //String headerValue = String.format("attachment; filename=\"%s\"", rutaNombre[rutaNombre.length - 1].replace("afp", "pfd"));
-			String headerValue = String.format("attachment; filename=\"%s\"", rutaNombre[rutaNombre.length - 1]);
-	        response.setHeader(headerKey, headerValue);
-	        //response.getOutputStream().write(myAFP.getPDFOutBuf());
-		    response.getOutputStream().write(myArray);
-	        //myAFP.A2PDocEnd();
-		    response.getOutputStream().flush();      
-	    }catch (IOException e){
-	        e.printStackTrace();
-	        System.err.println("IOException "+ e);
-	    }catch (NoSuchFieldError e) {
-	        e.printStackTrace();
-	        System.err.println("NoSuchFieldError "+e);
-	     }/*catch (AFP2PdfException e) {
-            e.printStackTrace();
-            System.err.println("AFP2PdfException "+e);
-	     }*/
+        byte[] myArray;    
+	    ByteArrayOutputStream outBuf = new ByteArrayOutputStream();
+	    FileInputStream in = new FileInputStream(previoDescarga.getRutaPrevio());
+	    final int bufferSize = 500;
+	    byte []buffer = new byte[bufferSize];
+	    int bytesLeidos = 0;
+	    while((bytesLeidos = in.read(buffer)) != -1){
+	    	outBuf.write(buffer, 0, bytesLeidos);
+	    }
+	    outBuf.flush();
+	    myArray = outBuf.toByteArray(); 
+	    in.close();
+	               
+	    /*AFP2Pdf myAFP = new AFP2Pdf();
+	    myAFP.setLinearize(true);
+	    myAFP.A2PDocStart2(myArray, "/tmp");
+	    myAFP.A2PGenerateMessages(true);
+	    myAFP.A2PXFormDoc();*/	      
+	            
+	    String rutaNombre[] = previoDescarga.getRutaPrevio().split(File.separator);    
+		response.setContentType("application/pdf");
+		String headerKey = "Content-Disposition";
+        //String headerValue = String.format("attachment; filename=\"%s\"", rutaNombre[rutaNombre.length - 1].replace("afp", "pfd"));
+		String headerValue = String.format("attachment; filename=\"%s\"", rutaNombre[rutaNombre.length - 1]);
+        response.setHeader(headerKey, headerValue);
+        //response.getOutputStream().write(myAFP.getPDFOutBuf());
+	    response.getOutputStream().write(myArray);
+        //myAFP.A2PDocEnd();
+	    response.getOutputStream().flush();      
 	}
 		 
 	/**
@@ -258,10 +250,11 @@ public class ControllerConsultaReprocesos extends Architech {
 	 * @param modelo Modelo Spring MVC
 	 * @return ModelAndView
 	 * @throws BusinessException Exception
+	 * @throws ParseException Error al manejar el parso de fechas.
 	 */
 	@RequestMapping("consultaCancelaciones.do")
 	public ModelAndView llamaConsultaCancelaciones(HttpServletRequest request, @RequestParam("mes")String mes, Map<String, Object> modelo) 
-			throws BusinessException, ParseException{
+			throws BusinessException, ParseException {
 		this.info("Se ejecutara la consulta de cancelaciones para el siguiente mes: " + mes);
 		String anio = mes.substring(0, 4);
 		this.info("El año es: " + anio);
@@ -284,7 +277,7 @@ public class ControllerConsultaReprocesos extends Architech {
 		}
 	}     
 	   
-	/**muestraFormularioCancelaciones
+	/**
 	 * Manejador de errores de este controller.
 	 * @param req Request
 	 * @param res Response

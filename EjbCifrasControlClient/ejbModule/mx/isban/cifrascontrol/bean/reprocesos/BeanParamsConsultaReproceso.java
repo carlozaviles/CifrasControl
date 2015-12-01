@@ -18,13 +18,9 @@ public class BeanParamsConsultaReproceso implements Serializable {
 	 * Serial.
 	 */
 	private static final long serialVersionUID = -5987883658417813282L;
-	
-	
-
 	/**
 	 * Representa el mes para el cual se va a realizar la consulta de reprocesos.
 	 */
-	
 	private String mes;
 	/**
 	 * Representa el anio para el cual se va a realizar la consutla de reprocesos.
@@ -34,21 +30,30 @@ public class BeanParamsConsultaReproceso implements Serializable {
 	 * Numero de cuenta.
 	 */
 	private String numeroCuenta;
-	
+	/**
+	 * Producto seleccionado.
+	 */
 	private String productoSeleccionado;
-	
-	public String getProductoSeleccionado() {
-		return productoSeleccionado;
-	}
-
-	public void setProductoSeleccionado(String productoSeleccionado) {
-		this.productoSeleccionado = productoSeleccionado;
-	}
-
 	/**
 	 * Productos a los que un usuario puede tener acceso
 	 */
 	private List<BeanProducto> productos;
+	
+	/**
+	 * Obtiene el valor del campo productoSeleccionado.
+	 * @return String
+	 */
+	public String getProductoSeleccionado() {
+		return productoSeleccionado;
+	}
+
+	/**
+	 * Establece el valor del campo productoSeleccionado.
+	 * @param productoSeleccionado Valor a establecer.
+	 */
+	public void setProductoSeleccionado(String productoSeleccionado) {
+		this.productoSeleccionado = productoSeleccionado;
+	}
 	
 	/**
 	 * Retorna el valor del campo mes
@@ -81,26 +86,22 @@ public class BeanParamsConsultaReproceso implements Serializable {
 	public void setAnio(String anio) {
 		this.anio = anio;
 	}
+	
 	/*
 	 * Establece el valor del campo de numero de cuenta
 	 * */
-	
 	public String getNumeroCuenta() {
 		return numeroCuenta;
 	}
 
+	/**
+	 * Establece el numero de cuenta.
+	 * @param numeroCuenta Valor a establecer.
+	 */
 	public void setNumeroCuenta(String numeroCuenta) {
 		this.numeroCuenta = numeroCuenta;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString(){
-		final StringBuilder salida = new StringBuilder();
-		salida.append("mes: " + this.mes).append(", anio: " + this.anio).append(", numeroCuenta: " + this.numeroCuenta).append(", producto: " + this.productoSeleccionado);
-		return salida.toString();
-	}
-
+	
 	/**
 	 * Metodo encargado de obtener los productos a los que un usuario tiene acceso
 	 * @return the productos
@@ -115,5 +116,14 @@ public class BeanParamsConsultaReproceso implements Serializable {
 	 */
 	public void setProductos(List<BeanProducto> productos) {
 		this.productos = productos;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString(){
+		final StringBuilder salida = new StringBuilder();
+		salida.append("mes: " + this.mes).append(", anio: " + this.anio).append(", numeroCuenta: " + this.numeroCuenta).append(", producto: " + this.productoSeleccionado);
+		return salida.toString();
 	}
 }

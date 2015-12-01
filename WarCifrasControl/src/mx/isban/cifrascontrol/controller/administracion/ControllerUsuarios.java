@@ -372,12 +372,17 @@ public class ControllerUsuarios extends Architech {
 
 	/**
 	 * Metodo que establece un objeto de tipo {@link BOCatalogos}
-	 * @param boCatalogos El objeto de tipo {@link BOCatalogos} a establecer
+	 * @param boCatalogo El objeto de tipo {@link BOCatalogos} a establecer
 	 */
 	public void setBoCatalogo(BOCatalogos boCatalogo) {
 		this.boCatalogo = boCatalogo;
 	}
 	
+	/**
+	 * Obtiene el ID de una pantalla dado un producto.
+	 * @param producto Producto que se utiliza como filtro para obtener el ID de pantalla.
+	 * @return String
+	 */
 	private String obtenerIdPantalla(String producto){
 		if("EDC".equals(producto)){
 			return "PERMISOS PRODUCTOS EDC";

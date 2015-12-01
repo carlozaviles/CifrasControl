@@ -117,7 +117,7 @@ public class BeanGrupo implements Serializable {
 
 	/**
 	 * Metodo que establece la descripcion del grupo
-	 * @param descripcionGrupo
+	 * @param descripcionGrupo Valor a establecer.
 	 */
 	public void setDescripcionGrupo(String descripcionGrupo) {
 		this.descripcionGrupo = descripcionGrupo;
