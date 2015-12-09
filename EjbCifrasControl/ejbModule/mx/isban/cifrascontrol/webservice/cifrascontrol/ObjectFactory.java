@@ -28,12 +28,12 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _CifrasControlException_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "CifrasControlException");
-    private final static QName _ConsultarCifrasControlResponse_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "consultarCifrasControlResponse");
     private final static QName _ConsultarFacturasCifrasControlResponse_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "consultarFacturasCifrasControlResponse");
-    private final static QName _ConsultarDetalleCifrasControlResponse_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "consultarDetalleCifrasControlResponse");
+    private final static QName _ConsultarIncidenciasCifrasControlResponse_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "consultarIncidenciasCifrasControlResponse");
     private final static QName _ConsultarCifrasControl_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "consultarCifrasControl");
-    private final static QName _ConsultarDetalleCifrasControl_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "consultarDetalleCifrasControl");
+    private final static QName _CifrasControlException_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "CifrasControlException");
+    private final static QName _ConsultarIncidenciasCifrasControl_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "consultarIncidenciasCifrasControl");
+    private final static QName _ConsultarCifrasControlResponse_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "consultarCifrasControlResponse");
     private final static QName _ConsultarFacturasCifrasControl_QNAME = new QName("http://sei.cifrascontrol.modulointegrador.isban.mx/", "consultarFacturasCifrasControl");
 
     /**
@@ -41,14 +41,6 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link ConsultarDetalleCifrasControlResponse }
-     * 
-     */
-    public ConsultarDetalleCifrasControlResponse createConsultarDetalleCifrasControlResponse() {
-        return new ConsultarDetalleCifrasControlResponse();
     }
 
     /**
@@ -76,6 +68,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ConsultarIncidenciasCifrasControl }
+     * 
+     */
+    public ConsultarIncidenciasCifrasControl createConsultarIncidenciasCifrasControl() {
+        return new ConsultarIncidenciasCifrasControl();
+    }
+
+    /**
      * Create an instance of {@link ConsultarCifrasControl }
      * 
      */
@@ -84,19 +84,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ConsultarIncidenciasCifrasControlResponse }
+     * 
+     */
+    public ConsultarIncidenciasCifrasControlResponse createConsultarIncidenciasCifrasControlResponse() {
+        return new ConsultarIncidenciasCifrasControlResponse();
+    }
+
+    /**
      * Create an instance of {@link ConsultarCifrasControlResponse }
      * 
      */
     public ConsultarCifrasControlResponse createConsultarCifrasControlResponse() {
         return new ConsultarCifrasControlResponse();
-    }
-
-    /**
-     * Create an instance of {@link ConsultarDetalleCifrasControl }
-     * 
-     */
-    public ConsultarDetalleCifrasControl createConsultarDetalleCifrasControl() {
-        return new ConsultarDetalleCifrasControl();
     }
 
     /**
@@ -140,24 +140,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link CifrasControlException }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", name = "CifrasControlException")
-    public JAXBElement<CifrasControlException> createCifrasControlException(CifrasControlException value) {
-        return new JAXBElement<CifrasControlException>(_CifrasControlException_QNAME, CifrasControlException.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ConsultarCifrasControlResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", name = "consultarCifrasControlResponse")
-    public JAXBElement<ConsultarCifrasControlResponse> createConsultarCifrasControlResponse(ConsultarCifrasControlResponse value) {
-        return new JAXBElement<ConsultarCifrasControlResponse>(_ConsultarCifrasControlResponse_QNAME, ConsultarCifrasControlResponse.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ConsultarFacturasCifrasControlResponse }{@code >}}
      * 
      */
@@ -167,12 +149,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ConsultarDetalleCifrasControlResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ConsultarIncidenciasCifrasControlResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", name = "consultarDetalleCifrasControlResponse")
-    public JAXBElement<ConsultarDetalleCifrasControlResponse> createConsultarDetalleCifrasControlResponse(ConsultarDetalleCifrasControlResponse value) {
-        return new JAXBElement<ConsultarDetalleCifrasControlResponse>(_ConsultarDetalleCifrasControlResponse_QNAME, ConsultarDetalleCifrasControlResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", name = "consultarIncidenciasCifrasControlResponse")
+    public JAXBElement<ConsultarIncidenciasCifrasControlResponse> createConsultarIncidenciasCifrasControlResponse(ConsultarIncidenciasCifrasControlResponse value) {
+        return new JAXBElement<ConsultarIncidenciasCifrasControlResponse>(_ConsultarIncidenciasCifrasControlResponse_QNAME, ConsultarIncidenciasCifrasControlResponse.class, null, value);
     }
 
     /**
@@ -185,12 +167,30 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ConsultarDetalleCifrasControl }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link CifrasControlException }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", name = "consultarDetalleCifrasControl")
-    public JAXBElement<ConsultarDetalleCifrasControl> createConsultarDetalleCifrasControl(ConsultarDetalleCifrasControl value) {
-        return new JAXBElement<ConsultarDetalleCifrasControl>(_ConsultarDetalleCifrasControl_QNAME, ConsultarDetalleCifrasControl.class, null, value);
+    @XmlElementDecl(namespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", name = "CifrasControlException")
+    public JAXBElement<CifrasControlException> createCifrasControlException(CifrasControlException value) {
+        return new JAXBElement<CifrasControlException>(_CifrasControlException_QNAME, CifrasControlException.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ConsultarIncidenciasCifrasControl }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", name = "consultarIncidenciasCifrasControl")
+    public JAXBElement<ConsultarIncidenciasCifrasControl> createConsultarIncidenciasCifrasControl(ConsultarIncidenciasCifrasControl value) {
+        return new JAXBElement<ConsultarIncidenciasCifrasControl>(_ConsultarIncidenciasCifrasControl_QNAME, ConsultarIncidenciasCifrasControl.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ConsultarCifrasControlResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", name = "consultarCifrasControlResponse")
+    public JAXBElement<ConsultarCifrasControlResponse> createConsultarCifrasControlResponse(ConsultarCifrasControlResponse value) {
+        return new JAXBElement<ConsultarCifrasControlResponse>(_ConsultarCifrasControlResponse_QNAME, ConsultarCifrasControlResponse.class, null, value);
     }
 
     /**

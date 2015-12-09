@@ -40,7 +40,9 @@ public class ControllerReprocesoSolicitud extends Architech{
 	 * Objeto de la capa de negocio del modulo de reprocesos.
 	 */
 	private BOReprocesos reprocesos;
-
+	/**
+	 * Objeto de la capa de negocio para acceder a catalogos de productos.
+	 */
 	private BOCatalogos boCatalogo;
 	
 	/**

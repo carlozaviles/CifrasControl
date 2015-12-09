@@ -4,7 +4,6 @@
 package mx.isban.cifrascontrol.beans.cifrascontrol;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author everis
@@ -17,101 +16,159 @@ public class BeanInsidenciaCifras implements Serializable {
 	 */
 	private static final long serialVersionUID = 3801033576352803129L;
 	/**
-	 * Producto para el que se generon insidencias.
+	 * Id de incidencia.
 	 */
-	private String producto;
+	private String id;
+	/**
+	 * Codigo de moneda
+	 */
+	private String moneda;
+	/**
+	 * Nombre del aplicativo.
+	 */
+	private String aplicativo;
 	/**
 	 * Fase en la que se generon insidencias.
 	 */
 	private String fase;
 	/**
-	 * Ruta en la que se encuentra el archivo de insidencias.
+	 * Propiedad con el numero de cuenta
 	 */
-	private String rutaIncidencia;
+	private String numeroCuenta;
 	/**
-	 * Fecha en la que se genero este archivo de insidencias de cifras de control.
+	 * Tipo de documento.
 	 */
-	private Date fechaInsidencia;
+	private String tipoDocumento;
 	/**
-	 * Cadena que representa la fecha del archivo de Incidencia.
+	 * Periodo de consulta.
 	 */
-	private String cadenaFecha;
+	private String periodo;
+	/**
+	 * Descripcion de esta incidencia.
+	 */
+	private String descripcionError;
 	
 	/**
-	 * Retorna el campo producto.
-	 * @return String
+	 * @return the id
 	 */
-	public String getProducto() {
-		return producto;
+	public String getId() {
+		return id;
 	}
 	
 	/**
-	 * Establece el valor del campo producto.
-	 * @param producto Valor que sera colocado en el campo producto.
+	 * @param id the id to set
 	 */
-	public void setProducto(String producto) {
-		this.producto = producto;
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	/**
-	 * Obtiene el campo fase.
-	 * @return String
+	 * @return the moneda
+	 */
+	public String getMoneda() {
+		return moneda;
+	}
+	
+	/**
+	 * @param moneda the moneda to set
+	 */
+	public void setMoneda(String moneda) {
+		this.moneda = moneda;
+	}
+	
+	/**
+	 * @return the aplicativo
+	 */
+	public String getAplicativo() {
+		return aplicativo;
+	}
+	
+	/**
+	 * @param aplicativo the aplicativo to set
+	 */
+	public void setAplicativo(String aplicativo) {
+		this.aplicativo = aplicativo;
+	}
+	
+	/**
+	 * @return the fase
 	 */
 	public String getFase() {
 		return fase;
 	}
 	
 	/**
-	 * Establece el campo fase.
-	 * @param fase Campo que se asignara al campo fase.
+	 * @param fase the fase to set
 	 */
 	public void setFase(String fase) {
 		this.fase = fase;
 	}
 	
 	/**
-	 * Retorna el campo rutaIncidencia
-	 * @return String
+	 * @return the numeroCuenta
 	 */
-	public String getRutaIncidencia() {
-		return rutaIncidencia;
+	public String getNumeroCuenta() {
+		return numeroCuenta;
 	}
 	
 	/**
-	 * Establece el valor del campo rutaIncidencia
-	 * @param rutaIncidencia Valor que sera colocado en el campo rutaInsidencia
+	 * @param numeroCuenta the numeroCuenta to set
 	 */
-	public void setRutaIncidencia(String rutaIncidencia) {
-		this.rutaIncidencia = rutaIncidencia;
+	public void setNumeroCuenta(String numeroCuenta) {
+		this.numeroCuenta = numeroCuenta;
 	}
 	
 	/**
-	 * Obtiene el valor del campo fechaInsidencia
-	 * @return Date
+	 * @return the tipoDocumento
 	 */
-	public Date getFechaInsidencia() {
-		return fechaInsidencia;
+	public String getTipoDocumento() {
+		return tipoDocumento;
 	}
 	
 	/**
-	 * Establece el valor del campo fechaInsidencia.
-	 * @param fechaInsidencia Valor que sera colocado en el campo fechaInsidencia
+	 * @param tipoDocumento the tipoDocumento to set
 	 */
-	public void setFechaInsidencia(Date fechaInsidencia) {
-		this.fechaInsidencia = fechaInsidencia;
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
 	}
-
+	
 	/**
-	 * @return the cadenaFecha
+	 * @return the periodo
 	 */
-	public String getCadenaFecha() {
-		return cadenaFecha;
+	public String getPeriodo() {
+		return periodo;
 	}
-
+	
 	/**
-	 * @param cadenaFecha the cadenaFecha to set
+	 * @param periodo the periodo to set
 	 */
-	public void setCadenaFecha(String cadenaFecha) {
-		this.cadenaFecha = cadenaFecha;
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
+	}
+	
+	/**
+	 * @return the descripcionError
+	 */
+	public String getDescripcionError() {
+		return descripcionError;
+	}
+	
+	/**
+	 * @param descripcionError the descripcionError to set
+	 */
+	public void setDescripcionError(String descripcionError) {
+		this.descripcionError = descripcionError;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "BeanInsidenciaCifras [id=" + id + ", moneda=" + moneda
+				+ ", aplicativo=" + aplicativo + ", fase=" + fase
+				+ ", numeroCuenta=" + numeroCuenta + ", tipoDocumento="
+				+ tipoDocumento + ", periodo=" + periodo
+				+ ", descripcionError=" + descripcionError + "]";
 	}
 }

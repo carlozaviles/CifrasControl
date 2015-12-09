@@ -8,11 +8,9 @@
   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
   http://www.springframework.org/schema/util 
   http://www.springframework.org/schema/util/spring-util-3.0.xsd">
- 
     
-    
-<!--Configuracion JasperReportsXlsView CifrasControl  -->
- <bean id="xlsCifrasControl"
+	<!--Configuracion JasperReportsXlsView CifrasControl  -->
+ 	<bean id="xlsCifrasControl"
           class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
           p:url="classpath:/recursos/consultaCifras.jrxml"
           p:reportDataKey="datasourceAplicativoOrigen"
@@ -30,6 +28,12 @@
 			<value>dataSourceSistemaAdministracion</value>
 			<value>dataSourceCuentas</value>
 	</util:list>
-     <!-- Fin bean Reporte  -->
+     <!-- Fin Configuracion Reporte Cifras de Control  -->
      
-    </beans>
+     <!-- Configuracion para reporte de incidencias de cifras -->
+     <bean id="xlsIncidencias" 
+     	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+     	   p:url="classpath:/recursos/ConsultaIncidencias.jrxml"
+     	   p:reportDataKey="dataSourceIncidencias"/>
+     <!-- Fin de configuracion para reporte de incidencias de cifras -->
+</beans>

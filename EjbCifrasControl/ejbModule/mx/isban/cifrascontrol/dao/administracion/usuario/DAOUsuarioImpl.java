@@ -74,7 +74,9 @@ public class DAOUsuarioImpl extends Architech implements DAOUsuario {
 	 */
 	private static final String QUERY_ELIMINA_RELACIONES_USUARIO_GRUPO = 
 			"DELETE FROM MOI_MX_REL_USR_GPO WHERE ID_USER_FK = ?";
-	
+	/**
+	 * SQL utilizado para eliminar la relacion de productos para un usuario.
+	 */
 	private static final String QUERY_ELIMINA_RELACIONES_USUARIO_PRODUCTO =
 			"DELETE FROM MOI_MX_REL_USR_PROD WHERE ID_USER_FK = ?";
 	

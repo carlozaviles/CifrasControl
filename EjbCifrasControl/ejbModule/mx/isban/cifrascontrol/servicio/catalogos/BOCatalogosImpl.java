@@ -124,8 +124,9 @@ public class BOCatalogosImpl extends Architech implements BOCatalogos {
 		listaProductosUsuario=this.obtenerProductosUsuario(sessionBean, idUsuario, tipo);
 		
 		for(BeanProducto producto:listaProductosUsuario){
-			if(producto.isPermisoReproceso())
-			listaProductosUsuarioReporceso.add(producto);
+			if(producto.isPermisoReproceso()){
+				listaProductosUsuarioReporceso.add(producto);
+			}
 		}
 		return listaProductosUsuarioReporceso;
 		

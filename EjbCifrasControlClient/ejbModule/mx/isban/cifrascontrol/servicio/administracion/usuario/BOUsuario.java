@@ -43,7 +43,7 @@ public interface BOUsuario {
 	/**
 	 * Metodo que obtiene un usuario por su id
 	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
-	 * @param idUsuario
+	 * @param idUsuario Identificador del usuario a ser consultado.
 	 * @return Un objeto de tipo BeanUsuario que contiene los datos del usuario obtenido
 	 * @throws BusinessException En caso de presentarse un error al momento de realizar la busqueda de modulos por usuario
 	 */

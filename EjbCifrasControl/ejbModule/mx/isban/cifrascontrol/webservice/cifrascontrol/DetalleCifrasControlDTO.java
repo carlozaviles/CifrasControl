@@ -21,18 +21,12 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="aplicativo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="comisionesIntereses" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="descripcionError" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="emisorRFC" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="fase" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="ivas" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="moneda" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="numeroCliente" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="numeroCuenta" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="numeroTarjeta" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="periodo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="retenciones" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="tipoDocumento" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -45,35 +39,23 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "detalleCifrasControlDTO", propOrder = {
     "aplicativo",
-    "comisionesIntereses",
     "descripcionError",
-    "emisorRFC",
     "fase",
     "id",
-    "ivas",
     "moneda",
-    "numeroCliente",
     "numeroCuenta",
-    "numeroTarjeta",
     "periodo",
-    "retenciones",
     "tipoDocumento"
 })
 public class DetalleCifrasControlDTO {
 
     protected String aplicativo;
-    protected String comisionesIntereses;
     protected String descripcionError;
-    protected String emisorRFC;
     protected String fase;
     protected String id;
-    protected String ivas;
     protected String moneda;
-    protected String numeroCliente;
     protected String numeroCuenta;
-    protected String numeroTarjeta;
     protected String periodo;
-    protected String retenciones;
     protected String tipoDocumento;
 
     /**
@@ -101,30 +83,6 @@ public class DetalleCifrasControlDTO {
     }
 
     /**
-     * Gets the value of the comisionesIntereses property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getComisionesIntereses() {
-        return comisionesIntereses;
-    }
-
-    /**
-     * Sets the value of the comisionesIntereses property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setComisionesIntereses(String value) {
-        this.comisionesIntereses = value;
-    }
-
-    /**
      * Gets the value of the descripcionError property.
      * 
      * @return
@@ -146,30 +104,6 @@ public class DetalleCifrasControlDTO {
      */
     public void setDescripcionError(String value) {
         this.descripcionError = value;
-    }
-
-    /**
-     * Gets the value of the emisorRFC property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getEmisorRFC() {
-        return emisorRFC;
-    }
-
-    /**
-     * Sets the value of the emisorRFC property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setEmisorRFC(String value) {
-        this.emisorRFC = value;
     }
 
     /**
@@ -221,30 +155,6 @@ public class DetalleCifrasControlDTO {
     }
 
     /**
-     * Gets the value of the ivas property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getIvas() {
-        return ivas;
-    }
-
-    /**
-     * Sets the value of the ivas property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setIvas(String value) {
-        this.ivas = value;
-    }
-
-    /**
      * Gets the value of the moneda property.
      * 
      * @return
@@ -266,30 +176,6 @@ public class DetalleCifrasControlDTO {
      */
     public void setMoneda(String value) {
         this.moneda = value;
-    }
-
-    /**
-     * Gets the value of the numeroCliente property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNumeroCliente() {
-        return numeroCliente;
-    }
-
-    /**
-     * Sets the value of the numeroCliente property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNumeroCliente(String value) {
-        this.numeroCliente = value;
     }
 
     /**
@@ -317,30 +203,6 @@ public class DetalleCifrasControlDTO {
     }
 
     /**
-     * Gets the value of the numeroTarjeta property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNumeroTarjeta() {
-        return numeroTarjeta;
-    }
-
-    /**
-     * Sets the value of the numeroTarjeta property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNumeroTarjeta(String value) {
-        this.numeroTarjeta = value;
-    }
-
-    /**
      * Gets the value of the periodo property.
      * 
      * @return
@@ -362,30 +224,6 @@ public class DetalleCifrasControlDTO {
      */
     public void setPeriodo(String value) {
         this.periodo = value;
-    }
-
-    /**
-     * Gets the value of the retenciones property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRetenciones() {
-        return retenciones;
-    }
-
-    /**
-     * Sets the value of the retenciones property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRetenciones(String value) {
-        this.retenciones = value;
     }
 
     /**

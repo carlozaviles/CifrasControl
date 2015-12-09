@@ -72,14 +72,12 @@ public interface DAOCatalogos {
 	/**
 	 * Obtiene todos los productos de EDC.
 	 * @return BeanProductoRespuesta
-	 * @throws BusinessException Exception
 	 */
 	public BeanProductoRespuesta obtenerProductosEDC();
 	
 	/**
 	 * Obtiene todos los productos de Facturas.
 	 * @return BeanProductoRespuesta
-	 * @throws BusinessException Exception.
 	 */
 	public BeanProductoRespuesta obtenerProductosFacturas();
 	
@@ -87,8 +85,6 @@ public interface DAOCatalogos {
 	 * Metodo encargado de obtener un producto por su id
 	 * @param tipoProducto El tipo de producto a buscar
 	 * @return Un objeto de tipo 
-	 * @throws BusinessException En caso de presentarse un error al momento
-	 * de realizar la consulta de productos por id
 	 */
 	public BeanProducto obtenerProductoFacturaPorId(String idProducto)throws BusinessException;
 	

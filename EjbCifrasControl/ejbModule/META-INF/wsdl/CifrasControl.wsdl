@@ -4,8 +4,16 @@
       <xsd:import namespace="http://sei.cifrascontrol.modulointegrador.isban.mx/" schemaLocation="CifrasControl_schema1.xsd"/>
     </xsd:schema>
   </types>
-  <message name="consultarCifrasControl">
-    <part element="tns:consultarCifrasControl" name="parameters">
+  <message name="CifrasControlException">
+    <part element="tns:CifrasControlException" name="fault">
+    </part>
+  </message>
+  <message name="consultarFacturasCifrasControlResponse">
+    <part element="tns:consultarFacturasCifrasControlResponse" name="parameters">
+    </part>
+  </message>
+  <message name="consultarIncidenciasCifrasControlResponse">
+    <part element="tns:consultarIncidenciasCifrasControlResponse" name="parameters">
     </part>
   </message>
   <message name="consultarFacturasCifrasControl">
@@ -16,20 +24,12 @@
     <part element="tns:consultarCifrasControlResponse" name="parameters">
     </part>
   </message>
-  <message name="consultarDetalleCifrasControlResponse">
-    <part element="tns:consultarDetalleCifrasControlResponse" name="parameters">
+  <message name="consultarIncidenciasCifrasControl">
+    <part element="tns:consultarIncidenciasCifrasControl" name="parameters">
     </part>
   </message>
-  <message name="consultarDetalleCifrasControl">
-    <part element="tns:consultarDetalleCifrasControl" name="parameters">
-    </part>
-  </message>
-  <message name="consultarFacturasCifrasControlResponse">
-    <part element="tns:consultarFacturasCifrasControlResponse" name="parameters">
-    </part>
-  </message>
-  <message name="CifrasControlException">
-    <part element="tns:CifrasControlException" name="fault">
+  <message name="consultarCifrasControl">
+    <part element="tns:consultarCifrasControl" name="parameters">
     </part>
   </message>
   <portType name="CifrasControl">
@@ -41,12 +41,12 @@
       <fault message="tns:CifrasControlException" name="CifrasControlException" ns1:Action="http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarCifrasControl/Fault/CifrasControlException">
     </fault>
     </operation>
-    <operation name="consultarDetalleCifrasControl">
-      <input message="tns:consultarDetalleCifrasControl" ns1:Action="http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarDetalleCifrasControlRequest">
+    <operation name="consultarIncidenciasCifrasControl">
+      <input message="tns:consultarIncidenciasCifrasControl" ns1:Action="http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarIncidenciasCifrasControlRequest">
     </input>
-      <output message="tns:consultarDetalleCifrasControlResponse" ns1:Action="http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarDetalleCifrasControlResponse">
+      <output message="tns:consultarIncidenciasCifrasControlResponse" ns1:Action="http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarIncidenciasCifrasControlResponse">
     </output>
-      <fault message="tns:CifrasControlException" name="CifrasControlException" ns1:Action="http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarDetalleCifrasControl/Fault/CifrasControlException">
+      <fault message="tns:CifrasControlException" name="CifrasControlException" ns1:Action="http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarIncidenciasCifrasControl/Fault/CifrasControlException">
     </fault>
     </operation>
     <operation name="consultarFacturasCifrasControl">

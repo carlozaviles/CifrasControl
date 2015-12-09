@@ -12,6 +12,8 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 import java.util.List;
+import javax.xml.ws.Action;
+import javax.xml.ws.FaultAction;
 
 public class CifrasControlImplPortProxy{
 
@@ -120,8 +122,8 @@ public class CifrasControlImplPortProxy{
         return _getDescriptor().getProxy().consultarCifrasControl(solicitudCifrasControl);
     }
 
-    public List<DetalleCifrasControlDTO> consultarDetalleCifrasControl(SolicitudCifrasControlDTO solicitudDetalleCifrasControl) throws CifrasControlException_Exception {
-        return _getDescriptor().getProxy().consultarDetalleCifrasControl(solicitudDetalleCifrasControl);
+    public List<DetalleCifrasControlDTO> consultarIncidenciasCifrasControl(SolicitudCifrasControlDTO solicitudDetalleCifrasControl) throws CifrasControlException_Exception {
+        return _getDescriptor().getProxy().consultarIncidenciasCifrasControl(solicitudDetalleCifrasControl);
     }
 
     public List<FacturaDTO> consultarFacturasCifrasControl(SolicitudFacturaDTO solicitudFacturaCifrasControl) throws CifrasControlException_Exception {

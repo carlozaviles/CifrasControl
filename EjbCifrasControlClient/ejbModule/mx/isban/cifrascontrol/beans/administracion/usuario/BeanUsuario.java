@@ -167,18 +167,22 @@ public class BeanUsuario implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj){
 			return true;
-		if (obj == null)
+		}
+		if (obj == null){
 			return false;
-		if (!(obj instanceof BeanUsuario))
+		}
+		if (!(obj instanceof BeanUsuario)){
 			return false;
+		}
 		BeanUsuario other = (BeanUsuario) obj;
 		if (idUsuario == null) {
 			if (other.idUsuario != null)
 				return false;
-		} else if (!idUsuario.equals(other.idUsuario))
+		} else if (!idUsuario.equals(other.idUsuario)){
 			return false;
+		}
 		return true;
 	}
 

@@ -88,7 +88,9 @@ public class ControllerFactura extends Architech {
 	 * Propiedad que contiene un objeto de negocio de tipo {@link BOFactura}
 	 */
 	private BOFactura boFactura;
-
+	/**
+	 * Objeto de la capa de negocio utilizado para acceder a los catalogos de productos.
+	 */
 	private BOCatalogos boCatalogo;
 
 	/**

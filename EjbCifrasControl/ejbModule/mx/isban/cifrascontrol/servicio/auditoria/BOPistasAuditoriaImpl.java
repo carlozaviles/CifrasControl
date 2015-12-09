@@ -19,12 +19,15 @@ import mx.isban.cifrascontrol.dao.auditoria.DAOPistasAuditoria;
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
-public class BOPistasAuditoriaImpl extends Architech implements BOPistasAuditoria{
+public class BOPistasAuditoriaImpl extends Architech implements BOPistasAuditoria {
 
     /**
 	 * Serial.
 	 */
 	private static final long serialVersionUID = 1287562724333198335L;
+	/**
+	 * Referencia que apunta hacia la capa de acceso a datos.
+	 */
 	@EJB
 	private DAOPistasAuditoria daoPistas;
 

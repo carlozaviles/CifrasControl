@@ -224,23 +224,28 @@ public class BeanGrupo implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj){
 			return true;
-		if (obj == null)
+		}
+		if (obj == null){
 			return false;
-		if (!(obj instanceof BeanGrupo))
+		}
+		if (!(obj instanceof BeanGrupo)){
 			return false;
+		}
 		BeanGrupo other = (BeanGrupo) obj;
 		if (idGrupo == null) {
 			if (other.idGrupo != null)
 				return false;
-		} else if (!idGrupo.equals(other.idGrupo))
+		} else if (!idGrupo.equals(other.idGrupo)){
 			return false;
+		}
 		if (nombreGrupo == null) {
 			if (other.nombreGrupo != null)
 				return false;
-		} else if (!nombreGrupo.equals(other.nombreGrupo))
+		} else if (!nombreGrupo.equals(other.nombreGrupo)){
 			return false;
+		}
 		return true;
 	}
 }

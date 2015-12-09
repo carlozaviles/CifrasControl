@@ -48,7 +48,7 @@ public interface BOModulo {
 	
 	/**
 	 * @param sessionBean Un objeto de tipo ArchitechSessionBean
-	 * @param idModulo
+	 * @param idModulo Identificador del modulo a ser consultado.
 	 * @return BeanModulo
 	 * @throws BusinessException En caso de presentarse un error al momento de realizar la busqueda de un modulo por id
 	 */

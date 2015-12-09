@@ -94,8 +94,8 @@ public class DAOReprocesosImpl extends Architech implements DAOReprocesos {
 	
 	/**
 	 * Procesa la trama de respuesta de la consulta de personas y forma un objeto de tipo BeanDatosCliente.
-	 * @param response Objeto que contiene la trama de salida de la consulta de personas. 
-	 * @return
+	 * @param tramaSalida Contiene la trama de salida de la consulta de personas. 
+	 * @return BeanDatosClienteDAO
 	 */
 	private BeanDatosClienteDAO mapearRespuestaConsultaPersonas(String tramaSalida){
 		final BeanDatosClienteDAO respuesta = new BeanDatosClienteDAO();

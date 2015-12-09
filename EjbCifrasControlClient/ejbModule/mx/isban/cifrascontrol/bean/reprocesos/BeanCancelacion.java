@@ -173,7 +173,7 @@ public class BeanCancelacion implements Serializable {
 	
 	/**
 	 * Retorna el valor del campo anio.
-	 * @param anio Valor a establecer.
+	 * @return String
 	 */
 	public String getAnio() {
 		return anio;

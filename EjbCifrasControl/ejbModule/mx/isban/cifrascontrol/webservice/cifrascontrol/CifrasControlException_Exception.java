@@ -13,10 +13,6 @@ public class CifrasControlException_Exception
 {
 
     /**
-	 * Serial
-	 */
-	private static final long serialVersionUID = 7197593333324079722L;
-	/**
      * Java type that goes as soapenv:Fault detail element.
      * 
      */

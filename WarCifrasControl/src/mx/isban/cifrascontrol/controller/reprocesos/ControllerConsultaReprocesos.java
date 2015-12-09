@@ -71,13 +71,15 @@ public class ControllerConsultaReprocesos extends Architech {
 	 * Interfaz remota del servicio de reprocesos.
 	 */
 	private BOReprocesos reprocesos;
-	
+	/**
+	 * Objeto de la capa de negocio utilizado para acceder a los catalogos de productos.
+	 */
 	private BOCatalogos boCatalogo;
 	
 	/**
 	 * Muestra el menu por medio del cual el usuario elegira los parametros para la consulta de reprocesos.
 	 * @param req Request
-	 * @param res Response.
+	 * @param response Response.
 	 * @return ModelAndView
 	 * @throws BusinessException Excepcion de la capa de negocio.
 	 */

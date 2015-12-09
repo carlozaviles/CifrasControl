@@ -30,7 +30,6 @@ public class ControllerPublico extends Architech {
      * @param req thereq
      * @param res the res
      * @return the model and view
-     * @throws Exception the exception
      */
 	@RequestMapping("sesionExistente.go")
 	public ModelAndView sesionExistente(final HttpServletRequest req, final HttpServletResponse res) {
@@ -48,7 +47,7 @@ public class ControllerPublico extends Architech {
      * @param req the req
      * @param res the res
      * @return the model and view
-     * @throws Exception the exception*/
+     */
 	@RequestMapping("login.go")
 	public ModelAndView login(final HttpServletRequest req, final HttpServletResponse res) {
 		this.debug("Enviar a Login...");

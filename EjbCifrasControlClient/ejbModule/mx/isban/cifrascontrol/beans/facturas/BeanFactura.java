@@ -112,7 +112,7 @@ public class BeanFactura implements Serializable {
 
 	/**
 	 * Metodo que establece la propiedad cantidad facturas.
-	 * @param cantidadFacturas
+	 * @param cantidadFacturas Valor que sera establecido.
 	 */
 	public void setCantidadFacturas(String cantidadFacturas) {
 		this.cantidadFacturas = cantidadFacturas;
@@ -176,7 +176,7 @@ public class BeanFactura implements Serializable {
 	}
 
 	/**
-	 * @param facturaIncidente
+	 * @param facturaIncidente Valor que sera establecido.
 	 */
 	public void setFacturaIncidente(String facturaIncidente) {
 		this.facturaIncidente = facturaIncidente;

@@ -261,6 +261,7 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 	 * cifras de control.- Consulta de facturas,  en las propiedades definidas
 	 * para el Bean {@link BeanFactura}
 	 * 
+	 * @param <T> Objeto del cual se extrae informacion.
 	 * @param listaResultado El listado de la consulta al web service
 	 * @param clase El tipo de clase obtenido como resultado de la consulta al web service
 	 * @return Un listado de objetos de tipo {@link BeanFactura}
@@ -268,26 +269,9 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 	private <T> List<BeanFactura> establecerRegistros(List<T> listaResultado, Class<T> clase){
 		List<BeanFactura> lista = new ArrayList<BeanFactura>();
 		try {
-			
 			for (T objeto : listaResultado) {
 				final BeanFactura factura = new BeanFactura();
-//				final Method[] metodosBean = factura.getClass().getDeclaredMethods();
-//				final Method[] metodosDTO = clase.getDeclaredMethods();
-//				for (int i = 0; i < metodosBean.length; i++) {
-//					if(metodosBean[i].getName().startsWith("set")){
-//						String nombreMetodoBean = metodosBean[i].getName().substring(3);
-//						for (int j = 0; j < metodosDTO.length; j++) {
-//							if(metodosDTO[j].getName().startsWith("get")){
-//								String nombreMetodoDTO = metodosDTO[j].getName().substring(3);
-//								if(nombreMetodoBean.equalsIgnoreCase(nombreMetodoDTO)){
-//									metodosBean[i].invoke(factura, metodosDTO[j].invoke(objeto));
-//								}
-//							}
-//						}
-//					}
-//				}
 				BeanUtils.copyProperties(factura, objeto);
-				
 				lista.add(factura);
 			}
 		} catch (IllegalAccessException e) {
@@ -300,6 +284,11 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		return lista;
 	}
 
+	/**
+	 * Obtiene los totales de las facturas correctas.
+	 * @param facturasCorrectas Lista de facturas con las que se realiza el calculo de total.
+	 * @return List<BeanFactura>
+	 */
 	private List<BeanFactura> obtenerSumatoriaTotales(List<BeanFactura> facturasCorrectas){
 		List<BeanFactura> facturasVigentesTasa = new ArrayList<BeanFactura>();
 		List<BeanFactura> facturasVigentesSinTasa = new ArrayList<BeanFactura>();
@@ -325,6 +314,13 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		return facturasList;
 	}
 	
+	/**
+	 * Obtiene los totales de facturas.
+	 * @param listaFacturas Lista de facturas.
+	 * @param valorIva Iva indertado en el resultado.
+	 * @param producto Tipo de producto para el cual se realiza el calculo.
+	 * @return BeanFactura
+	 */
 	private BeanFactura obtenerFacturaTotales(List<BeanFactura> listaFacturas,String valorIva, String producto){
 		int cantidadTotalFacturas = 0;
 		BigDecimal sumatoriaSubTotales = new BigDecimal(0);

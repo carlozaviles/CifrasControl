@@ -51,13 +51,13 @@ public interface CifrasControl {
      * @throws CifrasControlException_Exception
      */
     @WebMethod
-    @WebResult(name = "detalleCifrasControlList", targetNamespace = "")
-    @RequestWrapper(localName = "consultarDetalleCifrasControl", targetNamespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.cifrascontrol.ConsultarDetalleCifrasControl")
-    @ResponseWrapper(localName = "consultarDetalleCifrasControlResponse", targetNamespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.cifrascontrol.ConsultarDetalleCifrasControlResponse")
-    @Action(input = "http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarDetalleCifrasControlRequest", output = "http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarDetalleCifrasControlResponse", fault = {
-        @FaultAction(className = CifrasControlException_Exception.class, value = "http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarDetalleCifrasControl/Fault/CifrasControlException")
+    @WebResult(name = "incidenciasCifrasControlList", targetNamespace = "")
+    @RequestWrapper(localName = "consultarIncidenciasCifrasControl", targetNamespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.cifrascontrol.ConsultarIncidenciasCifrasControl")
+    @ResponseWrapper(localName = "consultarIncidenciasCifrasControlResponse", targetNamespace = "http://sei.cifrascontrol.modulointegrador.isban.mx/", className = "mx.isban.cifrascontrol.webservice.cifrascontrol.ConsultarIncidenciasCifrasControlResponse")
+    @Action(input = "http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarIncidenciasCifrasControlRequest", output = "http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarIncidenciasCifrasControlResponse", fault = {
+        @FaultAction(className = CifrasControlException_Exception.class, value = "http://sei.cifrascontrol.modulointegrador.isban.mx/CifrasControl/consultarIncidenciasCifrasControl/Fault/CifrasControlException")
     })
-    public List<DetalleCifrasControlDTO> consultarDetalleCifrasControl(
+    public List<DetalleCifrasControlDTO> consultarIncidenciasCifrasControl(
         @WebParam(name = "SolicitudDetalleCifrasControl", targetNamespace = "")
         SolicitudCifrasControlDTO solicitudDetalleCifrasControl)
         throws CifrasControlException_Exception

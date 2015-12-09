@@ -1,13 +1,8 @@
 package mx.isban.cifrascontrol.servicio.cifrascontrol;
 
-import java.io.File;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -25,12 +20,12 @@ import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
 import mx.isban.cifrascontrol.servicio.auditoria.BOPistasAuditoria;
 import mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl;
 import mx.isban.cifrascontrol.util.general.ConstantesModuloIntegrador;
-import mx.isban.cifrascontrol.util.general.OrdenadorInsidenciaCifras;
 import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControl;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlDTO;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlException_Exception;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlService;
+import mx.isban.cifrascontrol.webservice.cifrascontrol.DetalleCifrasControlDTO;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.SolicitudCifrasControlDTO;
 
 /**
@@ -161,105 +156,37 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 		pistaAuditoria.setCodigoOperacion(ConstantesModuloIntegrador.COD_PA_CONSULTA_INCIDENCIAS);
 		pistaAuditoria.setClienteAfectado(ConstantesModuloIntegrador.COD_PA_NO_APLICA);
 		
-		//Este mapa contiene la relacion entre los nombres de los aplicativos, y los codigos manejados en la parte batch.
-		final Map<String, String> relacionProductoCodigo = new HashMap<String, String>();
-		final String cadenaCantidadProductos = this.getConfigDeCmpAplicacion("NUMERO_PARES_PRODUCTO_CODIGO");
-		final String mascaraOrigenYCfd = this.getConfigDeCmpAplicacion("MASCARA_ORIGEN_Y_CFD");
-		final String mascaraSat = this.getConfigDeCmpAplicacion("MASCARA_SAT");
-		final String rutaIncidencias = this.getConfigDeCmpAplicacion("RUTA_INCIDENCIAS");
-		int cantidadProductos = 0;
-		//Se valida que todas las configuraciones necesarias para esta funcionalidad hayan sido cargadas de manera exitosa.
-		if(cadenaCantidadProductos == null || mascaraOrigenYCfd == null || mascaraSat == null || 
-				rutaIncidencias == null){
-			this.warn("Error al cargar la configuracion para la consulta de incidencias de Cifras de Control");
-			pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK);
-			boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
-			throw new BusinessException(ConstantesCifrasControl.ERROR_CONFIGURACION_CONSULTA_INCIDENCIAS);
-		}else{
-			cantidadProductos = Integer.parseInt(cadenaCantidadProductos);
-		}
-		//Carga las propiedades que contiene la relacion entre el nombre de los pruductos y su codigo.
-		for(int i = 1; i <= cantidadProductos; i++) {
-			final String producto = this.getConfigDeCmpAplicacion("NOMBRE_PRODUCTO" + i);
-			final String codigo = this.getConfigDeCmpAplicacion("CODIGO_PRODUCTO" + i);
-			if(producto != null && codigo != null){
-				relacionProductoCodigo.put(producto, codigo);
-			}else{
-				this.debug("Numero de Producto con error: " + i);
-				this.warn("La configuracion para la consulta de incidencias de cifras de control no es correcta.");
-				pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK);
-				boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
-				throw new BusinessException(ConstantesCifrasControl.ERROR_CONFIGURACION_CONSULTA_INCIDENCIAS);
-			}
-		}
-		
-		String codigoProducto = relacionProductoCodigo.get(aplicativo.toUpperCase());
-		
-		final String []tokens = codigoProducto.split(",");
-		//Si el codigo de producto contiene valores separados por comas, estos se pasaran en la exprecion regular separados por pipes. 
-		if(tokens.length > 1){
-			final StringBuilder exprecion = new StringBuilder("(");
-			for(int i = 0; i < tokens.length; i++){
-				exprecion.append(tokens[i]);
-				if(i < (tokens.length -1)){
-					exprecion.append("|");
-				}
-			}
-			exprecion.append(")");
-			codigoProducto = exprecion.toString();
-		}
+		final List<String> codigosProductos = codigosAplicacion(aplicativo);
 		
 		final String fecha = anio + mes;
-		
-		this.info("El codigo de producto medianta el cual se realizara la consulta es: " + codigoProducto);
+		this.info("Los codigos de producto medianta los cuales se realizara la consulta son: " + codigosProductos);
 		this.info("La fecha que se utilizara en la consulta se muestra a continuacion: " + fecha);
-		final String mascaraOrigenYCfdEdit = mascaraOrigenYCfd.replace("CODIGOPRODUCTO", codigoProducto).replace("FECHA", fecha);
-		this.info("La mascara para buscar incidencias de Origen y EDC es: " + mascaraOrigenYCfd);
-		final List<File> listaOrigenYCfd = UtilGeneralCifras.filtrarListaArchivos(rutaIncidencias, mascaraOrigenYCfdEdit);
-		final List<BeanInsidenciaCifras> insidenciasOrigenYCfd = new ArrayList<BeanInsidenciaCifras>();
 		
-		final String mascaraSatEdit = mascaraSat.replace("CODIGOPRODUCTO", codigoProducto).replace("FECHA", fecha);
-		this.info("La mascara para buscar incidencias de SAT es: " + mascaraSatEdit);
-		final List<File> listaSat = UtilGeneralCifras.filtrarListaArchivos(rutaIncidencias, mascaraSatEdit);
-		final List<BeanInsidenciaCifras> incidenciasSat = new ArrayList<BeanInsidenciaCifras>();
-		
+		List<BeanInsidenciaCifras> respuestaConsultaIncidencias = new ArrayList<BeanInsidenciaCifras>();
+		final String periodo = anio + "-" + mes;
 		try{
-			for(File coincidencia : listaOrigenYCfd){
-				final BeanInsidenciaCifras incidencia = UtilGeneralCifras.fabricaBeanInsidencia(coincidencia);
-				incidencia.setProducto(aplicativo);
-				insidenciasOrigenYCfd.add(incidencia);
+			final List<DetalleCifrasControlDTO> listaTotalIncidencias = new ArrayList<DetalleCifrasControlDTO>();
+			for(String app : codigosProductos){
+				final SolicitudCifrasControlDTO solicitud = new SolicitudCifrasControlDTO();
+				solicitud.setPeriodo(periodo);
+				solicitud.setAplicativo(app);
+				final List<DetalleCifrasControlDTO> respuetaConsulta = 
+						cifrasControl.consultarIncidenciasCifrasControl(solicitud);
+				listaTotalIncidencias.addAll(respuetaConsulta);
 			}
-			
-			for(File coincidencia : listaSat){
-				final BeanInsidenciaCifras incidencia = UtilGeneralCifras.fabricaBeanIncidenciaSat(coincidencia);
-				incidencia.setProducto(aplicativo);
-				incidenciasSat.add(incidencia);
-			}
-		}catch(ParseException e){
-			showException(e, Level.WARN);
-			pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_NO_OK);
+			respuestaConsultaIncidencias = UtilGeneralCifras.establecerRegistros(listaTotalIncidencias, 
+					DetalleCifrasControlDTO.class, BeanInsidenciaCifras.class);
+		}catch(CifrasControlException_Exception e){
+			showException(e, Level.ERROR);
+			pistaAuditoria.setEstatusOperacion(ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL_DETALLE);
 			boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
-			throw new BusinessException(ConstantesCifrasControl.ERROR_PROCESA_ARCHIVOS_CONSULTA_INCIDENCIAS);
+			throw new BusinessException(ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL_DETALLE);
 		}
-		
-		//Concatena las dos listas de incidencias SAT y Origen-EDC.
-		final List<BeanInsidenciaCifras> listaFinalIncidencias = new ArrayList<BeanInsidenciaCifras>();
-		for(BeanInsidenciaCifras incidencia : insidenciasOrigenYCfd){
-			listaFinalIncidencias.add(incidencia);
-		}
-		
-		for(BeanInsidenciaCifras incidencia : incidenciasSat){
-			listaFinalIncidencias.add(incidencia);
-		}
-		
-		String []ordenParametros = {"ORIGEN", "SAT", "EDC"};
-		
-		Collections.sort(listaFinalIncidencias, new OrdenadorInsidenciaCifras(ordenParametros));
 		
 		pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_OK);
 		boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
 		
-		return listaFinalIncidencias;
+		return respuestaConsultaIncidencias;
 	}
 
 
@@ -294,7 +221,7 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 	/**
 	 * Metodo para establecer el listado de cifras de control consultadas
 	 *
-	 * @param cifrasControlList
+	 * @param cifrasControlList Establecel el valor del campo cifrasControlList
 	 */
 	public void setCifrasControlList(
 			final List<BeanCifrasControl> cifrasControlList) {

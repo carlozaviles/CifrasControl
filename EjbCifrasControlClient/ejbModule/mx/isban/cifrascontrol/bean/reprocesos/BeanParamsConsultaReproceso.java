@@ -87,9 +87,10 @@ public class BeanParamsConsultaReproceso implements Serializable {
 		this.anio = anio;
 	}
 	
-	/*
-	 * Establece el valor del campo de numero de cuenta
-	 * */
+	/**
+	 * Retorna el valor de numero de cuenta.
+	 * @return String
+	 */
 	public String getNumeroCuenta() {
 		return numeroCuenta;
 	}
@@ -121,6 +122,7 @@ public class BeanParamsConsultaReproceso implements Serializable {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString(){
 		final StringBuilder salida = new StringBuilder();
 		salida.append("mes: " + this.mes).append(", anio: " + this.anio).append(", numeroCuenta: " + this.numeroCuenta).append(", producto: " + this.productoSeleccionado);

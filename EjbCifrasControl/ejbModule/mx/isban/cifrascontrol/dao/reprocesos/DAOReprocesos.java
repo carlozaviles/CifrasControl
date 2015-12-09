@@ -25,8 +25,10 @@ public interface DAOReprocesos {
 	/**
 	 * Se ejecuta la consulta para econtrar los datos fiscales dado un numero de cuenta.
 	 * @param numeroCuenta Parametro para realizar la consulta.
+	 * @param numeroTarjeta Parametro de consulta que contiene el numero de tarjeta. 
 	 * @param sessionBean Objeto de arquitectura Agave.
 	 * @return BeanDatosClienteDAO
 	 */
-	public BeanDatosClienteDAO ejecutaConsultaPersonas(String numeroCuenta, String numeroTarjeta, ArchitechSessionBean sessionBean);
+	public BeanDatosClienteDAO ejecutaConsultaPersonas(String numeroCuenta, String numeroTarjeta, 
+			ArchitechSessionBean sessionBean);
 }

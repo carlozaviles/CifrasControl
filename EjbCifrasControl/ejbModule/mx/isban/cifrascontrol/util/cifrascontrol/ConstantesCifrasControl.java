@@ -24,32 +24,37 @@ package mx.isban.cifrascontrol.util.cifrascontrol;
 public final class ConstantesCifrasControl {
 	
 	/**
-	 * Constructor privado
+	 * Codigo de error de excepcion Illegal Access Exception
 	 */
-	private ConstantesCifrasControl() {
-		super();
-	}
-	
 	public static final String ILLEGAL_ACCESS_EXCEPTION_CODE = "GEN-01";
-
+	/**
+	 * Codigo de error de excepcion Illegar Argument Exception
+	 */
 	public static final String ILLEGAL_ARGUMENT_EXCEPTION = "GEN-02";
-	
+	/**
+	 * Codigo de error de excepcion Invocation Target Exception.
+	 */
 	public static final String INVOCATION_TARGET_EXCEPTION = "GEN-03";
-	
+	/**
+	 * Codigo de error de excepcion Instantiation Exception.
+	 */
 	public static final String INSTANTIATION_EXCEPTION = "GEN-04";
-	
+	/**
+	 * Codigo de error de Class Not Found Exception.
+	 */
 	public static final String CLASS_NOT_FOUND_EXCEPTION = "GEN-05";
-		
-	
-	//Cifras control
-	
+	/**
+	 * Codigo de error generado al realizar consulta de cifras de control.
+	 */
 	public static final String ERROR_CONSULTAR_CIFRAS_CONTROL = "CIFRAS-01";
-	
+	/**
+	 * Codigo para reportar error de configuracion para la consulta de cifras.
+	 */
 	public static final String ERROR_CONSULTAR_CIFRAS_CONTROL_CONFIG = "CIFRAS-03";
-	
+	/**
+	 * Codigo de error al realizar consulta de detalle.
+	 */
 	public static final String ERROR_CONSULTAR_CIFRAS_CONTROL_DETALLE = "CIFRAS-02";
-	
-	
 	/**
 	 * Codigo de error que se lanza cuando la configuracion para la consulta de 
 	 * insidencias no es cargada de manera correcta.
@@ -68,4 +73,11 @@ public final class ConstantesCifrasControl {
 	 * Codigo para indicar que ocurrio un error al cargar el DataSource de Catalogos.
 	 */
 	public static final String ERROR_DS_LOOKUP = "10004";
+	
+	/**
+	 * Constructor privado
+	 */
+	private ConstantesCifrasControl() {
+		super();
+	}
 }

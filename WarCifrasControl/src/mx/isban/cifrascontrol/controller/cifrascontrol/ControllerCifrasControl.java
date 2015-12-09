@@ -1,28 +1,20 @@
 package mx.isban.cifrascontrol.controller.cifrascontrol;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import mx.isban.agave.commons.architech.Architech;
@@ -33,7 +25,6 @@ import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
 import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.servicio.cifrascontrol.BOCifrasControl;
-import mx.isban.cifrascontrol.utileria.general.CifrasControlUtil;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
 
 @Controller
@@ -73,6 +64,9 @@ public class ControllerCifrasControl extends Architech {
 	 */
 	private List<BeanDetalleCifrasControl> detalleCifrasControl;
 
+	/**
+	 * Constructor por defecto.
+	 */
 	public ControllerCifrasControl() {
 		setDetalleCifrasControl(new ArrayList<BeanDetalleCifrasControl>());
 	}
@@ -169,12 +163,22 @@ public class ControllerCifrasControl extends Architech {
 			return mav;
 		}
 	}
+	
 	/**
-	 * Metodo encargado de descargar Excel con información consultaCifras
+	 * Realiza la exportacion a excel del reporte de cifras de control.
+	 * @param request Request
+	 * @param response Response
+	 * @param aplicativo Filtro Aplicativo
+	 * @param mes Filtro mes
+	 * @param anio Filtro anio
+	 * @param mesText Cadena mes
+	 * @return ModelAndView
+	 * @throws BusinessException Exception
 	 */
-   @RequestMapping("excelCifras.xls")
+    @RequestMapping("excelCifras.xls")
 	public ModelAndView excelCifras(final HttpServletRequest request,
-			final HttpServletResponse response, final String aplicativo, final String mes, final String anio,final String mesText) throws BusinessException {
+			final HttpServletResponse response, final String aplicativo, final String mes, 
+			final String anio,final String mesText) throws BusinessException {
 		
 		final Map<String, Object> parametros = new HashMap<String, Object>();
 		final StringBuilder periodo = new StringBuilder(mes);
@@ -204,46 +208,14 @@ public class ControllerCifrasControl extends Architech {
 		   parametros.put("dataSourceComprobanteFiscal", dataSourceComprobanteFiscal);
 		   parametros.put("dataSourceSistemaAdministracion", dataSourceSistemaAdministracion);
 		   parametros.put("dataSourceCuentas", dataSourceCuentas);
-	        return new ModelAndView("xlsCifrasControl", parametros);
+	       return new ModelAndView("xlsCifrasControl", parametros);
 		} else {
 			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
 			final ModelAndView mav = this.cifrasInit(request, response);
 			mav.addObject("sinDatos", "sinDatos");
 			return mav;
 		}
-		
-		   
-	
 	}
-
-	/**
-	 * Metodo encargado de inicializar el formulario de consulta de cifras de
-	 * control
-	 *
-	 * @param request
-	 *            Un objeto de tipo {@link HttpServletRequest}
-	 * @param response
-	 *            Un objeto de tipo {@link HttpServletResponse}
-	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista
-	 *         formularioCifrasControl.jsp
-	 * @throws BusinessException
-	 *             En caso de presentarse un error al momento de consultar los
-	 *             diferentes productos
-	 */
-	@RequestMapping("consultaDetalleCifras.do")
-	public ModelAndView consultaDetalleCifras(final HttpServletRequest request,
-			final HttpServletResponse response) throws BusinessException {
-		this.info("Iniciando la consulta del detalle de las Cifras de control");
-		final Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("listaDetalle", detalleCifrasControl);
-		final String aplicativoText = request.getParameter("aplicativo");
-		final String periodoText = request.getParameter("periodo");
-		parametros.put("aplicativo", aplicativoText);
-		parametros.put("periodo", periodoText);
-		this.info("Metodo de consulta de detalle de cifras inicializado con exito, direccionando a la vista consultaDetalle");
-		return new ModelAndView("detalleCifras", parametros);
-	}
-
 	
 	/**
 	 * Muestra el formulario de consulta de incidencias.
@@ -284,12 +256,13 @@ public class ControllerCifrasControl extends Architech {
 				this.getArchitechBean());
 		this.info("Cantidad de archivos de insidencia encontrados: " + listaInsidencias.size());
 		if(listaInsidencias.size() > 0){
-			final Locale local = new Locale("es-MX");
-			for(BeanInsidenciaCifras bean : listaInsidencias){
-				bean.setCadenaFecha(CifrasControlUtil.generaFormatoFechaTipoUno(bean.getFechaInsidencia(), local));
-			}
+			StringBuilder periodo = new StringBuilder();
+			periodo.append(GeneradorCatalogos.obtenerListaMeses().get(mes)).append(" ").append(anio);
 			modelo.put("listaInsidencias", listaInsidencias);
-			request.getSession().setAttribute("listaInsidencias", listaInsidencias);
+			modelo.put("aplicativo", app);
+			modelo.put("mes", mes);
+			modelo.put("anio", anio);
+			modelo.put("periodo", periodo);
 		}else {
 			modelo.put("noCoincidencias", true);
 			return muestraFomularioIncidencias(modelo);
@@ -299,28 +272,32 @@ public class ControllerCifrasControl extends Architech {
 	}
 	
 	/**
-	 * Envia al usuario la insidencia elegida para descargar.
-	 * @param request Request
-	 * @param indice Es el identificador del archivo a descargar.
+	 * Realiza la exportacion a excel del reporte de incidencia de cifras de control.
+	 * @param app Filtro aplicacion.
+	 * @param mes Filtro mes.
+	 * @param anio Filtro anio.
+	 * @param modelo Modelo Spring MVC
 	 * @return ModelAndView
-	 * @throws BusinessException Exception
+	 * @throws BusinessException Excepcion
 	 */
-	@SuppressWarnings("unchecked")
-	@RequestMapping("descargaInsidencia.do")
-	public void realizarDescargaIncidencia(HttpServletRequest request, HttpServletResponse response, 
-			@RequestParam("indice")String indice) throws BusinessException, IOException {
-		this.info("El indice del archivo que sera descargado es: " + indice);
-		List<BeanInsidenciaCifras> listaInsidencias = (List<BeanInsidenciaCifras>)request.getSession().getAttribute("listaInsidencias");
-		final int numIndice = Integer.parseInt(indice);
-		final BeanInsidenciaCifras insidenciaADescargar = listaInsidencias.get(numIndice);
-		String rutaTokens[] = insidenciaADescargar.getRutaIncidencia().split(File.separator); 
-		response.setContentType("application/octet-stream");
-		String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"", rutaTokens[rutaTokens.length - 1]);
-        response.setHeader(headerKey, headerValue);
-		CifrasControlUtil.escribeArchivo(insidenciaADescargar.getRutaIncidencia(), response.getOutputStream());
+	@RequestMapping("excelIncidenciasCifras.xls")
+	public ModelAndView exportaXlsIncidencias(@RequestParam("aplicativo")String app, @RequestParam("mes")String mes, 
+				@RequestParam("anio")String anio,  Map<String, Object> modelo) throws BusinessException {
+		List<BeanInsidenciaCifras> listaInsidencias = boCifrasControl.ejecutaConsultaInsidencias(app, mes, anio, 
+				this.getArchitechBean());
+		if(listaInsidencias.size() > 0){
+			StringBuilder periodo = new StringBuilder();
+			periodo.append(GeneradorCatalogos.obtenerListaMeses().get(mes)).append(" ").append(anio);
+			modelo.put("periodo", periodo);
+			modelo.put("producto", app);
+			JRDataSource incidenciasDS = new JRBeanCollectionDataSource(listaInsidencias);
+			modelo.put("dataSourceIncidencias", incidenciasDS);
+			return new ModelAndView("xlsIncidencias", modelo);
+		}else{
+			modelo.put("noCoincidencias", true);
+			return muestraFomularioIncidencias(modelo);
+		}
 	}
-	
 
 	/**
 	 * Metodo encargado de procecesar los errores que se pueden presentar en el
