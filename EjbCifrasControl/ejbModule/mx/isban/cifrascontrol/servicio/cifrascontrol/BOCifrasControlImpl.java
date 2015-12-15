@@ -2,6 +2,7 @@ package mx.isban.cifrascontrol.servicio.cifrascontrol;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -20,6 +21,7 @@ import mx.isban.cifrascontrol.beans.cifrascontrol.BeanInsidenciaCifras;
 import mx.isban.cifrascontrol.servicio.auditoria.BOPistasAuditoria;
 import mx.isban.cifrascontrol.util.cifrascontrol.ConstantesCifrasControl;
 import mx.isban.cifrascontrol.util.general.ConstantesModuloIntegrador;
+import mx.isban.cifrascontrol.util.general.OrdenadorInsidenciaCifras;
 import mx.isban.cifrascontrol.util.general.UtilGeneralCifras;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControl;
 import mx.isban.cifrascontrol.webservice.cifrascontrol.CifrasControlDTO;
@@ -182,6 +184,9 @@ public class BOCifrasControlImpl extends Architech implements BOCifrasControl {
 			boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
 			throw new BusinessException(ConstantesCifrasControl.ERROR_CONSULTAR_CIFRAS_CONTROL_DETALLE);
 		}
+		
+		String []reglaOrdenamientoCifras = {"Origen", "CFD", "SAT", "EDC"};
+		Collections.sort(respuestaConsultaIncidencias, new OrdenadorInsidenciaCifras(reglaOrdenamientoCifras));
 		
 		pistaAuditoria.setEstatusOperacion(ConstantesModuloIntegrador.COD_PA_OPERACION_OK);
 		boPistas.generaPistaAuditoria(pistaAuditoria, sessionBean);
