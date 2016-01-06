@@ -122,7 +122,7 @@
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="83" height="20" uuid="4ba4e8ad-cb43-48ba-bc77-65849da9fa9f"/>
 				<box>
 					<pen lineWidth="1.0" lineColor="#000000"/>
@@ -134,7 +134,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{fase}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="83" y="0" width="100" height="20" uuid="b0f4ba00-5cf2-423c-999f-84b5e335561f"/>
 				<box>
 					<pen lineWidth="1.0" lineColor="#000000"/>
@@ -146,7 +146,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{moneda}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="183" y="0" width="100" height="20" uuid="4892eec7-4686-48e4-8057-b92a7deb371f"/>
 				<box>
 					<pen lineWidth="1.0" lineColor="#000000"/>
@@ -158,7 +158,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{tipoDocumento}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="283" y="0" width="100" height="20" uuid="5598027f-d66e-4782-93fe-5f06fa74b762"/>
 				<box>
 					<pen lineWidth="1.0" lineColor="#000000"/>
@@ -170,7 +170,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{numeroCuenta}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="383" y="0" width="212" height="20" uuid="9d3ee40a-ee24-458c-b685-5a53b70a9773"/>
 				<box>
 					<pen lineWidth="1.0" lineColor="#000000"/>
