@@ -180,10 +180,9 @@
 	
 </div>
 </div>
-<a id="exportarExcel" href="#">${exportarExcel}</a>
 
 <div class="PiePag">
-
+<a id="exportarExcel" href="#">${exportarExcel}</a>
 <a href="../cifrascontrol/cifrasInit.do">${regresar}</a>
 
 

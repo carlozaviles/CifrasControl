@@ -83,6 +83,7 @@
 	<display:column property="totalFactCanceladas" title="${total}" sortable="false"
 		headerClass="text_centro" />	
 	<display:setProperty name="export.excel.filename" value="ConsultaRecibos.xls" />
+	<display:setProperty name="export.banner" value="${exportarReporte}"/>
 </display:table>
 
 <div class="PiePag">

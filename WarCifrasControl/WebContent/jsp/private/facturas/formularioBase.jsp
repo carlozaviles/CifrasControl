@@ -16,12 +16,15 @@
 		<tr>
 			<td class="odd" class="odd">${aplicativo}:</td>
 			<td class="odd" colspan="4">
-				<select name="aplicativo" id="aplicativo" class="Campos_Des" style="font-size: 9px;">
+				<select name="aplicativo" id="aplicativo" class="Campos_Des" style="font-size: 9px; width:400px;">
 					<option value="" selected="selected">--Seleccione--</option>
-					<c:forEach var="producto" items="${productosList}">					
-					<option value="${producto.descripcion}">${producto.descripcion}</option>
+					<c:forEach var="producto" items="${productosList}">
+						<option value="${producto.descripcion}">${producto.descripcion}</option>
 					</c:forEach>
-				</select>
+					<option></option>
+					<option></option>
+					<option></option>
+			</select>
 			</td>
 		</tr>
 		<tr>
