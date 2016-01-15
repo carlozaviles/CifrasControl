@@ -133,7 +133,7 @@
 	</div>
 </div>
 
-<display:table name="reporteRecibos" sort="list" pagesize="10" id="tableExport"
+<display:table name="reporteDivisas" sort="list" pagesize="10" id="tableExport"
 				requestURI="../facturas/consultaDivisas.do" export="true">
 	<display:column property="facturasCorrectas" title="${totalFacturas}" group="1" sortable="false"
 		headerClass="text_centro" />
