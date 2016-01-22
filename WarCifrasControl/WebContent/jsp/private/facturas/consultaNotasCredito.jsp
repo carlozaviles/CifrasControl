@@ -53,7 +53,7 @@
    
 <div class="frameTablaVariasColumnas">
 	<c:if test="${not empty reporteNotasExport}">
-		<div class="titleTablaVariasColumnas">${facturasConfirming}</div>
+		<div class="titleTablaVariasColumnas">${notas}</div>
 	</c:if>
 	<c:if test="${empty reporteNotasExport}">
 		<div class="titleTablaVariasColumnas">${notas}</div>
