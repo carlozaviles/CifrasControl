@@ -32,7 +32,9 @@
 <div class="pageTitleContainer">
    <span class="pageTitle">${resumen}</span> - ${modulo}
 </div>
-
+<input type="hidden" name="aplicativo" id ="aplicativo" value="${aplicativo}">   
+<input type="hidden" name="periodo" id ="periodo" value="${periodo}">   
+<input type="hidden" name="mes" id ="mes" value="${mes}"> 
 <div class="contextContainer">
 	<div>
 		<table>
@@ -132,26 +134,6 @@
 	</div>
 </div>
 
-<display:table name="reporteExport" sort="list" pagesize="10" id="tableExport"
-				requestURI="../facturas/consultaFacturas.do" export="true">
-	<display:column property="facturasCorrectas" title="${totalFacturas}" group="1" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="subtotalFactCorrectas" title="${subtotal}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="ivaFactCorrectas" title="${tasaIva}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="totalFactCorrectas" title="${total}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="facturasCanceladas" title="${facturasCanceladas}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="subtotalFactCanceladas" title="${subtotal}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="ivaFactCanceladas" title="${tasaIva}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="totalFactCanceladas" title="${total}" sortable="false"
-		headerClass="text_centro" />
-	<display:setProperty name="export.excel.filename" value="ConsultaFacturas.xls" />
-</display:table>
 
 <div class="PiePag">
 	<a href="#" id="exportarReporte">${exportarReporte}</a>

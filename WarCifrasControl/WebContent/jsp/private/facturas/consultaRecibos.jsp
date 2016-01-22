@@ -29,6 +29,10 @@
    <span class="pageTitle">${resumen}</span> - ${modulo}
 </div>
 
+<input type="hidden" name="aplicativo" id ="aplicativo" value="${aplicativo}">   
+<input type="hidden" name="periodo" id ="periodo" value="${periodo}">   
+<input type="hidden" name="mes" id ="mes" value="${mes}"> 
+
 <div class="contextContainer">
 	<div>
 		<table>
@@ -72,22 +76,10 @@
 	</div>
 </div>
 
-<display:table name="reporteRecibos" sort="list" pagesize="10" id="tableExport"
-		requestURI="../facturas/consultaRecibos.do" export="true">
-	<display:column property="facturasCorrectas" title="${generados}" group="1" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="totalFactCorrectas" title="${total}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="facturasCanceladas" title="${cancelados}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="totalFactCanceladas" title="${total}" sortable="false"
-		headerClass="text_centro" />	
-	<display:setProperty name="export.excel.filename" value="ConsultaRecibos.xls" />
-	<display:setProperty name="export.banner" value="${exportarReporte}"/>
-</display:table>
+
 
 <div class="PiePag">
-	<a href="#" id="exportarReporte">${exportarReporte}</a>
+	<a href="#" id="exportarReporteRecibos">${exportarReporte}</a>
 	<a href="../facturas/recibosInit.do">${regresar}</a> 
 </div>
 			

@@ -36,7 +36,8 @@ public class ReprocesoService
     }
 
     public ReprocesoService(WebServiceFeature... features) {
-        super(__getWsdlLocation(), REPROCESOSERVICE_QNAME, features);
+//        super(__getWsdlLocation(), REPROCESOSERVICE_QNAME, features);
+        super(__getWsdlLocation(), REPROCESOSERVICE_QNAME);
     }
 
     public ReprocesoService(URL wsdlLocation) {
@@ -44,7 +45,8 @@ public class ReprocesoService
     }
 
     public ReprocesoService(URL wsdlLocation, WebServiceFeature... features) {
-        super(wsdlLocation, REPROCESOSERVICE_QNAME, features);
+//        super(wsdlLocation, REPROCESOSERVICE_QNAME, features);
+        super(wsdlLocation, REPROCESOSERVICE_QNAME);
     }
 
     public ReprocesoService(URL wsdlLocation, QName serviceName) {
@@ -52,7 +54,8 @@ public class ReprocesoService
     }
 
     public ReprocesoService(URL wsdlLocation, QName serviceName, WebServiceFeature... features) {
-        super(wsdlLocation, serviceName, features);
+//        super(wsdlLocation, serviceName, features);
+        super(wsdlLocation, serviceName);
     }
 
     /**

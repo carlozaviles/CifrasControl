@@ -14,6 +14,7 @@
 
 <spring:message code="facturas.moduloDivisas"         	var="modulo"/>
 <spring:message code="facturas.divisa"             	var="divisa"/>
+<spring:message code="facturas.moneda"             	var="moneda"/>
 <spring:message code="facturas.producto"             	var="productoLabel"/>
 <spring:message code="facturas.totalFacturas"           var="totalFacturas"/>
 <spring:message code="facturas.subtotal"             	var="subtotal"/>
@@ -32,6 +33,11 @@
 <div class="pageTitleContainer">
    <span class="pageTitle">${resumen}</span> - ${modulo}
 </div>
+
+<input type="hidden" name="aplicativo" id ="aplicativo" value="${aplicativo}">   
+<input type="hidden" name="periodo" id ="periodo" value="${periodo}">   
+<input type="hidden" name="mes" id ="mes" value="${mes}"> 
+
 
 <div class="contextContainer">
 	<div>
@@ -60,6 +66,7 @@
 			<table>
 				<tr>
 					<th width="122" class="text_centro">${totalFacturas}</th>
+					<th width="122" class="text_centro">${moneda}</th>
 					<th width="223" class="text_centro" scope="col">${subtotal}</th>
 					<th width="122" class="text_centro" scope="col">${tasaIva}</th>
 					<th width="122" class="text_centro" scope="col">${total}</th>
@@ -77,6 +84,7 @@
 					<c:forEach var="filaDivisa" items="${reporteDivisas}">
 						<tr>
 							<td class="text_centro">${filaDivisa.facturasCorrectas}</td>
+							<td class="text_centro">${filaDivisa.moneda}</td>
 							<td class="text_centro">${filaDivisa.subtotalFactCorrectas}</td>
 							<td class="text_centro">${filaDivisa.ivaFactCorrectas}</td>
 							<td class="text_centro">${filaDivisa.totalFactCorrectas}</td>
@@ -133,29 +141,10 @@
 	</div>
 </div>
 
-<display:table name="reporteDivisas" sort="list" pagesize="10" id="tableExport"
-				requestURI="../facturas/consultaDivisas.do" export="true">
-	<display:column property="facturasCorrectas" title="${totalFacturas}" group="1" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="subtotalFactCorrectas" title="${subtotal}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="ivaFactCorrectas" title="${tasaIva}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="totalFactCorrectas" title="${total}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="facturasCanceladas" title="${facturasCanceladas}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="subtotalFactCanceladas" title="${subtotal}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="ivaFactCanceladas" title="${tasaIva}" sortable="false"
-		headerClass="text_centro" />
-	<display:column property="totalFactCanceladas" title="${total}" sortable="false"
-		headerClass="text_centro" />
-	<display:setProperty name="export.excel.filename" value="ConsultaDivisas.xls" />
-</display:table>
+
 
 <div class="PiePag">
-	<a href="#" id="exportarReporte">${exportarReporte}</a>
+	<a href="#" id="exportarReporteDivisas">${exportarReporte}</a>
 	<a href="../facturas/divisasInit.do">${regresar}</a> 
 </div>
 			

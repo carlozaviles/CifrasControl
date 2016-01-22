@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-01-21T12:54:05 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteDivisas" pageWidth="595" pageHeight="842" columnWidth="585" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="52367d31-65e4-40bb-ba86-716e83336c1c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="aplicativo" class="java.lang.String">
+		<parameterDescription><![CDATA[aplicativo]]></parameterDescription>
+	</parameter>
+	<parameter name="periodo" class="java.lang.String">
+		<parameterDescription><![CDATA[periodo]]></parameterDescription>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="facturasCorrectas" class="java.lang.String">
+		<fieldDescription><![CDATA[facturasCorrectas]]></fieldDescription>
+	</field>
+	<field name="subtotalFactCorrectas" class="java.lang.String">
+		<fieldDescription><![CDATA[subtotalFactCorrectas]]></fieldDescription>
+	</field>
+	<field name="ivaFactCorrectas" class="java.lang.String">
+		<fieldDescription><![CDATA[ivaFactCorrectas]]></fieldDescription>
+	</field>
+	<field name="totalFactCorrectas" class="java.lang.String">
+		<fieldDescription><![CDATA[totalFactCorrectas]]></fieldDescription>
+	</field>
+	<field name="facturasCanceladas" class="java.lang.String">
+		<fieldDescription><![CDATA[facturasCanceladas]]></fieldDescription>
+	</field>
+	<field name="subtotalFactCanceladas" class="java.lang.String">
+		<fieldDescription><![CDATA[subtotalFactCanceladas]]></fieldDescription>
+	</field>
+	<field name="ivaFactCanceladas" class="java.lang.String">
+		<fieldDescription><![CDATA[ivaFactCanceladas]]></fieldDescription>
+	</field>
+	<field name="totalFactCanceladas" class="java.lang.String">
+		<fieldDescription><![CDATA[totalFactCanceladas]]></fieldDescription>
+	</field>
+	<field name="moneda" class="java.lang.String">
+		<fieldDescription><![CDATA[moneda]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="105" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="2" width="560" height="30" backcolor="rgba(250, 122, 105, 0.0627451)" uuid="ddc222bf-2b1e-49a9-b286-0bfab422b70b"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[RESUMEN DE CIFRAS DE CONTROL FACTURAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="44" width="63" height="18" uuid="9f335570-7844-40f8-9f89-cfcff7bef084"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="80" width="63" height="18" uuid="3abc6f0d-05e1-44bc-84be-f1d25a41bf38"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="44" width="488" height="35" uuid="f0ddae85-1c41-44bd-bdf8-04f93848b652"/>
+				<textFieldExpression><![CDATA[$P{aplicativo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="80" width="120" height="18" uuid="65d46346-0804-457f-9c3d-84a0da338613"/>
+				<textFieldExpression><![CDATA[$P{periodo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="53" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="1" width="560" height="18" uuid="cc91d826-f20c-43de-9d7a-b14096398c6e"/>
+				<box>
+					<topPen lineWidth="1.3"/>
+					<leftPen lineWidth="1.3"/>
+					<bottomPen lineWidth="1.3"/>
+					<rightPen lineWidth="1.3"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isItalic="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[COMPRA VENTA DE DIVISAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="21" width="54" height="27" uuid="4b40fd2d-7d51-439f-a9ea-b10b20be0dfe"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Moneda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="104" y="21" width="70" height="27" uuid="b32857de-9e5c-4ab1-93ad-bfb4b10a0ad8">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="174" y="21" width="33" height="27" uuid="bfcdc38a-db33-44eb-84d8-a9446eab1d22">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tasa Iva]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="21" width="87" height="27" uuid="3bb204c7-dae0-4f9b-b2da-0f8e1353eda0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="294" y="21" width="70" height="27" uuid="d3356205-0e37-44fe-9fe5-05318b7a04fd"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Facturas Canceladas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="364" y="21" width="70" height="27" uuid="56849987-1bdb-4724-96bc-2eed26932a47"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="434" y="21" width="33" height="27" uuid="b271e98b-f5f3-4447-91df-63f8eac3ece9"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tasa Iva]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="467" y="21" width="93" height="27" uuid="7ba1c347-3761-4e9b-9592-ea21e67b1555"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="21" width="50" height="27" uuid="c0bd4923-380e-49c3-a142-972e859b20f3"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Facturas Vigentes]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="50" height="16" uuid="b6950ed6-163b-4e86-82d8-6413cfb103d1">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{facturasCorrectas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="54" height="16" uuid="9813d80b-7013-42c5-9c8e-c5722154aea9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{moneda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="104" y="0" width="70" height="16" uuid="470139b9-787d-4a45-8758-63a717dbd536">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{subtotalFactCorrectas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="0" width="33" height="16" uuid="ffb8c6a4-d36a-4052-bb3d-a9cd75b66d1e">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{ivaFactCorrectas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="0" width="87" height="16" uuid="738ed468-6bf9-4790-b4e1-0a8447efad6b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{totalFactCorrectas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="294" y="0" width="70" height="16" uuid="c13e3076-81e9-4847-9469-afe2eceb6f75">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{facturasCanceladas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="364" y="0" width="70" height="16" uuid="6079ab1f-919a-4cc4-a8e3-55f1056771f9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{subtotalFactCanceladas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="434" y="0" width="33" height="16" uuid="5afe4678-11ce-429d-9481-fbd167e50ed6">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{ivaFactCanceladas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="467" y="0" width="93" height="16" uuid="49bdc37c-e9a9-46ed-8c0d-4c1b8f924c71">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{totalFactCanceladas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

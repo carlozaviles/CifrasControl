@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="WarCifrasControl_Ejb">
+    <property environment="env"/>
+    <property name="EjbCifrasControl.location" value="../EjbCifrasControl"/>
+    <property name="ECLIPSE_HOME" value="../../../../opt/eclipse/"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="WebSphere Application Server v8.5 [WebSphere Application Server v8.5].libraryclasspath">
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.wccm.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.emf.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/dev/JavaEE/6.0/j2ee.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/lib/mail-impl.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.runtime.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.admin.core.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.admin.services.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.portletcontainer.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/lib/bootstrap.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/optionalLibraries/web2mobile/webmsg_applib.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/optionalLibraries/web2mobile/wink-jaxrs-webdav.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/optionalLibraries/web2mobile/rpcadapter/RPCAdapter.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/optionalLibraries/web2mobile/rpcadapter/RPCAdapter-annotation.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.sib.server.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.sip.container.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.sip.interface.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.jsf.myfaces.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.webcontainer.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.wsadie/marshall.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/lib/ffdcSupport.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.wsadie/wsatlib.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.runtime.dist.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/org.apache.axis2.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/installedConnectors/wmq.jmsra.rar/com.ibm.mq.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/installedConnectors/wmq.jmsra.rar/com.ibm.mq.headers.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/installedConnectors/wmq.jmsra.rar/com.ibm.mq.pcf.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/installedConnectors/wmq.jmsra.rar/com.ibm.mq.jmqi.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/installedConnectors/wmq.jmsra.rar/com.ibm.mq.connector.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/installedConnectors/wmq.jmsra.rar/com.ibm.mq.commonservices.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.runtime.wim.base.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/installedConnectors/wmq.jmsra.rar/dhbcore.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/org.eclipse.emf.common.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/org.eclipse.emf.commonj.sdo.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/org.eclipse.emf.ecore.change.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/org.eclipse.emf.ecore.sdo.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/org.eclipse.emf.ecore.xmi.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/org.eclipse.emf.ecore.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.prereq.wsdl4j.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.wsfp.main.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.prereq.jackson.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.prereq.xlxp.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.prereq.jaxrs.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.jaxrs.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.prereq.vajava.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/lib/rsadbutils.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.jpa.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.prereq.commonj-twm.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.prereq.soap.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/org.apache.tuscany.sca.api.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/dev/sca/1.0/sca_api.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/dev/sca/2.0/sca_api.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/dev/xml/xmlapi.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.batch.runtime.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/tivoli/tam/PD.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.prereq.jsfportlet.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/plugins/com.ibm.ws.ola.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/installedConnectors/wmq.jmsra.rar/com.ibm.mq.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/installedConnectors/wmq.jmsra.rar/com.ibm.mqjms.jar"/>
+        <pathelement location="../../../../opt/IBM/WebSphere/AppServer/installedConnectors/wmq.jmsra.rar/dhbcore.jar"/>
+    </path>
+    <path id="WarCifrasControl_Ejb.classpath">
+        <pathelement location="bin"/>
+        <path refid="WebSphere Application Server v8.5 [WebSphere Application Server v8.5].libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir=".apt_generated">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path=".apt_generated"/>
+            <classpath refid="WarCifrasControl_Ejb.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
+        <ant antfile="build.xml" dir="${EjbCifrasControl.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${EjbCifrasControl.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+    </target>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+</project>

@@ -49,6 +49,10 @@ public class BeanReporteFacturas implements Serializable {
 	private String totalFactCanceladas;
 	
 	/**
+	 * moneda
+	 */
+	private String moneda;
+	/**
 	 * @return the facturasCorrectas
 	 */
 	public String getFacturasCorrectas() {
@@ -159,4 +163,20 @@ public class BeanReporteFacturas implements Serializable {
 	public void setTotalFactCanceladas(String totalFactCanceladas) {
 		this.totalFactCanceladas = totalFactCanceladas;
 	}
+
+	/**
+	 * @return the moneda
+	 */
+	public String getMoneda() {
+		return moneda;
+	}
+
+	/**
+	 * @param moneda the moneda to set
+	 */
+	public void setMoneda(String moneda) {
+		this.moneda = moneda;
+	}
+
+	
 }

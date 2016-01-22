@@ -126,16 +126,19 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 			final List<BeanFactura> facturasIncorrectas = this.obtenerFacturasIncorrectas(totalFacturas, sessionBean);
 			
 			for(int i = 0; i < 3; i++){
+				
 				BeanReporteFacturas beanReporte = new BeanReporteFacturas();
 				beanReporte.setFacturasCorrectas(facturasCorrectas.get(i).getCantidadFacturas());
 				beanReporte.setSubtotalFactCorrectas(facturasCorrectas.get(i).getSubTotal());
 				beanReporte.setIvaFactCorrectas(facturasCorrectas.get(i).getIva());
 				beanReporte.setTotalFactCorrectas(facturasCorrectas.get(i).getTotalImpuestos());
+				beanReporte.setMoneda(facturasCorrectas.get(i).getMoneda());
 				
 				beanReporte.setFacturasCanceladas(facturasIncorrectas.get(i).getCantidadFacturas());
 				beanReporte.setSubtotalFactCanceladas(facturasIncorrectas.get(i).getSubTotal());
 				beanReporte.setIvaFactCanceladas(facturasIncorrectas.get(i).getIva());
 				beanReporte.setTotalFactCanceladas(facturasIncorrectas.get(i).getTotalImpuestos());
+				
 				infoReporteFacturas.add(beanReporte);
 			}
 		}
@@ -326,10 +329,13 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		BigDecimal sumatoriaSubTotales = new BigDecimal(0);
 		BigDecimal sumatoriaTotales = new BigDecimal(0);
 		String productoFinal = producto;
+		String moneda="";
 		for (BeanFactura beanFactura : listaFacturas) {
 			String cantidadFacturas = beanFactura.getCantidadFacturas();
+			moneda=beanFactura.getMoneda();
 			if(null == cantidadFacturas || "".equals(cantidadFacturas)){
 				cantidadFacturas = "0";
+				moneda="-";			
 			}
 			cantidadTotalFacturas = cantidadTotalFacturas + Integer.parseInt(cantidadFacturas);
 			String subTotal = beanFactura.getSubTotal();
@@ -356,6 +362,7 @@ public class BOFacturaImpl extends Architech implements BOFactura {
 		factura.setSubTotal(resultSubTotales);
 		factura.setIva(valorIva);
 		factura.setCantidadFacturas(Integer.toString(cantidadTotalFacturas));
+		factura.setMoneda(moneda);
 		return factura;
 	}
 

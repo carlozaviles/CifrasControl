@@ -36,7 +36,7 @@ public class CifrasControlService
     }
 
     public CifrasControlService(WebServiceFeature... features) {
-        super(__getWsdlLocation(), CIFRASCONTROLSERVICE_QNAME, features);
+        super(__getWsdlLocation(), CIFRASCONTROLSERVICE_QNAME);
     }
 
     public CifrasControlService(URL wsdlLocation) {
@@ -44,7 +44,7 @@ public class CifrasControlService
     }
 
     public CifrasControlService(URL wsdlLocation, WebServiceFeature... features) {
-        super(wsdlLocation, CIFRASCONTROLSERVICE_QNAME, features);
+        super(wsdlLocation, CIFRASCONTROLSERVICE_QNAME);
     }
 
     public CifrasControlService(URL wsdlLocation, QName serviceName) {
@@ -52,7 +52,7 @@ public class CifrasControlService
     }
 
     public CifrasControlService(URL wsdlLocation, QName serviceName, WebServiceFeature... features) {
-        super(wsdlLocation, serviceName, features);
+        super(wsdlLocation, serviceName);
     }
 
     /**

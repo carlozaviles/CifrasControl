@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.2.0.final using JasperReports Library version 6.2.0  -->
+<!-- 2016-01-16T13:12:29 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Lista de Cuentas" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9ceb6e24-eee1-420e-bd21-285062880732">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[select  "MOI_MX_MAE_CC_RES_FACTU"."CAN_TOTAL_FACT" as Cuenta ,
+  "MOI_MX_MAE_CC_RES_FACTU"."IMP_SUB_TOTAL" as Subtotal 
+  from  "MOI_MX_MAE_CC_RES_FACTU" 
+  where  "MOI_MX_MAE_CC_RES_FACTU"."COD_TIPO_FACT" = 'FACT' or
+   "MOI_MX_MAE_CC_RES_FACTU"."COD_TIPO_FACT" = 'DIVI' or
+    "MOI_MX_MAE_CC_RES_FACTU"."COD_TIPO_FACT" = 'NOTA']]>
+	</queryString>
+	<field name="Cuenta" class="java.lang.String">
+		<fieldDescription><![CDATA[Cuentta]]></fieldDescription>
+	</field>
+	<field name="Subtotal" class="java.lang.Double">
+		<fieldDescription><![CDATA[Subtotal]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="35" y="0" width="100" height="30" uuid="f705e75f-7247-499e-80d1-38c8210e9e76"/>
+				<text><![CDATA[Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="0" width="100" height="30" uuid="ba3b5013-6231-4bf6-9cb6-124caf59ab23"/>
+				<text><![CDATA[Subtotal]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="30" y="0" width="100" height="30" uuid="4d7cba76-329d-47e7-8bd2-b71ab104957a"/>
+				<textFieldExpression><![CDATA[$F{Cuenta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="100" height="30" uuid="d9916c3e-61bc-4fa0-b217-70f3b4f68853"/>
+				<textFieldExpression><![CDATA[$F{Subtotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

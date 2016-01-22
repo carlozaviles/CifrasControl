@@ -36,4 +36,32 @@
      	   p:url="classpath:/recursos/ConsultaIncidencias.jrxml"
      	   p:reportDataKey="dataSourceIncidencias"/>
      <!-- Fin de configuracion para reporte de incidencias de cifras -->
-</beans>
+     
+     <!-- Configuracion para reporte de facturas -->
+     <bean id="xlsFacturas" 
+     	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+     	   p:url="classpath:/recursos/reporteFacturas.jrxml"
+     	   p:reportDataKey="dataSourceFacturas"/>
+     <!-- Fin de configuracion para reporte de facturas -->
+     
+     <!-- Configuracion para reporte de Notas de Credito-->
+     <bean id="xlsNotas" 
+     	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+     	   p:url="classpath:/recursos/reporteNotas.jrxml"
+     	   p:reportDataKey="dataSourceNotas"/>
+     <!-- Fin de configuracion para reporte de Notas de credito -->
+     
+    <!-- Configuracion para reporte de Notas de Credito-->
+     <bean id="xlsDivisas" 
+     	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+     	   p:url="classpath:/recursos/reporteDivisas.jrxml"
+     	   p:reportDataKey="dataSourceDivisas"/>
+     <!-- Fin de configuracion para reporte de Notas de credito -->
+     
+    <!-- Configuracion para reporte de Recibos Deducibles-->
+     <bean id="xlsRecibos" 
+     	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+     	   p:url="classpath:/recursos/reporteRecibos.jrxml"
+     	   p:reportDataKey="dataSourceRecibos"/>
+     <!-- Fin de configuracion para reporte de Notas de credito -->     
+     </beans>

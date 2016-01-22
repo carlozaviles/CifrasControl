@@ -25,6 +25,8 @@ import mx.isban.cifrascontrol.beans.producto.BeanProducto;
 import mx.isban.cifrascontrol.servicio.catalogos.BOCatalogos;
 import mx.isban.cifrascontrol.servicio.facturas.BOFactura;
 import mx.isban.cifrascontrol.utileria.general.GeneradorCatalogos;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -263,9 +265,69 @@ public class ControllerFactura extends Architech {
 			totalReporte.addAll(infoReporteExtra);
 			parametros.put("reporteExport", totalReporte);
 			parametros.put("aplicativo", aplicativo);
+			parametros.put("mes", request.getParameter("mes"));
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaFacturas");
 			return new ModelAndView("consultaFacturas", parametros);
 		} else {
+			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
+			ModelAndView mav = this.facturasInit(request, response);
+			mav.addObject("sinDatos", "sinDatos");
+			return mav;
+		}
+	}
+	/**
+	 * Metodo encargado de exportar a Excel el resultado de la consulta de facturas disponibles, en
+	 * relacion a un tipo de aplicativo (FACT) y periodo
+	 * @param request
+	 *            Un objeto de tipo {@link HttpServletRequest}
+	 * @param response
+	 *            Un objeto de tipo {@link HttpServletResponse}
+	 * @return Un objeto de tipo {@link ModelAndView} que direcciona a la vista
+	 *         consultaFacturas.jsp, en caso de no presentarse un resultado,
+	 *         direcciona a la vista formularioFacturas.jsp
+	 * @throws BusinessException
+	 *             En caso de presentarse un error al momento de consultar las
+	 *             facturas
+	 */
+	@RequestMapping("consultaFacturasExcel.xls")
+	public ModelAndView consultaFacturasExcel(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
+		this.info("Iniciando la consulta de facturas excel");
+		String aplicativo =request.getParameter("aplicativo");
+		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
+		periodo.append("-").append(request.getParameter("mes"));
+		List<BeanReporteFacturas> totalReporte = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> infoReporteFacturas = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> infoReporteExtra = new ArrayList<BeanReporteFacturas>();
+		
+		if ("CONFIRMING Y FACTORAJE".equalsIgnoreCase(aplicativo)) {
+			infoReporteFacturas = boFactura.obtenerReporteFacturas(CONFIRMING, periodo.toString(), 
+					FACT, this.getArchitechBean());
+			infoReporteExtra = boFactura.obtenerReporteFacturas(FACTORAJE, periodo.toString(), 
+					FACT, this.getArchitechBean());
+		} else {
+			infoReporteFacturas = boFactura.obtenerReporteFacturas(aplicativo, periodo.toString(), 
+					FACT, this.getArchitechBean());
+		}
+		if (!infoReporteFacturas.isEmpty() || !infoReporteExtra.isEmpty()) {
+			this.info("Consulta de facturas realizada correctamente, realizando el calculo de los totales a mostrar");
+			final Map<String, Object> parametros = new HashMap<String, Object>();
+			
+			JRDataSource datasourceFacturas = null;
+			if(!infoReporteFacturas.isEmpty())
+			{
+				datasourceFacturas=new JRBeanCollectionDataSource(infoReporteFacturas);
+			}
+			if(!infoReporteExtra.isEmpty())
+			{
+				datasourceFacturas=new JRBeanCollectionDataSource(infoReporteExtra);
+			}			
+			   parametros.put("dataSourceFacturas", datasourceFacturas);
+			   parametros.put("aplicativo", aplicativo);
+			   parametros.put("periodo", request.getParameter("mesText")+"-"+request.getParameter("anio"));
+		       return new ModelAndView("xlsFacturas", parametros);
+		} else {
+			
 			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
 			ModelAndView mav = this.facturasInit(request, response);
 			mav.addObject("sinDatos", "sinDatos");
@@ -325,6 +387,7 @@ public class ControllerFactura extends Architech {
 			totalReporte.addAll(reporteNotasExtra);
 			parametros.put("reporteNotasExport", totalReporte);
 			parametros.put("aplicativo", aplicativo);
+			parametros.put("mes", request.getParameter("mes"));
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaNotasCredito");
 			return new ModelAndView("consultaNotasCredito", parametros);
 		} else {
@@ -335,6 +398,55 @@ public class ControllerFactura extends Architech {
 		}
 	}
 
+	
+	
+	
+	@RequestMapping("consultaNotasCreditoExcel.xls")
+	public ModelAndView consultaNotasCreditoExcel(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
+		this.info("Iniciando la consulta de notas de credito");
+		String aplicativo = request.getParameter("aplicativo");
+		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
+		periodo.append("-").append(request.getParameter("mes"));
+		List<BeanReporteFacturas> reporteNotas = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> reporteNotasExtra = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> totalReporte = new ArrayList<BeanReporteFacturas>();
+		
+		// Caso especial: en caso de ser confirming y factura, se realiza la
+		// busqueda por separado
+		if ("Confirming y Factoraje".equals(aplicativo)) {
+			reporteNotas = boFactura.obtenerReporteFacturas(CONFIRMING, periodo.toString(), NOTA, 
+					this.getArchitechBean());
+			reporteNotasExtra = boFactura.obtenerReporteFacturas(FACTORAJE, periodo.toString(), NOTA, 
+					this.getArchitechBean());
+		} else {
+			reporteNotas = boFactura.obtenerReporteFacturas(aplicativo, periodo.toString(), NOTA, 
+					this.getArchitechBean());
+		}
+		if (!reporteNotas.isEmpty() || !reporteNotasExtra.isEmpty()) {
+			this.info("Consulta de facturas realizada correctamente, realizando el calculo de los totales a mostrar");
+			final Map<String, Object> parametros = new HashMap<String, Object>();
+			JRDataSource datasourceNotas = null;
+			if(!reporteNotas.isEmpty())
+			{
+				datasourceNotas=new JRBeanCollectionDataSource(reporteNotas);
+			}
+			if(!reporteNotasExtra.isEmpty())
+			{
+				datasourceNotas=new JRBeanCollectionDataSource(reporteNotasExtra);
+			}			
+			   parametros.put("dataSourceNotas", datasourceNotas);
+			   parametros.put("aplicativo", aplicativo);
+			   parametros.put("periodo", request.getParameter("mesText")+"-"+request.getParameter("anio"));
+			return new ModelAndView("xlsNotas", parametros);
+		} else {
+			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
+			ModelAndView mav = this.notasCreditoInit(request, response);
+			mav.addObject("sinDatos", "sinDatos");
+			return mav;
+		}
+	}
+	
 	/**
 	 * Metodo encargado de realizar la consulta de las facturas disponibles, en
 	 * relacion a un tipo de aplicativo (DIVI) y periodo
@@ -387,7 +499,8 @@ public class ControllerFactura extends Architech {
 			reporteDivisasExport.addAll(reporteDivisasExtra);
 			parametros.put("reporteDivisasExport", reporteDivisasExport);
 			parametros.put("aplicativo", aplicativo);
-			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaDivisas");
+			parametros.put("mes", request.getParameter("mes"));
+			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaNotasCredito");
 			return new ModelAndView("consultaDivisas", parametros);
 		} else {
 			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
@@ -396,6 +509,54 @@ public class ControllerFactura extends Architech {
 			return mav;
 		}
 	}
+	
+	
+	@RequestMapping("consultaDivisasExcel.xls")
+	public ModelAndView consultaDivisasExcel(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
+		this.info("Iniciando la consulta de divisas");
+		String aplicativo = request.getParameter("aplicativo");
+		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
+		periodo.append("-").append(request.getParameter("mes"));
+		
+		List<BeanReporteFacturas> reporteDivisas = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> reporteDivisasExtra = new ArrayList<BeanReporteFacturas>();
+		List<BeanReporteFacturas> reporteDivisasExport = new ArrayList<BeanReporteFacturas>();
+		// Caso especial: en caso de ser confirming y factura, se realiza la
+		// busqueda por separado
+		if ("Confirming y Factoraje".equals(aplicativo)) {
+			reporteDivisas = boFactura.obtenerReporteFacturas(CONFIRMING, periodo.toString(), DIVI, 
+					this.getArchitechBean());
+			reporteDivisasExtra = boFactura.obtenerReporteFacturas(FACTORAJE, periodo.toString(), DIVI, 
+					this.getArchitechBean());
+		} else {
+			reporteDivisas = boFactura.obtenerReporteFacturas(aplicativo, periodo.toString(), DIVI, 
+					this.getArchitechBean());
+		}
+		if (!reporteDivisas.isEmpty() || !reporteDivisasExtra.isEmpty()) {
+			this.info("Consulta de facturas realizada correctamente, realizando el calculo de los totales a mostrar");
+			final Map<String, Object> parametros = new HashMap<String, Object>();
+			JRDataSource dataSourceDivisas = null;
+			if(!reporteDivisas.isEmpty())
+			{
+				dataSourceDivisas=new JRBeanCollectionDataSource(reporteDivisas);
+			}
+			if(!reporteDivisasExtra.isEmpty())
+			{
+				dataSourceDivisas=new JRBeanCollectionDataSource(reporteDivisasExtra);
+			}			
+			   parametros.put("dataSourceDivisas", dataSourceDivisas);
+			   parametros.put("aplicativo", aplicativo);
+			   parametros.put("periodo", request.getParameter("mesText")+"-"+request.getParameter("anio"));
+			return new ModelAndView("xlsDivisas", parametros);
+		} else {
+			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
+			ModelAndView mav = this.divisasInit(request, response);
+			mav.addObject("sinDatos", "sinDatos");
+			return mav;
+		}
+	}
+
 
 	/**
 	 * Metodo encargado de realizar la consulta de las facturas disponibles, en
@@ -412,6 +573,40 @@ public class ControllerFactura extends Architech {
 	 *             En caso de presentarse un error al momento de consultar los
 	 *             recibos
 	 */
+	@RequestMapping("consultaRecibosExcel.xls")
+	public ModelAndView consultaRecibosExcel(final HttpServletRequest request,
+			final HttpServletResponse response) throws BusinessException {
+		this.info("Iniciando la consulta de recibos");
+		String aplicativo = request.getParameter("aplicativo");
+		StringBuilder periodo = new StringBuilder(request.getParameter("anio"));
+		periodo.append("-").append(request.getParameter("mes"));
+		List<BeanReporteFacturas> reporteRecibos = boFactura.obtenerReporteRecibos(aplicativo, periodo.toString(), 
+				RECI, this.getArchitechBean());
+		if (!reporteRecibos.isEmpty()) {
+			final Map<String, Object> parametros = new HashMap<String, Object>();
+			JRDataSource dataSourceRecibos = null;
+			if(!reporteRecibos.isEmpty())
+			{
+				dataSourceRecibos=new JRBeanCollectionDataSource(reporteRecibos);
+			}
+			/*if(!reporteDivisasExtra.isEmpty())
+			{
+				dataSourceRecibos=new JRBeanCollectionDataSource(reporteDivisasExtra);
+			}			*/
+			   parametros.put("dataSourceRecibos", dataSourceRecibos);
+			   parametros.put("aplicativo", aplicativo);
+			   parametros.put("periodo", request.getParameter("mesText")+"-"+request.getParameter("anio"));
+			return new ModelAndView("xlsRecibos", parametros);
+		} else {
+			this.info("No se encontraron resultados, regresando a la pagina de consulta...");
+			ModelAndView mav = this.recibosInit(request, response);
+			mav.addObject("sinDatos", "sinDatos");
+			return mav;
+		}
+	}
+	
+	
+	
 	@RequestMapping("consultaRecibos.do")
 	public ModelAndView consultaRecibos(final HttpServletRequest request,
 			final HttpServletResponse response) throws BusinessException {
