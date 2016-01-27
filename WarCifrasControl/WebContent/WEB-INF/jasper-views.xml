@@ -63,5 +63,12 @@
      	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
      	   p:url="classpath:/recursos/reporteRecibos.jrxml"
      	   p:reportDataKey="dataSourceRecibos"/>
-     <!-- Fin de configuracion para reporte de Notas de credito -->     
+     <!-- Fin de configuracion para reporte de Notas de credito -->    
+     
+    <!-- Configuracion para reporte de CANCELACIONES-->
+     <bean id="xlsCancelaciones" 
+     	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+     	   p:url="classpath:/recursos/reporteCancelaciones.jrxml"
+     	   p:reportDataKey="dataSourceCancelaciones"/>
+     <!-- Fin de configuracion para reporte de CANCELACIONES -->      
      </beans>

@@ -18,8 +18,12 @@ import java.util.Map;
 //import java.util.StringTokenizer;
 
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 //import com.ibm.afp2pdf.AFP2Pdf;
 //import com.ibm.afp2pdf.AFP2PdfException;
+
 
 
 import mx.isban.agave.commons.architech.Architech;
@@ -270,8 +275,48 @@ public class ControllerConsultaReprocesos extends Architech {
 			sdf = new SimpleDateFormat("MMMM yyyy", new Locale("es-MX"));
 			final String cadenaFecha = sdf.format(fecha);
 			modelo.put("fecha", cadenaFecha);
+			modelo.put("mes", mes);
 			modelo.put("listaCancelaciones", listaCancelaciones);
 			return new ModelAndView("consultaCancelaciones", modelo);
+			
+		}else{
+			modelo.put("noCoincidenciasCancel", true);
+			return muestraFormularioCancelaciones(modelo);
+		}
+	}     
+	
+	
+	
+	/**
+	 * Realiza la exportacion a   Excel de la consulta de cancelaciones 
+	 * @param mes Parametro utilizado como filtro para la consulta de cancelaciones.
+	 * @param modelo Modelo Spring MVC
+	 * @return ModelAndView
+	 * @throws BusinessException Exception
+	 * @throws ParseException Error al manejar el parso de fechas.
+	 */
+	@RequestMapping("consultaCancelacionesExcel.xls")
+	public ModelAndView llamaConsultaCancelacionesExcel(HttpServletRequest request, @RequestParam("mes")String mes, Map<String, Object> modelo) 
+			throws BusinessException, ParseException {
+		this.info("Se ejecutara la consulta de cancelaciones para el siguiente mes: " + mes);
+		String anio = mes.substring(0, 4);
+		this.info("El año es: " + anio);
+	
+		List<BeanCancelacion> listaCancelaciones = reprocesos.ejecutaConsultaCancelaciones(mes, this.getArchitechBean());
+		this.info("Se encontro el siguiente numero de coincidencias: " + listaCancelaciones.size());
+
+		//JRDataSource dataSourceCancelaciones = null;
+		
+		if(listaCancelaciones.size() > 0){
+			SimpleDateFormat sdf = new SimpleDateFormat();
+			sdf.applyPattern("yyyyMM");
+			Date fecha = sdf.parse(mes);
+			sdf = new SimpleDateFormat("MMMM yyyy", new Locale("es-MX"));
+			final String cadenaFecha = sdf.format(fecha);			
+			JRDataSource dataSourceCancelaciones=new JRBeanCollectionDataSource(listaCancelaciones);
+			modelo.put("fecha", cadenaFecha);
+			modelo.put("dataSourceCancelaciones", dataSourceCancelaciones);
+			return new ModelAndView("xlsCancelaciones", modelo);
 			
 		}else{
 			modelo.put("noCoincidenciasCancel", true);

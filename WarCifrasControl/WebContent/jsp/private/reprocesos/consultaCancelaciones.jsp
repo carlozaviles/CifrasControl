@@ -24,7 +24,8 @@
 
 <div class="pageTitleContainer">
    <span class="pageTitle">${tituloPagina}</span>
-</div>
+</div> 
+<input type="hidden" name="mes" id ="mes" value="${mes}">  
 <div class="frameTablaEstandar">
 	<div class="titleTablaEstandar">${tituloTablaEstatus}</div>
 	<div class="contentTablaEstandar">
@@ -38,23 +39,11 @@
 			<tbody>
 				<tr>
 					<td>${fecha}</td>
-					<td class="text_centro"><a href="#" id="exportaExcel">Descargar</a></td>
+					<td class="text_centro"><a href="#" id="exportarCancelaciones"><IMG WIDTH="20" HEIGHT="20"  border="0" title="Descargar" SRC="${pageContext.servletContext.contextPath}/recursos/imagenes/descargar_imagen.jpg"></a></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<display:table name="listaCancelaciones" sort="list" pagesize="10" id="exportarCancelaciones" 
-			requestURI="../reprocesos/consultaCancelaciones.do" export="true">
-		<display:column property="numeroCuenta" title="${numeroCuenta}" group="1" sortable="true" headerClass="text_centro"/>
-		<display:column property="aplicativo" title="${aplicativo}" sortable="true" headerClass="text_centro"/>
-		<display:column property="periodo" title="${periodo}" sortable="true" headerClass="text_centro"/>
-		<display:column property="fechaCancelacion" title="${fechaCancelacion}" sortable="true" headerClass="text_centro"/>
-		<display:column property="folioSAT" title="${folioSat}" sortable="true" headerClass="text_centro"/>
-		<display:column property="importeComisInter" title="${comicionesIntereses}" sortable="true" headerClass="text_centro"/>
-		<display:column property="importeIva" title="${iva}" sortable="true" headerClass="text_centro"/>
-		<display:column property="importeRetencion" title="${retenciones}" sortable="true" headerClass="text_centro"/>
-		<display:setProperty name="export.excel.filename" value="ConsultaCancelaciones.xls" />
-	</display:table>
 </div>
 
 
