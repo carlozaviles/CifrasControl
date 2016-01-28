@@ -126,12 +126,55 @@ public class ControllerConsultaReprocesos extends Architech {
 		if(listaReprocesos != null){
 			this.info("Cantidad de reprocesos encontrada para la consulta: " + listaReprocesos.size());
 			modelo.put("listaReprocesos", listaReprocesos);
+			modelo.put("anio",parametrosConsulta.getAnio());
+			modelo.put("mes",parametrosConsulta.getMes());
+			modelo.put("nCuenta",parametrosConsulta.getNumeroCuenta());
+			modelo.put("producto",parametrosConsulta.getProductoSeleccionado());
 		}else{
 			this.info("No fueron encontrados reprocesos para la consulta realizada.");
 			modelo.put("noHayDatos", true);
 		}
 		this.info("El usuario es redireccionado hacia la pagina: " + PAGINA_REPORTE_REPROCESOS);
 		return new ModelAndView(PAGINA_REPORTE_REPROCESOS, modelo);
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Exportar a Excel el reporte de Reprocessos
+	 * 	 */
+	@RequestMapping("realizaConsultaReprocesoExcel.xls")
+	public ModelAndView ejecutaConsultaReprocesoExcel(HttpServletRequest req, HttpServletResponse res ) throws BusinessException{
+		this.info("Realizando la busqueda de productos que el usuario puede consultar");
+		BeanParamsConsultaReproceso parametrosConsulta=  new BeanParamsConsultaReproceso();
+		parametrosConsulta.setAnio(req.getParameter("anio"));
+		parametrosConsulta.setMes(req.getParameter("mes"));
+		parametrosConsulta.setNumeroCuenta(req.getParameter("nCuenta"));
+		parametrosConsulta.setProductoSeleccionado(req.getParameter("producto"));
+		
+		
+		List<BeanProducto> listaProductos = boCatalogo.obtenerProductosUsuario(getArchitechBean(), getArchitechBean().getUsuario(), "EDC");
+		parametrosConsulta.setProductos(listaProductos);
+		this.info("Se realizara la peticion de consulta de reprocesos con los siguientes parametros: " + parametrosConsulta.toString());
+		final List<BeanRegistroReproceso> listaReprocesos = reprocesos.ejecutaConsultaReprocesos(parametrosConsulta, 
+				this.getArchitechBean());
+		final Map<String, Object> modelo = new HashMap<String, Object>();
+		if(listaReprocesos != null){
+			this.info("Cantidad de reprocesos encontrada para la consulta: " + listaReprocesos.size());
+			JRDataSource dataSourceReprocesos=new JRBeanCollectionDataSource(listaReprocesos);
+			modelo.put("dataSourceReprocesos", dataSourceReprocesos);
+			return new ModelAndView("xlsReprocesos", modelo);
+			
+			
+		}else{
+			this.info("No fueron encontrados reprocesos para la consulta realizada.");
+			modelo.put("noHayDatos", true);
+		}
+		this.info("El usuario es redireccionado hacia la pagina: " + PAGINA_REPORTE_REPROCESOS);
+		return new ModelAndView(PAGINA_REPORTE_REPROCESOS, modelo);
+		
 	}
 	
 	/**

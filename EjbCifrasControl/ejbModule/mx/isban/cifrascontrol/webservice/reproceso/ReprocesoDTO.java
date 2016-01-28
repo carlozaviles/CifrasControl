@@ -58,6 +58,7 @@ import javax.xml.bind.annotation.XmlType;
     "estatus",
     "fechaFin",
     "fechaSolicitud",
+    "folioCancelacion",
     "folioInicial",
     "folioNuevo",
     "materno",
@@ -84,6 +85,7 @@ public class ReprocesoDTO {
     protected String fechaSolicitud;
     protected String folioInicial;
     protected String folioNuevo;
+    protected String folioCancelacion;
     protected String materno;
     protected String movimiento;
     protected String municipio;
@@ -96,6 +98,7 @@ public class ReprocesoDTO {
     protected String producto;
     protected String rfc;
     protected String usuarioOperativo;
+   
 
     /**
      * Gets the value of the calle property.
@@ -600,5 +603,19 @@ public class ReprocesoDTO {
     public void setUsuarioOperativo(String value) {
         this.usuarioOperativo = value;
     }
+
+	/**
+	 * @return the folioCancelacion
+	 */
+	public String getFolioCancelacion() {
+		return folioCancelacion;
+	}
+
+	/**
+	 * @param folioCancelacion the folioCancelacion to set
+	 */
+	public void setFolioCancelacion(String folioCancelacion) {
+		this.folioCancelacion = folioCancelacion;
+	}
 
 }

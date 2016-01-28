@@ -39,6 +39,11 @@
 <spring:message code="reprocesos.gralSinDatosRespuesta"           var="gralSinDatosRespuesta"/>
 <spring:message code="reprocesos.gralModificarFiltros"            var="gralModificarFiltros"/>        
 
+<input type="hidden" name="anio" id ="anio" value="${anio}">   
+<input type="hidden" name="mes" id ="mes" value="${mes}">   
+<input type="hidden" name="nCuenta" id ="nCuenta" value="${nCuenta}">
+<input type="hidden" name="producto" id ="producto" value="${producto}">
+
 <div class="pageTitleContainer">
 	<span class="pageTitle">${tituloReporteReprocesos}</span>
 </div>
@@ -55,11 +60,10 @@
 				<td class="special" colspan="5"></td>
 			</tr>
 			<tr class="odd1">
-				<td class="text_centro"><strong>SOL.</strong>${descripcionSOL}</td>
-				<td class="text_centro"><strong>ENCI.</strong>${descripcionENCI}</td>
-				<td class="text_centro"><strong>ENCFD</strong>${descripcionENCFD}</td>
-				<td class="text_centro"><strong>ACTCI.</strong>${descripcionACTCI}</td>
-				<td class="text_centro"><strong>CONFCI.</strong>${descripcionCONFCI}</td>
+				<td class="text_centro"><strong>SOL:</strong>${descripcionSOL}</td>
+				<td class="text_centro"><strong>ENCI:</strong>${descripcionENCI}</td>
+				<td class="text_centro"><strong>ENCFD:</strong>${descripcionENCFD}</td>
+				<td class="text_centro"><strong>CONFCI:</strong>${descripcionCONFCI}</td>
 			</tr>
 		</table>
 	</div>
@@ -113,22 +117,7 @@
 		<a href="${pageContext.servletContext.contextPath}/reprocesos/consultaReprocesos.do">${linkRegresar}</a>
 		<a href="#" id="exportarInformeReprocesos">${linkExportar}</a>
 	</div>
-	<display:table name="listaReprocesos" sort="list" pagesize="10" id="exportaReprocesos" 
-			requestURI="../reprocesos/realizaConsultaReproceso.do " export="true">
-		<display:column property="usuarioOperativo" title="${etiquetaUsuario}" group="1" sortable="false" headerClass="text_centro"/>
-		<display:column property="fechaSolicitud" title="${etiquetaFecha}" sortable="false" headerClass="text_centro"/>
-		<display:column property="periodo" title="${etiquetaPeriodo}" sortable="false" headerClass="text_centro"/>
-		<display:column property="numeroCuenta" title="${etiquetaNumeroCuenta}" sortable="false" headerClass="text_centro"/>
-		<display:column property="producto" title="${etiquetaProducto}" sortable="false" headerClass="text_centro"/>
-		<display:column property="movimiento" title="${etiquetaMovimiento}" sortable="false" headerClass="text_centro"/>
-		<display:column property="nombre" title="${etiquetaNombreCliente}" sortable="false" headerClass="text_centro"/>
-		<display:column property="rfc" title="${etiquetaRfc}" sortable="false" headerClass="text_centro"/>
-		<display:column property="folioInicial" title="${etiquetaSelloInicial}" sortable="false" headerClass="text_centro"/>
-		<display:column property="folioCancelacion" title="${etiquetaSelloCancelacion}" sortable="false" headerClass="text_centro"/>
-		<display:column property="folioNuevo" title="${etiquetaSelloFiscal}" sortable="false" headerClass="text_centro"/>
-		<display:column property="estatus" title="${etiquetaEstatus}" sortable="false" headerClass="text_centro"/>
-		<display:setProperty name="export.excel.filename" value="ConsultaReprocesos.xls" />
-	</display:table>
+<!-- AQUI ESTABA LO DEL DISPLAY TAG -->
 </c:if>
 <c:if test="${noHayDatos}">
 	<script type="text/javascript">

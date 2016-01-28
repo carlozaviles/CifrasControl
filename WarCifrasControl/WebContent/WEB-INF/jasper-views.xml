@@ -63,7 +63,7 @@
      	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
      	   p:url="classpath:/recursos/reporteRecibos.jrxml"
      	   p:reportDataKey="dataSourceRecibos"/>
-     <!-- Fin de configuracion para reporte de Notas de credito -->    
+     <!-- Fin de configuracion para reporte de Recibos Deducibles -->    
      
     <!-- Configuracion para reporte de CANCELACIONES-->
      <bean id="xlsCancelaciones" 
@@ -71,4 +71,11 @@
      	   p:url="classpath:/recursos/reporteCancelaciones.jrxml"
      	   p:reportDataKey="dataSourceCancelaciones"/>
      <!-- Fin de configuracion para reporte de CANCELACIONES -->      
+     
+    <!-- Configuracion para reporte de REPROCESOS-->
+     <bean id="xlsReprocesos" 
+     	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+     	   p:url="classpath:/recursos/reporteReprocesos.jrxml"
+     	   p:reportDataKey="dataSourceReprocesos"/>
+     <!-- Fin de configuracion para reporte de REPROCESOS -->      
      </beans>
