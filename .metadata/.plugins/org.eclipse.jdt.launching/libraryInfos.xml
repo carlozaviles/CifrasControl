@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+<libraryInfo home="/opt/IBM/WebSphere/AppServer/java/jre" version="1.6.0">
+<bootpath>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/i386/default/jclSC160/vm.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/annotation.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/beans.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/java.util.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/jndi.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/logging.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/security.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/sql.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmorb.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmorbapi.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmcfw.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/rt.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/charsets.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/resources.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmpkcs.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmcertpathfw.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmjgssfw.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmjssefw.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmsaslfw.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmjcefw.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmjgssprovider.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmjsseprovider2.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmcertpathprovider.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/management-agent.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/xml.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/jlm.jar"/>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/javascript.jar"/>
+</bootpath>
+<extensionDirs>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+<libraryInfo home="/usr/java/jdk1.7.0_79" version="1.7.0_79">
+<bootpath>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/resources.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/rt.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/sunrsasign.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/jsse.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/jce.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/charsets.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/jfr.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/ext"/>
+<entry path="/usr/java/packages/lib/ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/endorsed"/>
+</endorsedDirs>
+</libraryInfo>
+</libraryInfos>
