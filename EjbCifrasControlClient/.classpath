@@ -6,7 +6,7 @@
 			<attribute name="owner.project.facets" value="jst.utility"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/WebSphere Application Server v8.5 JRE">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
@@ -16,53 +16,21 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/Comunes/cmpCommons.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedGlobal/cmpCommonsGlobal.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedExt/commons-logging.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedExt/jstl.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedSpring/org.springframework.asm-3.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedSpring/org.springframework.beans-3.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedSpring/org.springframework.context-3.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedSpring/org.springframework.core-3.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedSpring/org.springframework.expression-3.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedSpring/org.springframework.web-3.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedSpring/org.springframework.web.servlet-3.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedExt/aopalliance.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedSpring/org.springframework.aop-3.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedCore/cmpLogging.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedCore/cmpLoggingDB.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/Comunes/cmpCommons.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedGlobal/cmpCommonsGlobal.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedExt/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedExt/jstl.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedSpring/org.springframework.asm-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedSpring/org.springframework.beans-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedSpring/org.springframework.context-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedSpring/org.springframework.core-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedSpring/org.springframework.expression-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedSpring/org.springframework.web-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedSpring/org.springframework.web.servlet-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedExt/aopalliance.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedSpring/org.springframework.aop-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedCore/cmpLogging.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedCore/cmpLoggingDB.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container/WarCifrasControl"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/annotation.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/beans.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/charsets.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/deploy.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmcertpathfw.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmcertpathprovider.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmcfw.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmjcefw.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmjgssfw.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmjgssprovider.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmjssefw.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmjsseprovider2.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmorb.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmorbapi.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmpkcs.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/ibmsaslfw.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/j9zip.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/java.util.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/javascript.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/javaws.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/jlm.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/jndi.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/logging.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/management-agent.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/plugin.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/resources.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/rt.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/security.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/sql.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/xml.jar"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/xmldsigfw.jar"/>
-	<classpathentry kind="lib" path="/home/everis/Downloads/glassfish4/glassfish/modules/javax.ejb-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

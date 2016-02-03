@@ -151,3 +151,36 @@ Command-line arguments:  -os linux -ws gtk -arch x86 -product org.eclipse.epp.pa
 
 !ENTRY com.jaspersoft.studio 1 0 2016-01-29 18:19:00.791
 !MESSAGE Starting JaspersoftStudio bundle - Version: 6.2.0.final
+!SESSION 2016-02-02 17:43:54.989 -----------------------------------------------
+eclipse.buildId=4.4.2.M20150204-1700
+java.fullversion=JRE 1.6.0 IBM J9 2.6 Linux x86-32 20130301_140166 (JIT enabled, AOT enabled)
+J9VM - R26_Java626_SR5_FP1_20130301_0937_B140166
+JIT  - r11.b03_20130131_32403
+GC   - R26_Java626_SR5_FP1_20130301_0937_B140166
+J9CL - 20130301_140166
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=es_MX
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -data /home/everis/git/cifrascontrol -os linux -ws gtk -arch x86 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2016-02-02 17:44:02.376
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.jst.jsp.core 4 4 2016-02-02 17:44:15.886
+!MESSAGE A workspace crash was detected. The previous session did not exit normally. Not using saved taglib indexes.
+
+!ENTRY com.jaspersoft.studio 1 0 2016-02-02 17:44:17.723
+!MESSAGE Starting JaspersoftStudio bundle - Version: 6.1.1.final
+
+!ENTRY com.jaspersoft.studio 4 0 2016-02-02 17:44:28.176
+!MESSAGE Error while checking for updates
+!STACK 0
+java.net.URISyntaxException: Illegal character in query at index 244: http://jasperstudio.sf.net/jsslastversion.php?version=6.1.1.final&uuid=76cc0338-5e87-4887-8c66-541df8bb29ba&new=1&isRCP=false&eclipse_version=org.eclipse.epp.package.jee.product[4.4.2.v20150204-1700]&java_version=pxi3260_26sr5fp1ifx-20130408_02 (SR5 FP1)
+	at java.net.URI$Parser.fail(URI.java:2821)
+	at java.net.URI$Parser.checkChars(URI.java:2994)
+	at java.net.URI$Parser.parseHierarchical(URI.java:3084)
+	at java.net.URI$Parser.parse(URI.java:3026)
+	at java.net.URI.<init>(URI.java:588)
+	at com.jaspersoft.studio.statistics.UsageManager.checkVersion(UsageManager.java:779)
+	at com.jaspersoft.studio.statistics.heartbeat.Heartbeat.run(Heartbeat.java:27)
+	at com.jaspersoft.studio.statistics.UsageManager$3.run(UsageManager.java:632)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<wasPublishControllerMergedCache>
+<?xml version="1.0" encoding="UTF-8"?><wasPublishControllerMergedCache>
 <serverType serverId="*">
 <include>
 <extensions value="class, xml, xmi, wsdl, jar, mf, xsd, composite, componentType, bp"/>

@@ -1,5 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<libraryInfos>
+<?xml version="1.0" encoding="UTF-8"?><libraryInfos>
+<libraryInfo home="/usr/java/jdk1.7.0_79" version="1.7.0_79">
+<bootpath>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/resources.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/rt.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/sunrsasign.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/jsse.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/jce.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/charsets.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/jfr.jar"/>
+<entry path="/usr/java/jdk1.7.0_79/jre/classes"/>
+</bootpath>
+<extensionDirs>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/ext"/>
+<entry path="/usr/java/packages/lib/ext"/>
+</extensionDirs>
+<endorsedDirs>
+<entry path="/usr/java/jdk1.7.0_79/jre/lib/endorsed"/>
+</endorsedDirs>
+</libraryInfo>
 <libraryInfo home="/opt/IBM/WebSphere/AppServer/java/jre" version="1.6.0">
 <bootpath>
 <entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/i386/default/jclSC160/vm.jar"/>
@@ -35,25 +53,6 @@
 </extensionDirs>
 <endorsedDirs>
 <entry path="/opt/IBM/WebSphere/AppServer/java/jre/lib/endorsed"/>
-</endorsedDirs>
-</libraryInfo>
-<libraryInfo home="/usr/java/jdk1.7.0_79" version="1.7.0_79">
-<bootpath>
-<entry path="/usr/java/jdk1.7.0_79/jre/lib/resources.jar"/>
-<entry path="/usr/java/jdk1.7.0_79/jre/lib/rt.jar"/>
-<entry path="/usr/java/jdk1.7.0_79/jre/lib/sunrsasign.jar"/>
-<entry path="/usr/java/jdk1.7.0_79/jre/lib/jsse.jar"/>
-<entry path="/usr/java/jdk1.7.0_79/jre/lib/jce.jar"/>
-<entry path="/usr/java/jdk1.7.0_79/jre/lib/charsets.jar"/>
-<entry path="/usr/java/jdk1.7.0_79/jre/lib/jfr.jar"/>
-<entry path="/usr/java/jdk1.7.0_79/jre/classes"/>
-</bootpath>
-<extensionDirs>
-<entry path="/usr/java/jdk1.7.0_79/jre/lib/ext"/>
-<entry path="/usr/java/packages/lib/ext"/>
-</extensionDirs>
-<endorsedDirs>
-<entry path="/usr/java/jdk1.7.0_79/jre/lib/endorsed"/>
 </endorsedDirs>
 </libraryInfo>
 </libraryInfos>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<dirs>
-<entry loc="/opt/IBM/WebSphere/AppServer/java/jre" stamp="1452814410000"/>
-<entry loc="/usr/java/jdk1.7.0_79" stamp="1454111139000"/>
+<?xml version="1.0" encoding="UTF-8"?><dirs>
+<entry loc="/usr/java/jdk1.7.0_79" stamp="1447872395000"/>
+<entry loc="/opt/IBM/WebSphere/AppServer/java/jre" stamp="1426706073000"/>
 </dirs>

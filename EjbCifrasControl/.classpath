@@ -1,50 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="ejbModule"/>
-	<classpathentry kind="src" path="junit"/>
-	<classpathentry kind="src" path=".apt_generated">
-		<attributes>
-			<attribute name="optional" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/Comunes/cmpCommons.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedGlobal/cmpCommonsGlobal.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedCore/cmpChannelDataBase.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedCore/cmpIsbanDataAccess.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedCore/cmpLogging.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedCore/cmpLoggingDB.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedExt/ojdbc6.jar"/>
-	<classpathentry kind="lib" path="/EarEjbCifrasControl/commons-beanutils.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedCore/cmpChannelCics.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedExt/commons-beanutils.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedExt/commons-lang.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedExt/commons-logging.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedExt/ezmorph-1.0.2.jar"/>
-	<classpathentry kind="lib" path="/AgaveDistV1/DistribucionAgave/SharedExt/json-lib-1.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="/opt/IBM/WebSphere/AppServer/java/jre/lib/java.util.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/EjbCifrasControlClient"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/WarCifrasControl_Ejb"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/com.ibm.ws.ast.st.runtime.runtimeTarget.v85/WebSphere Application Server v8.5">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.ejb"/>
@@ -55,5 +11,26 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path=".apt_generated">
+		<attributes>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/Comunes/cmpCommons.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedGlobal/cmpCommonsGlobal.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedCore/cmpChannelDataBase.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedCore/cmpIsbanDataAccess.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedCore/cmpLogging.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedCore/cmpLoggingDB.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedExt/ojdbc6.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EjbCifrasControlClient"/>
+	<classpathentry kind="lib" path="/EarEjbCifrasControl/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedCore/cmpChannelCics.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedExt/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedExt/commons-lang.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedExt/commons-logging.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedExt/ezmorph-1.0.2.jar"/>
+	<classpathentry kind="lib" path="/arquitecturaAgave/DistV1/SharedExt/json-lib-1.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
