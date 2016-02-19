@@ -30,10 +30,10 @@ public class DAOPistasAuditoriaImpl extends Architech implements DAOPistasAudito
 	/**
 	 * Instruccion SQL para insertar pistas de auditoria.
 	 */
-	private static final String INSERT_PISTA_AUDITORIA = "INSERT INTO DEHTMOIN.MOI_MX_AUX_PISTA_AUDIT"
+	private static final String INSERT_PISTA_AUDITORIA = "INSERT INTO MOI_MX_AUX_PISTA_AUDIT"
 			+ " (ID_PISTA_AUDIT_PK, FCH_OPER,HOR_OPER,VAL_IP_CLIEN,USR_APP,VAL_NOM_APP,DSC_OPER,VAL_ESTAT_OPER,"
 			+ "  USR_AFECT_OPER,ID_SESIO,VAL_NOMB_SERVI_WEB,VAL_IP_SERVI_WEB)"
-			+ " VALUES (DEHTMOIN.MOI_MX_SEQ_PISTA_AUDIT.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?)";
+			+ " VALUES (MOI_MX_SEQ_PISTA_AUDIT.NEXTVAL,?,?,?,?,?,?,?,?,?,?,?)";
 
 	/* (non-Javadoc)
 	 * @see mx.isban.cifrascontrol.dao.auditoria.DAOPistasAuditoria#guardaPistaAuditoria(mx.isban.cifrascontrol.bean.auditoria.BeanPistaAuditoria, mx.isban.agave.commons.beans.ArchitechSessionBean)
