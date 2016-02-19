@@ -220,6 +220,7 @@ public class BOUsuarioImpl extends Architech implements BOUsuario {
 		List<BeanGrupo> gruposValidos = new ArrayList<BeanGrupo>();
 		this.info("Se valida que los grupos con los que viene el usuario ya esten dados de alta en la BD");
 		for(String grupo : grupos){
+			grupo=grupo.trim();
 			BeanGrupoRespuesta respuestaValidacionGrupo = daoGrupo.consultarGrupoPorNombre(sessionBean, grupo);
 			verificarRespuesta(respuestaValidacionGrupo);
 			if(respuestaValidacionGrupo.getGrupos().size() > 0){
