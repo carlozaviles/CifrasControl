@@ -91,9 +91,9 @@
 								<c:if test="${pantalla.nombrePantalla == 'CONSULTA DE CANCELACIONES'}">
 							<li id="consultaCancelaciones"><a href="../reprocesos/initConsultaCancelaciones.do">&gt;<span class="subMenuText">${submenuConsultaCancelaciones}</span></a></li>
 								</c:if>
-								<c:if test="${pantalla.nombrePantalla == 'CONSULTA DE PREVIOS'}">
+								<%-- <c:if test="${pantalla.nombrePantalla == 'CONSULTA DE PREVIOS'}">
 							<li id="consultaPrevios"><a href="../reprocesos/initConsultaPrevios.do">&gt;<span class="subMenuText">${submenuConsultaPrevios}</span></a></li>
-								</c:if>
+								</c:if> --%>
 							</c:forEach>						
 						</ul>
 					</li>	
