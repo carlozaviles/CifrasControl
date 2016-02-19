@@ -64,6 +64,7 @@ public class ControllerPrincipal extends Architech{
 		lobjSession.setAttribute("LyFBean", lobjLyFBean);
 	
 		String txtUser =req.getHeader("iv-user")==null ? "EXPC" :req.getHeader("iv-user").toString();
+		String txtUserBDs=txtUser;
 		String cadenaGrupos = req.getHeader("iv-groups");
 		
 		this.info("Usuario por header: " + txtUser);
@@ -74,9 +75,9 @@ public class ControllerPrincipal extends Architech{
 			tokensGrupos[i] = tokensGrupos[i].replaceAll("\"", "");
 		}
 		
-		boUsuarios.validaUsuario(this.getArchitechBean(), txtUser, tokensGrupos);
+		boUsuarios.validaUsuario(this.getArchitechBean(), txtUserBDs, tokensGrupos);
 		txtUser = txtUser.startsWith("Y")?txtUser.substring(1):txtUser;
-		List<BeanModulo> modulos = boModulo.obtenerModulosPorUsuarioLogueado(getArchitechBean(), txtUser);
+		List<BeanModulo> modulos = boModulo.obtenerModulosPorUsuarioLogueado(getArchitechBean(), txtUserBDs);
 		
 		lobjSession.setAttribute("modulosPermitidos", modulos);
 		this.setNameComponent("ControllerPrincipal");
@@ -93,12 +94,12 @@ public class ControllerPrincipal extends Architech{
 	 */
 	@RequestMapping("salir.do")
 	public ModelAndView salir(final HttpServletRequest request, final HttpServletResponse respones) {
-		this.debug("saliendo de la aplicacion");
+		this.info("saliendo de la aplicacion");
 		LookAndFeel lyFBean = (LookAndFeel)request.getSession().getAttribute("LyFBean");
 		//ArchitechSessionBean objArchitectBean = (ArchitechSessionBean)request.getSession().getAttribute("ArchitectSession");
 		String salirUrl = lyFBean.getLinkSalirSAM();
 		request.getSession().invalidate();
-		this.debug("Enviando a hacerlogut a SAM[" + salirUrl + "]...");
+		this.info("Enviando a hacerlogut a SAM[" + salirUrl + "]...");
 		return new ModelAndView("redirect:" + salirUrl);
 	}
 	
