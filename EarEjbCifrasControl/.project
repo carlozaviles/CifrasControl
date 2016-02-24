@@ -5,6 +5,7 @@
 	<projects>
 		<project>EjbCifrasControl</project>
 		<project>WarCifrasControl_Ejb</project>
+		<project>EjbCifrasControlClient</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
