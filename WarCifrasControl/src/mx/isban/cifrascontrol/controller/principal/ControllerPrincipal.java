@@ -64,7 +64,7 @@ public class ControllerPrincipal extends Architech{
 		lobjSession.setAttribute("LyFBean", lobjLyFBean);
 	
 		String txtUser =req.getHeader("iv-user")==null ? "EXPC" :req.getHeader("iv-user").toString();
-		String txtUserBDs=txtUser;
+		//String txtUserBDs=txtUser;
 		String cadenaGrupos = req.getHeader("iv-groups");
 		
 		this.info("Usuario por header: " + txtUser);
@@ -74,10 +74,9 @@ public class ControllerPrincipal extends Architech{
 		for(int i = 0; i < tokensGrupos.length; i++){
 			tokensGrupos[i] = tokensGrupos[i].replaceAll("\"", "");
 		}
-		
-		boUsuarios.validaUsuario(this.getArchitechBean(), txtUserBDs, tokensGrupos);
 		txtUser = txtUser.startsWith("Y")?txtUser.substring(1):txtUser;
-		List<BeanModulo> modulos = boModulo.obtenerModulosPorUsuarioLogueado(getArchitechBean(), txtUserBDs);
+		boUsuarios.validaUsuario(this.getArchitechBean(), txtUser, tokensGrupos);
+		List<BeanModulo> modulos = boModulo.obtenerModulosPorUsuarioLogueado(getArchitechBean(), txtUser);
 		
 		lobjSession.setAttribute("modulosPermitidos", modulos);
 		this.setNameComponent("ControllerPrincipal");
