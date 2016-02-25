@@ -39,7 +39,7 @@
 			<tbody>
 				<tr>
 					<td>${fecha}</td>
-					<td class="text_centro"><a href="#" id="exportarCancelaciones"><IMG WIDTH="20" HEIGHT="20"  border="0" title="Descargar" SRC="${pageContext.servletContext.contextPath}/recursos/imagenes/descargar_imagen.jpg"></a></td>
+					<td class="text_centro"><a href="#" id="exportarCancelaciones"><IMG WIDTH="20" HEIGHT="20"  border="0" title="Descargar" SRC="${pageContext.servletContext.contextPath}/recursos/descargar_imagen.jpg"></a></td>
 				</tr>
 			</tbody>
 		</table>
