@@ -22,6 +22,14 @@ public class BeanDatosClienteDAO implements BeanResultBO, Serializable {
 	 */
 	private String numeroCuenta;
 	/**
+	 * Secuencia de domicilio
+	 */
+	private String secDom;
+	/**
+	 * Codigo de cliente
+	 */
+	private String numeroCliente;
+	/**
 	 * Nombre del cliente resultado de la consulta.
 	 */
 	private String nombre;
@@ -73,6 +81,35 @@ public class BeanDatosClienteDAO implements BeanResultBO, Serializable {
 	 * Mensaje de error.
 	 */
 	private String msgError;
+
+	
+	/**
+	 * @return the secDom
+	 */
+	public String getSecDom() {
+		return secDom;
+	}
+
+	/**
+	 * @param secDom the secDom to set
+	 */
+	public void setSecDom(String secDom) {
+		this.secDom = secDom;
+	}
+
+	/**
+	 * @return the numeroCliente
+	 */
+	public String getNumeroCliente() {
+		return numeroCliente;
+	}
+
+	/**
+	 * @param numeroCliente the numeroCliente to set
+	 */
+	public void setNumeroCliente(String numeroCliente) {
+		this.numeroCliente = numeroCliente;
+	}
 
 	/**
 	 * Retorna el campo numeroCuenta
