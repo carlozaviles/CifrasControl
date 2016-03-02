@@ -11,6 +11,7 @@
 <spring:message code="reprocesos.encabezadoDatosPersonas"       var="encabezadoDatosPersonas"/>
 <spring:message code="reprocesos.tablaDatosPersonas"            var="tablaDatosPersonas"/>
 <spring:message code="reprocesos.datosPersonas.nombre"          var="nombre"/>
+<spring:message code="reprocesos.datosPersonas.secDom"          var="secDom"/>
 <spring:message code="reprocesos.datosPersonas.rfc"             var="rfc"/>
 <spring:message code="reprocesos.datosPersonas.domicilio"       var="domicilio"/>
 <spring:message code="reprocesos.encabezadoSolicitudReprocesos" var="encabezadoSolicitudReprocesos"/>
@@ -44,6 +45,10 @@
 				</td>
 			</tr>
 			<tr>
+                <td class="odd">${secDom}:</td>
+                <td class="text_izquierda"><label>${solicitudReprocesoForm.secDom}</label></td>
+            </tr>
+			<tr>
 				<td class="odd">${nombre}:</td>
 				<td class="text_izquierda"><label>${solicitudReprocesoForm.nombre}&nbsp;${solicitudReprocesoForm.paterno}&nbsp;${solicitudReprocesoForm.materno}</label></td>
 			</tr>
@@ -76,7 +81,10 @@
 			<table>
 				<tr>
 					<td class="odd">${etiquetaNumeroCuenta}:</td>
-					<td colspan="4"><input type="text" value="${numeroCuenta}" disabled></td>
+					<td colspan="4">
+					<input type="text"  value="${numeroCuenta}" disabled>
+					<input type="hidden" name="numeroCuenta" id ="numeroCuenta" value="${numeroCuenta}"> 
+					</td>
 				</tr>
 				<tr>
 					<td class="odd">${etiquetaProducto}:</td>
