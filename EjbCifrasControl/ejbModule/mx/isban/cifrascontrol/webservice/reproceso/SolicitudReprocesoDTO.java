@@ -57,6 +57,7 @@ import javax.xml.bind.annotation.XmlType;
     "municipio",
     "nombre",
     "numeroCuenta",
+    "numeroCliente",
     "numeroExterior",
     "numeroInterior",
     "paterno",
@@ -77,6 +78,7 @@ public class SolicitudReprocesoDTO {
     protected String municipio;
     protected String nombre;
     protected String numeroCuenta;
+    protected String numeroCliente;
     protected String numeroExterior;
     protected String numeroInterior;
     protected String paterno;
@@ -492,5 +494,19 @@ public class SolicitudReprocesoDTO {
     public void setUsuarioOperativo(String value) {
         this.usuarioOperativo = value;
     }
+
+	/**
+	 * @return the numeroCliente
+	 */
+	public String getNumeroCliente() {
+		return numeroCliente;
+	}
+
+	/**
+	 * @param numeroCliente the numeroCliente to set
+	 */
+	public void setNumeroCliente(String numeroCliente) {
+		this.numeroCliente = numeroCliente;
+	}
 
 }
