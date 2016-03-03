@@ -108,6 +108,7 @@ public class ControllerReprocesoSolicitud extends Architech{
 		this.info("Los valores de solitud para el reproceso son: " + datosReproceso.toString());
 		final BeanDatosSolicitudReprocesos datosReprocesoSesion = (BeanDatosSolicitudReprocesos)req.getSession().getAttribute(DATOS_CLIENTE);
 		req.getSession().removeAttribute(DATOS_CLIENTE);
+		datosReprocesoSesion.setNumeroCuenta(datosReproceso.getNumeroCuenta());
 		datosReprocesoSesion.setProducto(datosReproceso.getProducto());
 		datosReprocesoSesion.setMovimiento(datosReproceso.getMovimiento());
 		datosReprocesoSesion.setAnio(datosReproceso.getAnio());

@@ -117,7 +117,8 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
     		+ " JOIN MOI_MX_MAE_ADMIN_USER U"
     		+ " ON U.ID_USER = REL_USU.ID_USER_FK"
     		+ " WHERE U.ID_USER = ?"
-    		+ " AND M.ID_MODU = ?";
+    		+ " AND M.ID_MODU = ?"
+    		+ " ORDER BY  P.ID_PANT";
     
     
     /**

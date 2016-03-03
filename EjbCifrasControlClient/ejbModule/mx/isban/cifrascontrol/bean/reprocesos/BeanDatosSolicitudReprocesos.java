@@ -20,6 +20,14 @@ public class BeanDatosSolicitudReprocesos implements Serializable {
 	 */
 	private String numeroCuenta;
 	/**
+	 * Secuencia de domicilio
+	 */
+	private String secDom;
+	/**
+	 * Codigo de cliente
+	 */
+	private String numeroCliente;
+	/**
 	 * Producto.
 	 */
 	private String producto;
@@ -81,6 +89,34 @@ public class BeanDatosSolicitudReprocesos implements Serializable {
 	private String estado;
 	
 	
+	/**
+	 * @return the secDom
+	 */
+	public String getSecDom() {
+		return secDom;
+	}
+
+	/**
+	 * @param secDom the secDom to set
+	 */
+	public void setSecDom(String secDom) {
+		this.secDom = secDom;
+	}
+
+	/**
+	 * @return the numeroCliente
+	 */
+	public String getNumeroCliente() {
+		return numeroCliente;
+	}
+
+	/**
+	 * @param numeroCliente the numeroCliente to set
+	 */
+	public void setNumeroCliente(String numeroCliente) {
+		this.numeroCliente = numeroCliente;
+	}
+
 	/**
 	 * Retorna el numero de cuenta.
 	 * @return String
@@ -349,7 +385,7 @@ public class BeanDatosSolicitudReprocesos implements Serializable {
 		.append(", rfc: " + this.rfc).append(", calle: " + this.calle).append(", numeroExterior: " + this.numeroExterior)
 		.append(", numeroInterior: " + this.numeroInterior).append(", colonia: " + this.colonia)
 		.append(", codigoPostal: " + this.codigoPostal).append(", municipio: " + this.municipio)
-		.append(", estado: " + this.estado);
+		.append(", estado: " + this.estado).append(", numeroCliente: " + this.numeroCliente).append(", secDom: " + this.secDom);
 		
 		return salida.toString();
 	}
