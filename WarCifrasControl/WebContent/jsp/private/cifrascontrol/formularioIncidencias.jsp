@@ -33,30 +33,30 @@
 			<input id="gralModificarFiltros" type="hidden" value="${gralModificarFiltros}"/>
 			<table>
 				<tr>
-					<td class="odd">${aplicativo}:</td>
-					<td class="odd">
-						<select name="aplicativo" id="aplicativo" class="Campos_Des" style="font-size: 9px;">
+					<td class="odd" >${aplicativo}:</td>
+					<td class="odd"></td>
+					<td >
+						
+					<select name="aplicativo" id="aplicativo"  style="width:180px;" >
 							<option value="NONE" selected="selected">${selectVacio}</option>
-							<c:forEach var="producto" items="${productosList}">					
-							<option value="${producto.descripcion}">${producto.descripcion}</option>
+							<c:forEach var="producto" items="${productosList}">
+								<option value="${producto.descripcion}">${producto.descripcion}</option>
 							</c:forEach>
-						</select>
-					</td>
+					</select>
+					</td><td></td><td></td>
 				</tr>
 				<tr>
-					<td class="odd">${periodo}</td>
+					<td class="odd">${periodo}:</td>
 					<td class="odd">${mes}</td>
-					<td>
-						<select name="mes" id="mes" class="Campos_Des">
+					<td ><select name="mes" id="mes"  style="width:180px;">
 							<option value="NONE" selected="selected">${selectVacio}</option>
-							<c:forEach var="meses" items="${mesesList}">					
-							<option value="${meses.key}">${meses.value}</option>
+							<c:forEach var="meses" items="${mesesList}">
+								<option value="${meses.key}">${meses.value}</option>
 							</c:forEach>
-						</select>
-					</td>
-					<td class="odd">${anio}</td>			
-					<td>
-						<select name="anio" id="anio" class="Campos_Des">
+					</select></td>
+					<td class="odd">${anio}</td>
+					<td >
+						<select name="anio" id="anio"  style="width:180px;">
 							<option value="NONE" selected="selected">${selectVacio}</option>
 							<c:forEach var="anios" items="${anioList}">					
 							<option value="${anios.key}">${anios.value}</option>

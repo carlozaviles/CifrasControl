@@ -81,41 +81,44 @@
 			<table>
 				<tr>
 					<td class="odd">${etiquetaNumeroCuenta}:</td>
-					<td colspan="4">
+					<td class="odd"></td>
+						<td colspan="4">
 					<input type="text"  value="${numeroCuenta}" disabled>
 					<input type="hidden" name="numeroCuenta" id ="numeroCuenta" value="${numeroCuenta}"> 
 					</td>
 				</tr>
 				<tr>
 					<td class="odd">${etiquetaProducto}:</td>
-					<td colspan="4">
-						<form:select path="producto">
+					<td class="odd"></td>
+						<td colspan="4">
+						<form:select path="producto" style="width:180px;">
 							<form:option value="NONE" label="${seleccione}"/>
 							<form:options items="${catalogoProductos}"/>
 						</form:select>
 					</td>
 				</tr>
 				<tr>
-					<td class="odd">${etiquetaPeriodo}</td>
-					<td>${etiquetaMes}</td>
+					<td class="odd">${etiquetaPeriodo}:</td>
+					<td class="odd">${etiquetaMes}</td>
 					<td>
-						<form:select path="mes">
+						<form:select path="mes" style="width:180px;">
 							<form:option value="NONE" label="${seleccione}"/>
 							<form:options items="${catalogoMeses}"/>
 						</form:select>
 					</td>
-					<td>${etiquetaAnio}</td>
+					<td class="odd">${etiquetaAnio}</td>
 					<td>
-						<form:select path="anio">
+						<form:select path="anio" style="width:180px;">
 							<form:option value="NONE" label="${seleccione}"/>
 							<form:options items="${catalogoAnios}"/>
 						</form:select>
 					</td>
 				</tr>
 				<tr>
-					<td class="odd">${etiquetaTipoMovimiento}</td>
-					<td colspan="4">
-						<form:select path="movimiento">
+					<td class="odd">${etiquetaTipoMovimiento}:</td>
+					<td class="odd"></td>
+						<td colspan="4">
+						<form:select path="movimiento" style="width:180px;">
 							<form:option value="NONE" label="${seleccione}"/>
 							<form:options items="${catalogoTiposMovimiento}"/>
 						</form:select>

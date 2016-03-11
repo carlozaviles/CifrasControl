@@ -30,7 +30,7 @@
 					<tr>
 						<td class="odd">${etiquetaNumeroCuenta}</td>
 						<td colspan="3"><input name="numero-cuenta" type="text"
-							class="CamposErroneos" id="numero-cuenta" /></td>
+							 id="numero-cuenta" /></td>
 					</tr>
 				</tbody>
 			</table>

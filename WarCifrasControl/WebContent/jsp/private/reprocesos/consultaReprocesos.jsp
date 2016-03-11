@@ -17,7 +17,7 @@
 <spring:message code="reprocesos.mes" var="etiquetaMes"/>
 <spring:message code="reprocesos.anio" var="etiquetaAnio"/>
 <spring:message code="reprocesos.consulta" var="linkConsultaReproceso"/>
-<spring:message code="general.selectVacio" var="seleccione"/>
+<spring:message code="general.selectVacio" var="selectVacio"/>
 <spring:message code="reprocesos.nocuenta" var= "etiquetanoCuenta"/>
 <spring:message code="reprocesos.producto" var="etiquetaProducto"/>
 <spring:message code="reprocesos.prod" var="etiquetaSelectProducto"/>
@@ -29,41 +29,50 @@
 <div class="frameFormularioB">
 	<div class="contentFormularioB">
 		<div class="titleFormularioB">${tituloFormularioConsultaReproceso}</div>
-		<form:form action="realizaConsultaReproceso.do" method="POST" modelAttribute="consultaReprocesoForm">
+		<form action="realizaConsultaReproceso.do" method="POST" name="consultaReprocesoForm" id="consultaReprocesoForm" >
 			<table>
 				<tr>
 					<td class="odd">${etiquetanoCuenta}:</td>
-					<td colspan="3"> <form:input path="numeroCuenta" name="numeroCuenta" id="numeroCuenta" /></td>
+					<td class="odd"></td>
+					<td > <input name="numeroCuenta" id="numeroCuenta" style="width:180px;" /></td>
 				</tr>
-				<tr>
-					<td class="odd">${etiquetaPeriodo}:</td>
-					<td>${etiquetaMes}</td>
-					<td>
-						<form:select path="mes">
-							<form:option value="NONE" label="${seleccione}"/>
-							<form:options items="${catalogoMes}"/>
-						</form:select>
-					</td>
-					<td>${etiquetaAnio}</td>
-					<td>
-						<form:select path="anio">
-							<form:option value="NONE" label="${seleccione}"/>
-							<form:options items="${catalogoAnios}"/>
-						</form:select>
-					</td>
+			
 					<tr>
 					<td class="odd">${etiquetaProducto}:</td>
+					<td class="odd"></td>
 					<td colspan="3">
-							<form:select path="productoSeleccionado">
-						<form:option value="NONE" selected="selected">--Seleccione--</form:option>
+							<select name="productoSeleccionado" id="productoSeleccionado" style="width:180px;">
+						<option value="NONE" selected="selected">${selectVacio}</option>
 						<c:forEach var="producto" items="${productosList}">					
-							<form:option value="${producto.descripcion}">${producto.descripcion}</form:option>
+							<option value="${producto.descripcion}">${producto.descripcion}</option>
 						</c:forEach>
-				</form:select>	
+				</select>	
 				</td>
+				
 				</tr>
+				    <tr>
+                    <td class="odd">${etiquetaPeriodo}:</td>
+                    <td class="odd">${etiquetaMes}</td>
+                    <td>
+                        <select name="mes" id="mes" style="width:180px;">
+                      <option value="NONE" selected="selected">${selectVacio}</option>
+                                <c:forEach var="meses" items="${catalogoMes}">
+                                <option value="${meses.key}">${meses.value}</option>
+                            </c:forEach>
+                         <select>
+                    </td>
+                    <td class="odd">${etiquetaAnio}</td>
+                    <td>
+                        <select name="anio" id="anio" style="width:180px;">
+                     <option value="NONE" selected="selected">${selectVacio}</option>
+                            <c:forEach var="anios" items="${catalogoAnios}">                 
+                            <option value="${anios.key}">${anios.value}</option>
+                            </c:forEach>
+                        <select>
+                    </td>
+                    </tr>
 			</table>
-		</form:form>
+		</form>
 	</div>
 </div>
 <div class="PiePag">

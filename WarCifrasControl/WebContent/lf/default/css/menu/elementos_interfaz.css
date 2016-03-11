@@ -21,14 +21,17 @@ padding: 0;
 .text_derecha{
 text-align:right;
 vertical-align:middle;
+font-size: 11px;
  }
 .text_centro{
 text-align:center;
 vertical-align:middle;
+font-size: 11px;
  }
 .text_izquierda{
  vertical-align:middle;
 text-align:left;
+font-size: 11px;
  }
 
 
@@ -953,6 +956,7 @@ DIV.contentFormulario  th {
 DIV.contentFormulario .odd {
 	background: #f1f1f1;
 	text-align:right;
+	font-size: 11px;
   }
   DIV.contentFormulario .ind{
 	padding-top: 12px;
@@ -1031,6 +1035,7 @@ DIV.contentFormularioB  th {
 DIV.contentFormularioB .odd {
 	background: #f1f1f1;
 	text-align:right;
+	font-size: 11px;
   }
   DIV.contentFormularioB .ind{
 	padding-top: 12px;
@@ -1111,6 +1116,7 @@ DIV.contentFormularioConfirmacion  th {
 DIV.contentFormularioConfirmacion .odd {
 	background: #f1f1f1;
 	text-align:right;
+	font-size: 11px;
   }
 
 /* firma */

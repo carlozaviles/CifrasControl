@@ -36,7 +36,7 @@
 					<tr>
 						<td class="odd">${mes}:</td>
 						<td>
-							<select name="mes" id="mes">
+							<select name="mes" id="mes" style="width:180px;">
 								<option value="NONE" selected>${selectVacio}</option>
 								<c:forEach var="periodo" items="${listaMeses}">
 									<option value="${periodo.key}">${periodo.value}</option>
