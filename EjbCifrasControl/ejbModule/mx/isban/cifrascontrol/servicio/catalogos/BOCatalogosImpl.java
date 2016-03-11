@@ -103,10 +103,18 @@ public class BOCatalogosImpl extends Architech implements BOCatalogos {
 		}
 		verificarRespuesta(totalProductos);
 		for(BeanProducto producto : totalProductos.getProductos()){
-			String permisoReproceso = null;
-			if((permisoReproceso = respuestaConsultaID.getListaIdentificadoresProductos().get(producto.getIdProducto())) != null){
-				producto.setPermisoReproceso(permisoReproceso != null && "1".equals(permisoReproceso));
+			if(ConstantesModuloIntegrador.CLAVE_PRODUCTOS_FACTURAS.equals(tipo))
+			{
 				listaProductosUsuario.add(producto);
+			}
+			else
+			{
+				String permisoReproceso = null;
+				if((permisoReproceso = respuestaConsultaID.getListaIdentificadoresProductos().get(producto.getIdProducto())) != null)
+				{
+					producto.setPermisoReproceso(permisoReproceso != null && "1".equals(permisoReproceso));
+					listaProductosUsuario.add(producto);
+				}
 			}
 		}
 		
