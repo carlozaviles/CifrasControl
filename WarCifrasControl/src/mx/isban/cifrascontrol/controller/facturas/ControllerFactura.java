@@ -624,6 +624,7 @@ public class ControllerFactura extends Architech {
 			periodo.append("-").append(request.getParameter("anio"));
 			parametros.put("periodo", periodo.toString());
 			parametros.put("aplicativo", aplicativo);
+			parametros.put("mes", request.getParameter("mes"));
 			this.info("Metodo de consulta de facturas inicializado con exito, direccionando a la vista consultaRecibos");
 			return new ModelAndView("consultaRecibos", parametros);
 		} else {
