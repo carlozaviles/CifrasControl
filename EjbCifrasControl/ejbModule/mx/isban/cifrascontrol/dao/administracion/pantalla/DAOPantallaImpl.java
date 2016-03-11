@@ -104,7 +104,7 @@ public class DAOPantallaImpl extends Architech implements DAOPantalla {
      * Constante que contiene una consulta SQL que permite obtener las pantallas que puede acceder un usuario
      */
     private static final String QUERY_OBTIENE_PANTALLA_USUARIO_MODULO = 
-    		"SELECT P.ID_PANT,P.TXT_NOM "
+    		"SELECT distinct (P.ID_PANT),P.TXT_NOM "
     		+ " FROM MOI_MX_MAE_ADMIN_MODU M"
     		+ " JOIN MOI_MX_MAE_ADMIN_PANT P"
     		+ " ON M.ID_MODU = P.NUM_MOD_FK"
