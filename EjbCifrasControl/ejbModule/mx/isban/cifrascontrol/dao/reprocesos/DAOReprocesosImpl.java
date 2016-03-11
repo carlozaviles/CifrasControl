@@ -40,7 +40,7 @@ public class DAOReprocesosImpl extends Architech implements DAOReprocesos {
 		BeanDatosClienteDAO respuesta = new BeanDatosClienteDAO();
 		final String mensajeTrama = construirTramaEntrada("0014", numeroCuenta, numeroTarjeta);
 		this.info("La trama de entrada es la siguiente: " + mensajeTrama);		
-	/*	final RequestMessageCicsDTO requestDTO = new RequestMessageCicsDTO();
+		final RequestMessageCicsDTO requestDTO = new RequestMessageCicsDTO();
 		requestDTO.setCodeOperation("COD_OPER_CONSULTA_PERSONAS_01_CICS");
 		requestDTO.setTypeOperation(ConfigFactoryJMS.OPERATION_TYPE_SEND_AND_RECEIVE_MESSAGE);
 		requestDTO.setTransaction("ODCE");
@@ -64,11 +64,11 @@ public class DAOReprocesosImpl extends Architech implements DAOReprocesos {
 			showException(e, Level.ERROR);
 			respuesta.setCodError(ConstantesReprocesos.CODIGO_ERROR_EJECUCION_CONSULTA_PERSONAS);
 			respuesta.setMsgError(e.getMessage());
-		}*/
+		}/*
 		String tramaEjemplo = "12311111111SANTOYO             BAEZA               URIEL                                   SABU860825          FRAY ALIPIO RANGEL                                26                            CENTRO                        YURIRIA                       GTGUANAJUATO                    25865111";
 		respuesta = mapearRespuestaConsultaPersonas(tramaEjemplo);
 		respuesta.setNumeroCuenta(numeroCuenta);
-		respuesta.setCodError(CODIGO_OPERACION_OK);
+		respuesta.setCodError(CODIGO_OPERACION_OK);*/
 		return respuesta;
 	}
 	
